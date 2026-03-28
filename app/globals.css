@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+/* ===== ENVIRONMENTS ===== */
+
+:root {
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #475569;
+}
+
+/* 🏥 Clinical */
+[data-theme="clinical"] {
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #475569;
+}
+
+/* 🌙 Night */
+[data-theme="dark"] {
+  --bg: #0b1220;
+  --card: #111827;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+}
+
+/* 🍓 Strawberry (THIS is your pink mode) */
+[data-theme="strawberry"] {
+  --bg: #ff2f6d;      /* unmistakable pink */
+  --card: #ff85a1;    /* lighter but still bold */
+  --text: #2b0a14;
+  --muted: #5a1f2e;
+}
+
+/* 🌊 Beach */
+[data-theme="beach"] {
+  --bg: #38bdf8;      /* sky blue */
+  --card: #e0f2fe;    /* sand/water softness */
+  --text: #0c2d48;
+  --muted: #3b82f6;
+}
+
+/* 🌿 Forest */
+[data-theme="forest"] {
+  --bg: #14532d;
+  --card: #166534;
+  --text: #ecfdf5;
+  --muted: #86efac;
+}
+
+/* 🎄 Holiday */
+[data-theme="holiday"] {
+  --bg: #7f1d1d;
+  --card: #dc2626;
+  --text: #fff7ed;
+  --muted: #fecaca;
+}
+
+/* 🧘 Focus (minimal) */
+[data-theme="focus"] {
+  --bg: #e5e7eb;
+  --card: #ffffff;
+  --text: #111111;
+  --muted: #6b7280;
+}
+
+@layer base {
+  html, body {
+    background-color: var(--bg);
+    color: var(--text);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px) scale(1);
+  }
+}
