@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { supabase } from "../../lib/supabase";
 import FieldRenderer from "./FieldRenderer";
 
 type Question = {
@@ -30,35 +29,26 @@ export default function BasketRenderer({ basket }: Props) {
   async function submit() {
     const token = window.location.pathname.split("/").pop();
 
-    // get assignment
-    const { data: assignment } = await supabase
-      .from("assignments")
-      .select("*")
-      .eq("token", token)
-      .single();
-
-    if (!assignment) {
+    if (!token) {
       alert("Invalid link");
       return;
     }
 
-    const { data, error } = await supabase.from("submissions").insert({
-      basket_id: assignment.basket_id,
-      patient_id: assignment.patient_id,
-      answers,
+    const response = await fetch(`/api/submit/${token}`, {
+      body: JSON.stringify({ answers }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
     });
+    const result = await response.json();
 
-    console.log("SUBMIT:", { data, error });
-
-    if (!error) {
-      alert("Submitted!");
-
-      // mark complete
-      await supabase
-        .from("assignments")
-        .update({ completed: true })
-        .eq("id", assignment.id);
+    if (!response.ok) {
+      alert(result.error ?? "Submit failed");
+      return;
     }
+
+    alert("Submitted!");
   }
 
   return (

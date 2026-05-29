@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "../../../lib/supabase";
+import { supabase } from "../../../lib/supabase"; // ✅ FIXED PATH
 
 type Assignment = {
   id: string;
@@ -37,10 +37,13 @@ export default function WorklistPage() {
   const [loading, setLoading] = useState(true);
 
   async function fetchWorklist(): Promise<void> {
+    console.log("🔄 fetchWorklist starting...");
+
     const startOfMonth = new Date();
     startOfMonth.setDate(1);
     startOfMonth.setHours(0, 0, 0, 0);
 
+    // 🔹 FETCH PATIENTS
     const { data: patientData, error: patientError } = await supabase.from(
       "patients",
     ).select(`
@@ -54,28 +57,41 @@ export default function WorklistPage() {
         )
       `);
 
+    console.log("patients data:", patientData);
+    console.log("patients error:", patientError);
+
+    // 🔹 FETCH INTERACTIONS
     const { data: interactionsData, error: interactionsError } = await supabase
       .from("interactions")
       .select("patient_id, minutes, created_at")
       .gte("created_at", startOfMonth.toISOString());
 
+    console.log("interactions data:", interactionsData);
+    console.log("interactions error:", interactionsError);
+
+    // 🔴 HARD FAIL ONLY IF TRUE ERROR
     if (patientError) {
-      console.error("Error loading patients:", patientError);
+      console.error("❌ Error loading patients:", patientError);
       setPatients([]);
       setLoading(false);
       return;
     }
 
     if (interactionsError) {
-      console.error("Error loading interactions:", interactionsError);
+      console.error("❌ Error loading interactions:", interactionsError);
       setPatients([]);
       setLoading(false);
       return;
     }
 
+    // ✅ SAFE DEFAULTS
     const safePatients = (patientData ?? []) as PatientWithAssignments[];
     const safeInteractions = (interactionsData ?? []) as InteractionRow[];
 
+    console.log("safePatients:", safePatients.length);
+    console.log("safeInteractions:", safeInteractions.length);
+
+    // 🔹 BUILD MINUTES MAP
     const minutesMap: Record<string, number> = {};
 
     for (const interaction of safeInteractions) {
@@ -89,6 +105,9 @@ export default function WorklistPage() {
       minutesMap[pid] += mins;
     }
 
+    console.log("minutesMap:", minutesMap);
+
+    // 🔹 BUILD ROWS
     const rows: PatientRow[] = safePatients.map((patient) => {
       const assignment = patient.assignments?.[0];
       const minutes = minutesMap[patient.id] ?? 0;
@@ -108,58 +127,33 @@ export default function WorklistPage() {
       };
     });
 
+    // 🔹 SORT
     rows.sort((a, b) => {
       if (a.isOverdue && !b.isOverdue) return -1;
       if (!a.isOverdue && b.isOverdue) return 1;
       return a.minutes - b.minutes;
     });
 
+    console.log("final rows:", rows);
+
     setPatients(rows);
     setLoading(false);
   }
 
   useEffect(() => {
-    const run = async () => {
+    (async () => {
       await fetchWorklist();
-    };
-
-    void run();
+    })();
   }, []);
 
   async function confirmNoResponse(assignmentId: string): Promise<void> {
-    const { error } = await supabase
-      .from("assignments")
-      .update({ response_status: "no_response_confirmed" })
-      .eq("id", assignmentId);
-
-    if (error) {
-      console.error("Error confirming no response:", error);
-      return;
-    }
-
-    await fetchWorklist();
+    void assignmentId;
+    alert("TODO Phase 4: no-response updates must use server-owned check-in instances.");
   }
 
   async function resend(assignmentId: string): Promise<void> {
-    const now = new Date().toISOString();
-
-    const { error } = await supabase
-      .from("assignments")
-      .update({
-        sent_at: now,
-        followup_due_at: new Date(
-          Date.now() + 72 * 60 * 60 * 1000,
-        ).toISOString(),
-        response_status: "pending",
-      })
-      .eq("id", assignmentId);
-
-    if (error) {
-      console.error("Error resending assignment:", error);
-      return;
-    }
-
-    await fetchWorklist();
+    void assignmentId;
+    alert("TODO Phase 4: resend must use the server-owned outreach/check-in flow.");
   }
 
   function openLogger(patientId: string): void {
@@ -173,6 +167,12 @@ export default function WorklistPage() {
   return (
     <div className="p-6 space-y-4">
       <h1 className="text-xl font-semibold">Patient Worklist</h1>
+
+      {patients.length === 0 && (
+        <div className="text-sm text-gray-500">
+          No patients found (check console logs)
+        </div>
+      )}
 
       {patients.map((patient) => {
         const assignment = patient.assignment;

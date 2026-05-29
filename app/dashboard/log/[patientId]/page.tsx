@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { supabase } from "../../../../lib/supabase";
+import { getSupabaseAuthHeaders } from "../../../../lib/supabase";
 import { useRouter, useParams } from "next/navigation";
 
 export default function LogInteractionPage() {
@@ -15,13 +15,25 @@ export default function LogInteractionPage() {
   const [note, setNote] = useState("");
 
   async function handleSave() {
-    await supabase.from("interactions").insert({
-      patient_id: patientId,
-      type,
-      minutes,
-      note,
-      created_by: "staff",
+    const response = await fetch("/api/interaction-logs", {
+      body: JSON.stringify({
+        activityType: type,
+        minutes,
+        notes: note,
+        patientId,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        ...(await getSupabaseAuthHeaders()),
+      },
+      method: "POST",
     });
+
+    if (!response.ok) {
+      const result = await response.json();
+      alert(result.error ?? "Unable to save interaction");
+      return;
+    }
 
     router.push("/dashboard/worklist");
   }
@@ -39,8 +51,8 @@ export default function LogInteractionPage() {
         >
           <option value="call">Call</option>
           <option value="voicemail">Voicemail</option>
-          <option value="failed">Failed Attempt</option>
-          <option value="review">Care Review</option>
+          <option value="failed_attempt">Failed Attempt</option>
+          <option value="care_review">Care Review</option>
         </select>
       </div>
 

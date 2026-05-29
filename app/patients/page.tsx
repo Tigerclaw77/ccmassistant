@@ -1,133 +1,125 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "../../../lib/supabase";
+import { getSupabaseAuthHeaders } from "../../lib/supabase";
 
 type Patient = {
   id: string;
-  name: string;
-  email: string;
-};
-
-type Question = {
-  id: string;
-  label: string;
-  type: "text" | "yes_no";
+  display_name: string;
+  email: string | null;
 };
 
 type Basket = {
   id: string;
   name: string;
-  questions: Question[];
+  questions: Array<{
+    id: string;
+    label: string;
+    type: "text" | "yes_no";
+  }>;
 };
 
 export default function PatientsPage() {
   const [patients, setPatients] = useState<Patient[]>([]);
   const [baskets, setBaskets] = useState<Basket[]>([]);
   const [selectedBasket, setSelectedBasket] = useState<string>("");
-
+  const [practiceId, setPracticeId] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // =========================
-  // FETCH PATIENTS
-  // =========================
-  async function fetchPatients() {
-    const { data, error } = await supabase.from("patients").select("*");
+  async function fetchPatients(activePracticeId: string) {
+    const response = await fetch(`/api/patients?practiceId=${activePracticeId}`, {
+      headers: await getSupabaseAuthHeaders(),
+    });
+    const result = await response.json();
 
-    console.log("FETCH PATIENTS:", { data, error });
-
-    if (data) setPatients(data);
-    setLoading(false);
-  }
-
-  // =========================
-  // FETCH BASKETS
-  // =========================
-  async function fetchBaskets() {
-    const { data, error } = await supabase.from("baskets").select("*");
-
-    console.log("FETCH BASKETS:", { data, error });
-
-    if (data) {
-      setBaskets(data as Basket[]);
-    }
-  }
-
-  // =========================
-  // ADD PATIENT
-  // =========================
-  async function addPatient() {
-    console.log("CLICKED BUTTON");
-
-    const { data, error } = await supabase
-      .from("patients")
-      .insert({
-        name: "Test Patient " + Math.floor(Math.random() * 1000),
-        email: "test@test.com",
-      })
-      .select();
-
-    console.log("INSERT RESULT:", { data, error });
-
-    if (error) {
-      alert("Insert failed");
-      console.error(error);
-    } else {
-      alert("Inserted!");
-      fetchPatients();
-    }
-  }
-
-  // =========================
-  // ASSIGN FORM
-  // =========================
-  async function assignForm(patientId: string) {
-    if (!selectedBasket) {
-      alert("Select a form first");
+    if (!response.ok) {
+      setError(result.error ?? "Unable to load patients");
+      setPatients([]);
+      setLoading(false);
       return;
     }
 
-    const token = crypto.randomUUID();
-
-    const { data, error } = await supabase
-      .from("assignments")
-      .insert({
-        token,
-        patient_id: patientId,
-        basket_id: selectedBasket,
-      })
-      .select();
-
-    console.log("ASSIGN:", { data, error });
-
-    if (!error) {
-      alert(`http://localhost:3000/f/${token}`);
-    }
+    setPatients(result.patients ?? []);
+    setLoading(false);
   }
 
-  // =========================
-  // LOAD DATA
-  // =========================
+  async function fetchBaskets() {
+    // TODO Phase 3: replace legacy basket reads with server-owned question bank/template API.
+    setBaskets([]);
+  }
+
+  async function addPatient() {
+    alert("TODO Phase 2: connect this button to the server-owned /api/patients create flow.");
+  }
+
+  async function assignForm(patientId: string) {
+    if (!selectedBasket) {
+      alert("Question templates are not wired yet");
+      return;
+    }
+
+    const response = await fetch("/api/assign", {
+      body: JSON.stringify({
+        legacyBasketId: selectedBasket,
+        patientId,
+        practiceId,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        ...(await getSupabaseAuthHeaders()),
+      },
+      method: "POST",
+    });
+    const result = await response.json();
+
+    if (!response.ok) {
+      alert(result.error ?? "Assignment is not implemented yet");
+      return;
+    }
+
+    alert(result.url ?? "Check-in assigned");
+  }
+
   useEffect(() => {
     async function load() {
-      await fetchPatients();
+      const activePracticeId = localStorage.getItem("activePracticeId");
+      const response = await fetch("/api/practices/active", {
+        headers: {
+          ...(await getSupabaseAuthHeaders()),
+          ...(activePracticeId ? { "x-active-practice-id": activePracticeId } : {}),
+        },
+      });
+      const result = await response.json();
+
+      if (!response.ok || !result.practice?.id) {
+        setError(result.error ?? "No active practice found");
+        setLoading(false);
+        return;
+      }
+
+      localStorage.setItem("activePracticeId", result.practice.id);
+      setPracticeId(result.practice.id);
+      await fetchPatients(result.practice.id);
       await fetchBaskets();
     }
 
-    load();
+    void load();
   }, []);
 
-  // =========================
-  // UI
-  // =========================
   return (
     <div style={{ padding: 20 }}>
       <h1>Patients</h1>
 
-      {/* FORM SELECTOR */}
+      {practiceId ? (
+        <div className="text-xs text-gray-500 mb-4">Practice scoped</div>
+      ) : null}
+
+      {error ? <div className="text-sm text-red-600 mb-4">{error}</div> : null}
+
       <select
         value={selectedBasket}
-        onChange={(e) => setSelectedBasket(e.target.value)}
+        onChange={(event) => setSelectedBasket(event.target.value)}
         style={{
           marginBottom: 20,
           padding: 8,
@@ -137,30 +129,29 @@ export default function PatientsPage() {
           borderRadius: 6,
         }}
       >
-        <option value="">Select Form</option>
-        {baskets.map((b) => (
-          <option key={b.id} value={b.id}>
-            {b.name}
+        <option value="">Question templates coming in Phase 3</option>
+        {baskets.map((basket) => (
+          <option key={basket.id} value={basket.id}>
+            {basket.name}
           </option>
         ))}
       </select>
 
-      {/* ADD PATIENT */}
       <div style={{ marginBottom: 20 }}>
-        <button onClick={addPatient}>+ Add Test Patient</button>
+        <button onClick={addPatient}>+ Add Patient</button>
       </div>
 
-      {/* PATIENT LIST */}
       {loading ? (
         <p>Loading...</p>
       ) : (
         <ul>
-          {patients.map((p) => (
-            <li key={p.id} style={{ marginBottom: 10 }}>
-              <strong>{p.name}</strong> — {p.email}
+          {patients.map((patient) => (
+            <li key={patient.id} style={{ marginBottom: 10 }}>
+              <strong>{patient.display_name}</strong>
+              {patient.email ? ` - ${patient.email}` : ""}
 
               <button
-                onClick={() => assignForm(p.id)}
+                onClick={() => assignForm(patient.id)}
                 style={{ marginLeft: 10 }}
               >
                 Send Form

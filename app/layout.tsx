@@ -1,5 +1,6 @@
 import "./globals.css";
 import Header from "../components/Header";
+import AuthGate from "../components/auth/AuthGate";
 import Script from "next/script";
 
 export default function RootLayout({
@@ -25,7 +26,7 @@ export default function RootLayout({
 
       <body className="min-h-screen">
         <Header />
-        {children}
+        <AuthGate>{children}</AuthGate>
       </body>
     </html>
   );

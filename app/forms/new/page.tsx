@@ -1,6 +1,6 @@
 "use client";
 
-import { supabase } from "../../../../lib/supabase";
+import { getSupabaseAuthHeaders } from "../../../lib/supabase";
 
 const sampleQuestions = [
   { id: "q1", label: "How are you feeling?", type: "text" },
@@ -9,19 +9,25 @@ const sampleQuestions = [
 
 export default function NewFormPage() {
   async function createForm() {
-    const { data, error } = await supabase
-      .from("baskets")
-      .insert({
+    const response = await fetch("/api/forms", {
+      body: JSON.stringify({
         name: "Basic Check-in",
         questions: sampleQuestions,
-      })
-      .select();
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        ...(await getSupabaseAuthHeaders()),
+      },
+      method: "POST",
+    });
+    const result = await response.json();
 
-    console.log("CREATE FORM:", { data, error });
-
-    if (data) {
-      alert("Form created");
+    if (!response.ok) {
+      alert(result.error ?? "Form creation is not implemented yet");
+      return;
     }
+
+    alert("Form created");
   }
 
   return (

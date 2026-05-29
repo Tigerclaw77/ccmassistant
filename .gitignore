@@ -4,6 +4,7 @@
 # next.js
 /.next
 /out
+tsconfig.tsbuildinfo
 
 # env
 .env
@@ -18,3 +19,6 @@ yarn-error.log*
 # system
 .DS_Store
 Thumbs.db
+CCM-CMS.pdf
+CCM2-CMS.pdf
+*.pdf
