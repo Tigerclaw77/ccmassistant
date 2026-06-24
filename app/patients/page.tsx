@@ -1,84 +1,54 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import PatientTable from "../../components/patients/PatientTable";
+import type { CcmEnrollment, Patient } from "../../lib/ccm/types";
 import { getSupabaseAuthHeaders } from "../../lib/supabase";
 
-type Patient = {
-  id: string;
-  display_name: string;
-  email: string | null;
+type ActivePracticeResponse = {
+  error?: string;
+  practice?: {
+    id: string;
+    name: string;
+  };
 };
 
-type Basket = {
-  id: string;
-  name: string;
-  questions: Array<{
-    id: string;
-    label: string;
-    type: "text" | "yes_no";
-  }>;
+type PatientsResponse = {
+  enrollmentsByPatientId?: Record<string, CcmEnrollment>;
+  error?: string;
+  patients?: Patient[];
 };
 
 export default function PatientsPage() {
   const [patients, setPatients] = useState<Patient[]>([]);
-  const [baskets, setBaskets] = useState<Basket[]>([]);
-  const [selectedBasket, setSelectedBasket] = useState<string>("");
-  const [practiceId, setPracticeId] = useState<string | null>(null);
+  const [enrollmentsByPatientId, setEnrollmentsByPatientId] = useState<
+    Record<string, CcmEnrollment>
+  >({});
+  const [practiceName, setPracticeName] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   async function fetchPatients(activePracticeId: string) {
-    const response = await fetch(`/api/patients?practiceId=${activePracticeId}`, {
-      headers: await getSupabaseAuthHeaders(),
-    });
-    const result = await response.json();
+    const response = await fetch(
+      `/api/patients?practiceId=${encodeURIComponent(activePracticeId)}`,
+      {
+        headers: await getSupabaseAuthHeaders(),
+      },
+    );
+    const result = (await response.json()) as PatientsResponse;
 
     if (!response.ok) {
       setError(result.error ?? "Unable to load patients");
       setPatients([]);
+      setEnrollmentsByPatientId({});
       setLoading(false);
       return;
     }
 
     setPatients(result.patients ?? []);
+    setEnrollmentsByPatientId(result.enrollmentsByPatientId ?? {});
     setLoading(false);
-  }
-
-  async function fetchBaskets() {
-    // TODO Phase 3: replace legacy basket reads with server-owned question bank/template API.
-    setBaskets([]);
-  }
-
-  async function addPatient() {
-    alert("TODO Phase 2: connect this button to the server-owned /api/patients create flow.");
-  }
-
-  async function assignForm(patientId: string) {
-    if (!selectedBasket) {
-      alert("Question templates are not wired yet");
-      return;
-    }
-
-    const response = await fetch("/api/assign", {
-      body: JSON.stringify({
-        legacyBasketId: selectedBasket,
-        patientId,
-        practiceId,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-        ...(await getSupabaseAuthHeaders()),
-      },
-      method: "POST",
-    });
-    const result = await response.json();
-
-    if (!response.ok) {
-      alert(result.error ?? "Assignment is not implemented yet");
-      return;
-    }
-
-    alert(result.url ?? "Check-in assigned");
   }
 
   useEffect(() => {
@@ -90,7 +60,7 @@ export default function PatientsPage() {
           ...(activePracticeId ? { "x-active-practice-id": activePracticeId } : {}),
         },
       });
-      const result = await response.json();
+      const result = (await response.json()) as ActivePracticeResponse;
 
       if (!response.ok || !result.practice?.id) {
         setError(result.error ?? "No active practice found");
@@ -99,67 +69,45 @@ export default function PatientsPage() {
       }
 
       localStorage.setItem("activePracticeId", result.practice.id);
-      setPracticeId(result.practice.id);
+      setPracticeName(result.practice.name);
       await fetchPatients(result.practice.id);
-      await fetchBaskets();
     }
 
     void load();
   }, []);
 
   return (
-    <div style={{ padding: 20 }}>
-      <h1>Patients</h1>
+    <main className="p-6">
+      <div className="mb-6 flex items-center justify-between gap-4">
+        <div>
+          <h1 className="text-xl font-semibold">Patients</h1>
+          <div className="text-sm text-gray-600">
+            {practiceName ?? "Practice scoped"}
+          </div>
+        </div>
 
-      {practiceId ? (
-        <div className="text-xs text-gray-500 mb-4">Practice scoped</div>
-      ) : null}
-
-      {error ? <div className="text-sm text-red-600 mb-4">{error}</div> : null}
-
-      <select
-        value={selectedBasket}
-        onChange={(event) => setSelectedBasket(event.target.value)}
-        style={{
-          marginBottom: 20,
-          padding: 8,
-          background: "#111",
-          color: "#fff",
-          border: "1px solid #333",
-          borderRadius: 6,
-        }}
-      >
-        <option value="">Question templates coming in Phase 3</option>
-        {baskets.map((basket) => (
-          <option key={basket.id} value={basket.id}>
-            {basket.name}
-          </option>
-        ))}
-      </select>
-
-      <div style={{ marginBottom: 20 }}>
-        <button onClick={addPatient}>+ Add Patient</button>
+        <Link
+          href="/patients/new"
+          className="rounded-md border bg-black px-4 py-2 text-sm font-medium text-white"
+        >
+          Add Patient
+        </Link>
       </div>
 
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <ul>
-          {patients.map((patient) => (
-            <li key={patient.id} style={{ marginBottom: 10 }}>
-              <strong>{patient.display_name}</strong>
-              {patient.email ? ` - ${patient.email}` : ""}
+      {error ? (
+        <div className="mb-4 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+          {error}
+        </div>
+      ) : null}
 
-              <button
-                onClick={() => assignForm(patient.id)}
-                style={{ marginLeft: 10 }}
-              >
-                Send Form
-              </button>
-            </li>
-          ))}
-        </ul>
+      {loading ? (
+        <div className="text-sm text-gray-600">Loading...</div>
+      ) : (
+        <PatientTable
+          enrollmentsByPatientId={enrollmentsByPatientId}
+          patients={patients}
+        />
       )}
-    </div>
+    </main>
   );
 }

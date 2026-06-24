@@ -7,6 +7,8 @@ import { getSupabaseAuthHeaders } from "../../../lib/supabase";
 export default function PracticeSetupPage() {
   const router = useRouter();
   const [name, setName] = useState("");
+  const [providerName, setProviderName] = useState("");
+  const [providerNpi, setProviderNpi] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -33,6 +35,33 @@ export default function PracticeSetupPage() {
 
     if (result.practice?.id) {
       localStorage.setItem("activePracticeId", result.practice.id);
+
+      const existingProvidersResponse = await fetch(
+        `/api/providers?practiceId=${encodeURIComponent(result.practice.id)}`,
+        { headers: await getSupabaseAuthHeaders() },
+      );
+      const existingProvidersResult = await existingProvidersResponse.json();
+
+      if ((existingProvidersResult.providers ?? []).length === 0) {
+        const providerResponse = await fetch("/api/providers", {
+          body: JSON.stringify({
+            fullName: providerName,
+            npi: providerNpi,
+            practiceId: result.practice.id,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+            ...(await getSupabaseAuthHeaders()),
+          },
+          method: "POST",
+        });
+        const providerResult = await providerResponse.json();
+
+        if (!providerResponse.ok) {
+          setError(providerResult.error ?? "Practice created, but provider was not created");
+          return;
+        }
+      }
     }
 
     router.replace("/patients");
@@ -61,6 +90,31 @@ export default function PracticeSetupPage() {
           />
         </div>
 
+        <div className="space-y-1">
+          <label className="text-sm font-medium" htmlFor="provider-name">
+            First provider name
+          </label>
+          <input
+            id="provider-name"
+            required
+            value={providerName}
+            onChange={(event) => setProviderName(event.target.value)}
+            className="w-full border rounded px-3 py-2 bg-white text-black"
+          />
+        </div>
+
+        <div className="space-y-1">
+          <label className="text-sm font-medium" htmlFor="provider-npi">
+            Provider NPI
+          </label>
+          <input
+            id="provider-npi"
+            value={providerNpi}
+            onChange={(event) => setProviderNpi(event.target.value)}
+            className="w-full border rounded px-3 py-2 bg-white text-black"
+          />
+        </div>
+
         {error ? <div className="text-sm text-red-600">{error}</div> : null}
 
         <button
@@ -74,4 +128,3 @@ export default function PracticeSetupPage() {
     </main>
   );
 }
-

@@ -43,7 +43,17 @@ Because the app currently uses Supabase's browser session storage, route protect
 - `app/patients/page.tsx` no longer reads Supabase directly.
 - It resolves the active practice through `GET /api/practices/active`.
 - It loads patients through `GET /api/patients?practiceId=...`.
-- Legacy basket/template reads were removed from the patient page and replaced with a Phase 3 TODO.
+- The patient list now renders enrollment, eligibility, consent, and patient status from server-owned reads.
+- Legacy basket/template reads were removed from the patient page.
+
+## Patient Enrollment UI
+
+- `/patients/new` resolves the active practice and creates a patient through `POST /api/patients`.
+- New patients also receive an initial `ccm_enrollments` row through `POST /api/enroll`.
+- `/patients/[patientId]` loads patient detail through `GET /api/patients?practiceId=...&patientId=...`.
+- Patient detail edits demographics through `PATCH /api/patients`.
+- Patient detail edits enrollment through `PATCH /api/enroll` when an enrollment exists, otherwise `POST /api/enroll`.
+- `/enroll` redirects to `/patients/new` so the enrollment entry point uses the real patient workflow.
 
 ## Security Notes
 
@@ -62,4 +72,3 @@ The patient list is fixed. These prototype reads remain:
 - `app/f/[token]/page.tsx` reads legacy assignment and basket data for public form rendering.
 
 These should move behind server routes when those workflows are migrated from legacy tables to the new ledger schema.
-

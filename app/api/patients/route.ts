@@ -14,10 +14,23 @@ import {
 } from "../../../lib/api/json";
 import { recordAuditEvent } from "../../../lib/ccm/audit";
 import { CONTACT_METHODS } from "../../../lib/ccm/types";
+import type { Database } from "../../../lib/supabase/database.types";
+
+type EnrollmentRow = Database["public"]["Tables"]["ccm_enrollments"]["Row"];
+
+function choosePreferredEnrollment(
+  current: EnrollmentRow | undefined,
+  next: EnrollmentRow,
+): EnrollmentRow {
+  if (!current) return next;
+  if (current.status !== "active" && next.status === "active") return next;
+  return current;
+}
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const practiceId = searchParams.get("practiceId");
+  const patientId = searchParams.get("patientId");
 
   if (!practiceId) {
     return Response.json({ error: "practiceId is required" }, { status: 400 });
@@ -25,6 +38,43 @@ export async function GET(request: Request) {
 
   try {
     const { supabase } = await requirePracticeMembership(request, practiceId);
+
+    if (patientId) {
+      const { data: patient, error: patientError } = await supabase
+        .from("patients")
+        .select("*")
+        .eq("practice_id", practiceId)
+        .eq("id", patientId)
+        .maybeSingle();
+
+      if (patientError) {
+        return Response.json({ error: patientError.message }, { status: 500 });
+      }
+
+      if (!patient) {
+        return Response.json({ error: "Patient not found" }, { status: 404 });
+      }
+
+      const { data: enrollments, error: enrollmentError } = await supabase
+        .from("ccm_enrollments")
+        .select("*")
+        .eq("practice_id", practiceId)
+        .eq("patient_id", patientId)
+        .order("created_at", { ascending: false })
+        .limit(10);
+
+      if (enrollmentError) {
+        return Response.json({ error: enrollmentError.message }, { status: 500 });
+      }
+
+      const enrollment = (enrollments ?? []).reduce<EnrollmentRow | undefined>(
+        choosePreferredEnrollment,
+        undefined,
+      );
+
+      return Response.json({ enrollment: enrollment ?? null, patient });
+    }
+
     const { data, error } = await supabase
       .from("patients")
       .select("*")
@@ -35,7 +85,30 @@ export async function GET(request: Request) {
       return Response.json({ error: error.message }, { status: 500 });
     }
 
-    return Response.json({ patients: data });
+    const patientIds = (data ?? []).map((patient) => patient.id);
+    const enrollmentsByPatientId: Record<string, EnrollmentRow> = {};
+
+    if (patientIds.length > 0) {
+      const { data: enrollments, error: enrollmentError } = await supabase
+        .from("ccm_enrollments")
+        .select("*")
+        .eq("practice_id", practiceId)
+        .in("patient_id", patientIds)
+        .order("created_at", { ascending: false });
+
+      if (enrollmentError) {
+        return Response.json({ error: enrollmentError.message }, { status: 500 });
+      }
+
+      for (const enrollment of enrollments ?? []) {
+        enrollmentsByPatientId[enrollment.patient_id] = choosePreferredEnrollment(
+          enrollmentsByPatientId[enrollment.patient_id],
+          enrollment,
+        );
+      }
+    }
+
+    return Response.json({ enrollmentsByPatientId, patients: data });
   } catch (error) {
     return authErrorResponse(error);
   }

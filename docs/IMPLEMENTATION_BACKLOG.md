@@ -31,7 +31,7 @@
 - Dependencies: Auth, practice membership.
 - Estimated complexity: Medium.
 - Why it matters: Patients are the anchor record for every CCM ledger item.
-- Status: Patient list reads now use practice-scoped API; create/edit UI still needs implementation.
+- Status: Patient list/detail reads now use the practice-scoped API and include enrollment context; create/edit UI is wired to server-owned patient mutations.
 
 ### Enrollment
 
@@ -39,6 +39,7 @@
 - Dependencies: Patients, providers, practice membership.
 - Estimated complexity: Medium.
 - Why it matters: A patient cannot be billable without enrollment and consent evidence.
+- Status: Initial patient enrollment UI now captures enrollment status, eligibility status/notes, consent status/date/method, and initiating visit date. Assigned provider, coordinator, and conditions remain.
 
 ### Time Ledger
 

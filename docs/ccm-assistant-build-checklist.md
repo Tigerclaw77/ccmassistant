@@ -10,8 +10,8 @@ This checklist is intentionally ledger-first. Do not add AI, RPM, AWV, APCM, CHI
 - [x] Replace zero-byte app routes with explicit planned placeholders or remove unused routes.
 - [x] Replace zero-byte API routes with 501 stubs or implement the real server route.
 - [ ] Decide whether legacy `baskets`, `assignments`, `submissions`, and `interactions` stay temporarily or migrate.
-- [ ] Make `npm run lint` pass.
-- [ ] Make `npx tsc --noEmit` pass from a clean checkout.
+- [x] Make `npm run lint` pass.
+- [x] Make `npx tsc --noEmit` pass from a clean checkout.
 
 ## Phase 1: Auth + Schema + RLS Assumptions
 
@@ -25,13 +25,13 @@ This checklist is intentionally ledger-first. Do not add AI, RPM, AWV, APCM, CHI
 
 ## Phase 2: Patients / Enrollment
 
-- [ ] Build patient create/edit/list/detail.
+- [x] Build patient create/edit/list/detail.
 - [ ] Add CSV patient import.
 - [ ] Add chronic condition management.
 - [ ] Add CCM eligibility status and reason metadata.
-- [ ] Add consent status/date/method.
-- [ ] Add initiating visit date if tracked.
-- [ ] Add active/inactive CCM status.
+- [x] Add consent status/date/method.
+- [x] Add initiating visit date if tracked.
+- [x] Add active/inactive CCM status.
 - [ ] Add assigned provider and care coordinator.
 
 ## Phase 3: Question Bank / Provider Preferences

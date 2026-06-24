@@ -61,9 +61,13 @@ Draft modules:
 - Active practice context helper/API created.
 - Minimal practice member management API foundation created.
 - Patient list reads moved behind practice-scoped API.
+- Patient list/detail reads now include current CCM enrollment context.
+- Patient create/edit/detail UI now uses server-owned patient and enrollment APIs.
+- Initial CCM enrollment fields are wired for status, eligibility, consent, and initiating visit date.
 - Status mismatch partially fixed by moving legacy public submission updates server-side and setting `response_status: responded`.
 - Empty app/API/component files replaced with explicit TODO placeholders or exports.
 - Stale `.next` generated artifacts removed; typecheck passes after cleanup.
+- Lint and typecheck pass after the patient enrollment UI pass.
 
 ## 4. Current Phase
 
@@ -71,7 +75,7 @@ Phase 2: Auth + Practice Bootstrap.
 
 ## 5. Next Recommended Work
 
-1. Patient enrollment.
+1. Finish patient enrollment metadata: chronic conditions, assigned provider, and care coordinator.
 2. Time ledger.
 3. Question bank.
 4. Care plans.
@@ -85,7 +89,7 @@ Phase 2: Auth + Practice Bootstrap.
 - Practice bootstrap exists but needs live Supabase/RLS testing.
 - Some prototype UI still reads legacy tables directly from the browser.
 - Public form reading still uses legacy client-side assignment/basket fetches.
-- The app still has no real auth UI.
+- Password reset/email confirmation UX is not implemented.
 - Legacy and new data models coexist and need a migration decision.
 
 ## 7. Known Technical Debt
@@ -95,7 +99,7 @@ Phase 2: Auth + Practice Bootstrap.
 - Prototype UI still assumes `patients.name` while the new schema uses `patients.display_name`.
 - Placeholder routes need real screens or removal.
 - `app/api/assign` and `app/api/forms` are still planning stubs.
-- Browser reads should move server-side after auth and practice context exist.
+- Remaining legacy browser reads should move server-side after their workflows are migrated.
 - Billing page still computes from legacy tables.
 
 ## 8. Files Most Important To Read First

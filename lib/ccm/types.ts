@@ -310,6 +310,17 @@ export type MonthlyBillability = PracticeScopedRow & {
   exported_at: ISODateTimeString | null;
 };
 
+export type BillingEvidenceSnapshot = {
+  id: UUID;
+  practice_id: UUID;
+  patient_id: UUID;
+  monthly_billability_id: UUID | null;
+  billing_month: ISODateString;
+  snapshot: JsonValue;
+  created_by: UUID | null;
+  created_at: ISODateTimeString;
+};
+
 export type AuditEvent = {
   id: UUID;
   practice_id: UUID;

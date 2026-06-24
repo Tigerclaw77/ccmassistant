@@ -2,6 +2,7 @@ import type {
   ActivityType,
   AnswerType,
   AuditEvent,
+  BillingEvidenceSnapshot,
   BillabilityStatus,
   CarePlan,
   CarePlanStatus,
@@ -68,6 +69,7 @@ export type Database = {
       interaction_logs: TableDefinition<InteractionLog>;
       care_plans: TableDefinition<CarePlan>;
       monthly_billability: TableDefinition<MonthlyBillability>;
+      billing_evidence_snapshots: TableDefinition<BillingEvidenceSnapshot>;
       audit_events: TableDefinition<AuditEvent>;
     };
     Views: Record<string, never>;

@@ -68,6 +68,30 @@ export async function PATCH(request: Request) {
       .eq("id", checkinInstanceId)
       .maybeSingle();
 
+    if (!beforeData) {
+      return Response.json({ error: "Check-in not found" }, { status: 404 });
+    }
+
+    if (status === "closed") {
+      const { data: responses, error: responsesError } = await supabase
+        .from("checkin_responses")
+        .select("id, response_text")
+        .eq("practice_id", practiceId)
+        .eq("checkin_instance_id", checkinInstanceId);
+
+      if (responsesError) {
+        return Response.json({ error: responsesError.message }, { status: 500 });
+      }
+
+      const hasResponse = (responses ?? []).some((response) =>
+        typeof response.response_text === "string" && response.response_text.trim().length > 0,
+      );
+
+      if (!hasResponse) {
+        return badRequest(new Error("A check-in must have at least one response before it can be closed."));
+      }
+    }
+
     const { data, error } = await supabase
       .from("checkin_instances")
       .update({

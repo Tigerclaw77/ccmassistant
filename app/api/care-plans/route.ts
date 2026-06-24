@@ -15,6 +15,34 @@ import {
 import { recordAuditEvent } from "../../../lib/ccm/audit";
 import { CARE_PLAN_STATUSES, type JsonValue } from "../../../lib/ccm/types";
 
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const practiceId = searchParams.get("practiceId");
+  const patientId = searchParams.get("patientId");
+
+  if (!practiceId || !patientId) {
+    return badRequest(new Error("practiceId and patientId are required"));
+  }
+
+  try {
+    const { supabase } = await requirePracticeMembership(request, practiceId);
+    const { data, error } = await supabase
+      .from("care_plans")
+      .select("*")
+      .eq("practice_id", practiceId)
+      .eq("patient_id", patientId)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      return Response.json({ error: error.message }, { status: 500 });
+    }
+
+    return Response.json({ carePlans: data ?? [] });
+  } catch (error) {
+    return authErrorResponse(error);
+  }
+}
+
 function optionalJsonArray(body: Record<string, unknown>, key: string): JsonValue[] {
   const value = body[key];
 
