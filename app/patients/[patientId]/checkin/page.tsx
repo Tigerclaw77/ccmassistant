@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
+import Breadcrumbs from "../../../../components/Breadcrumbs";
 import { getSupabaseAuthHeaders } from "../../../../lib/supabase";
 import type { CheckinInstance, CheckinResponse, Patient, Question } from "../../../../lib/ccm/types";
 
@@ -144,7 +145,14 @@ export default function PatientCheckinPage() {
     setCheckIn(result.checkIn ?? null);
     setQuestions(result.questions ?? []);
     setResponses(result.responses ?? []);
-    setMessage("Check-in created");
+    setMessage("Check-in created.");
+  }
+
+  async function copyPublicLink() {
+    if (!publicLink) return;
+
+    await navigator.clipboard.writeText(publicLink);
+    setMessage("Public check-in link copied.");
   }
 
   async function markClosed() {
@@ -174,7 +182,7 @@ export default function PatientCheckinPage() {
       return;
     }
 
-    setMessage("Check-in closed");
+    setMessage("Check-in reviewed and closed.");
     await loadCheckIn(practiceId, billingMonth);
   }
 
@@ -184,10 +192,20 @@ export default function PatientCheckinPage() {
 
   return (
     <main className="p-6 space-y-6 max-w-4xl">
+      <Breadcrumbs
+        items={[
+          { href: "/patients", label: "Patients" },
+          { href: `/patients/${patientId}`, label: patient?.display_name ?? "Patient" },
+          { label: "Monthly check-in" },
+        ]}
+      />
+
       <div className="flex items-center justify-between gap-4">
         <div>
           <h1 className="text-xl font-semibold">Monthly Check-in</h1>
-          <div className="text-sm text-gray-600">{patient?.display_name}</div>
+          <div className="text-sm text-gray-600">
+            {patient?.display_name} - collect the monthly patient response.
+          </div>
         </div>
         <Link className="text-sm underline" href={`/patients/${patientId}`}>
           Patient
@@ -207,6 +225,12 @@ export default function PatientCheckinPage() {
       ) : null}
 
       <section className="rounded-md border bg-white p-4 text-black">
+        {!checkIn ? (
+          <div className="mb-4 rounded-md border border-blue-200 bg-blue-50 px-3 py-2 text-sm text-blue-800">
+            No check-in exists for this month. Create one, copy the public link, and send it to the patient.
+          </div>
+        ) : null}
+
         <div className="grid gap-4 md:grid-cols-3">
           <label className="space-y-1 text-sm">
             <span className="font-medium">Billing month</span>
@@ -249,9 +273,18 @@ export default function PatientCheckinPage() {
         {publicLink ? (
           <div className="mt-4 rounded-md border bg-gray-50 p-3 text-sm">
             <div className="font-medium">Public patient link</div>
-            <a className="break-all underline" href={publicLink} target="_blank">
-              {publicLink}
-            </a>
+            <div className="mt-2 flex flex-col gap-3 md:flex-row md:items-center">
+              <a className="break-all underline" href={publicLink} rel="noreferrer" target="_blank">
+                {publicLink}
+              </a>
+              <button
+                className="w-fit rounded border bg-white px-3 py-2 text-sm font-medium hover:bg-slate-50"
+                onClick={copyPublicLink}
+                type="button"
+              >
+                Copy link
+              </button>
+            </div>
           </div>
         ) : null}
       </section>

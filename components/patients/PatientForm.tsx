@@ -3,6 +3,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Breadcrumbs from "../Breadcrumbs";
 import {
   CONSENT_METHODS,
   CONSENT_STATUSES,
@@ -18,6 +19,7 @@ import { getSupabaseAuthHeaders } from "../../lib/supabase";
 
 type Props = {
   enrollment?: CcmEnrollment | null;
+  initialMessage?: string | null;
   mode: "create" | "edit";
   patient?: Patient | null;
   practiceId: string;
@@ -75,6 +77,7 @@ function ChecklistItem({ complete, label }: { complete: boolean; label: string }
 
 export default function PatientForm({
   enrollment,
+  initialMessage,
   mode,
   patient,
   practiceId,
@@ -124,7 +127,7 @@ export default function PatientForm({
   );
 
   const [error, setError] = useState<string | null>(null);
-  const [savedMessage, setSavedMessage] = useState<string | null>(null);
+  const [savedMessage, setSavedMessage] = useState<string | null>(initialMessage ?? null);
   const [saving, setSaving] = useState(false);
 
   const resolvedDisplayName =
@@ -313,22 +316,31 @@ export default function PatientForm({
     }
 
     if (mode === "create") {
-      router.replace(`/patients/${savedPatient.id}`);
+      router.replace(`/patients/${savedPatient.id}?created=1`);
       return;
     }
 
-    setSavedMessage("Saved");
+    setSavedMessage("Patient saved. Continue with care plan, check-in, or time logging.");
     router.refresh();
   }
 
   return (
     <form onSubmit={submit} className="max-w-5xl space-y-6">
+      <Breadcrumbs
+        items={[
+          { href: "/patients", label: "Patients" },
+          { label: mode === "create" ? "New patient" : resolvedDisplayName || "Patient" },
+        ]}
+      />
+
       <div className="flex items-center justify-between gap-4">
         <div>
           <h1 className="text-xl font-semibold">
             {mode === "create" ? "New Patient" : resolvedDisplayName}
           </h1>
-          <div className="text-sm text-gray-600">CCM enrollment</div>
+          <div className="text-sm text-gray-600">
+            Capture enrollment, consent, provider assignment, and chronic conditions.
+          </div>
         </div>
         <Link className="text-sm underline" href="/patients">
           Patients
@@ -627,7 +639,7 @@ export default function PatientForm({
           </div>
         ) : (
           <div className="mt-4 text-sm text-gray-600">
-            Save the patient to continue to care plan, check-in, time logs, and billing.
+            Save the patient to continue to care plan, monthly check-in, time logs, and billing.
           </div>
         )}
       </section>

@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
+import Breadcrumbs from "../../../../../components/Breadcrumbs";
 import { getSupabaseAuthHeaders } from "../../../../../lib/supabase";
+import { reasonLabel, statusLabel } from "../../../../../lib/ccm/labels";
 import type {
   AuditEvent,
   BillingEvidenceSnapshot,
@@ -43,10 +45,6 @@ type AuditPacketResponse = {
   patient?: Patient;
   responses?: ResponseWithQuestion[];
 };
-
-function label(value: string | null | undefined): string {
-  return value ? value.replaceAll("_", " ") : "missing";
-}
 
 function listItems(value: unknown): string[] {
   return Array.isArray(value) ? value.map(String) : [];
@@ -134,11 +132,19 @@ export default function EvidencePacketPage() {
 
   return (
     <main className="p-6 space-y-6 max-w-5xl">
+      <Breadcrumbs
+        items={[
+          { href: "/dashboard/billing", label: "Billing" },
+          { href: `/patients/${patientId}`, label: packet.patient.display_name },
+          { label: "Evidence packet" },
+        ]}
+      />
+
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-xl font-semibold">Evidence Packet</h1>
           <div className="text-sm text-gray-600">
-            {packet.patient.display_name} · {packet.billingMonth ?? month}
+            {packet.patient.display_name} - {packet.billingMonth ?? month}
           </div>
         </div>
         <Link className="text-sm underline" href="/dashboard/billing">
@@ -151,7 +157,7 @@ export default function EvidencePacketPage() {
         <div className="grid gap-3 text-sm md:grid-cols-3">
           <div>
             <div className="text-gray-500">Status</div>
-            <div className="font-medium capitalize">{label(packet.billability?.status)}</div>
+            <div className="font-medium">{statusLabel(packet.billability?.status)}</div>
           </div>
           <div>
             <div className="text-gray-500">Minutes</div>
@@ -160,10 +166,10 @@ export default function EvidencePacketPage() {
             </div>
           </div>
           <div>
-            <div className="text-gray-500">Reason codes</div>
+            <div className="text-gray-500">Reasons</div>
             <div className="font-medium">
               {packet.billability?.reason_codes?.length
-                ? packet.billability.reason_codes.join(", ")
+                ? packet.billability.reason_codes.map(reasonLabel).join("; ")
                 : "None"}
             </div>
           </div>
@@ -188,18 +194,18 @@ export default function EvidencePacketPage() {
         <div className="grid gap-3 text-sm md:grid-cols-3">
           <div>
             <div className="text-gray-500">Enrollment</div>
-            <div className="font-medium capitalize">{label(packet.enrollment?.status)}</div>
+            <div className="font-medium">{statusLabel(packet.enrollment?.status)}</div>
           </div>
           <div>
             <div className="text-gray-500">Eligibility</div>
             <div className="font-medium capitalize">
-              {label(packet.enrollment?.eligibility_status)}
+              {statusLabel(packet.enrollment?.eligibility_status)}
             </div>
           </div>
           <div>
             <div className="text-gray-500">Consent</div>
             <div className="font-medium capitalize">
-              {label(packet.enrollment?.consent_status)}
+              {statusLabel(packet.enrollment?.consent_status)}
               {packet.enrollment?.consent_date ? ` on ${packet.enrollment.consent_date}` : ""}
             </div>
           </div>
@@ -239,7 +245,7 @@ export default function EvidencePacketPage() {
 
       <section className="rounded-md border bg-white p-4 text-black">
         <h2 className="mb-3 text-base font-semibold">Check-in</h2>
-        <div className="mb-3 text-sm capitalize">Status: {label(packet.checkIn?.status)}</div>
+        <div className="mb-3 text-sm">Status: {statusLabel(packet.checkIn?.status)}</div>
         {packet.responses?.length ? (
           <div className="space-y-3">
             {packet.responses.map((response) => (
@@ -261,7 +267,7 @@ export default function EvidencePacketPage() {
             {packet.interactionLogs.map((log) => (
               <div key={log.id} className="border-b pb-3 text-sm last:border-b-0 last:pb-0">
                 <div className="font-medium">
-                  {label(log.activity_type)} · {log.minutes} min
+                  {statusLabel(log.activity_type)} - {log.minutes} min
                 </div>
                 <div className="text-xs text-gray-500">
                   {new Date(log.occurred_at).toLocaleDateString()}

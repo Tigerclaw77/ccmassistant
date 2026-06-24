@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getSupabaseAuthHeaders } from "../../../lib/supabase";
 import type { MonthlyBillability, Patient } from "../../../lib/ccm/types";
+import { reasonLabel, statusLabel } from "../../../lib/ccm/labels";
 
 type ActivePracticeResponse = {
   error?: string;
@@ -31,10 +32,6 @@ function firstDayOfMonthInput(date = new Date()): string {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-01`;
 }
 
-function label(value: string | null | undefined): string {
-  return value ? value.replaceAll("_", " ") : "not calculated";
-}
-
 function statusClass(value: string | null | undefined): string {
   if (value === "ready_to_bill" || value === "billed") {
     return "border-green-200 bg-green-50 text-green-700";
@@ -53,6 +50,7 @@ export default function BillingPage() {
   const [billingMonth, setBillingMonth] = useState(firstDayOfMonthInput());
   const [rows, setRows] = useState<BillingResponse["rows"]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [workingPatientId, setWorkingPatientId] = useState<string | null>(null);
 
@@ -109,6 +107,7 @@ export default function BillingPage() {
 
     setWorkingPatientId(patientId);
     setError(null);
+    setMessage(null);
 
     const response = await fetch("/api/billability/recalculate", {
       body: JSON.stringify({
@@ -131,20 +130,34 @@ export default function BillingPage() {
     }
 
     await loadBilling(practiceId, billingMonth);
+    setMessage("Billing recalculated.");
     setWorkingPatientId(null);
   }
 
   async function recalculateAll() {
+    setMessage(null);
     for (const row of rows ?? []) {
       await recalculate(row.patient.id);
     }
+    setMessage("Billing recalculated for all patients.");
   }
 
   async function updateBilling(patientId: string, action: "reviewed" | "billed" | "hold") {
     if (!practiceId) return;
 
+    const confirmation = {
+      billed: "Mark this patient-month as billed?",
+      hold: "Place this patient-month on hold?",
+      reviewed: "Mark this patient-month as reviewed?",
+    }[action];
+
+    if (!window.confirm(confirmation)) {
+      return;
+    }
+
     setWorkingPatientId(patientId);
     setError(null);
+    setMessage(null);
 
     const response = await fetch("/api/billing/month", {
       body: JSON.stringify({
@@ -168,6 +181,50 @@ export default function BillingPage() {
     }
 
     await loadBilling(practiceId, billingMonth);
+    setMessage(
+      action === "reviewed"
+        ? "Marked reviewed."
+        : action === "hold"
+          ? "Marked hold."
+          : "Marked billed.",
+    );
+    setWorkingPatientId(null);
+  }
+
+  async function releaseHold(patientId: string) {
+    if (!practiceId) return;
+
+    if (!window.confirm("Release hold and recalculate this patient-month?")) {
+      return;
+    }
+
+    setWorkingPatientId(patientId);
+    setError(null);
+    setMessage(null);
+
+    const response = await fetch("/api/billability/recalculate", {
+      body: JSON.stringify({
+        billingMonth,
+        overrideStatus: true,
+        patientId,
+        practiceId,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        ...(await getSupabaseAuthHeaders()),
+      },
+      method: "POST",
+    });
+    const result = (await response.json()) as RecalculateResponse;
+
+    if (!response.ok) {
+      setError(result.error ?? "Unable to release hold");
+      setWorkingPatientId(null);
+      return;
+    }
+
+    await loadBilling(practiceId, billingMonth);
+    setMessage("Hold released and billing recalculated.");
     setWorkingPatientId(null);
   }
 
@@ -206,10 +263,18 @@ export default function BillingPage() {
         </div>
       ) : null}
 
+      {message ? (
+        <div className="rounded-md border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">
+          {message}
+        </div>
+      ) : null}
+
       {loading ? (
         <div className="text-sm text-gray-600">Loading...</div>
       ) : !rows?.length ? (
-        <div className="rounded-md border bg-white p-5 text-sm text-gray-600">No patients yet.</div>
+        <div className="rounded-md border border-dashed bg-white p-5 text-sm text-gray-600">
+          No patients yet. Add a patient before running monthly billing.
+        </div>
       ) : (
         <div className="overflow-x-auto rounded-md border bg-white text-black">
           <table className="w-full min-w-[920px] border-collapse text-left text-sm">
@@ -218,7 +283,7 @@ export default function BillingPage() {
                 <th className="px-4 py-3 font-semibold">Patient</th>
                 <th className="px-4 py-3 font-semibold">Minutes</th>
                 <th className="px-4 py-3 font-semibold">Status</th>
-                <th className="px-4 py-3 font-semibold">Reason codes</th>
+                <th className="px-4 py-3 font-semibold">Reasons</th>
                 <th className="px-4 py-3 font-semibold">Reviewed</th>
                 <th className="px-4 py-3 font-semibold">Actions</th>
               </tr>
@@ -239,12 +304,12 @@ export default function BillingPage() {
                     </td>
                     <td className="px-4 py-3 align-top">
                       <span className={`inline-flex rounded-md border px-2 py-1 text-xs font-medium capitalize ${statusClass(row.billability?.status)}`}>
-                        {label(row.billability?.status)}
+                        {statusLabel(row.billability?.status)}
                       </span>
                     </td>
                     <td className="px-4 py-3 align-top text-xs text-gray-700">
                       {row.billability?.reason_codes?.length
-                        ? row.billability.reason_codes.join(", ")
+                        ? row.billability.reason_codes.map(reasonLabel).join("; ")
                         : "None"}
                     </td>
                     <td className="px-4 py-3 align-top text-xs text-gray-700">
@@ -266,21 +331,31 @@ export default function BillingPage() {
                           disabled={busy || !row.billability}
                           className="rounded-md border px-2 py-1 text-xs disabled:opacity-60"
                         >
-                          Reviewed
+                          Mark reviewed
                         </button>
-                        <button
-                          onClick={() => updateBilling(row.patient.id, "hold")}
-                          disabled={busy || !row.billability}
-                          className="rounded-md border px-2 py-1 text-xs disabled:opacity-60"
-                        >
-                          Hold
-                        </button>
+                        {row.billability?.status === "hold" ? (
+                          <button
+                            onClick={() => releaseHold(row.patient.id)}
+                            disabled={busy || !row.billability}
+                            className="rounded-md border px-2 py-1 text-xs disabled:opacity-60"
+                          >
+                            Release hold
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => updateBilling(row.patient.id, "hold")}
+                            disabled={busy || !row.billability}
+                            className="rounded-md border px-2 py-1 text-xs disabled:opacity-60"
+                          >
+                            Mark hold
+                          </button>
+                        )}
                         <button
                           onClick={() => updateBilling(row.patient.id, "billed")}
                           disabled={busy || row.billability?.status !== "ready_to_bill"}
                           className="rounded-md border px-2 py-1 text-xs disabled:opacity-60"
                         >
-                          Billed
+                          Mark billed
                         </button>
                         <Link
                           className="rounded-md border px-2 py-1 text-xs underline"

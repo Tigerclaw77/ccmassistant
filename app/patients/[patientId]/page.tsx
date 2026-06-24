@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import PatientForm from "../../../components/patients/PatientForm";
 import type { CcmEnrollment, Patient } from "../../../lib/ccm/types";
 import { getSupabaseAuthHeaders } from "../../../lib/supabase";
@@ -22,6 +22,7 @@ type PatientResponse = {
 
 export default function PatientDetailPage() {
   const params = useParams<{ patientId: string }>();
+  const searchParams = useSearchParams();
   const patientId = params.patientId;
   const [practiceId, setPracticeId] = useState<string | null>(null);
   const [patient, setPatient] = useState<Patient | null>(null);
@@ -95,6 +96,11 @@ export default function PatientDetailPage() {
     <main className="p-6">
       <PatientForm
         enrollment={enrollment}
+        initialMessage={
+          searchParams.get("created")
+            ? "Patient saved. Continue with care plan, check-in, or time logging."
+            : null
+        }
         mode="edit"
         patient={patient}
         practiceId={practiceId}

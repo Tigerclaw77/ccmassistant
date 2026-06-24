@@ -10,7 +10,9 @@ import type {
   InteractionLog,
   MonthlyBillability,
   Patient,
+  PatientCondition,
 } from "../../../lib/ccm/types";
+import { statusLabel } from "../../../lib/ccm/labels";
 
 type ActivePracticeResponse = {
   error?: string;
@@ -39,6 +41,10 @@ type LogsResponse = {
   interactionLogs?: InteractionLog[];
 };
 
+type ConditionsResponse = {
+  conditions?: PatientCondition[];
+};
+
 type BillingResponse = {
   rows?: Array<{
     billability: MonthlyBillability | null;
@@ -51,6 +57,7 @@ type WorklistRow = {
   blockers: string[];
   carePlan: CarePlan | null;
   checkIn: CheckinInstance | null;
+  conditions: PatientCondition[];
   enrollment: CcmEnrollment | null;
   minutes: number;
   patient: Patient;
@@ -58,10 +65,6 @@ type WorklistRow = {
 
 function firstDayOfMonthInput(date = new Date()): string {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-01`;
-}
-
-function label(value: string | null | undefined): string {
-  return value ? value.replaceAll("_", " ") : "missing";
 }
 
 function statusClass(ok: boolean) {
@@ -135,7 +138,7 @@ export default function WorklistPage() {
 
       const worklistRows = await Promise.all(
         (patientsResult.patients ?? []).map(async (patient) => {
-          const [carePlansResponse, checkInResponse, logsResponse] = await Promise.all([
+          const [carePlansResponse, checkInResponse, logsResponse, conditionsResponse] = await Promise.all([
             fetch(
               `/api/care-plans?practiceId=${encodeURIComponent(
                 activeResult.practice!.id,
@@ -158,30 +161,45 @@ export default function WorklistPage() {
               )}`,
               { headers: await getSupabaseAuthHeaders() },
             ),
+            fetch(
+              `/api/patient-conditions?practiceId=${encodeURIComponent(
+                activeResult.practice!.id,
+              )}&patientId=${encodeURIComponent(patient.id)}`,
+              { headers: await getSupabaseAuthHeaders() },
+            ),
           ]);
 
           const carePlans = ((await carePlansResponse.json()) as CarePlansResponse).carePlans ?? [];
           const checkIn = ((await checkInResponse.json()) as CheckInResponse).checkIn ?? null;
           const logs = ((await logsResponse.json()) as LogsResponse).interactionLogs ?? [];
+          const conditions = ((await conditionsResponse.json()) as ConditionsResponse).conditions ?? [];
           const enrollment = patientsResult.enrollmentsByPatientId?.[patient.id] ?? null;
           const carePlan = carePlans.find((plan) => plan.status === "active") ?? null;
           const minutes = logs.reduce((total, log) => total + Number(log.minutes ?? 0), 0);
           const blockers: string[] = [];
+          const hasProvider = Boolean(patient.primary_provider_id || enrollment?.assigned_provider_id);
+          const hasActiveCondition = conditions.some((condition) => condition.is_active);
 
-          if (enrollment?.status !== "active") blockers.push("Enrollment not active");
-          if (enrollment?.eligibility_status !== "eligible") blockers.push("Eligibility not eligible");
-          if (enrollment?.consent_status !== "obtained") blockers.push("Consent not obtained");
-          if (!carePlan) blockers.push("Active care plan missing");
-          if (checkIn?.status !== "responded" && checkIn?.status !== "closed") {
-            blockers.push("Check-in not responded or closed");
+          if (enrollment?.status !== "active") blockers.push("Activate the CCM enrollment");
+          if (enrollment?.eligibility_status !== "eligible") blockers.push("Mark eligibility as eligible");
+          if (!hasProvider) blockers.push("Assign a provider");
+          if (!hasActiveCondition) blockers.push("Add a chronic condition");
+          if (enrollment?.consent_status !== "obtained") blockers.push("Record patient consent");
+          if (enrollment?.consent_status === "obtained" && !enrollment.consent_date) {
+            blockers.push("Add consent date");
           }
-          if (minutes < monthlyThreshold) blockers.push(`${monthlyThreshold - minutes} more minutes needed`);
+          if (!carePlan) blockers.push("Create an active care plan");
+          if (checkIn?.status !== "responded" && checkIn?.status !== "closed") {
+            blockers.push("Collect or close the monthly check-in response");
+          }
+          if (minutes < monthlyThreshold) blockers.push(`Log ${monthlyThreshold - minutes} more CCM minutes`);
 
           return {
             billability: billabilityByPatientId[patient.id] ?? null,
             blockers,
             carePlan,
             checkIn,
+            conditions,
             enrollment,
             minutes,
             patient,
@@ -195,7 +213,7 @@ export default function WorklistPage() {
     }
 
     void load();
-  }, [billingMonth, threshold]);
+  }, [billingMonth]);
 
   return (
     <main className="p-6 space-y-6">
@@ -203,7 +221,7 @@ export default function WorklistPage() {
         <div>
           <h1 className="text-xl font-semibold">Patient Worklist</h1>
           <div className="text-sm text-gray-600">
-            {practiceName || "Practice"} · {readyCount} ready
+            {practiceName || "Practice"} - {readyCount} ready
           </div>
         </div>
 
@@ -227,7 +245,9 @@ export default function WorklistPage() {
       {loading ? (
         <div className="text-sm text-gray-600">Loading...</div>
       ) : rows.length === 0 ? (
-        <div className="rounded-md border bg-white p-5 text-sm text-gray-600">No patients yet.</div>
+        <div className="rounded-md border border-dashed bg-white p-5 text-sm text-gray-600">
+          No patients yet. Add a patient to start the first billable CCM month.
+        </div>
       ) : (
         <div className="space-y-3">
           {rows.map((row) => (
@@ -238,22 +258,28 @@ export default function WorklistPage() {
                     {row.patient.display_name}
                   </Link>
                   <div className="mt-1 text-sm text-gray-600">
-                    {row.minutes} of {threshold} min · billing {label(row.billability?.status)}
+                    {row.minutes} of {threshold} min - billing {statusLabel(row.billability?.status)}
                   </div>
                 </div>
 
-                <div className="flex flex-wrap gap-2 text-xs capitalize">
+                <div className="flex flex-wrap gap-2 text-xs">
                   <span className={`rounded-md border px-2 py-1 ${statusClass(row.enrollment?.status === "active")}`}>
-                    enrollment {label(row.enrollment?.status)}
+                    Enrollment {statusLabel(row.enrollment?.status)}
                   </span>
                   <span className={`rounded-md border px-2 py-1 ${statusClass(row.enrollment?.consent_status === "obtained")}`}>
-                    consent {label(row.enrollment?.consent_status)}
+                    Consent {statusLabel(row.enrollment?.consent_status)}
+                  </span>
+                  <span className={`rounded-md border px-2 py-1 ${statusClass(Boolean(row.patient.primary_provider_id || row.enrollment?.assigned_provider_id))}`}>
+                    Provider {row.patient.primary_provider_id || row.enrollment?.assigned_provider_id ? "Assigned" : "Missing"}
+                  </span>
+                  <span className={`rounded-md border px-2 py-1 ${statusClass(row.conditions.some((condition) => condition.is_active))}`}>
+                    Conditions {row.conditions.some((condition) => condition.is_active) ? "Captured" : "Missing"}
                   </span>
                   <span className={`rounded-md border px-2 py-1 ${statusClass(Boolean(row.carePlan))}`}>
-                    care plan {row.carePlan ? "active" : "missing"}
+                    Care plan {row.carePlan ? "Active" : "Missing"}
                   </span>
                   <span className={`rounded-md border px-2 py-1 ${statusClass(row.checkIn?.status === "responded" || row.checkIn?.status === "closed")}`}>
-                    check-in {label(row.checkIn?.status)}
+                    Check-in {statusLabel(row.checkIn?.status)}
                   </span>
                 </div>
               </div>

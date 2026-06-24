@@ -41,6 +41,20 @@ export async function GET(
       .eq("id", checkIn.patient_id)
       .maybeSingle();
 
+    const { data: practice } = await supabase
+      .from("practices")
+      .select("id, name, billing_settings")
+      .eq("id", checkIn.practice_id)
+      .maybeSingle();
+
+    const { data: provider } = checkIn.provider_id
+      ? await supabase
+          .from("providers")
+          .select("id, full_name, credentials, phone, email")
+          .eq("id", checkIn.provider_id)
+          .maybeSingle()
+      : { data: null };
+
     const { data: template } = checkIn.template_id
       ? await supabase
           .from("checkin_templates")
@@ -68,6 +82,8 @@ export async function GET(
     return Response.json({
       checkIn,
       patient,
+      practice,
+      provider,
       questions: sortedQuestions,
       template,
     });

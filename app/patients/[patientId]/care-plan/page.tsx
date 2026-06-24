@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import Breadcrumbs from "../../../../components/Breadcrumbs";
 import { getSupabaseAuthHeaders } from "../../../../lib/supabase";
 import type { CarePlan, CcmEnrollment, Patient } from "../../../../lib/ccm/types";
 
@@ -167,7 +168,7 @@ export default function PatientCarePlanPage() {
     }
 
     setCarePlan(result.carePlan);
-    setMessage("Care plan saved");
+    setMessage("Care plan updated.");
   }
 
   if (loading) {
@@ -176,10 +177,20 @@ export default function PatientCarePlanPage() {
 
   return (
     <main className="p-6 space-y-6 max-w-4xl">
+      <Breadcrumbs
+        items={[
+          { href: "/patients", label: "Patients" },
+          { href: `/patients/${patientId}`, label: patient?.display_name ?? "Patient" },
+          { label: "Care plan" },
+        ]}
+      />
+
       <div className="flex items-center justify-between gap-4">
         <div>
           <h1 className="text-xl font-semibold">Care Plan</h1>
-          <div className="text-sm text-gray-600">{patient?.display_name}</div>
+          <div className="text-sm text-gray-600">
+            {patient?.display_name} - active care plans count toward monthly billability.
+          </div>
         </div>
         <Link className="text-sm underline" href={`/patients/${patientId}`}>
           Patient
@@ -199,6 +210,12 @@ export default function PatientCarePlanPage() {
       ) : null}
 
       <section className="rounded-md border bg-white p-4 text-black">
+        {!carePlan ? (
+          <div className="mb-4 rounded-md border border-blue-200 bg-blue-50 px-3 py-2 text-sm text-blue-800">
+            No care plan exists yet. Add goals, interventions, barriers, and a reviewed date to make this patient-month eligible for billing.
+          </div>
+        ) : null}
+
         <div className="grid gap-4 md:grid-cols-2">
           <label className="space-y-1 text-sm">
             <span className="font-medium">Status</span>
@@ -273,6 +290,9 @@ export default function PatientCarePlanPage() {
           </button>
           <Link className="text-sm underline" href={`/patients/${patientId}/checkin`}>
             Monthly check-in
+          </Link>
+          <Link className="text-sm underline" href={`/dashboard/log/${patientId}`}>
+            Log time
           </Link>
         </div>
       </section>

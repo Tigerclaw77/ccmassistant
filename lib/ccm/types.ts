@@ -28,6 +28,34 @@ export type QuestionStatus = "draft" | "active" | "archived" | "rejected";
 export type AnswerType = "yes_no" | "text" | "number" | "scale" | "multi_choice" | "date";
 export type QuestionPreference = "favorite" | "preferred" | "avoid";
 
+export const CLINICAL_ANSWER_TYPES = [
+  "yes_no",
+  "multiple_choice",
+  "numeric",
+  "free_text",
+  "date",
+  "scale_1_10",
+  "blood_pressure",
+  "blood_sugar",
+  "weight",
+  "temperature",
+  "pulse",
+  "pulse_ox",
+  "medication_list",
+  "structured_measurement",
+] as const;
+
+export type ClinicalAnswerType = (typeof CLINICAL_ANSWER_TYPES)[number];
+
+export const CLINICAL_IMPORTANCE_LEVELS = [
+  "routine",
+  "elevated",
+  "high",
+  "critical",
+] as const;
+
+export type ClinicalImportance = (typeof CLINICAL_IMPORTANCE_LEVELS)[number];
+
 export const CHECKIN_STATUSES = [
   "draft",
   "ready",
@@ -204,6 +232,142 @@ export type QuestionTag = {
   tag: string;
   tag_type: string;
   condition_code: string | null;
+  created_at: ISODateTimeString;
+};
+
+export type Icd10Code = {
+  code: string;
+  description: string;
+  category: string | null;
+  is_billable: boolean;
+  active: boolean;
+  created_at: ISODateTimeString;
+  updated_at: ISODateTimeString;
+};
+
+export type ManagementCluster = {
+  id: UUID;
+  slug: string;
+  name: string;
+  category: string;
+  description: string | null;
+  active: boolean;
+  created_at: ISODateTimeString;
+  updated_at: ISODateTimeString;
+};
+
+export type ClusterIcd10Map = {
+  cluster_id: UUID;
+  icd10_code: string;
+  mapping_type: string;
+  notes: string | null;
+  created_at: ISODateTimeString;
+};
+
+export type ClinicalObjective = {
+  id: UUID;
+  slug: string;
+  name: string;
+  description: string | null;
+  active: boolean;
+  created_at: ISODateTimeString;
+  updated_at: ISODateTimeString;
+};
+
+export type ClusterObjectiveMap = {
+  cluster_id: UUID;
+  objective_id: UUID;
+  priority: number;
+  created_at: ISODateTimeString;
+};
+
+export type QuestionFamily = {
+  id: UUID;
+  slug: string;
+  name: string;
+  description: string | null;
+  suggested_cadence: string;
+  active: boolean;
+  created_at: ISODateTimeString;
+  updated_at: ISODateTimeString;
+};
+
+export type ObjectiveFamilyMap = {
+  objective_id: UUID;
+  family_id: UUID;
+  priority: number;
+  created_at: ISODateTimeString;
+};
+
+export type ClinicalQuestion = {
+  id: UUID;
+  slug: string;
+  question_text: string;
+  description: string | null;
+  answer_type: ClinicalAnswerType;
+  options: JsonValue;
+  required: boolean;
+  severity: number;
+  clinical_importance: ClinicalImportance;
+  suggested_cadence: string;
+  follow_up_trigger: JsonValue;
+  provider_review_required: boolean;
+  retired: boolean;
+  version: number;
+  active: boolean;
+  language: string;
+  metadata: JsonValue;
+  created_at: ISODateTimeString;
+  updated_at: ISODateTimeString;
+};
+
+export type QuestionFamilyMember = {
+  family_id: UUID;
+  question_id: UUID;
+  sort_order: number;
+  required_override: boolean | null;
+  created_at: ISODateTimeString;
+};
+
+export type ClinicalQuestionTag = {
+  question_id: UUID;
+  tag: string;
+  tag_type: string;
+  created_at: ISODateTimeString;
+};
+
+export type QuestionVersion = {
+  id: UUID;
+  question_id: UUID;
+  version: number;
+  question_text: string;
+  description: string | null;
+  answer_type: ClinicalAnswerType;
+  options: JsonValue;
+  change_note: string | null;
+  created_at: ISODateTimeString;
+};
+
+export type QuestionDependency = {
+  id: UUID;
+  question_id: UUID;
+  depends_on_question_id: UUID;
+  operator: string;
+  expected_value: JsonValue;
+  action: string;
+  metadata: JsonValue;
+  created_at: ISODateTimeString;
+};
+
+export type QuestionRotationRule = {
+  id: UUID;
+  family_id: UUID | null;
+  question_id: UUID | null;
+  rule_type: string;
+  cadence: string;
+  max_questions_per_checkin: number | null;
+  min_days_between: number | null;
+  metadata: JsonValue;
   created_at: ISODateTimeString;
 };
 

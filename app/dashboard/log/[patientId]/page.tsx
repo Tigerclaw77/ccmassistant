@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import Breadcrumbs from "../../../../components/Breadcrumbs";
 import { getSupabaseAuthHeaders } from "../../../../lib/supabase";
 import type { InteractionLog, Patient } from "../../../../lib/ccm/types";
 
@@ -47,6 +48,7 @@ export default function LogInteractionPage() {
   const [billingMonth, setBillingMonth] = useState(firstDayOfMonthInput());
   const [notes, setNotes] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
@@ -117,6 +119,7 @@ export default function LogInteractionPage() {
 
     setSaving(true);
     setError(null);
+    setMessage(null);
 
     const response = await fetch("/api/interaction-logs", {
       body: JSON.stringify({
@@ -143,6 +146,7 @@ export default function LogInteractionPage() {
     }
 
     setNotes("");
+    setMessage("Time logged.");
     await loadLogs(practiceId, billingMonth);
   }
 
@@ -152,11 +156,19 @@ export default function LogInteractionPage() {
 
   return (
     <main className="p-6 space-y-6 max-w-4xl">
+      <Breadcrumbs
+        items={[
+          { href: "/patients", label: "Patients" },
+          { href: `/patients/${patientId}`, label: patient?.display_name ?? "Patient" },
+          { label: "Log time" },
+        ]}
+      />
+
       <div className="flex items-center justify-between gap-4">
         <div>
           <h1 className="text-xl font-semibold">Log CCM Time</h1>
           <div className="text-sm text-gray-600">
-            {patient?.display_name ?? "Patient"} · {totalMinutes} min this month
+            {patient?.display_name ?? "Patient"} - {totalMinutes} min this month
           </div>
         </div>
         <button className="text-sm underline" onClick={() => router.back()}>
@@ -167,6 +179,12 @@ export default function LogInteractionPage() {
       {error ? (
         <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
           {error}
+        </div>
+      ) : null}
+
+      {message ? (
+        <div className="rounded-md border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">
+          {message}
         </div>
       ) : null}
 
@@ -248,13 +266,15 @@ export default function LogInteractionPage() {
       <section className="rounded-md border bg-white p-4 text-black">
         <h2 className="mb-3 text-base font-semibold">Monthly logs</h2>
         {logs.length === 0 ? (
-          <div className="text-sm text-gray-600">No time logged for this month.</div>
+          <div className="rounded-md border border-dashed p-4 text-sm text-gray-600">
+            No time logged for this month. Add at least 20 minutes before recalculating billing.
+          </div>
         ) : (
           <div className="space-y-3">
             {logs.map((log) => (
               <div key={log.id} className="border-b pb-3 text-sm last:border-b-0 last:pb-0">
                 <div className="font-medium">
-                  {log.activity_type.replaceAll("_", " ")} · {log.minutes} min
+                  {log.activity_type.replaceAll("_", " ")} - {log.minutes} min
                 </div>
                 <div className="text-xs text-gray-500">
                   {new Date(log.occurred_at).toLocaleDateString()}

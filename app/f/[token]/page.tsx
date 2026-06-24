@@ -8,8 +8,32 @@ type PublicCheckInResponse = {
   checkIn?: CheckinInstance;
   error?: string;
   patient?: Pick<Patient, "display_name" | "id">;
+  practice?: {
+    billing_settings: unknown;
+    id: string;
+    name: string;
+  } | null;
+  provider?: {
+    credentials: string | null;
+    email: string | null;
+    full_name: string;
+    id: string;
+    phone: string | null;
+  } | null;
   questions?: Question[];
 };
+
+function billingSettingsObject(value: unknown): Record<string, unknown> {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return {};
+  }
+
+  return value as Record<string, unknown>;
+}
+
+function settingString(value: unknown): string {
+  return typeof value === "string" ? value : "";
+}
 
 function inputForQuestion(
   question: Question,
@@ -66,6 +90,8 @@ export default function PublicForm() {
   const token = params.token;
   const [checkIn, setCheckIn] = useState<CheckinInstance | null>(null);
   const [patient, setPatient] = useState<Pick<Patient, "display_name" | "id"> | null>(null);
+  const [practice, setPractice] = useState<PublicCheckInResponse["practice"]>(null);
+  const [provider, setProvider] = useState<PublicCheckInResponse["provider"]>(null);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
@@ -86,6 +112,8 @@ export default function PublicForm() {
 
       setCheckIn(result.checkIn ?? null);
       setPatient(result.patient ?? null);
+      setPractice(result.practice ?? null);
+      setProvider(result.provider ?? null);
       setQuestions(result.questions ?? []);
       setLoading(false);
     }
@@ -101,6 +129,13 @@ export default function PublicForm() {
   }
 
   async function submit() {
+    const missingRequired = questions.some((question) => !answers[question.id]?.trim());
+
+    if (missingRequired) {
+      setError("Please answer every required question before submitting.");
+      return;
+    }
+
     setSubmitting(true);
     setError(null);
 
@@ -130,7 +165,9 @@ export default function PublicForm() {
     return (
       <main className="p-6 max-w-xl space-y-3">
         <h1 className="text-xl font-semibold">Response received</h1>
-        <p className="text-sm text-gray-600">Your care team can now review this check-in.</p>
+        <p className="text-sm text-gray-600">
+          Thank you. Your care team at {practice?.name ?? "the practice"} can now review this check-in.
+        </p>
       </main>
     );
   }
@@ -146,12 +183,58 @@ export default function PublicForm() {
     );
   }
 
+  const settings = billingSettingsObject(practice?.billing_settings);
+  const supportPhone = settingString(settings.phone) || provider?.phone || "";
+  const supportEmail = provider?.email ?? "";
+  const supportContact =
+    supportPhone && supportEmail
+      ? `at ${supportPhone} or ${supportEmail}`
+      : supportPhone
+        ? `at ${supportPhone}`
+        : supportEmail
+          ? `at ${supportEmail}`
+          : "";
+  const providerName = provider
+    ? [provider.full_name, provider.credentials].filter(Boolean).join(", ")
+    : "";
+  const alreadySubmitted = checkIn.status === "responded" || checkIn.status === "closed";
+
+  if (alreadySubmitted) {
+    return (
+      <main className="p-6 max-w-xl space-y-4">
+        <div>
+          <p className="text-sm text-gray-600">{practice?.name ?? "CCM Assistant"}</p>
+          <h1 className="text-xl font-semibold">Check-in already submitted</h1>
+        </div>
+        <div className="rounded-md border bg-white p-4 text-sm text-gray-700">
+          We already received this monthly check-in for {patient?.display_name ?? "the patient"}.
+          Your care team will review it.
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="p-6 max-w-2xl space-y-6">
       <div>
+        <p className="text-sm text-gray-600">{practice?.name ?? "CCM Assistant"}</p>
         <h1 className="text-xl font-semibold">Monthly CCM Check-in</h1>
-        <div className="text-sm text-gray-600">{patient?.display_name}</div>
+        <div className="text-sm text-gray-600">
+          {patient?.display_name}
+          {providerName ? ` - ${providerName}` : ""}
+        </div>
       </div>
+
+      <section className="rounded-md border bg-white p-4 text-sm text-gray-700">
+        <p>
+          Please answer each required question so your care team can review any changes this month.
+        </p>
+        {supportContact ? (
+          <p className="mt-2">
+            Need help? Contact the practice {supportContact}.
+          </p>
+        ) : null}
+      </section>
 
       {error ? (
         <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
@@ -162,7 +245,9 @@ export default function PublicForm() {
       <section className="space-y-4 rounded-md border bg-white p-4 text-black">
         {questions.map((question) => (
           <label key={question.id} className="block space-y-2 text-sm">
-            <span className="font-medium">{question.prompt}</span>
+            <span className="font-medium">
+              {question.prompt} <span className="text-red-600">*</span>
+            </span>
             {inputForQuestion(question, answers[question.id] ?? "", (value) =>
               updateAnswer(question.id, value),
             )}
@@ -181,6 +266,11 @@ export default function PublicForm() {
           {submitting ? "Submitting..." : "Submit"}
         </button>
       </section>
+
+      <p className="text-xs leading-5 text-gray-600">
+        Privacy: your responses are sent only to your care team for chronic care management review.
+        Do not use this form for emergencies.
+      </p>
     </main>
   );
 }
