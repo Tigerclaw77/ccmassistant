@@ -13,8 +13,10 @@ import {
   stringUpdate,
 } from "../../../../lib/api/json";
 import { recordAuditEvent } from "../../../../lib/ccm/audit";
+import { validateTimeZone } from "../../../../lib/ccm/validation";
 import { ACTIVE_PRACTICE_HEADER, resolveActivePractice } from "../../../../lib/practice-context";
 import type { JsonValue } from "../../../../lib/ccm/types";
+import type { Database } from "../../../../lib/supabase/database.types";
 
 function jsonObject(value: JsonValue | null | undefined): Record<string, JsonValue> {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
@@ -22,6 +24,20 @@ function jsonObject(value: JsonValue | null | undefined): Record<string, JsonVal
   }
 
   return { ...value };
+}
+
+function booleanUpdate(body: Record<string, unknown>, key: string): boolean | undefined {
+  if (!(key in body)) {
+    return undefined;
+  }
+
+  const value = body[key];
+
+  if (typeof value !== "boolean") {
+    throw new Error(`${key} must be true or false`);
+  }
+
+  return value;
 }
 
 export async function GET(request: Request) {
@@ -65,13 +81,20 @@ export async function PATCH(request: Request) {
   let ccmMonthlyMinMinutes: number | undefined;
   let address: string | null | undefined;
   let phone: string | null | undefined;
+  let cmsEligibilityAttested: boolean | undefined;
+  let medicareEnrollmentAttested: boolean | undefined;
 
   try {
     practiceId = requiredString(body, "practiceId");
     name = requiredStringUpdate(body, "name");
     defaultTimezone = requiredStringUpdate(body, "defaultTimezone");
+    if (defaultTimezone !== undefined) {
+      validateTimeZone(defaultTimezone);
+    }
     address = stringUpdate(body, "address");
     phone = stringUpdate(body, "phone");
+    cmsEligibilityAttested = booleanUpdate(body, "cmsEligibilityAttested");
+    medicareEnrollmentAttested = booleanUpdate(body, "medicareEnrollmentAttested");
 
     if ("ccmMonthlyMinMinutes" in body) {
       const minutes = optionalNumber(body, "ccmMonthlyMinMinutes");
@@ -113,7 +136,25 @@ export async function PATCH(request: Request) {
       billingSettings.phone = phone;
     }
 
-    const update: Record<string, unknown> = {
+    if (cmsEligibilityAttested !== undefined) {
+      billingSettings.cms_eligibility_attested = cmsEligibilityAttested;
+      billingSettings.cms_eligibility_attested_at = cmsEligibilityAttested
+        ? new Date().toISOString()
+        : null;
+      billingSettings.cms_eligibility_attested_by = cmsEligibilityAttested ? user.id : null;
+    }
+
+    if (medicareEnrollmentAttested !== undefined) {
+      billingSettings.medicare_enrollment_attested = medicareEnrollmentAttested;
+      billingSettings.medicare_enrollment_attested_at = medicareEnrollmentAttested
+        ? new Date().toISOString()
+        : null;
+      billingSettings.medicare_enrollment_attested_by = medicareEnrollmentAttested
+        ? user.id
+        : null;
+    }
+
+    const update: Database["public"]["Tables"]["practices"]["Update"] = {
       billing_settings: billingSettings,
       updated_by: user.id,
     };

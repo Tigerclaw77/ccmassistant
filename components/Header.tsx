@@ -4,8 +4,12 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { getSupabaseAuthHeaders, supabase } from "../lib/supabase";
+import type { PracticeRole } from "../lib/ccm/types";
 
 type ActivePracticeResponse = {
+  membership?: {
+    role: PracticeRole;
+  } | null;
   practice?: {
     id: string;
     name: string;
@@ -19,16 +23,34 @@ type NavItem = {
   match?: string | null;
 };
 
-const NAV_ITEMS: NavItem[] = [
-  { exact: true, href: "/dashboard", label: "Dashboard" },
-  { href: "/patients", label: "Patients" },
-  { href: "/dashboard/worklist", label: "Worklist" },
-  { href: "/dashboard/billing", label: "Billing" },
-  { href: "/clinical-knowledge", label: "Knowledge" },
-  { href: "/settings#practice", label: "Practice", match: null },
-  { href: "/settings", label: "Settings" },
-  { href: "/settings#account", label: "Account", match: null },
-];
+function navigationForRole(role: PracticeRole | null): NavItem[] {
+  if (role === "provider") {
+    return [
+      { href: "/dashboard/provider", label: "Attention" },
+      { href: "/patients", label: "Patients" },
+      { href: "/clinical-knowledge", label: "Knowledge" },
+      { href: "/settings/question-banks", label: "Question Banks" },
+      { href: "/settings", label: "Settings" },
+    ];
+  }
+  if (role === "billing_staff") {
+    return [
+      { href: "/dashboard/billing", label: "Billing" },
+      { href: "/settings", label: "Settings" },
+    ];
+  }
+  const items: NavItem[] = [
+    { href: "/dashboard/worklist", label: "Worklist" },
+    { href: "/patients", label: "Patients" },
+    { href: "/dashboard/provider", label: "Provider" },
+    { href: "/dashboard/billing", label: "Billing" },
+    { href: "/clinical-knowledge", label: "Knowledge" },
+    { href: "/settings/question-banks", label: "Question Banks" },
+  ];
+  if (role === "owner" || role === "admin") items.push({ href: "/dashboard/management", label: "Management" });
+  items.push({ href: "/settings", label: "Settings" });
+  return items;
+}
 
 function isStaffPath(pathname: string): boolean {
   return !(
@@ -44,6 +66,7 @@ export default function Header() {
   const router = useRouter();
   const [practiceName, setPracticeName] = useState<string>("Practice setup");
   const [userLabel, setUserLabel] = useState<string>("Signed in");
+  const [role, setRole] = useState<PracticeRole | null>(null);
 
   const staffPath = useMemo(() => isStaffPath(pathname), [pathname]);
 
@@ -88,6 +111,7 @@ export default function Header() {
       if (result.practice?.name) {
         setPracticeName(result.practice.name);
       }
+      setRole(result.membership?.role ?? null);
     }
 
     void loadContext();
@@ -103,6 +127,9 @@ export default function Header() {
       subscription.unsubscribe();
     };
   }, [staffPath]);
+
+  const navItems = useMemo(() => navigationForRole(role), [role]);
+  const homeHref = role === "provider" ? "/dashboard/provider" : role === "billing_staff" ? "/dashboard/billing" : "/dashboard/worklist";
 
   async function signOut() {
     await supabase.auth.signOut();
@@ -136,7 +163,7 @@ export default function Header() {
     <header className="w-full border-b bg-white px-6 py-3">
       <div className="mx-auto flex max-w-7xl flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <Link href="/dashboard/worklist" className="font-semibold text-lg text-slate-950">
+          <Link href={homeHref} className="font-semibold text-lg text-slate-950">
             CCM Assistant
           </Link>
           <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-600">
@@ -146,7 +173,7 @@ export default function Header() {
         </div>
 
         <nav className="flex flex-wrap items-center gap-2 text-sm">
-          {NAV_ITEMS.map((item) => {
+          {navItems.map((item) => {
             const normalizedHref = item.href.split("#")[0];
             const matchPath = item.match === undefined ? normalizedHref : item.match;
             const active = matchPath

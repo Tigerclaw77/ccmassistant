@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "../../lib/supabase";
+import { authRedirectUrl, safeAppPath } from "../../lib/auth-redirect";
 
 type Props = {
   mode: "login" | "signup";
@@ -11,26 +12,37 @@ type Props = {
 export default function AuthForm({ mode }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const next = searchParams.get("next") || "/patients";
+  const next = safeAppPath(searchParams.get("next"));
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
+    setMessage(null);
     setLoading(true);
 
     const result =
       mode === "login"
         ? await supabase.auth.signInWithPassword({ email, password })
-        : await supabase.auth.signUp({ email, password });
+        : await supabase.auth.signUp({
+            email,
+            password,
+            options: { emailRedirectTo: authRedirectUrl("/patients") },
+          });
 
     setLoading(false);
 
     if (result.error) {
       setError(result.error.message);
+      return;
+    }
+
+    if (mode === "signup" && !result.data.session) {
+      setMessage("Check your email to confirm the account, then log in.");
       return;
     }
 
@@ -62,6 +74,7 @@ export default function AuthForm({ mode }: Props) {
         <input
           id="password"
           type="password"
+          minLength={12}
           required
           autoComplete={mode === "login" ? "current-password" : "new-password"}
           value={password}
@@ -71,6 +84,7 @@ export default function AuthForm({ mode }: Props) {
       </div>
 
       {error ? <div className="text-sm text-red-600">{error}</div> : null}
+      {message ? <div className="text-sm text-green-700">{message}</div> : null}
 
       <button
         type="submit"
@@ -82,4 +96,3 @@ export default function AuthForm({ mode }: Props) {
     </form>
   );
 }
-

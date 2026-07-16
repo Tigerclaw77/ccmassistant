@@ -33,7 +33,12 @@ import type {
   ObjectiveFamilyMap,
   Patient,
   PatientCondition,
+  PatientIntakeSummary,
   PatientQuestionPreference,
+  QuestionBankCustomQuestionVersionRecord,
+  QuestionBankFavoriteVersionRecord,
+  QuestionBankOverrideVersionRecord,
+  QuestionContributionCandidateRecord,
   Practice,
   PracticeMember,
   PracticeRole,
@@ -46,11 +51,13 @@ import type {
   QuestionFamilyMember,
   QuestionPreference,
   QuestionRotationRule,
+  QuestionSessionRecord,
   QuestionSource,
   QuestionStatus,
   QuestionTag,
   QuestionVersion,
 } from "../ccm/types";
+import type { PracticeBillingAccount, StripeWebhookEventRecord } from "../stripe/types";
 
 type Insertable<T extends object> = Partial<T>;
 type Updatable<T extends object> = Partial<Omit<T, "id" | "created_at">>;
@@ -78,13 +85,21 @@ export type Database = {
       question_tags: TableDefinition<QuestionTag>;
       provider_question_preferences: TableDefinition<ProviderQuestionPreference>;
       patient_question_preferences: TableDefinition<PatientQuestionPreference>;
+      question_bank_override_versions: TableDefinition<QuestionBankOverrideVersionRecord>;
+      question_bank_custom_question_versions: TableDefinition<QuestionBankCustomQuestionVersionRecord>;
+      question_bank_favorite_versions: TableDefinition<QuestionBankFavoriteVersionRecord>;
+      question_contribution_candidates: TableDefinition<QuestionContributionCandidateRecord>;
       checkin_templates: TableDefinition<CheckinTemplate>;
       checkin_instances: TableDefinition<CheckinInstance>;
       checkin_responses: TableDefinition<CheckinResponse>;
+      question_sessions: TableDefinition<QuestionSessionRecord>;
       interaction_logs: TableDefinition<InteractionLog>;
       care_plans: TableDefinition<CarePlan>;
+      patient_intake_summaries: TableDefinition<PatientIntakeSummary>;
       monthly_billability: TableDefinition<MonthlyBillability>;
       billing_evidence_snapshots: TableDefinition<BillingEvidenceSnapshot>;
+      practice_billing_accounts: TableDefinition<PracticeBillingAccount>;
+      stripe_webhook_events: TableDefinition<StripeWebhookEventRecord>;
       audit_events: TableDefinition<AuditEvent>;
       icd10_codes: TableDefinition<Icd10Code>;
       management_clusters: TableDefinition<ManagementCluster>;
@@ -102,11 +117,26 @@ export type Database = {
     };
     Views: Record<string, never>;
     Functions: {
+      bootstrap_first_practice: {
+        Args: {
+          cms_eligibility_attested: boolean;
+          medicare_enrollment_attested: boolean;
+          practice_name: string;
+          practice_slug: string;
+        };
+        Returns: Json;
+      };
       is_practice_member: {
         Args: {
           target_practice_id: string;
         };
         Returns: boolean;
+      };
+      resolve_practice_access: {
+        Args: {
+          requested_practice_id: string | null;
+        };
+        Returns: Json;
       };
     };
     Enums: {

@@ -12,6 +12,43 @@ export type PracticeRole =
   | "billing_staff"
   | "admin";
 
+export const BILLING_PRACTITIONER_TYPES = [
+  "physician",
+  "nurse_practitioner",
+  "physician_assistant",
+  "clinical_nurse_specialist",
+  "certified_nurse_midwife",
+  "registered_nurse",
+  "medical_assistant",
+  "other",
+] as const;
+
+export type BillingPractitionerType = (typeof BILLING_PRACTITIONER_TYPES)[number];
+
+export const SUPPORTED_BILLING_PRACTITIONER_TYPES = [
+  "physician",
+  "nurse_practitioner",
+  "physician_assistant",
+  "clinical_nurse_specialist",
+  "certified_nurse_midwife",
+] as const satisfies readonly BillingPractitionerType[];
+
+export const PROVIDER_MANUAL_REVIEW_STATUSES = [
+  "not_required",
+  "needs_review",
+  "reviewed",
+] as const;
+
+export type ProviderManualReviewStatus = (typeof PROVIDER_MANUAL_REVIEW_STATUSES)[number];
+
+export function isSupportedBillingPractitionerType(
+  type: BillingPractitionerType | string | null | undefined,
+): boolean {
+  return SUPPORTED_BILLING_PRACTITIONER_TYPES.includes(
+    type as (typeof SUPPORTED_BILLING_PRACTITIONER_TYPES)[number],
+  );
+}
+
 export type MembershipStatus = "invited" | "active" | "inactive";
 export type ContactMethod = "phone" | "sms" | "email" | "portal" | "none";
 export const CONTACT_METHODS = ["phone", "sms", "email", "portal", "none"] as const;
@@ -27,6 +64,15 @@ export type QuestionSource = "global" | "practice" | "provider" | "ai_candidate"
 export type QuestionStatus = "draft" | "active" | "archived" | "rejected";
 export type AnswerType = "yes_no" | "text" | "number" | "scale" | "multi_choice" | "date";
 export type QuestionPreference = "favorite" | "preferred" | "avoid";
+
+export const CONDITION_NORMALIZATION_STATUSES = [
+  "normalized",
+  "manual",
+  "unverified",
+] as const;
+
+export type ConditionNormalizationStatus =
+  (typeof CONDITION_NORMALIZATION_STATUSES)[number];
 
 export const CLINICAL_ANSWER_TYPES = [
   "yes_no",
@@ -160,6 +206,9 @@ export type Provider = PracticeScopedRow & {
   email: string | null;
   is_billing_provider: boolean;
   is_active: boolean;
+  billing_practitioner_type: BillingPractitionerType;
+  manual_review_status: ProviderManualReviewStatus;
+  manual_review_reason: string | null;
 };
 
 export type ProviderPreferences = PracticeScopedRow & {
@@ -187,8 +236,13 @@ export type Patient = PracticeScopedRow & {
 export type PatientCondition = PracticeScopedRow & {
   patient_id: UUID;
   condition_name: string;
+  display_name: string | null;
+  canonical_name: string | null;
+  user_entered_text: string | null;
   code_system: string | null;
   code: string | null;
+  ccm_qualifying: boolean;
+  normalization_status: ConditionNormalizationStatus;
   is_active: boolean;
   diagnosed_on: ISODateString | null;
   notes: string | null;
@@ -204,6 +258,7 @@ export type CcmEnrollment = PracticeScopedRow & {
   consent_date: ISODateString | null;
   consent_method: ConsentMethod;
   consent_document_url: string | null;
+  consent_metadata: JsonValue;
   initiating_visit_date: ISODateString | null;
   assigned_provider_id: UUID | null;
   care_coordinator_member_id: UUID | null;
@@ -390,6 +445,72 @@ export type PatientQuestionPreference = PracticeScopedRow & {
   is_active: boolean;
 };
 
+export type QuestionBankCustomizationScope = "clinic" | "provider" | "coordinator";
+export type QuestionBankCustomizationState = "active" | "retired";
+
+export type QuestionBankOverrideVersionRecord = {
+  id: UUID;
+  practice_id: UUID;
+  scope: QuestionBankCustomizationScope;
+  provider_id: UUID | null;
+  coordinator_member_id: UUID | null;
+  bank_id: string;
+  canonical_condition_id: string;
+  version: number;
+  state: QuestionBankCustomizationState;
+  changes: JsonValue;
+  change_note: string | null;
+  created_by: UUID;
+  created_at: ISODateTimeString;
+};
+
+export type QuestionBankCustomQuestionVersionRecord = {
+  id: UUID;
+  question_key: string;
+  practice_id: UUID;
+  owner_id: UUID;
+  scope: "clinic";
+  canonical_condition_id: string;
+  question_text: string;
+  helper_text: string;
+  answer_type: string;
+  contexts: string[];
+  version: number;
+  state: QuestionBankCustomizationState;
+  created_by: UUID;
+  created_at: ISODateTimeString;
+};
+
+export type QuestionBankFavoriteVersionRecord = {
+  id: UUID;
+  practice_id: UUID;
+  scope: QuestionBankCustomizationScope;
+  provider_id: UUID | null;
+  coordinator_member_id: UUID | null;
+  canonical_condition_id: string;
+  favorite: boolean;
+  display_order: number;
+  version: number;
+  state: QuestionBankCustomizationState;
+  created_by: UUID;
+  created_at: ISODateTimeString;
+};
+
+export type QuestionContributionCandidateRecord = {
+  id: UUID;
+  practice_id: UUID;
+  canonical_condition_id: string;
+  question_text: string;
+  context: string;
+  usage_count: number;
+  opt_in_status: "not_opted_in" | "opted_in" | "withdrawn";
+  anonymous: boolean;
+  no_phi_attested: boolean;
+  created_by: UUID | null;
+  created_at: ISODateTimeString;
+  updated_at: ISODateTimeString;
+};
+
 export type CheckinTemplate = PracticeScopedRow & {
   provider_id: UUID | null;
   name: string;
@@ -407,6 +528,7 @@ export type CheckinInstance = PracticeScopedRow & {
   billing_month: ISODateString;
   status: CheckinStatus;
   token: string | null;
+  token_expires_at: ISODateTimeString | null;
   sent_at: ISODateTimeString | null;
   responded_at: ISODateTimeString | null;
   followup_due_at: ISODateTimeString | null;
@@ -416,15 +538,35 @@ export type CheckinInstance = PracticeScopedRow & {
 };
 
 export type CheckinResponse = {
+  canonical_question_id: string | null;
   id: UUID;
   practice_id: UUID;
   checkin_instance_id: UUID;
   patient_id: UUID;
   question_id: UUID | null;
+  question_session_id: UUID | null;
+  question_version: number | null;
   response_value: JsonValue | null;
   response_text: string | null;
   flagged: boolean;
   created_at: ISODateTimeString;
+};
+
+export type QuestionSessionStatus = "draft" | "paused" | "completed" | "cancelled";
+
+export type QuestionSessionRecord = TimestampedRow & {
+  cancelled_at: ISODateTimeString | null;
+  care_plan_id: UUID | null;
+  checkin_instance_id: UUID | null;
+  completed_at: ISODateTimeString | null;
+  patient_id: UUID;
+  paused_at: ISODateTimeString | null;
+  practice_id: UUID;
+  session_state: JsonValue;
+  started_at: ISODateTimeString;
+  state_version: number;
+  status: QuestionSessionStatus;
+  workflow: "intake" | "monthly_checkin" | "annual_review" | "care_plan_review";
 };
 
 export type InteractionLog = PracticeScopedRow & {
@@ -437,9 +579,11 @@ export type InteractionLog = PracticeScopedRow & {
   source: InteractionSource;
   minutes: number;
   occurred_at: ISODateTimeString;
+  occurrence_date: ISODateString | null;
   billing_month: ISODateString;
   notes: string | null;
   correction_of_id: UUID | null;
+  request_id: UUID | null;
   deleted_at: ISODateTimeString | null;
 };
 
@@ -454,6 +598,22 @@ export type CarePlan = PracticeScopedRow & {
   barriers: JsonValue;
   notes: string | null;
   last_reviewed_at: ISODateTimeString | null;
+};
+
+export type PatientIntakeSummary = PracticeScopedRow & {
+  patient_id: UUID;
+  enrollment_id: UUID | null;
+  status: "draft" | "accepted" | "archived";
+  input_snapshot: JsonValue;
+  missing_information: JsonValue;
+  follow_up_questions: JsonValue;
+  draft_summary: JsonValue;
+  reviewed_summary: JsonValue | null;
+  confidence_score: number | null;
+  quality_flags: string[];
+  generated_by: "openai" | "fallback" | "session_engine";
+  accepted_by: UUID | null;
+  accepted_at: ISODateTimeString | null;
 };
 
 export type MonthlyBillability = PracticeScopedRow & {
@@ -504,6 +664,7 @@ export type AuditPacket = {
   enrollment: CcmEnrollment | null;
   billing: MonthlyBillability;
   care_plans: CarePlan[];
+  intake_summary?: PatientIntakeSummary | null;
   checkins: Array<CheckinInstance & { responses: CheckinResponse[] }>;
   interactions: InteractionLog[];
 };

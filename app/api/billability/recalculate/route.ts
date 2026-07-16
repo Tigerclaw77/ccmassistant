@@ -1,10 +1,17 @@
 import {
   authErrorResponse,
+  createServiceRoleSupabaseClient,
   requirePracticeMembership,
   type PracticeMembership,
 } from "../../../../lib/auth";
 import { badRequest, firstDayOfMonth, readJsonObject, requiredString } from "../../../../lib/api/json";
 import { recordAuditEvent } from "../../../../lib/ccm/audit";
+import { isCheckinComplete } from "../../../../lib/ccm/checkin-completion";
+import { allConsentElementsComplete } from "../../../../lib/ccm/consent";
+import {
+  allEligibilityFactsComplete,
+  allProviderAttestationsComplete,
+} from "../../../../lib/ccm/eligibility";
 import type { MonthlyBillability } from "../../../../lib/ccm/types";
 
 const MVP_BILLING_ROLES = [
@@ -37,6 +44,14 @@ function hasCompleteCarePlan(
   if (!carePlan?.last_reviewed_at) return false;
 
   return hasMeaningfulArrayValue(carePlan.goals) || hasMeaningfulArrayValue(carePlan.interventions);
+}
+
+function jsonObject(value: unknown): Record<string, unknown> {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return {};
+  }
+
+  return value as Record<string, unknown>;
 }
 
 function normalizedReasonCodes(codes: string[]): string[] {
@@ -143,10 +158,25 @@ export async function POST(request: Request) {
       .select("*")
       .eq("practice_id", practiceId)
       .eq("patient_id", patientId)
-      .eq("is_active", true);
+      .eq("is_active", true)
+      .eq("ccm_qualifying", true);
 
     if (conditionsError) {
       return Response.json({ error: conditionsError.message }, { status: 500 });
+    }
+
+    const providerId = enrollment?.assigned_provider_id ?? patient.primary_provider_id;
+    const { data: provider, error: providerError } = providerId
+      ? await supabase
+          .from("providers")
+          .select("*")
+          .eq("practice_id", practiceId)
+          .eq("id", providerId)
+          .maybeSingle()
+      : { data: null, error: null };
+
+    if (providerError) {
+      return Response.json({ error: providerError.message }, { status: 500 });
     }
 
     const { data: carePlans, error: carePlanError } = await supabase
@@ -199,48 +229,94 @@ export async function POST(request: Request) {
       return Response.json({ error: interactionError.message }, { status: 500 });
     }
 
+    const { data: acceptedIntake, error: intakeError } = await supabase
+      .from("patient_intake_summaries")
+      .select("*")
+      .eq("practice_id", practiceId)
+      .eq("patient_id", patientId)
+      .eq("status", "accepted")
+      .maybeSingle();
+
+    if (intakeError) {
+      return Response.json({ error: intakeError.message }, { status: 500 });
+    }
+
     const totalMinutes = sumMinutes(interactionLogs ?? []);
     const threshold = practice.ccm_monthly_min_minutes ?? 20;
+    const practiceSettings = jsonObject(practice.billing_settings);
+    const practiceAttestationComplete =
+      practiceSettings.cms_eligibility_attested === true &&
+      practiceSettings.medicare_enrollment_attested === true;
     const enrollmentActive = enrollment?.status === "active";
-    const eligibilityValid = enrollment?.eligibility_status === "eligible";
-    const consentValid = enrollment?.consent_status === "obtained";
-    const hasCondition = (conditions ?? []).length > 0;
-    const hasProvider = Boolean(enrollment?.assigned_provider_id ?? patient.primary_provider_id);
+    const eligibilityMarkedEligible = enrollment?.eligibility_status === "eligible";
+    const eligibilityFactsComplete = allEligibilityFactsComplete(enrollment?.eligibility_metadata);
+    const providerAttestationsComplete = allProviderAttestationsComplete(
+      enrollment?.eligibility_metadata,
+    );
+    const eligibilityValid =
+      eligibilityMarkedEligible && eligibilityFactsComplete && providerAttestationsComplete;
+    const consentStatusValid = enrollment?.consent_status === "obtained";
+    const consentDateValid = Boolean(enrollment?.consent_date);
+    const consentMethodValid =
+      enrollment?.consent_method === "verbal" ||
+      enrollment?.consent_method === "written" ||
+      enrollment?.consent_method === "electronic";
+    const consentElementsComplete = allConsentElementsComplete(enrollment?.consent_metadata);
+    const consentValid =
+      consentStatusValid && consentDateValid && consentMethodValid && consentElementsComplete;
+    const activeConditionCount = (conditions ?? []).length;
+    const hasRequiredConditions = activeConditionCount >= 2;
+    const hasProvider = Boolean(providerId);
+    const providerManualReviewClear = !provider || provider.manual_review_status !== "needs_review";
     const hasCarePlan = Boolean(activeCarePlan);
     const carePlanCurrent = hasCompleteCarePlan(activeCarePlan);
     const hasCheckIn = Boolean(checkIn);
-    const hasNonEmptyCheckInResponse = (checkInResponses ?? []).some((response) =>
-      hasMeaningfulText(response.response_text),
-    );
-    const checkInStatusComplete = checkIn?.status === "responded" || checkIn?.status === "closed";
-    const checkInComplete = hasCheckIn && checkInStatusComplete && hasNonEmptyCheckInResponse;
+    const checkInComplete = hasCheckIn && isCheckinComplete(checkIn, checkInResponses ?? []);
+    const hasReviewedIntake = Boolean(acceptedIntake);
     const enoughMinutes = totalMinutes >= threshold;
     const reasonCodes: string[] = [];
 
+    if (!practiceAttestationComplete) reasonCodes.push("incomplete_practice_attestation");
     if (!enrollment || !enrollmentActive) reasonCodes.push("missing_enrollment");
-    if (enrollmentActive && !eligibilityValid) reasonCodes.push("ineligible_enrollment");
-    if (!consentValid) reasonCodes.push("missing_consent");
-    if (enrollment && !enrollment.consent_date) reasonCodes.push("missing_consent_date");
-    if (!hasCondition) reasonCodes.push("missing_condition");
+    if (enrollmentActive && !eligibilityMarkedEligible) reasonCodes.push("ineligible_enrollment");
+    if (enrollmentActive && eligibilityMarkedEligible && !eligibilityFactsComplete) {
+      reasonCodes.push("missing_eligibility_facts");
+    }
+    if (enrollmentActive && eligibilityMarkedEligible && !providerAttestationsComplete) {
+      reasonCodes.push("missing_provider_attestation");
+    }
+    if (!consentStatusValid) reasonCodes.push("missing_consent");
+    if (enrollment && !consentDateValid) reasonCodes.push("missing_consent_date");
+    if (enrollment && !consentMethodValid) reasonCodes.push("missing_consent_method");
+    if (enrollment && !consentElementsComplete) reasonCodes.push("missing_consent_elements");
+    if (activeConditionCount === 0) reasonCodes.push("missing_condition");
+    if (activeConditionCount > 0 && !hasRequiredConditions) {
+      reasonCodes.push("insufficient_chronic_conditions");
+    }
     if (!hasProvider) reasonCodes.push("missing_provider");
+    if (hasProvider && !providerManualReviewClear) reasonCodes.push("provider_manual_review_required");
     if (!hasCarePlan) reasonCodes.push("missing_care_plan");
     if (hasCarePlan && !carePlanCurrent) reasonCodes.push("incomplete_care_plan");
+    if (!hasReviewedIntake) reasonCodes.push("missing_reviewed_intake");
     if (!hasCheckIn) reasonCodes.push("missing_checkin");
     if (hasCheckIn && !checkInComplete) reasonCodes.push("missing_checkin_response");
     if (!enoughMinutes) reasonCodes.push("insufficient_minutes");
 
     const isBillable =
+      practiceAttestationComplete &&
       enrollmentActive &&
       eligibilityValid &&
       consentValid &&
-      Boolean(enrollment?.consent_date) &&
-      hasCondition &&
+      hasRequiredConditions &&
       hasProvider &&
+      providerManualReviewClear &&
+      hasReviewedIntake &&
       carePlanCurrent &&
       checkInComplete &&
       enoughMinutes;
 
-    const { data: existing } = await supabase
+    const billingSupabase = createServiceRoleSupabaseClient();
+    const { data: existing } = await billingSupabase
       .from("monthly_billability")
       .select("*")
       .eq("practice_id", practiceId)
@@ -276,7 +352,7 @@ export async function POST(request: Request) {
       return Response.json({ billability: existing });
     }
 
-    const { data: billability, error: billabilityError } = await supabase
+    const { data: billability, error: billabilityError } = await billingSupabase
       .from("monthly_billability")
       .upsert(nextBillability, { onConflict: "practice_id,patient_id,billing_month" })
       .select()
@@ -301,4 +377,19 @@ export async function POST(request: Request) {
   } catch (error) {
     return authErrorResponse(error);
   }
+}
+
+export async function recalculateBillabilityForMutation(
+  sourceRequest: Request,
+  args: { billingMonth: string; patientId: string; practiceId: string },
+): Promise<Response> {
+  const authorization = sourceRequest.headers.get("authorization");
+  return POST(new Request(sourceRequest.url, {
+    body: JSON.stringify(args),
+    headers: {
+      "Content-Type": "application/json",
+      ...(authorization ? { authorization } : {}),
+    },
+    method: "POST",
+  }));
 }

@@ -1,6 +1,11 @@
 import { createClient, type SupabaseClient, type User } from "@supabase/supabase-js";
 import type { Database } from "./supabase/database.types";
 import type { PracticeRole, UUID } from "./ccm/types";
+import {
+  hasAuthorizedPracticeRole,
+  PracticeAuthorizationError,
+  requirePracticeAuthorization,
+} from "./practice-authorization";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -111,6 +116,11 @@ export async function getCurrentUser(request: Request): Promise<AuthContext | nu
 
   if (error || !data.user) return null;
 
+  const assurance = await supabase.auth.mfa.getAuthenticatorAssuranceLevel(
+    accessToken,
+  );
+  if (assurance.error || assurance.data.currentLevel !== "aal2") return null;
+
   return {
     accessToken,
     supabase,
@@ -132,7 +142,7 @@ export function hasPracticeRole(
   membership: PracticeMembership,
   allowedRoles: readonly PracticeRole[],
 ): boolean {
-  return allowedRoles.includes(membership.role);
+  return hasAuthorizedPracticeRole(membership, allowedRoles);
 }
 
 export async function requirePracticeMembership(
@@ -142,43 +152,21 @@ export async function requirePracticeMembership(
 ): Promise<PracticeAuthContext> {
   const context = await requireAuthenticatedUser(request);
 
-  const { data, error } = await context.supabase
-    .from("practice_members")
-    .select("id, practice_id, role, status, user_id")
-    .eq("practice_id", practiceId)
-    .eq("user_id", context.user.id)
-    .eq("status", "active")
-    .maybeSingle();
-
-  if (error) {
-    throw new AuthError(403, "Unable to verify practice membership");
-  }
-
-  if (!data || !data.user_id) {
-    throw new AuthError(403, "Active practice membership required");
-  }
-
-  const membership: PracticeMembership = {
-    id: data.id,
-    practice_id: data.practice_id,
-    role: data.role,
-    status: "active",
-    user_id: data.user_id,
-  };
-
-  if (allowedRoles && !hasPracticeRole(membership, allowedRoles)) {
-    throw new AuthError(403, "Practice role is not permitted for this action");
-  }
+  const authorization = await requirePracticeAuthorization(
+    context.supabase,
+    practiceId,
+    allowedRoles,
+  );
 
   return {
     ...context,
-    membership,
+    membership: authorization.membership,
     practiceId,
   };
 }
 
 export function authErrorResponse(error: unknown): Response {
-  if (error instanceof AuthError) {
+  if (error instanceof AuthError || error instanceof PracticeAuthorizationError) {
     return Response.json({ error: error.message }, { status: error.status });
   }
 

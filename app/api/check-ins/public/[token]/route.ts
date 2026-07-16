@@ -1,20 +1,7 @@
-import { createClient } from "@supabase/supabase-js";
-
-function createPublicCheckInServiceClient() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-  if (!url || !serviceRoleKey) {
-    throw new Error("Supabase service role key is not configured");
-  }
-
-  return createClient(url, serviceRoleKey, {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-    },
-  });
-}
+import { createServiceRoleSupabaseClient } from "../../../../../lib/auth";
+import { ACTIVE_PUBLIC_CHECKIN_STATUSES } from "../../../../../lib/ccm/public-checkin";
+import { toPublicQuestionSessionPayload } from "../../../../../lib/ccm/session-integration.ts";
+import { findQuestionSessionForCheckIn } from "../../../../../lib/ccm/session-store";
 
 export async function GET(
   _request: Request,
@@ -23,12 +10,14 @@ export async function GET(
   const { token } = await params;
 
   try {
-    const supabase = createPublicCheckInServiceClient();
+    const supabase = createServiceRoleSupabaseClient();
 
     const { data: checkIn, error: checkInError } = await supabase
       .from("checkin_instances")
       .select("*")
       .eq("token", token)
+      .in("status", [...ACTIVE_PUBLIC_CHECKIN_STATUSES])
+      .gt("token_expires_at", new Date().toISOString())
       .maybeSingle();
 
     if (checkInError || !checkIn) {
@@ -72,23 +61,32 @@ export async function GET(
       : { data: [], error: null };
 
     if (questionsError) {
-      return Response.json({ error: questionsError.message }, { status: 500 });
+      return Response.json(
+        { error: "The check-in is temporarily unavailable." },
+        { headers: { "Cache-Control": "no-store" }, status: 500 },
+      );
     }
 
     const sortedQuestions = questionIds
       .map((questionId: string) => (questions ?? []).find((question) => question.id === questionId))
       .filter(Boolean);
 
+    const sessionRecord = await findQuestionSessionForCheckIn(supabase, checkIn.id);
+
     return Response.json({
-      checkIn,
+      checkIn: { ...checkIn, token: null },
+      mode: sessionRecord ? "engine" : "legacy",
       patient,
       practice,
       provider,
       questions: sortedQuestions,
+      session: sessionRecord ? toPublicQuestionSessionPayload(sessionRecord) : null,
       template,
-    });
-  } catch (error) {
-    const message = error instanceof Error ? error.message : "Unexpected server error";
-    return Response.json({ error: message }, { status: 500 });
+    }, { headers: { "Cache-Control": "no-store" } });
+  } catch {
+    return Response.json(
+      { error: "The check-in is temporarily unavailable." },
+      { headers: { "Cache-Control": "no-store" }, status: 500 },
+    );
   }
 }

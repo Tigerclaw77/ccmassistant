@@ -13,6 +13,7 @@ import {
   stringUpdate,
 } from "../../../lib/api/json";
 import { recordAuditEvent } from "../../../lib/ccm/audit";
+import { validateNotFutureDate } from "../../../lib/ccm/validation";
 import { CONTACT_METHODS } from "../../../lib/ccm/types";
 import type { Database } from "../../../lib/supabase/database.types";
 
@@ -72,14 +73,50 @@ export async function GET(request: Request) {
         undefined,
       );
 
-      return Response.json({ enrollment: enrollment ?? null, patient });
+      const { data: consentAuditEvents, error: auditError } = enrollment
+        ? await supabase
+            .from("audit_events")
+            .select("*")
+            .eq("practice_id", practiceId)
+            .eq("entity_id", enrollment.id)
+            .eq("action", "ccm_enrollment.consent_updated")
+            .order("created_at", { ascending: false })
+            .limit(10)
+        : { data: [], error: null };
+
+      if (auditError) {
+        return Response.json({ error: auditError.message }, { status: 500 });
+      }
+
+      return Response.json({
+        consentAuditEvents: consentAuditEvents ?? [],
+        enrollment: enrollment ?? null,
+        patient,
+      });
     }
 
-    const { data, error } = await supabase
+    const page = Math.max(1, Number(searchParams.get("page") ?? "1") || 1);
+    const pageSize = Math.min(100, Math.max(1, Number(searchParams.get("pageSize") ?? "25") || 25));
+    const search = searchParams.get("search")?.replace(/[%,()]/g, " ").trim().slice(0, 80) ?? "";
+    const status = searchParams.get("status")?.trim() ?? "";
+    const sort = ["display_name", "dob", "external_id", "status"].includes(searchParams.get("sort") ?? "")
+      ? searchParams.get("sort")!
+      : "display_name";
+    const direction = searchParams.get("direction") === "desc" ? "desc" : "asc";
+    let patientsQuery = supabase
       .from("patients")
-      .select("*")
-      .eq("practice_id", practiceId)
-      .order("display_name", { ascending: true });
+      .select("*", { count: "exact" })
+      .eq("practice_id", practiceId);
+    if (status) patientsQuery = patientsQuery.eq("status", status);
+    if (search) {
+      if (/^\d{4}-\d{2}-\d{2}$/.test(search)) patientsQuery = patientsQuery.eq("dob", search);
+      else patientsQuery = patientsQuery.or(`display_name.ilike.%${search}%,external_id.ilike.%${search}%,phone.ilike.%${search}%`);
+    }
+    const start = (page - 1) * pageSize;
+    const { data, count, error } = await patientsQuery
+      .order(sort, { ascending: direction === "asc", nullsFirst: false })
+      .order("id", { ascending: true })
+      .range(start, start + pageSize - 1);
 
     if (error) {
       return Response.json({ error: error.message }, { status: 500 });
@@ -108,7 +145,7 @@ export async function GET(request: Request) {
       }
     }
 
-    return Response.json({ enrollmentsByPatientId, patients: data });
+    return Response.json({ enrollmentsByPatientId, page, pageSize, patients: data, total: count ?? 0 });
   } catch (error) {
     return authErrorResponse(error);
   }
@@ -144,13 +181,46 @@ export async function POST(request: Request) {
       return badRequest(new Error("displayName or firstName/lastName is required"));
     }
 
+    const dob = optionalString(body, "dob");
+    try {
+      validateNotFutureDate(dob, "Date of birth");
+    } catch (error) {
+      return badRequest(error);
+    }
+
+    if (dob && body.allowPotentialDuplicate !== true) {
+      const { data: potentialDuplicate, error: duplicateError } = await supabase
+        .from("patients")
+        .select("id, display_name, dob")
+        .eq("practice_id", practiceId)
+        .eq("dob", dob)
+        .ilike("display_name", displayName)
+        .limit(1)
+        .maybeSingle();
+
+      if (duplicateError) {
+        return Response.json({ error: duplicateError.message }, { status: 500 });
+      }
+
+      if (potentialDuplicate) {
+        return Response.json(
+          {
+            code: "potential_duplicate",
+            duplicatePatient: potentialDuplicate,
+            error: "A patient with the same name and date of birth already exists. Review the record, or submit again to create anyway.",
+          },
+          { status: 409 },
+        );
+      }
+    }
+
     const { data, error } = await supabase
       .from("patients")
       .insert({
         care_coordinator_member_id: optionalString(body, "careCoordinatorMemberId"),
         created_by: user.id,
         display_name: displayName,
-        dob: optionalString(body, "dob"),
+        dob,
         email: optionalString(body, "email"),
         external_id: optionalString(body, "externalId"),
         first_name: firstName,
@@ -207,6 +277,13 @@ export async function PATCH(request: Request) {
       PATIENT_WRITE_ROLES,
     );
 
+    const dob = stringUpdate(body, "dob");
+    try {
+      validateNotFutureDate(dob, "Date of birth");
+    } catch (error) {
+      return badRequest(error);
+    }
+
     const { data: beforeData } = await supabase
       .from("patients")
       .select("*")
@@ -219,7 +296,7 @@ export async function PATCH(request: Request) {
       .update({
         care_coordinator_member_id: stringUpdate(body, "careCoordinatorMemberId"),
         display_name: requiredStringUpdate(body, "displayName"),
-        dob: stringUpdate(body, "dob"),
+        dob,
         email: stringUpdate(body, "email"),
         external_id: stringUpdate(body, "externalId"),
         first_name: stringUpdate(body, "firstName"),

@@ -4,9 +4,10 @@ import { useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { getSupabaseAuthHeaders, supabase } from "../../lib/supabase";
 
-const PUBLIC_PREFIXES = ["/login", "/signup", "/f/"];
+const PUBLIC_PREFIXES = ["/login", "/signup", "/forgot-password", "/reset-password", "/f/"];
 const PUBLIC_PATHS = ["/"];
 const SETUP_PATH = "/setup/practice";
+const MFA_PATH = "/mfa";
 
 type ActivePracticeResponse = {
   membership?: {
@@ -50,7 +51,20 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
         return;
       }
 
-      if (!isPublic || pathname === SETUP_PATH) {
+      if (pathname !== MFA_PATH) {
+        const [{ data: factors, error: factorsError }, { data: assurance, error: assuranceError }] =
+          await Promise.all([
+            supabase.auth.mfa.listFactors(),
+            supabase.auth.mfa.getAuthenticatorAssuranceLevel(),
+          ]);
+
+        if (factorsError || assuranceError || !factors?.totp?.length || assurance?.currentLevel !== "aal2") {
+          router.replace(MFA_PATH);
+          return;
+        }
+      }
+
+      if ((!isPublic || pathname === SETUP_PATH) && pathname !== MFA_PATH) {
         const activePracticeId = localStorage.getItem("activePracticeId");
         const response = await fetch("/api/practices/active", {
           headers: {

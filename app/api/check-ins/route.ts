@@ -12,23 +12,9 @@ import {
   requiredString,
 } from "../../../lib/api/json";
 import { recordAuditEvent } from "../../../lib/ccm/audit";
-import type { AnswerType } from "../../../lib/ccm/types";
-
-const DEFAULT_TEMPLATE_NAME = "Monthly CCM Check-in";
-const DEFAULT_QUESTIONS: Array<{ answerType: AnswerType; prompt: string }> = [
-  {
-    answerType: "yes_no",
-    prompt: "Have you had any new or worsening symptoms since your last check-in?",
-  },
-  {
-    answerType: "yes_no",
-    prompt: "Have you had any medication problems or missed doses?",
-  },
-  {
-    answerType: "text",
-    prompt: "What would you like your care team to know this month?",
-  },
-];
+import { publicCheckinTokenExpiresAt } from "../../../lib/ccm/public-checkin";
+import { hasSessionEngineMarker, toQuestionSessionPayload } from "../../../lib/ccm/session-integration.ts";
+import { createStoredQuestionSession, findQuestionSessionForCheckIn } from "../../../lib/ccm/session-store";
 
 async function loadCheckInBundle(
   supabase: Awaited<ReturnType<typeof requirePracticeMembership>>["supabase"],
@@ -51,8 +37,10 @@ async function loadCheckInBundle(
   if (!checkIn) {
     return {
       checkIn: null,
+      mode: null,
       questions: [],
       responses: [],
+      session: null,
       template: null,
     };
   }
@@ -97,97 +85,16 @@ async function loadCheckInBundle(
     throw new Error(responsesError.message);
   }
 
+  const sessionRecord = await findQuestionSessionForCheckIn(supabase, checkIn.id);
+
   return {
     checkIn,
+    mode: sessionRecord ? "engine" as const : "legacy" as const,
     questions: sortedQuestions,
     responses: responses ?? [],
+    session: sessionRecord ? toQuestionSessionPayload(sessionRecord) : null,
     template,
   };
-}
-
-async function ensureDefaultQuestion(
-  supabase: Awaited<ReturnType<typeof requirePracticeMembership>>["supabase"],
-  practiceId: string,
-  userId: string,
-  prompt: string,
-  answerType: AnswerType,
-) {
-  const { data: existing, error: existingError } = await supabase
-    .from("questions")
-    .select("*")
-    .eq("practice_id", practiceId)
-    .eq("prompt", prompt)
-    .maybeSingle();
-
-  if (existingError) {
-    throw new Error(existingError.message);
-  }
-
-  if (existing) return existing;
-
-  const { data, error } = await supabase
-    .from("questions")
-    .insert({
-      answer_type: answerType,
-      approved_at: new Date().toISOString(),
-      approved_by: userId,
-      created_by: userId,
-      monthly_soft_cap: 12,
-      practice_id: practiceId,
-      prompt,
-      source: "practice",
-      status: "active",
-      updated_by: userId,
-    })
-    .select()
-    .single();
-
-  if (error) {
-    throw new Error(error.message);
-  }
-
-  return data;
-}
-
-async function ensureDefaultTemplate(
-  supabase: Awaited<ReturnType<typeof requirePracticeMembership>>["supabase"],
-  practiceId: string,
-  userId: string,
-  questionIds: string[],
-) {
-  const { data: existing, error: existingError } = await supabase
-    .from("checkin_templates")
-    .select("*")
-    .eq("practice_id", practiceId)
-    .eq("name", DEFAULT_TEMPLATE_NAME)
-    .maybeSingle();
-
-  if (existingError) {
-    throw new Error(existingError.message);
-  }
-
-  if (existing) return existing;
-
-  const { data, error } = await supabase
-    .from("checkin_templates")
-    .insert({
-      cadence: "monthly",
-      created_by: userId,
-      default_question_ids: questionIds,
-      description: "Default first billable month check-in",
-      name: DEFAULT_TEMPLATE_NAME,
-      practice_id: practiceId,
-      status: "active",
-      updated_by: userId,
-    })
-    .select()
-    .single();
-
-  if (error) {
-    throw new Error(error.message);
-  }
-
-  return data;
 }
 
 export async function GET(request: Request) {
@@ -244,28 +151,25 @@ export async function POST(request: Request) {
 
     const existingBundle = await loadCheckInBundle(supabase, practiceId, patientId, billingMonth);
     if (existingBundle.checkIn) {
+      if (
+        !existingBundle.session &&
+        hasSessionEngineMarker(existingBundle.checkIn.metadata)
+      ) {
+        const created = await createStoredQuestionSession(supabase, user.id, {
+          checkinInstanceId: existingBundle.checkIn.id,
+          patientId,
+          practiceId,
+          workflow: "monthly_checkin",
+        });
+        return Response.json({
+          ...existingBundle,
+          billingMonth,
+          mode: "engine",
+          session: created.payload,
+        });
+      }
       return Response.json({ ...existingBundle, billingMonth });
     }
-
-    const questions = [];
-    for (const question of DEFAULT_QUESTIONS) {
-      questions.push(
-        await ensureDefaultQuestion(
-          supabase,
-          practiceId,
-          user.id,
-          question.prompt,
-          question.answerType,
-        ),
-      );
-    }
-
-    const template = await ensureDefaultTemplate(
-      supabase,
-      practiceId,
-      user.id,
-      questions.map((question) => question.id),
-    );
 
     const { data: enrollment } = await supabase
       .from("ccm_enrollments")
@@ -296,10 +200,12 @@ export async function POST(request: Request) {
         patient_id: patientId,
         practice_id: practiceId,
         provider_id: enrollment?.assigned_provider_id ?? patient?.primary_provider_id ?? null,
+        metadata: { question_session_engine_version: 1 },
         sent_at: now,
         status: "sent",
-        template_id: template.id,
+        template_id: null,
         token,
+        token_expires_at: publicCheckinTokenExpiresAt(new Date(now)),
         updated_by: user.id,
       })
       .select()
@@ -326,13 +232,23 @@ export async function POST(request: Request) {
       practiceId,
     });
 
+    const createdSession = await createStoredQuestionSession(supabase, user.id, {
+      checkinInstanceId: checkIn.id,
+      now,
+      patientId,
+      practiceId,
+      workflow: "monthly_checkin",
+    });
+
     return Response.json(
       {
         billingMonth,
         checkIn,
-        questions,
+        mode: "engine",
+        questions: [],
         responses: [],
-        template,
+        session: createdSession.payload,
+        template: null,
       },
       { status: 201 },
     );

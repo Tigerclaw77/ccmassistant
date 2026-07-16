@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
 import PatientForm from "../../../components/patients/PatientForm";
-import type { CcmEnrollment, Patient } from "../../../lib/ccm/types";
+import PatientWorkspace from "../../../components/patients/PatientWorkspace";
+import type { AuditEvent, CcmEnrollment, Patient } from "../../../lib/ccm/types";
 import { getSupabaseAuthHeaders } from "../../../lib/supabase";
 
 type ActivePracticeResponse = {
@@ -15,6 +16,7 @@ type ActivePracticeResponse = {
 };
 
 type PatientResponse = {
+  consentAuditEvents?: AuditEvent[];
   enrollment?: CcmEnrollment | null;
   error?: string;
   patient?: Patient;
@@ -24,9 +26,11 @@ export default function PatientDetailPage() {
   const params = useParams<{ patientId: string }>();
   const searchParams = useSearchParams();
   const patientId = params.patientId;
+  const editing = searchParams.get("edit") === "1";
   const [practiceId, setPracticeId] = useState<string | null>(null);
   const [patient, setPatient] = useState<Patient | null>(null);
   const [enrollment, setEnrollment] = useState<CcmEnrollment | null>(null);
+  const [consentAuditEvents, setConsentAuditEvents] = useState<AuditEvent[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -68,6 +72,7 @@ export default function PatientDetailPage() {
 
       setPatient(patientResult.patient);
       setEnrollment(patientResult.enrollment ?? null);
+      setConsentAuditEvents(patientResult.consentAuditEvents ?? []);
       setLoading(false);
     }
 
@@ -92,19 +97,35 @@ export default function PatientDetailPage() {
     );
   }
 
+  if (editing) {
+    return (
+      <main className="space-y-4 p-6">
+        <Link className="text-sm underline" href={`/patients/${patientId}`}>
+          Back to patient workspace
+        </Link>
+        <PatientForm
+          consentAuditEvents={consentAuditEvents}
+          enrollment={enrollment}
+          initialMessage="Editing patient demographics, enrollment, consent, and assignment."
+          mode="edit"
+          patient={patient}
+          practiceId={practiceId}
+        />
+      </main>
+    );
+  }
+
   return (
-    <main className="p-6">
-      <PatientForm
-        enrollment={enrollment}
-        initialMessage={
-          searchParams.get("created")
-            ? "Patient saved. Continue with care plan, check-in, or time logging."
-            : null
-        }
-        mode="edit"
-        patient={patient}
-        practiceId={practiceId}
-      />
-    </main>
+    <PatientWorkspace
+      initialEnrollment={enrollment}
+      initialMessage={
+        searchParams.get("created")
+          ? "Patient saved. Use the workspace to complete this month's CCM requirements."
+          : null
+      }
+      initialPatient={patient}
+      patientId={patientId}
+      practiceId={practiceId}
+    />
   );
 }

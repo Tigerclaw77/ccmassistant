@@ -1,19 +1,11 @@
 import Link from "next/link";
 import type { CcmEnrollment, Patient } from "../../lib/ccm/types";
+import { statusLabel } from "../../lib/ccm/labels";
 
 type Props = {
   enrollmentsByPatientId: Record<string, CcmEnrollment | undefined>;
   patients: Patient[];
 };
-
-function displayLabel(value: string | null | undefined): string {
-  if (!value) return "Not set";
-
-  return value
-    .split("_")
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
-}
 
 function statusClass(value: string | null | undefined): string {
   if (value === "active" || value === "eligible" || value === "obtained") {
@@ -34,7 +26,7 @@ function StatusBadge({ value }: { value: string | null | undefined }) {
         value,
       )}`}
     >
-      {displayLabel(value)}
+      {statusLabel(value)}
     </span>
   );
 }
@@ -43,7 +35,7 @@ export default function PatientTable({ enrollmentsByPatientId, patients }: Props
   if (patients.length === 0) {
     return (
       <div className="rounded-md border bg-white p-5 text-sm text-gray-600">
-        No patients yet.
+        No patients yet. Add one enrolled patient to begin the first billable CCM month.
       </div>
     );
   }

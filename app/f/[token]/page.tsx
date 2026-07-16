@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import SessionQuestionInput from "../../../components/ccm/SessionQuestionInput";
+import type { AnswerValue } from "../../../lib/ccm/question-bank/types";
+import type { PublicQuestionSessionPayload } from "../../../lib/ccm/session-integration";
 import type { CheckinInstance, Patient, Question } from "../../../lib/ccm/types";
 
 type PublicCheckInResponse = {
@@ -21,6 +24,15 @@ type PublicCheckInResponse = {
     phone: string | null;
   } | null;
   questions?: Question[];
+  mode?: "engine" | "legacy";
+  session?: PublicQuestionSessionPayload | null;
+};
+
+type PublicMutationResponse = {
+  completed?: boolean;
+  error?: string;
+  session?: PublicQuestionSessionPayload;
+  validationErrors?: string[];
 };
 
 function billingSettingsObject(value: unknown): Record<string, unknown> {
@@ -93,6 +105,9 @@ export default function PublicForm() {
   const [practice, setPractice] = useState<PublicCheckInResponse["practice"]>(null);
   const [provider, setProvider] = useState<PublicCheckInResponse["provider"]>(null);
   const [questions, setQuestions] = useState<Question[]>([]);
+  const [mode, setMode] = useState<"engine" | "legacy">("legacy");
+  const [session, setSession] = useState<PublicQuestionSessionPayload | null>(null);
+  const [currentAnswer, setCurrentAnswer] = useState<AnswerValue>(null);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -115,6 +130,8 @@ export default function PublicForm() {
       setPractice(result.practice ?? null);
       setProvider(result.provider ?? null);
       setQuestions(result.questions ?? []);
+      setMode(result.mode ?? "legacy");
+      setSession(result.session ?? null);
       setLoading(false);
     }
 
@@ -155,6 +172,31 @@ export default function PublicForm() {
     }
 
     setSubmitted(true);
+  }
+
+  async function updateEngineSession(action: "answer" | "pause" | "resume") {
+    if (!session) return;
+    setSubmitting(true);
+    setError(null);
+    const response = await fetch(`/api/check-ins/public/${token}/submit`, {
+      body: JSON.stringify({
+        action,
+        answer: action === "answer" ? currentAnswer : undefined,
+        questionId: action === "answer" ? session.currentQuestion?.questionId : undefined,
+        stateVersion: session.stateVersion,
+      }),
+      headers: { "Content-Type": "application/json" },
+      method: "POST",
+    });
+    const result = (await response.json()) as PublicMutationResponse;
+    setSubmitting(false);
+    if (!response.ok || !result.session) {
+      setError(result.validationErrors?.join(" ") ?? result.error ?? "Unable to save answer");
+      return;
+    }
+    setSession(result.session);
+    setCurrentAnswer(null);
+    if (result.completed) setSubmitted(true);
   }
 
   if (loading) {
@@ -214,6 +256,52 @@ export default function PublicForm() {
     );
   }
 
+  if (mode === "engine" && session) {
+    const remaining = session.progress.requiredQuestionsRemaining + session.progress.optionalQuestionsRemaining;
+    return (
+      <main className="p-6 max-w-2xl space-y-6">
+        <div>
+          <p className="text-sm text-gray-600">{practice?.name ?? "CCM Assistant"}</p>
+          <h1 className="text-xl font-semibold">Monthly CCM Check-in</h1>
+          <div className="text-sm text-gray-600">
+            {patient?.display_name}{providerName ? ` - ${providerName}` : ""}
+          </div>
+        </div>
+
+        {error ? <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div> : null}
+
+        {session.status === "paused" ? (
+          <section className="rounded-md border bg-white p-4 text-black">
+            <p className="text-sm text-gray-700">Your saved check-in is paused.</p>
+            <button className="mt-3 rounded-md border bg-black px-4 py-2 text-sm font-medium text-white disabled:opacity-60" disabled={submitting} onClick={() => updateEngineSession("resume")}>Resume</button>
+          </section>
+        ) : session.currentQuestion ? (
+          <section className="space-y-4 rounded-md border bg-white p-4 text-black">
+            <div className="grid gap-3 text-sm sm:grid-cols-4">
+              <div><div className="text-xs text-gray-600">Overall progress</div><div className="font-medium">{session.progress.completionPercentage}%</div></div>
+              <div><div className="text-xs text-gray-600">Current section</div><div className="font-medium">{session.currentQuestion.currentSection}</div></div>
+              <div><div className="text-xs text-gray-600">Questions remaining</div><div className="font-medium">{remaining}</div></div>
+              <div><div className="text-xs text-gray-600">Estimated completion</div><div className="font-medium">{session.progress.estimatedMinutesRemaining} min</div></div>
+            </div>
+            <label className="block space-y-2 text-sm">
+              <span className="font-medium">{session.currentQuestion.text}{session.currentQuestion.required ? " *" : ""}</span>
+              <span className="block text-xs text-gray-600">{session.currentQuestion.helperText}</span>
+              <SessionQuestionInput onChange={setCurrentAnswer} question={session.currentQuestion} value={currentAnswer} />
+            </label>
+            <div className="flex flex-wrap gap-3">
+              <button className="rounded-md border bg-black px-4 py-2 text-sm font-medium text-white disabled:opacity-60" disabled={submitting} onClick={() => updateEngineSession("answer")}>{submitting ? "Saving..." : "Continue"}</button>
+              <button className="rounded-md border px-3 py-2 text-sm disabled:opacity-60" disabled={submitting} onClick={() => updateEngineSession("pause")}>Save and finish later</button>
+            </div>
+          </section>
+        ) : null}
+
+        <p className="text-xs leading-5 text-gray-600">
+          Privacy: your responses are sent only to your care team for chronic care management review. Do not use this form for emergencies.
+        </p>
+      </main>
+    );
+  }
+
   return (
     <main className="p-6 max-w-2xl space-y-6">
       <div>
@@ -255,7 +343,9 @@ export default function PublicForm() {
         ))}
 
         {questions.length === 0 ? (
-          <div className="text-sm text-gray-600">No questions are attached to this check-in.</div>
+          <div className="rounded-md border border-dashed bg-slate-50 p-4 text-sm text-gray-600">
+            This check-in does not have questions attached yet. Please contact the practice if you expected to answer questions.
+          </div>
         ) : null}
 
         <button
@@ -263,7 +353,7 @@ export default function PublicForm() {
           disabled={submitting || questions.length === 0}
           className="rounded-md border bg-black px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
         >
-          {submitting ? "Submitting..." : "Submit"}
+          {submitting ? "Submitting..." : "Submit answers"}
         </button>
       </section>
 

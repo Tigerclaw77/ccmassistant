@@ -1,6 +1,12 @@
 import { authErrorResponse, requirePracticeMembership } from "../../../lib/auth";
 import { badRequest, firstDayOfMonth } from "../../../lib/api/json";
 
+function jsonObject(value: unknown): Record<string, unknown> | null {
+  return value && typeof value === "object" && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : null;
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const practiceId = searchParams.get("practiceId");
@@ -25,6 +31,12 @@ export async function GET(request: Request) {
       return Response.json({ error: "Patient not found" }, { status: 404 });
     }
 
+    const { data: practice } = await supabase
+      .from("practices")
+      .select("*")
+      .eq("id", practiceId)
+      .maybeSingle();
+
     const { data: enrollments } = await supabase
       .from("ccm_enrollments")
       .select("*")
@@ -36,6 +48,16 @@ export async function GET(request: Request) {
       (enrollments ?? []).find((row) => row.status === "active") ??
       enrollments?.[0] ??
       null;
+
+    const providerId = enrollment?.assigned_provider_id ?? patient.primary_provider_id;
+    const { data: provider } = providerId
+      ? await supabase
+          .from("providers")
+          .select("*")
+          .eq("practice_id", practiceId)
+          .eq("id", providerId)
+          .maybeSingle()
+      : { data: null };
 
     const { data: conditions } = await supabase
       .from("patient_conditions")
@@ -91,6 +113,14 @@ export async function GET(request: Request) {
       .is("deleted_at", null)
       .order("occurred_at", { ascending: false });
 
+    const { data: intakeSummary } = await supabase
+      .from("patient_intake_summaries")
+      .select("*")
+      .eq("practice_id", practiceId)
+      .eq("patient_id", patientId)
+      .eq("status", "accepted")
+      .maybeSingle();
+
     const { data: billability } = await supabase
       .from("monthly_billability")
       .select("*")
@@ -110,6 +140,7 @@ export async function GET(request: Request) {
     const entityIds = [
       patient.id,
       enrollment?.id,
+      intakeSummary?.id,
       ...(carePlans ?? []).map((carePlan) => carePlan.id),
       checkIn?.id,
       ...(interactionLogs ?? []).map((log) => log.id),
@@ -125,21 +156,29 @@ export async function GET(request: Request) {
           .order("created_at", { ascending: false })
       : { data: [] };
 
+    const preserved = jsonObject(evidenceSnapshot?.snapshot);
+    const preservedCarePlan = preserved ? preserved.care_plan : null;
+
     return Response.json({
       auditEvents: auditEvents ?? [],
-      billability,
-      billingMonth,
-      carePlans: carePlans ?? [],
-      checkIn,
-      conditions: conditions ?? [],
-      enrollment,
+      billability: preserved?.billability ?? billability,
+      billingMonth: preserved?.billing_month ?? billingMonth,
+      carePlans: preservedCarePlan ? [preservedCarePlan] : carePlans ?? [],
+      checkIn: preserved?.check_in ?? checkIn,
+      conditions: preserved?.chronic_conditions ?? conditions ?? [],
+      enrollment: preserved?.enrollment ?? enrollment,
       evidenceSnapshot,
-      interactionLogs: interactionLogs ?? [],
-      patient,
-      responses: (responses ?? []).map((response) => ({
-        ...response,
-        question: response.question_id ? questionsById[response.question_id] ?? null : null,
-      })),
+      interactionLogs: preserved?.interaction_logs ?? interactionLogs ?? [],
+      intakeSummary: preserved?.intake_summary ?? intakeSummary,
+      patient: preserved?.patient ?? patient,
+      practice: preserved?.practice ?? practice,
+      provider: preserved?.assigned_provider ?? provider,
+      responses:
+        preserved?.check_in_responses ??
+        (responses ?? []).map((response) => ({
+          ...response,
+          question: response.question_id ? questionsById[response.question_id] ?? null : null,
+        })),
     });
   } catch (error) {
     return authErrorResponse(error);

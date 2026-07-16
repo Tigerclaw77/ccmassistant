@@ -15,6 +15,13 @@ tsconfig.tsbuildinfo
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+*.log
+
+# local service and tool state
+/supabase/.temp/
+
+# local exports and inspection output
+/outputs/
 
 # system
 .DS_Store

@@ -6,6 +6,7 @@ import {
 import {
   badRequest,
   enumUpdate,
+  firstDayOfMonth,
   optionalEnum,
   optionalString,
   readJsonObject,
@@ -14,6 +15,64 @@ import {
 } from "../../../lib/api/json";
 import { recordAuditEvent } from "../../../lib/ccm/audit";
 import { CARE_PLAN_STATUSES, type JsonValue } from "../../../lib/ccm/types";
+import {
+  calendarDateToUtcTimestamp,
+  timestampToCalendarDate,
+  validateNotFutureCalendarDate,
+} from "../../../lib/ccm/validation";
+import { recalculateBillabilityForMutation } from "../billability/recalculate/route";
+
+async function validateCarePlanActivation(
+  supabase: Awaited<ReturnType<typeof requirePracticeMembership>>["supabase"],
+  practiceId: string,
+  patientId: string,
+  status: string,
+  providerId: string | null,
+  lastReviewedDate: string | null,
+): Promise<void> {
+  const { data: practice, error: practiceError } = await supabase
+    .from("practices")
+    .select("default_timezone")
+    .eq("id", practiceId)
+    .single();
+
+  if (practiceError || !practice) {
+    throw new Error("Practice timezone could not be loaded");
+  }
+
+  validateNotFutureCalendarDate(
+    lastReviewedDate,
+    "Care-plan review date",
+    practice.default_timezone,
+  );
+  if (status !== "active") return;
+  if (!providerId) throw new Error("An assigned provider is required before a care plan can be active");
+  if (!lastReviewedDate) throw new Error("A provider review date is required before a care plan can be active");
+
+  const [{ data: enrollment }, { data: conditions }] = await Promise.all([
+    supabase
+      .from("ccm_enrollments")
+      .select("id")
+      .eq("practice_id", practiceId)
+      .eq("patient_id", patientId)
+      .eq("status", "active")
+      .eq("consent_status", "obtained")
+      .not("consent_date", "is", null)
+      .maybeSingle(),
+    supabase
+      .from("patient_conditions")
+      .select("id")
+      .eq("practice_id", practiceId)
+      .eq("patient_id", patientId)
+      .eq("is_active", true)
+      .eq("ccm_qualifying", true),
+  ]);
+
+  if (!enrollment) throw new Error("Active enrollment and documented consent are required before activating a care plan");
+  if ((conditions ?? []).length < 2) {
+    throw new Error("At least two active qualifying conditions are required before activating a care plan");
+  }
+}
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -89,6 +148,23 @@ export async function POST(request: Request) {
       PATIENT_WRITE_ROLES,
     );
 
+    const patientId = requiredString(body, "patientId");
+    const status = optionalEnum(body, "status", CARE_PLAN_STATUSES) ?? "draft";
+    const providerId = optionalString(body, "providerId");
+    const lastReviewedDate = optionalString(body, "lastReviewedDate");
+    try {
+      await validateCarePlanActivation(
+        supabase,
+        practiceId,
+        patientId,
+        status,
+        providerId,
+        lastReviewedDate,
+      );
+    } catch (error) {
+      return badRequest(error);
+    }
+
     const { data, error } = await supabase
       .from("care_plans")
       .insert({
@@ -97,13 +173,13 @@ export async function POST(request: Request) {
         enrollment_id: optionalString(body, "enrollmentId"),
         goals: optionalJsonArray(body, "goals"),
         interventions: optionalJsonArray(body, "interventions"),
-        last_reviewed_at: optionalString(body, "lastReviewedAt"),
+        last_reviewed_at: calendarDateToUtcTimestamp(lastReviewedDate),
         notes: optionalString(body, "notes"),
         patient_condition_id: optionalString(body, "patientConditionId"),
-        patient_id: requiredString(body, "patientId"),
+        patient_id: patientId,
         practice_id: practiceId,
-        provider_id: optionalString(body, "providerId"),
-        status: optionalEnum(body, "status", CARE_PLAN_STATUSES) ?? "draft",
+        provider_id: providerId,
+        status,
         updated_by: user.id,
       })
       .select()
@@ -121,6 +197,8 @@ export async function POST(request: Request) {
       entityType: "care_plan",
       practiceId,
     });
+
+    await recalculateBillabilityForMutation(request, { billingMonth: firstDayOfMonth(), patientId, practiceId });
 
     return Response.json({ carePlan: data }, { status: 201 });
   } catch (error) {
@@ -161,6 +239,30 @@ export async function PATCH(request: Request) {
       .eq("id", carePlanId)
       .maybeSingle();
 
+    if (!beforeData) {
+      return Response.json({ error: "Care plan not found" }, { status: 404 });
+    }
+
+    const status = enumUpdate(body, "status", CARE_PLAN_STATUSES) ?? beforeData.status;
+    const providerId =
+      "providerId" in body ? stringUpdate(body, "providerId") ?? null : beforeData.provider_id;
+    const lastReviewedDate =
+      "lastReviewedDate" in body
+        ? stringUpdate(body, "lastReviewedDate") ?? null
+        : timestampToCalendarDate(beforeData.last_reviewed_at);
+    try {
+      await validateCarePlanActivation(
+        supabase,
+        practiceId,
+        beforeData.patient_id,
+        status,
+        providerId,
+        lastReviewedDate,
+      );
+    } catch (error) {
+      return badRequest(error);
+    }
+
     const { data, error } = await supabase
       .from("care_plans")
       .update({
@@ -168,7 +270,10 @@ export async function PATCH(request: Request) {
         enrollment_id: stringUpdate(body, "enrollmentId"),
         goals: jsonArrayUpdate(body, "goals"),
         interventions: jsonArrayUpdate(body, "interventions"),
-        last_reviewed_at: stringUpdate(body, "lastReviewedAt"),
+        last_reviewed_at:
+          "lastReviewedDate" in body
+            ? calendarDateToUtcTimestamp(stringUpdate(body, "lastReviewedDate"))
+            : undefined,
         notes: stringUpdate(body, "notes"),
         patient_condition_id: stringUpdate(body, "patientConditionId"),
         provider_id: stringUpdate(body, "providerId"),
@@ -193,6 +298,8 @@ export async function PATCH(request: Request) {
       entityType: "care_plan",
       practiceId,
     });
+
+    await recalculateBillabilityForMutation(request, { billingMonth: firstDayOfMonth(), patientId: data.patient_id, practiceId });
 
     return Response.json({ carePlan: data });
   } catch (error) {

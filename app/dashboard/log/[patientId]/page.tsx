@@ -1,15 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from "react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import Breadcrumbs from "../../../../components/Breadcrumbs";
 import { getSupabaseAuthHeaders } from "../../../../lib/supabase";
 import type { InteractionLog, Patient } from "../../../../lib/ccm/types";
+import { billingMonthFromOccurredDate, currentMonthValue, normalizeBillingMonth, withCoordinatorContext } from "../../../../lib/ccm/month-context";
+import {
+  buildTimeEntryCreateRequest,
+  occurrenceDateForDisplay,
+} from "../../../../lib/ccm/interaction-log-contract";
+import { calendarDateInTimeZone, validateInteraction } from "../../../../lib/ccm/validation";
 
 type ActivePracticeResponse = {
   error?: string;
   practice?: {
+    default_timezone: string;
     id: string;
   };
 };
@@ -24,10 +31,6 @@ type LogsResponse = {
   interactionLogs?: InteractionLog[];
 };
 
-function firstDayOfMonthInput(date = new Date()): string {
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-01`;
-}
-
 function todayInput(): string {
   const now = new Date();
   return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(
@@ -37,20 +40,29 @@ function todayInput(): string {
 
 export default function LogInteractionPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const params = useParams<{ patientId: string }>();
   const patientId = params.patientId;
   const [practiceId, setPracticeId] = useState<string | null>(null);
   const [patient, setPatient] = useState<Patient | null>(null);
   const [logs, setLogs] = useState<InteractionLog[]>([]);
-  const [activityType, setActivityType] = useState("call");
-  const [minutes, setMinutes] = useState(20);
-  const [occurredDate, setOccurredDate] = useState(todayInput());
-  const [billingMonth, setBillingMonth] = useState(firstDayOfMonthInput());
+  const requestedActivity = searchParams.get("activity");
+  const requestedMonth = searchParams.get("month") ?? currentMonthValue();
+  const [activityType, setActivityType] = useState(
+    requestedActivity && ["call", "voicemail", "failed_attempt", "care_review", "care_coordination", "checkin_review", "documentation", "other"].includes(requestedActivity)
+      ? requestedActivity
+      : "call",
+  );
+  const [minutes, setMinutes] = useState<number | "">("");
+  const [occurredDate, setOccurredDate] = useState(() => requestedMonth === currentMonthValue() ? todayInput() : `${requestedMonth}-01`);
+  const [maximumOccurrenceDate, setMaximumOccurrenceDate] = useState(todayInput);
+  const billingMonth = billingMonthFromOccurredDate(occurredDate);
   const [notes, setNotes] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const requestIdRef = useRef<string | null>(null);
 
   const totalMinutes = useMemo(
     () => logs.reduce((total, log) => total + Number(log.minutes ?? 0), 0),
@@ -94,6 +106,14 @@ export default function LogInteractionPage() {
 
       localStorage.setItem("activePracticeId", activeResult.practice.id);
       setPracticeId(activeResult.practice.id);
+      const practiceToday = calendarDateInTimeZone(
+        new Date(),
+        activeResult.practice.default_timezone,
+      );
+      setMaximumOccurrenceDate(practiceToday);
+      if (!practiceId && requestedMonth === practiceToday.slice(0, 7)) {
+        setOccurredDate(practiceToday);
+      }
 
       const patientResponse = await fetch(
         `/api/patients?practiceId=${encodeURIComponent(
@@ -112,24 +132,33 @@ export default function LogInteractionPage() {
     }
 
     void load();
-  }, [billingMonth, loadLogs, patientId]);
+  }, [billingMonth, loadLogs, patientId, practiceId, requestedMonth]);
 
-  async function handleSave() {
+  async function handleSave(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     if (!practiceId) return;
 
+    let payload;
+
+    try {
+      requestIdRef.current ??= crypto.randomUUID();
+      payload = buildTimeEntryCreateRequest(new FormData(event.currentTarget), {
+        patientId,
+        practiceId,
+        requestId: requestIdRef.current,
+      });
+      validateInteraction(payload.minutes, payload.notes);
+    } catch (submitError) {
+      setError(submitError instanceof Error ? submitError.message : "Time entry is invalid");
+      return;
+    }
     setSaving(true);
     setError(null);
     setMessage(null);
 
     const response = await fetch("/api/interaction-logs", {
       body: JSON.stringify({
-        activityType,
-        billingMonth,
-        minutes,
-        notes,
-        occurredAt: new Date(`${occurredDate}T12:00:00`).toISOString(),
-        patientId,
-        practiceId,
+        ...payload,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -146,8 +175,10 @@ export default function LogInteractionPage() {
     }
 
     setNotes("");
+    setMinutes("");
+    requestIdRef.current = null;
     setMessage("Time logged.");
-    await loadLogs(practiceId, billingMonth);
+    await loadLogs(practiceId, result.interactionLog.billing_month);
   }
 
   if (loading) {
@@ -168,7 +199,7 @@ export default function LogInteractionPage() {
         <div>
           <h1 className="text-xl font-semibold">Log CCM Time</h1>
           <div className="text-sm text-gray-600">
-            {patient?.display_name ?? "Patient"} - {totalMinutes} min this month
+            {patient?.display_name ?? "Patient"} - {totalMinutes} documented CCM minutes this month
           </div>
         </div>
         <button className="text-sm underline" onClick={() => router.back()}>
@@ -188,11 +219,15 @@ export default function LogInteractionPage() {
         </div>
       ) : null}
 
-      <section className="rounded-md border bg-white p-4 text-black">
+      <form onSubmit={handleSave} className="rounded-md border bg-white p-4 text-black">
         <div className="grid gap-4 md:grid-cols-2">
           <label className="space-y-1 text-sm">
             <span className="font-medium">Activity type</span>
+            <span className="block text-xs text-gray-600">
+              Choose the care-management work performed for the audit trail.
+            </span>
             <select
+              name="activityType"
               className="w-full rounded-md border px-3 py-2"
               value={activityType}
               onChange={(event) => setActivityType(event.target.value)}
@@ -210,19 +245,29 @@ export default function LogInteractionPage() {
 
           <label className="space-y-1 text-sm">
             <span className="font-medium">Minutes</span>
+            <span className="block text-xs text-gray-600">
+              Logged minutes support the monthly CCM billing threshold.
+            </span>
             <input
+              name="minutes"
               type="number"
               min={1}
+              max={480}
               className="w-full rounded-md border px-3 py-2"
               value={minutes}
-              onChange={(event) => setMinutes(Number(event.target.value))}
+              onChange={(event) => setMinutes(event.target.value === "" ? "" : Number(event.target.value))}
             />
           </label>
 
           <label className="space-y-1 text-sm">
             <span className="font-medium">Occurred date</span>
+            <span className="block text-xs text-gray-600">
+              Use the date the care-management work happened.
+            </span>
             <input
+              name="occurrenceDate"
               type="date"
+              max={maximumOccurrenceDate}
               className="w-full rounded-md border px-3 py-2"
               value={occurredDate}
               onChange={(event) => setOccurredDate(event.target.value)}
@@ -231,18 +276,27 @@ export default function LogInteractionPage() {
 
           <label className="space-y-1 text-sm">
             <span className="font-medium">Billing month</span>
+            <span className="block text-xs text-gray-600">
+              The minutes count toward this patient-month.
+            </span>
             <input
-              type="date"
+              type="month"
               className="w-full rounded-md border px-3 py-2"
-              value={billingMonth}
-              onChange={(event) => setBillingMonth(`${event.target.value.slice(0, 7)}-01`)}
+              value={billingMonth.slice(0, 7)}
+              readOnly
             />
           </label>
 
           <label className="space-y-1 text-sm md:col-span-2">
             <span className="font-medium">Notes</span>
+            <span className="block text-xs text-gray-600">
+              Briefly document what was done so the evidence packet is understandable.
+            </span>
             <textarea
+              name="notes"
               className="min-h-24 w-full rounded-md border px-3 py-2"
+              minLength={8}
+              required
               value={notes}
               onChange={(event) => setNotes(event.target.value)}
             />
@@ -251,23 +305,23 @@ export default function LogInteractionPage() {
 
         <div className="mt-4 flex items-center gap-3">
           <button
-            onClick={handleSave}
+            type="submit"
             disabled={saving}
             className="rounded-md border bg-black px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
           >
             {saving ? "Saving..." : "Save time"}
           </button>
-          <Link className="text-sm underline" href="/dashboard/worklist">
+          <Link className="text-sm underline" href={withCoordinatorContext("/dashboard/worklist", { month: normalizeBillingMonth(requestedMonth), source: "worklist" })}>
             Worklist
           </Link>
         </div>
-      </section>
+      </form>
 
       <section className="rounded-md border bg-white p-4 text-black">
         <h2 className="mb-3 text-base font-semibold">Monthly logs</h2>
         {logs.length === 0 ? (
           <div className="rounded-md border border-dashed p-4 text-sm text-gray-600">
-            No time logged for this month. Add at least 20 minutes before recalculating billing.
+            No monthly time logged yet. Add documented CCM minutes before recalculating billing readiness.
           </div>
         ) : (
           <div className="space-y-3">
@@ -277,7 +331,7 @@ export default function LogInteractionPage() {
                   {log.activity_type.replaceAll("_", " ")} - {log.minutes} min
                 </div>
                 <div className="text-xs text-gray-500">
-                  {new Date(log.occurred_at).toLocaleDateString()}
+                  {occurrenceDateForDisplay(log)}
                 </div>
                 {log.notes ? <div className="mt-1 text-gray-700">{log.notes}</div> : null}
               </div>

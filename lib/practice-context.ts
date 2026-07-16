@@ -1,5 +1,10 @@
-import { AuthError, type AuthContext, type PracticeMembership } from "./auth";
+import {
+  AuthError,
+  type AuthContext,
+  type PracticeMembership,
+} from "./auth";
 import type { Practice, UUID } from "./ccm/types";
+import { resolvePracticeAuthorization } from "./practice-authorization";
 
 export const ACTIVE_PRACTICE_HEADER = "x-active-practice-id";
 
@@ -19,26 +24,9 @@ export async function resolveActivePractice(
   context: AuthContext,
   requestedPracticeId?: UUID | null,
 ): Promise<OptionalPracticeContext> {
-  let membershipQuery = context.supabase
-    .from("practice_members")
-    .select("id, practice_id, role, status, user_id")
-    .eq("user_id", context.user.id)
-    .eq("status", "active")
-    .order("created_at", { ascending: true });
+  const authorization = await resolvePracticeAuthorization(context.supabase, requestedPracticeId);
 
-  if (requestedPracticeId) {
-    membershipQuery = membershipQuery.eq("practice_id", requestedPracticeId);
-  }
-
-  const { data: memberships, error: membershipError } = await membershipQuery;
-
-  if (membershipError) {
-    throw new AuthError(403, "Unable to resolve practice membership");
-  }
-
-  const row = memberships?.[0];
-
-  if (!row?.user_id) {
+  if (authorization.state === "bootstrap") {
     return {
       ...context,
       membership: null,
@@ -47,29 +35,11 @@ export async function resolveActivePractice(
     };
   }
 
-  const membership: PracticeMembership = {
-    id: row.id,
-    practice_id: row.practice_id,
-    role: row.role,
-    status: "active",
-    user_id: row.user_id,
-  };
-
-  const { data: practice, error: practiceError } = await context.supabase
-    .from("practices")
-    .select("*")
-    .eq("id", membership.practice_id)
-    .single();
-
-  if (practiceError || !practice) {
-    throw new AuthError(403, "Unable to load active practice");
-  }
-
   return {
     ...context,
-    membership,
-    practice,
-    practiceId: membership.practice_id,
+    membership: authorization.membership,
+    practice: authorization.practice,
+    practiceId: authorization.practiceId,
   };
 }
 
@@ -90,4 +60,3 @@ export async function requireActivePractice(
     practiceId: active.practiceId,
   };
 }
-

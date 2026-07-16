@@ -12,6 +12,9 @@ export default function LoginPage() {
       <p className="text-sm text-gray-600">
         New to CCM Assistant? <Link className="underline" href="/signup">Create an account</Link>.
       </p>
+      <p className="text-sm text-gray-600">
+        <Link className="underline" href="/forgot-password">Forgot password?</Link>
+      </p>
     </main>
   );
 }

@@ -1,23 +1,11 @@
 import {
   authErrorResponse,
+  BILLING_WRITE_ROLES,
   requirePracticeMembership,
-  type PracticeMembership,
 } from "../../../../lib/auth";
 import { badRequest, firstDayOfMonth, readJsonObject, requiredString } from "../../../../lib/api/json";
 import { recordAuditEvent } from "../../../../lib/ccm/audit";
 import type { JsonValue } from "../../../../lib/ccm/types";
-
-const MVP_BILLING_ROLES = [
-  "owner",
-  "admin",
-  "provider",
-  "coordinator",
-  "billing_staff",
-] as const;
-
-function canUseMvpBilling(membership: PracticeMembership) {
-  return MVP_BILLING_ROLES.includes(membership.role);
-}
 
 async function createBillingEvidenceSnapshot(
   supabase: Awaited<ReturnType<typeof requirePracticeMembership>>["supabase"],
@@ -27,6 +15,12 @@ async function createBillingEvidenceSnapshot(
   billability: Record<string, unknown>,
   userId: string,
 ) {
+  const { data: practice } = await supabase
+    .from("practices")
+    .select("*")
+    .eq("id", practiceId)
+    .maybeSingle();
+
   const { data: patient } = await supabase
     .from("patients")
     .select("*")
@@ -76,6 +70,14 @@ async function createBillingEvidenceSnapshot(
     carePlans?.[0] ??
     null;
 
+  const { data: intakeSummary } = await supabase
+    .from("patient_intake_summaries")
+    .select("*")
+    .eq("practice_id", practiceId)
+    .eq("patient_id", patientId)
+    .eq("status", "accepted")
+    .maybeSingle();
+
   const { data: checkIn } = await supabase
     .from("checkin_instances")
     .select("*")
@@ -124,22 +126,30 @@ async function createBillingEvidenceSnapshot(
     created_at: new Date().toISOString(),
     enrollment,
     interaction_logs: interactionLogs ?? [],
+    intake_summary: intakeSummary,
     patient,
+    practice,
   };
 
-  const { error } = await supabase
+  const { data: existing, error: existingError } = await supabase
     .from("billing_evidence_snapshots")
-    .upsert(
-      {
-        billing_month: billingMonth,
-        created_by: userId,
-        monthly_billability_id: typeof billability.id === "string" ? billability.id : null,
-        patient_id: patientId,
-        practice_id: practiceId,
-        snapshot: snapshot as unknown as JsonValue,
-      },
-      { onConflict: "practice_id,patient_id,billing_month" },
-    );
+    .select("id")
+    .eq("practice_id", practiceId)
+    .eq("patient_id", patientId)
+    .eq("billing_month", billingMonth)
+    .maybeSingle();
+
+  if (existingError) throw new Error(existingError.message);
+  if (existing) return;
+
+  const { error } = await supabase.from("billing_evidence_snapshots").insert({
+    billing_month: billingMonth,
+    created_by: userId,
+    monthly_billability_id: typeof billability.id === "string" ? billability.id : null,
+    patient_id: patientId,
+    practice_id: practiceId,
+    snapshot: snapshot as unknown as JsonValue,
+  });
 
   if (error) {
     throw new Error(error.message);
@@ -224,11 +234,11 @@ export async function PATCH(request: Request) {
   }
 
   try {
-    const { membership, supabase, user } = await requirePracticeMembership(request, practiceId);
-
-    if (!canUseMvpBilling(membership)) {
-      return Response.json({ error: "Practice role is not permitted for this action" }, { status: 403 });
-    }
+    const { supabase, user } = await requirePracticeMembership(
+      request,
+      practiceId,
+      BILLING_WRITE_ROLES,
+    );
 
     const { data: beforeData, error: beforeError } = await supabase
       .from("monthly_billability")
@@ -243,7 +253,11 @@ export async function PATCH(request: Request) {
     }
 
     if (!beforeData) {
-      return Response.json({ error: "Billability row not found. Recalculate first." }, { status: 404 });
+      return Response.json({ error: "Billing readiness row not found. Recalculate first." }, { status: 404 });
+    }
+
+    if (action === "reviewed" && beforeData.status !== "ready_to_bill" && beforeData.status !== "billed") {
+      return Response.json({ error: "Resolve billing evidence blockers before marking this patient-month reviewed." }, { status: 409 });
     }
 
     const now = new Date().toISOString();
