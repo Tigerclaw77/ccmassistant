@@ -1,0 +1,82 @@
+priority_rank,canonical_condition_id,canonical_condition,clinical_domain,medicare_relevance,prevalence_score,ccm_impact_score,uncertainty_score,reuse_score,overall_priority_score,mapped_code_count,question_count,variant_count,red_flag_count,estimated_review_minutes,packet_file
+1,chronic_back_pain,Chronic Back Pain,musculoskeletal,COMMON,100,74,30,71,71.8,1,12,0,3,14,docs/clinical/review-packets/chronic_back_pain.md
+2,atrial_fibrillation,Atrial Fibrillation,cardiovascular,COMMON,100,68,20,62,66.6,13,9,0,3,13,docs/clinical/review-packets/atrial_fibrillation.md
+3,peripheral_vascular_disease,Peripheral Vascular Disease,vascular,COMMON,100,59,40,71,69.8,305,9,0,2,13,docs/clinical/review-packets/peripheral_vascular_disease.md
+4,type_2_diabetes,Type 2 Diabetes,endocrine,COMMON,100,58,35,86,69.8,117,9,4,0,26,docs/clinical/review-packets/type_2_diabetes.md
+5,coronary_artery_disease,Coronary Artery Disease,cardiovascular,COMMON,100,56,20,74,64.2,70,9,0,2,13,docs/clinical/review-packets/coronary_artery_disease.md
+6,gerd,Gastroesophageal Reflux Disease,gastrointestinal,COMMON,100,53,20,61,62,5,7,0,2,12,docs/clinical/review-packets/gerd.md
+7,malignancy,Active Malignancy,oncology,COMMON,100,50,45,75,68.8,1539,9,3,0,22,docs/clinical/review-packets/malignancy.md
+8,peripheral_neuropathy,Peripheral Neuropathy,neurology,COMMON,100,50,30,77,65.2,9,10,0,1,13,docs/clinical/review-packets/peripheral_neuropathy.md
+9,chronic_heart_failure,Chronic Heart Failure,cardiovascular,COMMON,100,50,20,69,61.9,29,10,0,1,13,docs/clinical/review-packets/chronic_heart_failure.md
+10,copd,COPD,pulmonary,COMMON,100,50,20,66,61.6,13,11,0,1,14,docs/clinical/review-packets/copd.md
+11,major_depressive_disorder,Major Depressive Disorder,behavioral_health,COMMON,100,47,20,71,61.2,23,8,0,1,12,docs/clinical/review-packets/major_depressive_disorder.md
+12,glaucoma,Glaucoma,ophthalmology,COMMON,100,43,25,59,60.1,320,6,1,1,15,docs/clinical/review-packets/glaucoma.md
+13,chronic_kidney_disease,Chronic Kidney Disease,renal,COMMON,100,42,25,82,62.1,12,8,2,0,19,docs/clinical/review-packets/chronic_kidney_disease.md
+14,age_related_macular_degeneration,Age-related Macular Degeneration,ophthalmology,COMMON,100,38,20,46,56,74,8,0,1,12,docs/clinical/review-packets/age_related_macular_degeneration.md
+15,dementia,Dementia,neurology,COMMON,100,37,25,77,60.1,104,8,1,0,16,docs/clinical/review-packets/dementia.md
+16,osteoarthritis,Osteoarthritis,musculoskeletal,COMMON,100,35,40,64,61.9,130,8,0,0,12,docs/clinical/review-packets/osteoarthritis.md
+17,osteoporosis,Osteoporosis,musculoskeletal,COMMON,100,34,45,76,64.1,401,8,1,0,16,docs/clinical/review-packets/osteoporosis.md
+18,chronic_pain,Chronic Pain,pain_management,COMMON,100,32,30,75,59.6,5,8,0,0,12,docs/clinical/review-packets/chronic_pain.md
+19,anemia,Anemia,hematology,COMMON,100,32,20,67,56.3,1,8,0,0,12,docs/clinical/review-packets/anemia.md
+20,essential_hypertension,Essential Hypertension,cardiovascular,COMMON,100,29,20,60,54.7,1,7,0,0,12,docs/clinical/review-packets/essential_hypertension.md
+21,sleep_apnea,Sleep Apnea,sleep_medicine,COMMON,100,29,20,55,54.2,10,8,0,0,12,docs/clinical/review-packets/sleep_apnea.md
+22,hypothyroidism,Hypothyroidism,endocrine,COMMON,100,26,20,74,55.2,9,7,0,0,12,docs/clinical/review-packets/hypothyroidism.md
+23,obesity,Obesity,cardiometabolic,COMMON,100,26,20,57,53.5,14,7,0,0,12,docs/clinical/review-packets/obesity.md
+24,hyperlipidemia,Hyperlipidemia,cardiometabolic,COMMON,100,26,20,53,53.1,24,6,0,0,11,docs/clinical/review-packets/hyperlipidemia.md
+25,lumbar_disc_disease,Lumbar Disc Disease,musculoskeletal,OCCASIONAL,60,100,25,92,66.5,30,15,2,3,21,docs/clinical/review-packets/lumbar_disc_disease.md
+26,cervical_disc_disease,Cervical Disc Disease,musculoskeletal,OCCASIONAL,60,99,25,93,66.3,55,14,2,3,21,docs/clinical/review-packets/cervical_disc_disease.md
+27,cervical_radiculopathy,Cervical Radiculopathy,neurology,OCCASIONAL,60,98,20,100,65.4,1,17,0,3,17,docs/clinical/review-packets/cervical_radiculopathy.md
+28,lumbar_radiculopathy,Lumbar Radiculopathy,neurology,OCCASIONAL,60,98,20,99,65.3,2,17,0,3,17,docs/clinical/review-packets/lumbar_radiculopathy.md
+29,cervical_spinal_stenosis,Cervical Spinal Stenosis,musculoskeletal,OCCASIONAL,60,95,20,92,63.7,1,16,0,3,16,docs/clinical/review-packets/cervical_spinal_stenosis.md
+30,valvular_heart_disease,Valvular Heart Disease,cardiology,OCCASIONAL,60,87,25,69,60.2,27,10,2,3,18,docs/clinical/review-packets/valvular_heart_disease.md
+31,cirrhosis,Cirrhosis,hepatology,OCCASIONAL,60,86,20,82,60,13,13,0,3,15,docs/clinical/review-packets/cirrhosis.md
+32,lumbar_spinal_stenosis,Lumbar Spinal Stenosis,musculoskeletal,OCCASIONAL,60,82,25,59,57.7,2,12,1,3,17,docs/clinical/review-packets/lumbar_spinal_stenosis.md
+33,myasthenia_gravis,Myasthenia Gravis,neurology,OCCASIONAL,60,79,25,96,60.6,4,13,1,2,17,docs/clinical/review-packets/myasthenia_gravis.md
+34,amyotrophic_lateral_sclerosis,Amyotrophic Lateral Sclerosis,neurology,OCCASIONAL,60,77,20,96,58.7,1,14,0,2,15,docs/clinical/review-packets/amyotrophic_lateral_sclerosis.md
+35,cerebral_palsy,Cerebral Palsy,neurology,OCCASIONAL,60,77,20,96,58.7,8,14,0,2,15,docs/clinical/review-packets/cerebral_palsy.md
+36,muscular_dystrophy,Muscular Dystrophy,neurology,OCCASIONAL,60,77,20,96,58.7,17,14,0,2,15,docs/clinical/review-packets/muscular_dystrophy.md
+37,aortic_aneurysm,Aortic Aneurysm,vascular,OCCASIONAL,60,76,25,90,59.1,31,12,1,2,17,docs/clinical/review-packets/aortic_aneurysm.md
+38,sickle_cell_disease,Sickle Cell Disease,hematology,OCCASIONAL,60,75,25,82,58,53,10,2,2,18,docs/clinical/review-packets/sickle_cell_disease.md
+39,non_pressure_chronic_ulcer,Non-Pressure Chronic Ulcer,wound_care,OCCASIONAL,60,67,25,87,56.1,355,13,1,1,17,docs/clinical/review-packets/non_pressure_chronic_ulcer.md
+40,chronic_gout,Chronic Gout,rheumatology,OCCASIONAL,60,67,25,85,55.9,404,13,1,1,17,docs/clinical/review-packets/chronic_gout.md
+41,bronchiectasis,Bronchiectasis,pulmonology,OCCASIONAL,60,66,25,85,55.6,4,11,2,1,19,docs/clinical/review-packets/bronchiectasis.md
+42,inflammatory_bowel_disease,Inflammatory Bowel Disease,gastroenterology,OCCASIONAL,60,65,20,68,52.3,101,10,0,2,13,docs/clinical/review-packets/inflammatory_bowel_disease.md
+43,ankylosing_spondylitis,Ankylosing Spondylitis,rheumatology,OCCASIONAL,60,62,20,86,53.2,22,13,0,1,15,docs/clinical/review-packets/ankylosing_spondylitis.md
+44,interstitial_lung_disease,Interstitial Lung Disease,pulmonology,OCCASIONAL,60,62,20,85,53.1,31,13,0,1,15,docs/clinical/review-packets/interstitial_lung_disease.md
+45,systemic_lupus_erythematosus,Systemic Lupus Erythematosus,rheumatology,OCCASIONAL,60,62,20,85,53.1,12,13,0,1,15,docs/clinical/review-packets/systemic_lupus_erythematosus.md
+46,chronic_osteomyelitis,Chronic Osteomyelitis,infectious_disease,OCCASIONAL,60,62,20,83,52.9,128,13,0,1,15,docs/clinical/review-packets/chronic_osteomyelitis.md
+47,alcohol_use_disorder,Alcohol Use Disorder,behavioral_health,OCCASIONAL,60,62,20,81,52.7,74,13,0,1,15,docs/clinical/review-packets/alcohol_use_disorder.md
+48,opioid_use_disorder,Opioid Use Disorder,behavioral_health,OCCASIONAL,60,62,20,81,52.7,58,13,0,1,15,docs/clinical/review-packets/opioid_use_disorder.md
+49,visual_impairment,Visual Impairment,ophthalmology,OCCASIONAL,60,59,20,89,52.6,76,12,0,1,14,docs/clinical/review-packets/visual_impairment.md
+50,sarcoidosis,Sarcoidosis,pulmonology,OCCASIONAL,60,59,20,84,52.1,15,12,0,1,14,docs/clinical/review-packets/sarcoidosis.md
+51,adrenal_insufficiency,Adrenal Insufficiency,endocrinology,OCCASIONAL,60,58,25,81,52.8,6,10,1,1,16,docs/clinical/review-packets/adrenal_insufficiency.md
+52,chronic_venous_insufficiency,Chronic Venous Insufficiency,vascular,OCCASIONAL,60,56,20,90,51.8,1,11,0,1,14,docs/clinical/review-packets/chronic_venous_insufficiency.md
+53,post_traumatic_stress_disorder,Post-Traumatic Stress Disorder,behavioral_health,OCCASIONAL,60,56,20,79,50.7,4,11,0,1,14,docs/clinical/review-packets/post_traumatic_stress_disorder.md
+54,hyperthyroidism,Hyperthyroidism,endocrinology,OCCASIONAL,60,55,25,82,52,22,9,1,1,15,docs/clinical/review-packets/hyperthyroidism.md
+55,benign_prostatic_hyperplasia,Benign Prostatic Hyperplasia,urology,OCCASIONAL,60,55,25,73,51.1,5,9,1,1,15,docs/clinical/review-packets/benign_prostatic_hyperplasia.md
+56,nicotine_dependence,Nicotine Dependence,behavioral_health,OCCASIONAL,60,50,20,80,49,26,13,0,0,15,docs/clinical/review-packets/nicotine_dependence.md
+57,epilepsy,Epilepsy,neurology,OCCASIONAL,60,50,20,74,48.4,94,9,0,1,13,docs/clinical/review-packets/epilepsy.md
+58,psoriasis,Psoriasis,dermatology,OCCASIONAL,60,50,20,73,48.3,15,9,0,1,13,docs/clinical/review-packets/psoriasis.md
+59,type_1_diabetes,Type 1 Diabetes,endocrinology,OCCASIONAL,60,49,80,63,62,117,5,4,0,25,docs/clinical/review-packets/type_1_diabetes.md
+60,essential_tremor,Essential Tremor,neurology,OCCASIONAL,60,47,20,92,49.3,1,12,0,0,14,docs/clinical/review-packets/essential_tremor.md
+61,parkinson_disease,Parkinson Disease,neurology,OCCASIONAL,60,47,20,70,47.1,8,9,0,1,13,docs/clinical/review-packets/parkinson_disease.md
+62,asthma,Asthma,pulmonary,OCCASIONAL,60,47,20,68,46.9,26,9,0,1,13,docs/clinical/review-packets/asthma.md
+63,insomnia,Insomnia,sleep_medicine,OCCASIONAL,60,44,20,85,47.7,19,11,0,0,14,docs/clinical/review-packets/insomnia.md
+64,hearing_loss,Hearing Loss,audiology,OCCASIONAL,60,38,20,71,44.5,54,9,0,0,13,docs/clinical/review-packets/hearing_loss.md
+65,fibromyalgia,Fibromyalgia,rheumatology,OCCASIONAL,60,35,20,58,42.3,1,8,0,0,12,docs/clinical/review-packets/fibromyalgia.md
+66,bipolar_disorder,Bipolar Disorder,behavioral_health,OCCASIONAL,60,32,65,63,53.2,34,7,0,0,12,docs/clinical/review-packets/bipolar_disorder.md
+67,schizophrenia,Schizophrenia,behavioral_health,OCCASIONAL,60,32,65,63,53.2,10,7,0,0,12,docs/clinical/review-packets/schizophrenia.md
+68,generalized_anxiety_disorder,Generalized Anxiety Disorder,behavioral_health,OCCASIONAL,60,32,20,70,42.6,6,7,0,0,12,docs/clinical/review-packets/generalized_anxiety_disorder.md
+69,rheumatoid_arthritis,Rheumatoid Arthritis,rheumatology,OCCASIONAL,60,29,85,67,57.7,418,7,0,0,12,docs/clinical/review-packets/rheumatoid_arthritis.md
+70,dry_eye_syndrome,Dry Eye Syndrome,ophthalmology,OCCASIONAL,60,29,65,71,53.1,5,7,0,0,12,docs/clinical/review-packets/dry_eye_syndrome.md
+71,pressure_ulcer,Pressure Ulcer,wound_care,OCCASIONAL,60,29,65,69,52.9,208,7,0,0,12,docs/clinical/review-packets/pressure_ulcer.md
+72,cardiomyopathy,Cardiomyopathy,cardiology,OCCASIONAL,60,29,65,67,52.7,11,7,0,0,12,docs/clinical/review-packets/cardiomyopathy.md
+73,cerebrovascular_disease,Cerebrovascular Disease,neurology,OCCASIONAL,60,26,85,74,57.5,289,7,0,0,12,docs/clinical/review-packets/cerebrovascular_disease.md
+74,chronic_migraine,Chronic Migraine,neurology,OCCASIONAL,60,26,65,74,52.5,82,7,0,0,12,docs/clinical/review-packets/chronic_migraine.md
+75,chronic_respiratory_failure,Chronic Respiratory Failure,pulmonology,OCCASIONAL,60,26,65,65,51.6,4,6,0,0,11,docs/clinical/review-packets/chronic_respiratory_failure.md
+76,chronic_viral_hepatitis,Chronic Viral Hepatitis,hepatology,OCCASIONAL,60,26,65,65,51.6,6,6,0,0,11,docs/clinical/review-packets/chronic_viral_hepatitis.md
+77,multiple_sclerosis,Multiple Sclerosis,neurology,RARE,30,71,20,81,44.9,11,12,0,2,14,docs/clinical/review-packets/multiple_sclerosis.md
+78,secondary_diabetes_mellitus,Secondary Diabetes Mellitus,endocrinology,RARE,30,49,80,63,51.5,348,5,4,0,25,docs/clinical/review-packets/secondary_diabetes_mellitus.md
+79,pulmonary_hypertension,Pulmonary Hypertension,cardiopulmonary,RARE,30,29,65,67,42.2,7,7,0,0,12,docs/clinical/review-packets/pulmonary_hypertension.md
+80,transplant_status,Transplant Status,transplant_medicine,RARE,30,29,65,67,42.2,16,7,0,0,12,docs/clinical/review-packets/transplant_status.md
+81,hiv_disease,Human Immunodeficiency Virus Disease,infectious_disease,RARE,30,26,65,66,41.2,1,6,0,0,11,docs/clinical/review-packets/hiv_disease.md

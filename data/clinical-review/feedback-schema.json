@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "feedbackActions": [
+    "approve",
+    "reject",
+    "rewrite",
+    "optional",
+    "missing_question",
+    "unnecessary_question",
+    "incorrect_branching",
+    "incorrect_urgency"
+  ],
+  "dispositions": [
+    "pending",
+    "accepted",
+    "declined"
+  ],
+  "selectionLevels": [
+    "required",
+    "recommended",
+    "optional"
+  ],
+  "urgencies": [
+    "routine",
+    "soon",
+    "same_day",
+    "urgent"
+  ],
+  "importRules": {
+    "acceptedRowsRequire": [
+      "reviewer",
+      "reviewed_at",
+      "rationale",
+      "accepted_by",
+      "accepted_at"
+    ],
+    "rewriteRequires": [
+      "proposed_text"
+    ],
+    "missingQuestionRequires": [
+      "proposed_text"
+    ],
+    "incorrectBranchingRequires": [
+      "proposed_branching"
+    ],
+    "incorrectUrgencyRequires": [
+      "proposed_urgency"
+    ],
+    "noAiRewriting": true,
+    "automaticCanonicalMerge": false
+  }
+}

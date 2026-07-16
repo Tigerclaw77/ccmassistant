@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "algorithm": "sha256",
+  "sourceFiles": [
+    {
+      "relativePath": "data/icd/canonical-conditions.json",
+      "hash": "a56c3e72d87c75487025b10a76c88a567f53b32d893b876a9dc46d86956ea644"
+    },
+    {
+      "relativePath": "data/icd/canonical-audit.json",
+      "hash": "b7b7b763e52826e337b38e2ec876205a1129da67a67842f5d5831bd5a6e3f204"
+    },
+    {
+      "relativePath": "data/icd/icd-classifications.json",
+      "hash": "942beb437d7bf6ad89af732d9d36895db9ea9dd462244b95326c62e75ddff40f"
+    },
+    {
+      "relativePath": "data/question-banks/canonical-question-banks.json",
+      "hash": "8f3c97c1c3a474acb9a59746d0353045d8657029ccadcb2eaca1a74fd4bba966"
+    },
+    {
+      "relativePath": "data/question-banks/clinical-questions.json",
+      "hash": "ad2a1c70458e0809d90c3e05a7a073c0617cb2b4076430f35298a7e69f0d6da6"
+    },
+    {
+      "relativePath": "data/question-banks/review/new-questions.json",
+      "hash": "1a236af59cbe01be1a74c977706d2e36aa083bc3a9eca71e0a8fd8d2798750b8"
+    },
+    {
+      "relativePath": "data/question-banks/review/quality-review-summary.json",
+      "hash": "6fe692bbb935522fe5a858cf6a7b14317b9ea8d929f95d738a7a12a9e491e41f"
+    },
+    {
+      "relativePath": "data/question-banks/review/urgent-red-flag-logic.json",
+      "hash": "d385dc39c6371288fdf2fd0555d0d44a1a56fa95c762f114918a8ef91017118e"
+    }
+  ],
+  "verifiedUnchangedDuringGeneration": true
+}
