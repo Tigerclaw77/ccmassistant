@@ -2,18 +2,56 @@
   "name": "cassian",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test:launch": "node --no-warnings --experimental-strip-types scripts/launch-regression.mjs",
+    "test:hosted-readiness": "node --no-warnings --experimental-strip-types --test scripts/hosted-readiness.test.mjs",
+    "test:mfa": "node --no-warnings --experimental-strip-types --test scripts/mfa-enrollment.test.mjs",
+    "test:practice-bootstrap": "node --no-warnings --experimental-strip-types --test scripts/practice-bootstrap.test.mjs",
+    "test:authorization": "node --no-warnings --experimental-strip-types --test scripts/authorization-layer.test.mjs",
+    "test:calendar-date": "node --no-warnings --experimental-strip-types --test scripts/calendar-date.test.mjs",
+    "test:enrollment-contract": "node --no-warnings --experimental-strip-types --test scripts/enrollment-contract.test.mjs",
+    "test:interaction-log-contract": "node --no-warnings --experimental-strip-types --test scripts/interaction-log-contract.test.mjs",
+    "test:stripe-billing": "node --no-warnings --experimental-strip-types --test scripts/stripe-billing.test.mjs",
+    "test:question-bank": "node --no-warnings --experimental-strip-types --test scripts/question-bank.test.mjs",
+    "test:question-bank-architecture": "node --no-warnings --experimental-strip-types --test scripts/question-bank-architecture.test.mjs",
+    "test:clinical-content": "node --no-warnings --experimental-strip-types --test scripts/clinical-question-bank-content.test.mjs",
+    "test:quality-review": "node --no-warnings --experimental-strip-types --test scripts/question-bank-quality-review.test.mjs",
+    "test:question-bank-customization": "node --no-warnings --experimental-strip-types --test scripts/question-bank-customization.test.mjs",
+    "test:clinical-review": "node --no-warnings --experimental-strip-types --test scripts/clinical-review-package.test.mjs",
+    "test:session-engine": "node --no-warnings --experimental-strip-types --test scripts/session-engine.test.mjs",
+    "test:session-integration": "node --no-warnings --experimental-strip-types --test scripts/session-integration.test.mjs",
+    "test:coordinator-efficiency": "node --no-warnings --experimental-strip-types --test scripts/coordinator-efficiency.test.mjs",
+    "test:staff-experience": "node --no-warnings --experimental-strip-types --test scripts/staff-experience.test.mjs",
+    "test:icd": "node --no-warnings --experimental-strip-types --test scripts/icd-classification.test.mjs",
+    "test:icd-audit": "node --test scripts/icd-audit.test.mjs",
+    "icd:import": "node scripts/icd/import-cms-icd.mjs",
+    "icd:check": "node scripts/icd/import-cms-icd.mjs --check",
+    "icd:validate": "node scripts/icd/validate-icd-artifacts.mjs",
+    "icd:audit": "node scripts/icd/audit-icd-knowledge.mjs",
+    "icd:audit:check": "node scripts/icd/audit-icd-knowledge.mjs --check",
+    "question-banks:generate": "node scripts/generate-question-bank-catalog.mjs",
+    "question-banks:check": "node scripts/generate-question-bank-catalog.mjs --check",
+    "clinical-review:generate": "node --no-warnings --experimental-strip-types scripts/generate-clinical-review-package.mjs",
+    "clinical-review:check": "node --no-warnings --experimental-strip-types scripts/generate-clinical-review-package.mjs --check",
+    "clinical-review:import": "node --no-warnings --experimental-strip-types scripts/import-clinician-feedback.mjs",
+    "stripe:catalog:sandbox": "node --no-warnings --experimental-strip-types scripts/setup-stripe-sandbox.mjs",
+    "env:check": "node scripts/validate-hosted-environment.mjs",
     "scaffold": "node scripts/scaffold.cjs"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.99.3",
-    "next": "16.2.0",
+    "@next/env": "16.2.10",
+    "@supabase/supabase-js": "2.110.5",
+    "next": "16.2.10",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "stripe": "^22.3.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -22,8 +60,11 @@
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
-    "eslint-config-next": "16.2.0",
+    "eslint-config-next": "16.2.10",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "overrides": {
+    "postcss": "8.5.10"
   }
 }
