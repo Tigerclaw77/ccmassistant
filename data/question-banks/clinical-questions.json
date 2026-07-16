@@ -1,0 +1,4125 @@
+{
+  "schemaVersion": 1,
+  "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+  "contentVersion": 1,
+  "questions": [
+    {
+      "id": "ccm.treatment.plan_barrier",
+      "category": "care_coordination",
+      "text": "Is anything making it difficult to follow the care plan for this condition?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies adherence, access, understanding, and feasibility barriers without assuming a specific treatment.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-treatment-plan_barrier-task",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "create_care_coordination_task",
+              "code": "condition_care_plan_barrier",
+              "urgency": "routine"
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "lumbar_spinal_stenosis",
+        "cervical_spinal_stenosis",
+        "lumbar_radiculopathy",
+        "cervical_radiculopathy",
+        "cervical_disc_disease",
+        "lumbar_disc_disease",
+        "fibromyalgia",
+        "chronic_gout",
+        "non_pressure_chronic_ulcer",
+        "chronic_osteomyelitis",
+        "chronic_venous_insufficiency",
+        "cirrhosis",
+        "psoriasis",
+        "interstitial_lung_disease",
+        "bronchiectasis",
+        "sickle_cell_disease",
+        "ankylosing_spondylitis",
+        "systemic_lupus_erythematosus",
+        "sarcoidosis",
+        "aortic_aneurysm",
+        "post_traumatic_stress_disorder",
+        "alcohol_use_disorder",
+        "opioid_use_disorder",
+        "nicotine_dependence",
+        "insomnia",
+        "essential_tremor",
+        "benign_prostatic_hyperplasia",
+        "hearing_loss",
+        "amyotrophic_lateral_sclerosis",
+        "myasthenia_gravis",
+        "hyperthyroidism",
+        "adrenal_insufficiency",
+        "cerebral_palsy",
+        "muscular_dystrophy",
+        "visual_impairment",
+        "essential_hypertension",
+        "type_2_diabetes",
+        "copd",
+        "chronic_heart_failure",
+        "chronic_kidney_disease",
+        "hyperlipidemia",
+        "major_depressive_disorder",
+        "osteoarthritis",
+        "atrial_fibrillation",
+        "coronary_artery_disease",
+        "obesity",
+        "hypothyroidism",
+        "gerd",
+        "glaucoma",
+        "age_related_macular_degeneration",
+        "chronic_back_pain",
+        "peripheral_neuropathy",
+        "dementia",
+        "anemia",
+        "osteoporosis",
+        "malignancy",
+        "chronic_pain",
+        "sleep_apnea",
+        "peripheral_vascular_disease"
+      ],
+      "followUpBehavior": "A yes response creates a routine coordinator task to identify and address the barrier.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.specialist.visit_change",
+      "category": "specialist_follow_up",
+      "text": "Has a specialist changed this condition's treatment plan since the last contact?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Captures treatment changes that may require medication reconciliation or care-plan updates.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-specialist-visit_change-task",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "create_care_coordination_task",
+              "code": "specialist_plan_reconciliation",
+              "urgency": "routine"
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "lumbar_spinal_stenosis",
+        "cervical_spinal_stenosis",
+        "lumbar_radiculopathy",
+        "cervical_radiculopathy",
+        "cervical_disc_disease",
+        "lumbar_disc_disease",
+        "fibromyalgia",
+        "chronic_gout",
+        "non_pressure_chronic_ulcer",
+        "chronic_osteomyelitis",
+        "chronic_venous_insufficiency",
+        "cirrhosis",
+        "psoriasis",
+        "interstitial_lung_disease",
+        "bronchiectasis",
+        "sickle_cell_disease",
+        "ankylosing_spondylitis",
+        "systemic_lupus_erythematosus",
+        "sarcoidosis",
+        "aortic_aneurysm",
+        "post_traumatic_stress_disorder",
+        "alcohol_use_disorder",
+        "opioid_use_disorder",
+        "nicotine_dependence",
+        "insomnia",
+        "essential_tremor",
+        "benign_prostatic_hyperplasia",
+        "hearing_loss",
+        "amyotrophic_lateral_sclerosis",
+        "myasthenia_gravis",
+        "hyperthyroidism",
+        "adrenal_insufficiency",
+        "cerebral_palsy",
+        "muscular_dystrophy",
+        "visual_impairment",
+        "essential_hypertension",
+        "type_2_diabetes",
+        "copd",
+        "chronic_heart_failure",
+        "chronic_kidney_disease",
+        "hyperlipidemia",
+        "major_depressive_disorder",
+        "osteoarthritis",
+        "atrial_fibrillation",
+        "coronary_artery_disease",
+        "obesity",
+        "hypothyroidism",
+        "gerd",
+        "glaucoma",
+        "age_related_macular_degeneration",
+        "chronic_back_pain",
+        "peripheral_neuropathy",
+        "dementia",
+        "anemia",
+        "osteoporosis",
+        "malignancy",
+        "chronic_pain",
+        "sleep_apnea",
+        "peripheral_vascular_disease"
+      ],
+      "followUpBehavior": "A yes response creates a routine coordinator task to reconcile the updated specialist plan.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.spine.walking_tolerance",
+      "category": "symptoms",
+      "text": "Compared with the last review, how has the distance you can walk before symptoms start changed?",
+      "helperText": "Choose the answer that best fits today.",
+      "answerType": "single_select",
+      "required": false,
+      "validation": {
+        "options": [
+          {
+            "value": "improved",
+            "label": "Improved"
+          },
+          {
+            "value": "about_the_same",
+            "label": "About the same"
+          },
+          {
+            "value": "shorter_distance",
+            "label": "Shorter distance"
+          },
+          {
+            "value": "not_applicable",
+            "label": "Not applicable"
+          }
+        ]
+      },
+      "clinicalRationale": "Tracks neurogenic claudication and functional change using a repeatable patient-reported measure.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "lumbar_spinal_stenosis",
+        "lumbar_radiculopathy",
+        "lumbar_disc_disease",
+        "chronic_back_pain"
+      ],
+      "followUpBehavior": "Review worsening or high-burden responses during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.spine.leg_symptoms_standing",
+      "category": "symptoms",
+      "text": "Do pain, numbness, or heaviness in your legs start or worsen when you stand or walk?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies posture- and activity-related lower-extremity symptoms characteristic of lumbar nerve compression.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "lumbar_spinal_stenosis",
+        "lumbar_radiculopathy",
+        "lumbar_disc_disease",
+        "chronic_back_pain"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.spine.relief_with_flexion",
+      "category": "symptoms",
+      "text": "Do your leg symptoms improve when you sit or bend forward?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Distinguishes the flexion-relieved pattern associated with neurogenic claudication.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "lumbar_spinal_stenosis"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.neuro.new_weakness",
+      "category": "symptoms",
+      "text": "Have you developed new or worsening weakness in an arm or leg?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for neurologic progression that may require prompt clinical assessment.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-neuro-new_weakness-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "new_or_worsening_limb_weakness",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "lumbar_spinal_stenosis",
+        "cervical_spinal_stenosis",
+        "lumbar_radiculopathy",
+        "cervical_radiculopathy",
+        "cervical_disc_disease",
+        "lumbar_disc_disease",
+        "chronic_back_pain",
+        "amyotrophic_lateral_sclerosis",
+        "myasthenia_gravis",
+        "cerebral_palsy",
+        "muscular_dystrophy",
+        "multiple_sclerosis"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.spine.bowel_bladder_change",
+      "category": "symptoms",
+      "text": "Have you had a new loss of bowel or bladder control?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for possible severe neural compression requiring urgent evaluation.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-spine-bowel_bladder_change-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "new_bowel_or_bladder_loss",
+              "urgency": "urgent",
+              "providerNotification": true
+            }
+          ]
+        },
+        {
+          "id": "ccm-spine-bowel_bladder_change-branch",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "show_questions",
+              "questionIds": [
+                "ccm.spine.saddle_numbness"
+              ]
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "lumbar_spinal_stenosis",
+        "cervical_spinal_stenosis",
+        "lumbar_radiculopathy",
+        "cervical_radiculopathy",
+        "cervical_disc_disease",
+        "lumbar_disc_disease",
+        "chronic_back_pain"
+      ],
+      "followUpBehavior": "A yes response creates a urgent clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.spine.saddle_numbness",
+      "category": "symptoms",
+      "text": "Have you had new numbness around the groin, buttocks, or inner thighs?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Adds a focused follow-up for possible cauda equina or severe cord compression.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [
+        {
+          "questionId": "ccm.spine.bowel_bladder_change",
+          "operator": "equals",
+          "value": true
+        }
+      ],
+      "followUpTriggers": [
+        {
+          "id": "ccm-spine-saddle_numbness-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "new_saddle_numbness",
+              "urgency": "urgent",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "lumbar_spinal_stenosis",
+        "cervical_spinal_stenosis",
+        "lumbar_radiculopathy",
+        "cervical_radiculopathy",
+        "cervical_disc_disease",
+        "lumbar_disc_disease",
+        "chronic_back_pain"
+      ],
+      "followUpBehavior": "A yes response creates a urgent clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.cervical.hand_dexterity",
+      "category": "symptoms",
+      "text": "Have buttons, handwriting, utensils, or other hand tasks become harder?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Tracks hand dexterity change associated with cervical nerve or cord dysfunction.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "cervical_spinal_stenosis",
+        "cervical_radiculopathy",
+        "cervical_disc_disease"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.neuro.balance_change",
+      "category": "symptoms",
+      "text": "Has your balance become worse since the last review?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Detects neurologic functional decline and increased fall risk.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "cervical_spinal_stenosis",
+        "cervical_radiculopathy",
+        "cervical_disc_disease",
+        "amyotrophic_lateral_sclerosis",
+        "myasthenia_gravis",
+        "cerebral_palsy",
+        "muscular_dystrophy",
+        "multiple_sclerosis",
+        "essential_tremor",
+        "peripheral_neuropathy"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.spine.radiating_pain_change",
+      "category": "symptoms",
+      "text": "How has pain traveling into an arm or leg changed since the last review?",
+      "helperText": "Choose the answer that best fits today.",
+      "answerType": "single_select",
+      "required": false,
+      "validation": {
+        "options": [
+          {
+            "value": "better",
+            "label": "Better"
+          },
+          {
+            "value": "about_the_same",
+            "label": "About the same"
+          },
+          {
+            "value": "worse",
+            "label": "Worse"
+          },
+          {
+            "value": "not_present",
+            "label": "Not present"
+          }
+        ]
+      },
+      "clinicalRationale": "Tracks radicular symptom trajectory separately from general pain severity.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "lumbar_radiculopathy",
+        "cervical_radiculopathy",
+        "cervical_disc_disease",
+        "lumbar_disc_disease"
+      ],
+      "followUpBehavior": "Review worsening or high-burden responses during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.spine.therapy_progress",
+      "category": "symptoms",
+      "text": "Are you currently doing prescribed exercises or physical therapy for your spine condition?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Assesses engagement with a commonly used nonprocedural management plan without assuming it was prescribed.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "lumbar_spinal_stenosis",
+        "cervical_spinal_stenosis",
+        "lumbar_radiculopathy",
+        "cervical_radiculopathy",
+        "cervical_disc_disease",
+        "lumbar_disc_disease",
+        "chronic_back_pain"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.spine.procedure_planned",
+      "category": "care_coordination",
+      "text": "Is an injection, imaging study, or spine consultation pending?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies time-sensitive coordination needs for planned diagnostic or procedural care.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "lumbar_spinal_stenosis",
+        "cervical_spinal_stenosis",
+        "lumbar_radiculopathy",
+        "cervical_radiculopathy",
+        "cervical_disc_disease",
+        "lumbar_disc_disease",
+        "chronic_back_pain"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.inflammatory.flare_change",
+      "category": "symptoms",
+      "text": "Compared with the last review, how have condition flares changed?",
+      "helperText": "Choose the answer that best fits today.",
+      "answerType": "single_select",
+      "required": false,
+      "validation": {
+        "options": [
+          {
+            "value": "fewer_or_milder",
+            "label": "Fewer or milder"
+          },
+          {
+            "value": "about_the_same",
+            "label": "About the same"
+          },
+          {
+            "value": "more_or_worse",
+            "label": "More or worse"
+          },
+          {
+            "value": "no_flares",
+            "label": "No flares"
+          }
+        ]
+      },
+      "clinicalRationale": "Tracks inflammatory disease activity without combining separate symptoms into one diagnostic assumption.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "chronic_gout",
+        "ankylosing_spondylitis",
+        "systemic_lupus_erythematosus",
+        "psoriasis",
+        "rheumatoid_arthritis",
+        "inflammatory_bowel_disease"
+      ],
+      "followUpBehavior": "Review worsening or high-burden responses during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.inflammatory.swelling",
+      "category": "symptoms",
+      "text": "Have you had new or worsening joint swelling?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies a change in inflammatory joint activity.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "chronic_gout",
+        "ankylosing_spondylitis",
+        "systemic_lupus_erythematosus",
+        "rheumatoid_arthritis"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.inflammatory.infection_signs",
+      "category": "symptoms",
+      "text": "Have you had a fever or other infection concern while using immune-suppressing treatment?",
+      "helperText": "Answer no if you are not using an immune-suppressing treatment.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for infection concerns when immune-suppressing treatment is actually in use.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-inflammatory-infection_signs-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "infection_concern_on_immunosuppression",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "chronic_gout",
+        "ankylosing_spondylitis",
+        "systemic_lupus_erythematosus",
+        "psoriasis",
+        "rheumatoid_arthritis",
+        "inflammatory_bowel_disease"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.gout.flare_frequency",
+      "category": "symptoms",
+      "text": "How many gout flares have you had since the last review?",
+      "helperText": "Choose the answer that best fits today.",
+      "answerType": "single_select",
+      "required": false,
+      "validation": {
+        "options": [
+          {
+            "value": "none",
+            "label": "None"
+          },
+          {
+            "value": "one",
+            "label": "One"
+          },
+          {
+            "value": "two_or_more",
+            "label": "Two or more"
+          }
+        ]
+      },
+      "clinicalRationale": "Measures recent gout activity using a deterministic frequency range.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "chronic_gout"
+      ],
+      "followUpBehavior": "Review worsening or high-burden responses during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.gout.tophus_change",
+      "category": "symptoms",
+      "text": "Have any gout lumps or tophi become larger, painful, or opened?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Monitors clinically relevant tophus change and skin breakdown.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "chronic_gout"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.psoriasis.skin_change",
+      "category": "symptoms",
+      "text": "Have your psoriasis patches become more widespread or uncomfortable?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Tracks skin disease burden in patient-appropriate language.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "psoriasis"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.lupus.organ_concern",
+      "category": "symptoms",
+      "text": "Has a clinician told you there is new organ involvement from lupus?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Captures confirmed management-changing organ involvement without asking the patient to diagnose it.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "systemic_lupus_erythematosus"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.fibromyalgia.recovery",
+      "category": "symptoms",
+      "text": "Do your symptoms make recovery after usual activity take longer?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Assesses post-activity symptom burden without treating fatigue as a diagnosis.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "fibromyalgia"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.wound.size_depth_change",
+      "category": "symptoms",
+      "text": "Has the wound become larger or deeper since the last review?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Tracks wound progression using observable change.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "non_pressure_chronic_ulcer",
+        "pressure_ulcer",
+        "chronic_osteomyelitis"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.wound.drainage_odor",
+      "category": "symptoms",
+      "text": "Has drainage or odor from the wound increased?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for worsening local wound burden.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "non_pressure_chronic_ulcer",
+        "pressure_ulcer",
+        "chronic_osteomyelitis"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.wound.infection_red_flag",
+      "category": "symptoms",
+      "text": "Do you have spreading redness, warmth, or fever with the wound?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for possible spreading infection requiring prompt review.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-wound-infection_red_flag-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "possible_wound_infection",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "non_pressure_chronic_ulcer",
+        "pressure_ulcer",
+        "chronic_osteomyelitis"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.wound.dressing_access",
+      "category": "care_coordination",
+      "text": "Do you have the supplies and help needed for wound care?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies supply or caregiver barriers that can delay healing.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-wound-dressing_access-task",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "create_care_coordination_task",
+              "code": "wound_care_supply_or_help",
+              "urgency": "routine"
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "non_pressure_chronic_ulcer",
+        "pressure_ulcer",
+        "chronic_osteomyelitis"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.wound.appointment_pending",
+      "category": "specialist_follow_up",
+      "text": "Is a wound, podiatry, vascular, or infectious-disease visit overdue?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies overdue specialty follow-up relevant to wound healing.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "non_pressure_chronic_ulcer",
+        "pressure_ulcer",
+        "chronic_osteomyelitis"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.pulmonary.breathing_change",
+      "category": "symptoms",
+      "text": "Compared with the last review, how has your breathing during usual activity changed?",
+      "helperText": "Choose the answer that best fits today.",
+      "answerType": "single_select",
+      "required": false,
+      "validation": {
+        "options": [
+          {
+            "value": "better",
+            "label": "Better"
+          },
+          {
+            "value": "about_the_same",
+            "label": "About the same"
+          },
+          {
+            "value": "worse",
+            "label": "Worse"
+          }
+        ]
+      },
+      "clinicalRationale": "Tracks respiratory trajectory during ordinary activity.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "interstitial_lung_disease",
+        "bronchiectasis",
+        "sarcoidosis",
+        "copd",
+        "asthma",
+        "chronic_respiratory_failure"
+      ],
+      "followUpBehavior": "Review worsening or high-burden responses during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.pulmonary.cough_sputum_change",
+      "category": "symptoms",
+      "text": "Has your cough or mucus changed from your usual pattern?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Detects a change that may indicate pulmonary exacerbation or infection.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "interstitial_lung_disease",
+        "bronchiectasis",
+        "sarcoidosis",
+        "copd",
+        "asthma",
+        "chronic_respiratory_failure"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.pulmonary.urgent_breathing",
+      "category": "symptoms",
+      "text": "Are you short of breath at rest or unable to speak comfortably because of breathing difficulty?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for severe respiratory compromise.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-pulmonary-urgent_breathing-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "severe_breathing_difficulty",
+              "urgency": "urgent",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "interstitial_lung_disease",
+        "bronchiectasis",
+        "sarcoidosis",
+        "copd",
+        "asthma",
+        "chronic_respiratory_failure"
+      ],
+      "followUpBehavior": "A yes response creates a urgent clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.pulmonary.oxygen_issue",
+      "category": "care_coordination",
+      "text": "If you use oxygen, is a device or supply problem keeping you from using it as directed?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies oxygen equipment-access barriers without assuming oxygen use.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-pulmonary-oxygen_issue-task",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "create_care_coordination_task",
+              "code": "oxygen_equipment_or_supply_barrier",
+              "urgency": "soon"
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "interstitial_lung_disease",
+        "bronchiectasis",
+        "sarcoidosis",
+        "copd",
+        "chronic_respiratory_failure"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.pulmonary.flare_treatment",
+      "category": "symptoms",
+      "text": "Have you needed an unplanned breathing treatment, antibiotic, or steroid since the last review?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Captures exacerbation treatment and potential medication reconciliation needs.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "bronchiectasis",
+        "copd",
+        "asthma",
+        "interstitial_lung_disease"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.liver.abdominal_swelling",
+      "category": "symptoms",
+      "text": "Has your abdomen become more swollen?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for increasing ascites burden.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "cirrhosis"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.liver.confusion",
+      "category": "symptoms",
+      "text": "Have you or someone close to you noticed new confusion or unusual sleepiness?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for possible hepatic encephalopathy or other acute change.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-liver-confusion-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "new_confusion_with_cirrhosis",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "cirrhosis"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.liver.bleeding_red_flag",
+      "category": "symptoms",
+      "text": "Have you vomited blood or passed black, tar-like stool?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for possible gastrointestinal bleeding requiring urgent evaluation.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-liver-bleeding_red_flag-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "possible_gastrointestinal_bleeding",
+              "urgency": "urgent",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "cirrhosis",
+        "gerd"
+      ],
+      "followUpBehavior": "A yes response creates a urgent clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.liver.jaundice_change",
+      "category": "symptoms",
+      "text": "Have your eyes or skin become more yellow?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Tracks visible change that may reflect worsening liver dysfunction.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-liver-jaundice_change-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "worsening_jaundice",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "cirrhosis"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.liver.appetite_weight",
+      "category": "nutrition",
+      "text": "Have poor appetite or unplanned weight loss made eating enough difficult?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies nutrition risk needing care-plan follow-up.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "cirrhosis",
+        "malignancy",
+        "inflammatory_bowel_disease"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.sickle.pain_crisis",
+      "category": "symptoms",
+      "text": "Have you had a sickle-cell pain crisis since the last review?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Tracks a major disease-specific acute event.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "sickle_cell_disease"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.sickle.fever",
+      "category": "symptoms",
+      "text": "Do you have a fever now or have you had one with new illness symptoms?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for infection risk requiring prompt assessment in sickle cell disease.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-sickle-fever-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "fever_with_sickle_cell_disease",
+              "urgency": "urgent",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "sickle_cell_disease"
+      ],
+      "followUpBehavior": "A yes response creates a urgent clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.sickle.chest_symptoms",
+      "category": "symptoms",
+      "text": "Have you had new chest pain or new breathing difficulty?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for possible acute chest syndrome or another urgent cardiopulmonary problem.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-sickle-chest_symptoms-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "possible_acute_chest_syndrome",
+              "urgency": "urgent",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "sickle_cell_disease"
+      ],
+      "followUpBehavior": "A yes response creates a urgent clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.hematology.lab_followup",
+      "category": "specialist_follow_up",
+      "text": "Is a blood-count test, infusion, or hematology visit overdue?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies overdue monitoring or treatment coordination.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "sickle_cell_disease",
+        "anemia",
+        "malignancy"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.vascular.walking_leg_pain",
+      "category": "symptoms",
+      "text": "Do leg symptoms make you stop when walking and improve with rest?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for activity-related claudication burden.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "peripheral_vascular_disease"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.vascular.rest_pain",
+      "category": "symptoms",
+      "text": "Do you have foot or leg pain while resting, especially at night?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for possible advanced limb ischemia.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-vascular-rest_pain-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "vascular_rest_pain",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "peripheral_vascular_disease"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.vascular.foot_wound",
+      "category": "symptoms",
+      "text": "Do you have a foot or leg sore that is new or not healing?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies skin breakdown with vascular, diabetes-related, or sensory-loss healing risk.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-vascular-foot_wound-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "new_or_nonhealing_foot_wound",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "chronic_venous_insufficiency",
+        "peripheral_vascular_disease",
+        "type_2_diabetes",
+        "peripheral_neuropathy"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.venous.swelling_skin",
+      "category": "symptoms",
+      "text": "Has leg swelling or skin discoloration from venous disease worsened?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Tracks venous congestion and skin-change burden.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "chronic_venous_insufficiency"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.aorta.new_pain",
+      "category": "symptoms",
+      "text": "Have you had sudden severe chest, back, or abdominal pain?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for a symptom pattern requiring emergency evaluation in a patient with aortic aneurysm.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-aorta-new_pain-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "possible_aortic_emergency",
+              "urgency": "urgent",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "aortic_aneurysm"
+      ],
+      "followUpBehavior": "A yes response creates a urgent clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.aorta.surveillance_due",
+      "category": "specialist_follow_up",
+      "text": "Is imaging or a vascular follow-up for the aneurysm overdue?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies missed surveillance or specialty follow-up.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "aortic_aneurysm"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.aorta.bp_plan",
+      "category": "symptoms",
+      "text": "Have you had trouble following the blood-pressure plan given for the aneurysm?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies a management barrier without prescribing a target or treatment.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "aortic_aneurysm"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.mental.trauma_change",
+      "category": "symptoms",
+      "text": "Compared with the last review, how have trauma-related symptoms changed?",
+      "helperText": "Choose the answer that best fits today.",
+      "answerType": "single_select",
+      "required": false,
+      "validation": {
+        "options": [
+          {
+            "value": "better",
+            "label": "Better"
+          },
+          {
+            "value": "about_the_same",
+            "label": "About the same"
+          },
+          {
+            "value": "worse",
+            "label": "Worse"
+          }
+        ]
+      },
+      "clinicalRationale": "Tracks PTSD symptom trajectory without requiring disclosure of traumatic details.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "post_traumatic_stress_disorder"
+      ],
+      "followUpBehavior": "Review worsening or high-burden responses during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.mental.safety_thoughts",
+      "category": "symptoms",
+      "text": "Have you had thoughts of harming yourself or that you would be better off dead?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for an urgent behavioral-health safety concern.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-mental-safety_thoughts-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "self_harm_thoughts",
+              "urgency": "urgent",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "post_traumatic_stress_disorder",
+        "major_depressive_disorder",
+        "bipolar_disorder",
+        "schizophrenia"
+      ],
+      "followUpBehavior": "A yes response creates a urgent clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.substance.use_since_contact",
+      "category": "symptoms",
+      "text": "Have you used the substance related to this diagnosis since the last contact?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Tracks current use without judgment and supports treatment planning.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "alcohol_use_disorder",
+        "opioid_use_disorder",
+        "nicotine_dependence"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.substance.craving_change",
+      "category": "symptoms",
+      "text": "Compared with the last review, how have cravings changed?",
+      "helperText": "Choose the answer that best fits today.",
+      "answerType": "single_select",
+      "required": false,
+      "validation": {
+        "options": [
+          {
+            "value": "less",
+            "label": "Less"
+          },
+          {
+            "value": "about_the_same",
+            "label": "About the same"
+          },
+          {
+            "value": "more",
+            "label": "More"
+          },
+          {
+            "value": "none",
+            "label": "None"
+          }
+        ]
+      },
+      "clinicalRationale": "Tracks relapse risk using a deterministic response set.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "alcohol_use_disorder",
+        "opioid_use_disorder",
+        "nicotine_dependence"
+      ],
+      "followUpBehavior": "Review worsening or high-burden responses during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.substance.withdrawal_red_flag",
+      "category": "symptoms",
+      "text": "Are you having severe shaking, confusion, hallucinations, or a seizure while cutting down or stopping?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for potentially dangerous withdrawal symptoms.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-substance-withdrawal_red_flag-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "severe_withdrawal_symptoms",
+              "urgency": "urgent",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "alcohol_use_disorder",
+        "opioid_use_disorder"
+      ],
+      "followUpBehavior": "A yes response creates a urgent clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.substance.treatment_access",
+      "category": "care_coordination",
+      "text": "Have you had trouble getting counseling, recovery support, or prescribed treatment?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies access barriers to ongoing substance-use treatment.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "alcohol_use_disorder",
+        "opioid_use_disorder",
+        "nicotine_dependence"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.tobacco.quit_support",
+      "category": "symptoms",
+      "text": "Would support for reducing or stopping nicotine use be helpful now?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies readiness for support without assuming a quit attempt.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "nicotine_dependence"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.sleep.insomnia_change",
+      "category": "symptoms",
+      "text": "Compared with the last review, how has your ability to fall asleep or stay asleep changed?",
+      "helperText": "Choose the answer that best fits today.",
+      "answerType": "single_select",
+      "required": false,
+      "validation": {
+        "options": [
+          {
+            "value": "better",
+            "label": "Better"
+          },
+          {
+            "value": "about_the_same",
+            "label": "About the same"
+          },
+          {
+            "value": "worse",
+            "label": "Worse"
+          }
+        ]
+      },
+      "clinicalRationale": "Tracks insomnia trajectory.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "insomnia"
+      ],
+      "followUpBehavior": "Review worsening or high-burden responses during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.sleep.daytime_impact",
+      "category": "symptoms",
+      "text": "Is poor sleep making daytime activities harder?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Assesses functional impact of sleep disturbance.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "insomnia",
+        "sleep_apnea",
+        "fibromyalgia"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.sleep.treatment_barrier",
+      "category": "symptoms",
+      "text": "Have you had trouble following the sleep treatment plan?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies practical or tolerance barriers without assuming a particular treatment.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "insomnia",
+        "sleep_apnea"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.neuro.swallow_breathe",
+      "category": "symptoms",
+      "text": "Have swallowing or breathing become newly difficult because of muscle weakness?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for bulbar or respiratory decline in neuromuscular disease.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-neuro-swallow_breathe-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "neuromuscular_swallowing_or_breathing_decline",
+              "urgency": "urgent",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "amyotrophic_lateral_sclerosis",
+        "myasthenia_gravis",
+        "cerebral_palsy",
+        "muscular_dystrophy",
+        "multiple_sclerosis"
+      ],
+      "followUpBehavior": "A yes response creates a urgent clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.neuro.assistive_device",
+      "category": "care_coordination",
+      "text": "Do you need a mobility or communication device repaired or replaced?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies equipment needs that affect safety and independence.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-neuro-assistive_device-task",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "create_care_coordination_task",
+              "code": "assistive_device_repair_or_replacement",
+              "urgency": "routine"
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "amyotrophic_lateral_sclerosis",
+        "myasthenia_gravis",
+        "cerebral_palsy",
+        "muscular_dystrophy",
+        "multiple_sclerosis"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.neuro.transfer_change",
+      "category": "symptoms",
+      "text": "Has getting in or out of bed, a chair, or a vehicle become harder?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Tracks functional decline relevant to caregiver and therapy planning.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "amyotrophic_lateral_sclerosis",
+        "myasthenia_gravis",
+        "cerebral_palsy",
+        "muscular_dystrophy",
+        "multiple_sclerosis"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.tremor.daily_tasks",
+      "category": "symptoms",
+      "text": "Is tremor making eating, drinking, writing, or dressing harder?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Measures functional impact of tremor.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "essential_tremor"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.tremor.medication_effect",
+      "category": "symptoms",
+      "text": "If you use treatment for tremor, is it wearing off or causing a problem?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Assesses treatment effectiveness and adverse effects without assuming medication use.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "essential_tremor"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.parkinson.mobility_change",
+      "category": "symptoms",
+      "text": "Compared with the last review, how has your walking changed?",
+      "helperText": "Choose the answer that best fits today.",
+      "answerType": "single_select",
+      "required": false,
+      "validation": {
+        "options": [
+          {
+            "value": "better",
+            "label": "Better"
+          },
+          {
+            "value": "about_the_same",
+            "label": "About the same"
+          },
+          {
+            "value": "worse",
+            "label": "Worse"
+          }
+        ]
+      },
+      "clinicalRationale": "Tracks Parkinson-related mobility change with low cognitive load.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "parkinson-mobility-worse",
+          "when": {
+            "operator": "equals",
+            "value": "worse"
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "parkinson_mobility_worse",
+              "urgency": "soon",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "parkinson_disease"
+      ],
+      "followUpBehavior": "A worse response creates a soon provider-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.parkinson.wearing_off",
+      "category": "symptoms",
+      "text": "If you use Parkinson medicine, does its benefit wear off before the next dose?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies a treatment-timing problem without assuming a particular medicine.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "provider_follow_up"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-parkinson-wearing_off-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "parkinson_treatment_wearing_off",
+              "urgency": "soon",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "parkinson_disease"
+      ],
+      "followUpBehavior": "A yes response creates a soon clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.parkinson.swallowing",
+      "category": "symptoms",
+      "text": "Have you had new trouble swallowing food or drinks?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for swallowing decline that may increase aspiration and nutrition risk.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-parkinson-swallowing-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "new_swallowing_difficulty_parkinson",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "parkinson_disease"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.seizure.event",
+      "category": "symptoms",
+      "text": "Have you had a seizure since the last review?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Tracks the core disease event for epilepsy.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-seizure-event-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "breakthrough_seizure",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "epilepsy"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.seizure.rescue_plan",
+      "category": "care_coordination",
+      "text": "Do you or your caregiver need help understanding or obtaining the seizure rescue plan?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies education or access gaps for an established rescue plan.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "epilepsy"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.dementia.safety_change",
+      "category": "symptoms",
+      "text": "Has a new safety concern come up because of changes in memory or thinking?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for changes in daily safety that may require caregiver or clinician action.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "provider_follow_up"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-dementia-safety_change-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "new_cognitive_safety_concern",
+              "urgency": "soon",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "dementia"
+      ],
+      "followUpBehavior": "A yes response creates a soon clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.dementia.caregiver_strain",
+      "category": "care_coordination",
+      "text": "Does the caregiver need more help to safely carry out the care plan?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies caregiver support needs affecting plan feasibility.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-dementia-caregiver_strain-task",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "create_care_coordination_task",
+              "code": "dementia_caregiver_support",
+              "urgency": "routine"
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "dementia"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.urinary.emptying",
+      "category": "symptoms",
+      "text": "Have you been unable to empty your bladder or unable to urinate?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for urinary retention requiring prompt evaluation.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-urinary-emptying-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "possible_urinary_retention",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "benign_prostatic_hyperplasia"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.urinary.nocturia",
+      "category": "symptoms",
+      "text": "How many times do you usually get up to urinate at night?",
+      "helperText": "Choose the answer that best fits today.",
+      "answerType": "single_select",
+      "required": false,
+      "validation": {
+        "options": [
+          {
+            "value": "none",
+            "label": "None"
+          },
+          {
+            "value": "one",
+            "label": "One"
+          },
+          {
+            "value": "two",
+            "label": "Two"
+          },
+          {
+            "value": "three_or_more",
+            "label": "Three or more"
+          }
+        ]
+      },
+      "clinicalRationale": "Measures nocturia burden using a deterministic range.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "benign_prostatic_hyperplasia"
+      ],
+      "followUpBehavior": "Review worsening or high-burden responses during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.urinary.symptom_change",
+      "category": "symptoms",
+      "text": "Has urine flow or the feeling of incomplete emptying worsened?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Tracks lower-urinary-tract symptom change.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "benign_prostatic_hyperplasia"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.hearing.change",
+      "category": "symptoms",
+      "text": "Has your ability to hear conversations changed since the last review?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Tracks functionally meaningful hearing change.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "hearing_loss"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.hearing.device_issue",
+      "category": "care_coordination",
+      "text": "If you use a hearing device, is a device problem limiting its use?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies hearing-device barriers without assuming use.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-hearing-device_issue-task",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "create_care_coordination_task",
+              "code": "hearing_device_support",
+              "urgency": "routine"
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "hearing_loss"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.hearing.communication_barrier",
+      "category": "symptoms",
+      "text": "Is hearing difficulty preventing you from understanding health instructions or phone calls?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies a communication-access risk affecting care coordination.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "hearing_loss"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.vision.sudden_change",
+      "category": "symptoms",
+      "text": "Have you had a sudden loss of vision or a new dark curtain over your vision?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for an urgent vision change.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-vision-sudden_change-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "sudden_vision_loss",
+              "urgency": "urgent",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "visual_impairment",
+        "glaucoma",
+        "age_related_macular_degeneration"
+      ],
+      "followUpBehavior": "A yes response creates a urgent clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.vision.daily_tasks",
+      "category": "symptoms",
+      "text": "Is vision loss making any daily activity unsafe?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Assesses functional and safety impact of visual impairment.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "visual_impairment",
+        "glaucoma",
+        "age_related_macular_degeneration"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.vision.treatment_barrier",
+      "category": "care_coordination",
+      "text": "Is anything preventing you from following your eye-care plan?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies treatment and appointment barriers without assuming a specific therapy.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-vision-treatment_barrier-task",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "create_care_coordination_task",
+              "code": "eye_care_plan_barrier",
+              "urgency": "routine"
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "visual_impairment",
+        "glaucoma",
+        "age_related_macular_degeneration"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.endocrine.heart_racing",
+      "category": "symptoms",
+      "text": "Have you had new episodes of a racing or irregular heartbeat?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for a potentially important rhythm symptom.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-endocrine-heart_racing-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "new_racing_or_irregular_heartbeat",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "hyperthyroidism",
+        "atrial_fibrillation"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.thyroid.lab_due",
+      "category": "specialist_follow_up",
+      "text": "Is a thyroid blood test or thyroid follow-up overdue?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies overdue monitoring.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "hyperthyroidism",
+        "hypothyroidism"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.adrenal.missed_steroid",
+      "category": "symptoms",
+      "text": "If you use steroid replacement, have you missed doses or had trouble obtaining it?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies interruption of essential replacement therapy without assuming use.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "adrenal_insufficiency"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.adrenal.vomiting_red_flag",
+      "category": "symptoms",
+      "text": "Are vomiting or severe illness keeping you from taking your adrenal medicine?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for adrenal-crisis risk during intercurrent illness.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-adrenal-vomiting_red_flag-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "possible_adrenal_crisis_risk",
+              "urgency": "urgent",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "adrenal_insufficiency"
+      ],
+      "followUpBehavior": "A yes response creates a urgent clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.adrenal.sick_day_plan",
+      "category": "care_coordination",
+      "text": "Do you need help understanding your sick-day or emergency steroid plan?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies an education or access gap for an established emergency plan.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-adrenal-sick_day_plan-task",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "create_care_coordination_task",
+              "code": "adrenal_emergency_plan_education",
+              "urgency": "soon"
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "adrenal_insufficiency"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.cardiac.chest_discomfort",
+      "category": "symptoms",
+      "text": "Have you had new or worsening chest pressure or discomfort?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for a potentially urgent cardiac symptom.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-cardiac-chest_discomfort-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "new_or_worsening_chest_discomfort",
+              "urgency": "urgent",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "coronary_artery_disease",
+        "valvular_heart_disease",
+        "chronic_heart_failure"
+      ],
+      "followUpBehavior": "A yes response creates a urgent clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.cardiac.fainting",
+      "category": "symptoms",
+      "text": "Have you fainted or nearly fainted since the last review?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for hemodynamic or rhythm-related instability.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-cardiac-fainting-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "syncope_or_near_syncope",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "atrial_fibrillation",
+        "valvular_heart_disease",
+        "aortic_aneurysm"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.anticoag.bleeding",
+      "category": "symptoms",
+      "text": "If you use a blood thinner, have you had unusual bleeding or large unexplained bruises?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for anticoagulant harm without assuming use.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-anticoag-bleeding-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "possible_anticoagulant_bleeding",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "atrial_fibrillation",
+        "coronary_artery_disease",
+        "valvular_heart_disease"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.ckd.lab_due",
+      "category": "specialist_follow_up",
+      "text": "Is a kidney blood test or urine test overdue?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies overdue kidney-function or albumin monitoring.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "chronic_kidney_disease"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.ckd.swelling_change",
+      "category": "symptoms",
+      "text": "Has swelling in your legs, feet, or around your eyes increased?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Tracks possible fluid-balance change.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "chronic_kidney_disease",
+        "chronic_heart_failure"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.diabetes.high_pattern",
+      "category": "symptoms",
+      "text": "Have glucose readings been above the range in your care plan more often than usual?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Tracks worsening hyperglycemia against the patient's established plan rather than prescribing a target.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "type_1_diabetes",
+        "type_2_diabetes",
+        "secondary_diabetes_mellitus"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.lipid.lab_due",
+      "category": "specialist_follow_up",
+      "text": "Is a cholesterol test or lipid follow-up overdue?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies overdue monitoring.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "hyperlipidemia"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.gerd.swallowing",
+      "category": "symptoms",
+      "text": "Has food felt stuck when you swallow?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for an alarm symptom needing prompt assessment.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-gerd-swallowing-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "new_dysphagia",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "gerd"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.anemia.symptom_change",
+      "category": "symptoms",
+      "text": "Has anemia made your usual activities harder since the last review?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Tracks clinically meaningful anemia symptom burden.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "provider_follow_up"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-anemia-symptom_change-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "worsening_anemia_function",
+              "urgency": "soon",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "anemia"
+      ],
+      "followUpBehavior": "A yes response creates a soon clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.osteoporosis.new_fracture",
+      "category": "symptoms",
+      "text": "Have you been told you have a new fracture since the last review?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Captures a management-changing fracture event.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "provider_follow_up"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-osteoporosis-new_fracture-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "new_fracture",
+              "urgency": "soon",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "osteoporosis"
+      ],
+      "followUpBehavior": "A yes response creates a soon clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.osteoporosis.treatment_barrier",
+      "category": "symptoms",
+      "text": "Have you had trouble taking or receiving your osteoporosis treatment?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies adherence or access barriers without assuming treatment type.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "osteoporosis"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.cancer.treatment_change",
+      "category": "symptoms",
+      "text": "Has cancer treatment started, stopped, or changed since the last review?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Captures a major care-plan and medication-reconciliation event.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "malignancy"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.cancer.new_symptom",
+      "category": "symptoms",
+      "text": "Has a new symptom appeared that your cancer team does not yet know about?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Prompts timely oncology communication without diagnosing the symptom.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "provider_follow_up"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-cancer-new_symptom-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "new_oncology_symptom",
+              "urgency": "soon",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "malignancy"
+      ],
+      "followUpBehavior": "A yes response creates a soon clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.osa.device_use",
+      "category": "symptoms",
+      "text": "If you use a sleep-apnea device, have you been able to use it on most nights?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Assesses adherence without assuming device use.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "sleep_apnea"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.osa.device_barrier",
+      "category": "care_coordination",
+      "text": "Is a device or supply problem limiting your sleep-apnea treatment?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies common treatment barriers.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-osa-device_barrier-task",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "create_care_coordination_task",
+              "code": "sleep_apnea_device_or_supply_barrier",
+              "urgency": "routine"
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "sleep_apnea"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.weight.plan_barrier",
+      "category": "care_coordination",
+      "text": "Is there a barrier making the agreed weight-management plan hard to follow?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies plan feasibility without stigmatizing language or prescribing a goal.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-weight-plan_barrier-task",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "create_care_coordination_task",
+              "code": "weight_plan_barrier",
+              "urgency": "routine"
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "obesity"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.arthritis.stiffness_change",
+      "category": "symptoms",
+      "text": "Has joint stiffness made daily movement harder since the last review?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Tracks functional burden from stiffness.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "osteoarthritis",
+        "rheumatoid_arthritis",
+        "ankylosing_spondylitis"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.neuropathy.sensation_change",
+      "category": "symptoms",
+      "text": "Has numbness, burning, or tingling in your hands or feet worsened?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Tracks sensory neuropathy change.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "peripheral_neuropathy"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.valve.procedure_plan",
+      "category": "specialist_follow_up",
+      "text": "Is a heart-valve test, procedure, or cardiology decision pending?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies coordination needs around valve surveillance or intervention.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [],
+      "displayWhen": [],
+      "followUpTriggers": [],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "valvular_heart_disease"
+      ],
+      "followUpBehavior": "Review a yes response during routine CCM follow-up.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.ibd.stool_change",
+      "category": "symptoms",
+      "text": "Have bowel movements become more frequent or contained blood?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Tracks a potentially important change in inflammatory bowel disease.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-ibd-stool_change-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "ibd_blood_or_frequency_change",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "inflammatory_bowel_disease"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    }
+  ]
+}

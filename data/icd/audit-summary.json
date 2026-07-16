@@ -1,0 +1,3108 @@
+{
+  "schemaVersion": 1,
+  "auditVersion": "2026-07-knowledge-quality-1",
+  "auditedSourceVersion": "FY 2026 April 1, 2026",
+  "auditedAt": "2026-07-15T01:19:26.074Z",
+  "totalRecords": 98186,
+  "classifications": {
+    "PASS": 11192,
+    "FAIL": 36452,
+    "UNSURE": 50542
+  },
+  "overallConfidence": {
+    "score": 77,
+    "label": "MODERATE",
+    "components": [
+      {
+        "id": "Data integrity",
+        "score": 100,
+        "weight": 0.25,
+        "assessment": "Complete CMS coverage, checksum, exact identity, and deterministic artifacts validate."
+      },
+      {
+        "id": "Classification consistency",
+        "score": 82,
+        "weight": 0.2,
+        "assessment": "Broad categories are coherent, with concentrated uncertainty in prolonged injury and device contexts."
+      },
+      {
+        "id": "False-FAIL resilience",
+        "score": 68,
+        "weight": 0.2,
+        "assessment": "Override recovery exists, but the targeted review queue is material."
+      },
+      {
+        "id": "PASS mapping completeness",
+        "score": 59,
+        "weight": 0.2,
+        "assessment": "Only mapped PASS records have stable reusable content identity."
+      },
+      {
+        "id": "Canonical/group stability",
+        "score": 68,
+        "weight": 0.15,
+        "assessment": "IDs are deterministic, but major under-fragmentation and sparse family mapping remain."
+      }
+    ]
+  },
+  "readyForBroadQuestionBankGeneration": false,
+  "failCategories": [
+    {
+      "id": "fractures",
+      "label": "Fractures",
+      "confidence": "MEDIUM",
+      "questionable": true,
+      "reason": "Most active fracture episodes are not CCM-specific, but delayed healing, nonunion, malunion, and functional consequences merit review.",
+      "count": 14778,
+      "billableCount": 14778,
+      "examples": [
+        {
+          "code": "S02.0XXA",
+          "officialTitle": "Fracture of vault of skull, initial encounter for closed fracture",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        },
+        {
+          "code": "S02.0XXB",
+          "officialTitle": "Fracture of vault of skull, initial encounter for open fracture",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        },
+        {
+          "code": "S02.0XXD",
+          "officialTitle": "Fracture of vault of skull, subsequent encounter for fracture with routine healing",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        },
+        {
+          "code": "S02.0XXG",
+          "officialTitle": "Fracture of vault of skull, subsequent encounter for fracture with delayed healing",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        },
+        {
+          "code": "S02.0XXK",
+          "officialTitle": "Fracture of vault of skull, subsequent encounter for fracture with nonunion",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        },
+        {
+          "code": "S02.101A",
+          "officialTitle": "Fracture of base of skull, right side, initial encounter for closed fracture",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        }
+      ]
+    },
+    {
+      "id": "other_acute_injuries",
+      "label": "Other acute injuries",
+      "confidence": "HIGH",
+      "questionable": true,
+      "reason": "Most active injuries are outside CCM content, while major neurologic or disabling follow-up can require context-sensitive review.",
+      "count": 7870,
+      "billableCount": 7870,
+      "examples": [
+        {
+          "code": "S00.00XA",
+          "officialTitle": "Unspecified superficial injury of scalp, initial encounter",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        },
+        {
+          "code": "S00.00XD",
+          "officialTitle": "Unspecified superficial injury of scalp, subsequent encounter",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        },
+        {
+          "code": "S00.01XA",
+          "officialTitle": "Abrasion of scalp, initial encounter",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        },
+        {
+          "code": "S00.01XD",
+          "officialTitle": "Abrasion of scalp, subsequent encounter",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        },
+        {
+          "code": "S00.02XA",
+          "officialTitle": "Blister (nonthermal) of scalp, initial encounter",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        },
+        {
+          "code": "S00.02XD",
+          "officialTitle": "Blister (nonthermal) of scalp, subsequent encounter",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        }
+      ]
+    },
+    {
+      "id": "external_causes",
+      "label": "External causes",
+      "confidence": "HIGH",
+      "questionable": false,
+      "reason": "External-cause codes identify an event or circumstance rather than a managed chronic condition.",
+      "count": 5137,
+      "billableCount": 5137,
+      "examples": [
+        {
+          "code": "V00.01XA",
+          "officialTitle": "Pedestrian on foot injured in collision with roller-skater, initial encounter",
+          "billable": true,
+          "rationale": "The external-cause code describes an event rather than a chronic condition profile."
+        },
+        {
+          "code": "V00.01XD",
+          "officialTitle": "Pedestrian on foot injured in collision with roller-skater, subsequent encounter",
+          "billable": true,
+          "rationale": "The external-cause code describes an event rather than a chronic condition profile."
+        },
+        {
+          "code": "V00.02XA",
+          "officialTitle": "Pedestrian on foot injured in collision with skateboarder, initial encounter",
+          "billable": true,
+          "rationale": "The external-cause code describes an event rather than a chronic condition profile."
+        },
+        {
+          "code": "V00.02XD",
+          "officialTitle": "Pedestrian on foot injured in collision with skateboarder, subsequent encounter",
+          "billable": true,
+          "rationale": "The external-cause code describes an event rather than a chronic condition profile."
+        },
+        {
+          "code": "V00.031A",
+          "officialTitle": "Pedestrian on foot injured in collision with rider of standing electric scooter, initial encounter",
+          "billable": true,
+          "rationale": "The external-cause code describes an event rather than a chronic condition profile."
+        },
+        {
+          "code": "V00.031D",
+          "officialTitle": "Pedestrian on foot injured in collision with rider of standing electric scooter, subsequent encounter",
+          "billable": true,
+          "rationale": "The external-cause code describes an event rather than a chronic condition profile."
+        }
+      ]
+    },
+    {
+      "id": "poisonings_toxic_effects",
+      "label": "Poisonings and toxic effects",
+      "confidence": "HIGH",
+      "questionable": false,
+      "reason": "Poisoning and toxic-effect codes usually represent acute episodes rather than stable chronic content.",
+      "count": 3218,
+      "billableCount": 3218,
+      "examples": [
+        {
+          "code": "T36.0X1A",
+          "officialTitle": "Poisoning by penicillins, accidental (unintentional), initial encounter",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        },
+        {
+          "code": "T36.0X1D",
+          "officialTitle": "Poisoning by penicillins, accidental (unintentional), subsequent encounter",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        },
+        {
+          "code": "T36.0X2A",
+          "officialTitle": "Poisoning by penicillins, intentional self-harm, initial encounter",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        },
+        {
+          "code": "T36.0X2D",
+          "officialTitle": "Poisoning by penicillins, intentional self-harm, subsequent encounter",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        },
+        {
+          "code": "T36.0X3A",
+          "officialTitle": "Poisoning by penicillins, assault, initial encounter",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        },
+        {
+          "code": "T36.0X3D",
+          "officialTitle": "Poisoning by penicillins, assault, subsequent encounter",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        }
+      ]
+    },
+    {
+      "id": "lacerations_open_wounds",
+      "label": "Lacerations and open wounds",
+      "confidence": "HIGH",
+      "questionable": false,
+      "reason": "These codes predominantly describe acute wound treatment and follow-up.",
+      "count": 2505,
+      "billableCount": 2505,
+      "examples": [
+        {
+          "code": "D78.11",
+          "officialTitle": "Accidental puncture and laceration of the spleen during a procedure on the spleen",
+          "billable": true,
+          "rationale": "The title describes clearly acute injury, infection, symptom, poisoning, or exposure content."
+        },
+        {
+          "code": "D78.12",
+          "officialTitle": "Accidental puncture and laceration of the spleen during other procedure",
+          "billable": true,
+          "rationale": "The title describes clearly acute injury, infection, symptom, poisoning, or exposure content."
+        },
+        {
+          "code": "E36.11",
+          "officialTitle": "Accidental puncture and laceration of an endocrine system organ or structure during an endocrine system procedure",
+          "billable": true,
+          "rationale": "The title describes clearly acute injury, infection, symptom, poisoning, or exposure content."
+        },
+        {
+          "code": "E36.12",
+          "officialTitle": "Accidental puncture and laceration of an endocrine system organ or structure during other procedure",
+          "billable": true,
+          "rationale": "The title describes clearly acute injury, infection, symptom, poisoning, or exposure content."
+        },
+        {
+          "code": "G97.41",
+          "officialTitle": "Accidental puncture or laceration of dura during a procedure",
+          "billable": true,
+          "rationale": "The title describes clearly acute injury, infection, symptom, poisoning, or exposure content."
+        },
+        {
+          "code": "G97.48",
+          "officialTitle": "Accidental puncture and laceration of other nervous system organ or structure during a nervous system procedure",
+          "billable": true,
+          "rationale": "The title describes clearly acute injury, infection, symptom, poisoning, or exposure content."
+        }
+      ]
+    },
+    {
+      "id": "burns_corrosions",
+      "label": "Burns and corrosions",
+      "confidence": "HIGH",
+      "questionable": false,
+      "reason": "These codes predominantly describe acute injury treatment episodes.",
+      "count": 1652,
+      "billableCount": 1652,
+      "examples": [
+        {
+          "code": "L55.0",
+          "officialTitle": "Sunburn of first degree",
+          "billable": true,
+          "rationale": "The title describes clearly acute injury, infection, symptom, poisoning, or exposure content."
+        },
+        {
+          "code": "L55.1",
+          "officialTitle": "Sunburn of second degree",
+          "billable": true,
+          "rationale": "The title describes clearly acute injury, infection, symptom, poisoning, or exposure content."
+        },
+        {
+          "code": "L55.2",
+          "officialTitle": "Sunburn of third degree",
+          "billable": true,
+          "rationale": "The title describes clearly acute injury, infection, symptom, poisoning, or exposure content."
+        },
+        {
+          "code": "T20.00XA",
+          "officialTitle": "Burn of unspecified degree of head, face, and neck, unspecified site, initial encounter",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        },
+        {
+          "code": "T20.00XD",
+          "officialTitle": "Burn of unspecified degree of head, face, and neck, unspecified site, subsequent encounter",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        },
+        {
+          "code": "T20.011A",
+          "officialTitle": "Burn of unspecified degree of right ear [any part, except ear drum], initial encounter",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        }
+      ]
+    },
+    {
+      "id": "device_postprocedural",
+      "label": "Device and postprocedural complications",
+      "confidence": "MEDIUM",
+      "questionable": true,
+      "reason": "Complications are often temporary, but recurrent device, dialysis, or transplant-related problems may affect longitudinal care.",
+      "count": 1032,
+      "billableCount": 1032,
+      "examples": [
+        {
+          "code": "T79.9XXA",
+          "officialTitle": "Unspecified early complication of trauma, initial encounter",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        },
+        {
+          "code": "T79.9XXD",
+          "officialTitle": "Unspecified early complication of trauma, subsequent encounter",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        },
+        {
+          "code": "T80.0XXA",
+          "officialTitle": "Air embolism following infusion, transfusion and therapeutic injection, initial encounter",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        },
+        {
+          "code": "T80.0XXD",
+          "officialTitle": "Air embolism following infusion, transfusion and therapeutic injection, subsequent encounter",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        },
+        {
+          "code": "T80.1XXA",
+          "officialTitle": "Vascular complications following infusion, transfusion and therapeutic injection, initial encounter",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        },
+        {
+          "code": "T80.1XXD",
+          "officialTitle": "Vascular complications following infusion, transfusion and therapeutic injection, subsequent encounter",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        }
+      ]
+    },
+    {
+      "id": "other",
+      "label": "Other",
+      "confidence": "LOW",
+      "questionable": true,
+      "reason": "Residual codes require focused clinical review because no high-confidence exclusion category explains them.",
+      "count": 97,
+      "billableCount": 97,
+      "examples": [
+        {
+          "code": "H02.811",
+          "officialTitle": "Retained foreign body in right upper eyelid",
+          "billable": true,
+          "rationale": "The title describes clearly acute injury, infection, symptom, poisoning, or exposure content."
+        },
+        {
+          "code": "H02.812",
+          "officialTitle": "Retained foreign body in right lower eyelid",
+          "billable": true,
+          "rationale": "The title describes clearly acute injury, infection, symptom, poisoning, or exposure content."
+        },
+        {
+          "code": "H02.813",
+          "officialTitle": "Retained foreign body in right eye, unspecified eyelid",
+          "billable": true,
+          "rationale": "The title describes clearly acute injury, infection, symptom, poisoning, or exposure content."
+        },
+        {
+          "code": "H02.814",
+          "officialTitle": "Retained foreign body in left upper eyelid",
+          "billable": true,
+          "rationale": "The title describes clearly acute injury, infection, symptom, poisoning, or exposure content."
+        },
+        {
+          "code": "H02.815",
+          "officialTitle": "Retained foreign body in left lower eyelid",
+          "billable": true,
+          "rationale": "The title describes clearly acute injury, infection, symptom, poisoning, or exposure content."
+        },
+        {
+          "code": "H02.816",
+          "officialTitle": "Retained foreign body in left eye, unspecified eyelid",
+          "billable": true,
+          "rationale": "The title describes clearly acute injury, infection, symptom, poisoning, or exposure content."
+        }
+      ]
+    },
+    {
+      "id": "screening",
+      "label": "Screening encounters",
+      "confidence": "HIGH",
+      "questionable": false,
+      "reason": "Screening codes describe detection encounters and do not establish the condition being screened for.",
+      "count": 73,
+      "billableCount": 73,
+      "examples": [
+        {
+          "code": "Z11.0",
+          "officialTitle": "Encounter for screening for intestinal infectious diseases",
+          "billable": true,
+          "rationale": "The code is limited to routine screening, immunization, observation, fitting, or administrative encounter content."
+        },
+        {
+          "code": "Z11.1",
+          "officialTitle": "Encounter for screening for respiratory tuberculosis",
+          "billable": true,
+          "rationale": "The code is limited to routine screening, immunization, observation, fitting, or administrative encounter content."
+        },
+        {
+          "code": "Z11.2",
+          "officialTitle": "Encounter for screening for other bacterial diseases",
+          "billable": true,
+          "rationale": "The code is limited to routine screening, immunization, observation, fitting, or administrative encounter content."
+        },
+        {
+          "code": "Z11.3",
+          "officialTitle": "Encounter for screening for infections with a predominantly sexual mode of transmission",
+          "billable": true,
+          "rationale": "The code is limited to routine screening, immunization, observation, fitting, or administrative encounter content."
+        },
+        {
+          "code": "Z11.4",
+          "officialTitle": "Encounter for screening for human immunodeficiency virus [HIV]",
+          "billable": true,
+          "rationale": "The code is limited to routine screening, immunization, observation, fitting, or administrative encounter content."
+        },
+        {
+          "code": "Z11.51",
+          "officialTitle": "Encounter for screening for human papillomavirus (HPV)",
+          "billable": true,
+          "rationale": "The code is limited to routine screening, immunization, observation, fitting, or administrative encounter content."
+        }
+      ]
+    },
+    {
+      "id": "routine_administrative",
+      "label": "Routine and administrative encounters",
+      "confidence": "HIGH",
+      "questionable": false,
+      "reason": "Routine examinations, certificates, observation, and administrative encounters are not reusable condition profiles.",
+      "count": 54,
+      "billableCount": 54,
+      "examples": [
+        {
+          "code": "Z00.00",
+          "officialTitle": "Encounter for general adult medical examination without abnormal findings",
+          "billable": true,
+          "rationale": "Routine examination codes do not represent a chronic condition."
+        },
+        {
+          "code": "Z00.121",
+          "officialTitle": "Encounter for routine child health examination with abnormal findings",
+          "billable": true,
+          "rationale": "The code is limited to routine screening, immunization, observation, fitting, or administrative encounter content."
+        },
+        {
+          "code": "Z00.129",
+          "officialTitle": "Encounter for routine child health examination without abnormal findings",
+          "billable": true,
+          "rationale": "The code is limited to routine screening, immunization, observation, fitting, or administrative encounter content."
+        },
+        {
+          "code": "Z02.9",
+          "officialTitle": "Encounter for administrative examinations, unspecified",
+          "billable": true,
+          "rationale": "The code is limited to routine screening, immunization, observation, fitting, or administrative encounter content."
+        },
+        {
+          "code": "Z03.6",
+          "officialTitle": "Encounter for observation for suspected toxic effect from ingested substance ruled out",
+          "billable": true,
+          "rationale": "The code is limited to routine screening, immunization, observation, fitting, or administrative encounter content."
+        },
+        {
+          "code": "Z03.810",
+          "officialTitle": "Encounter for observation for suspected exposure to anthrax ruled out",
+          "billable": true,
+          "rationale": "The code is limited to routine screening, immunization, observation, fitting, or administrative encounter content."
+        }
+      ]
+    },
+    {
+      "id": "vaccination",
+      "label": "Vaccination-related encounters and acute events",
+      "confidence": "HIGH",
+      "questionable": false,
+      "reason": "Routine vaccination encounters and acute vaccination reactions do not independently establish chronic diagnoses.",
+      "count": 23,
+      "billableCount": 23,
+      "examples": [
+        {
+          "code": "T80.52XA",
+          "officialTitle": "Anaphylactic reaction due to vaccination, initial encounter",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        },
+        {
+          "code": "T80.52XD",
+          "officialTitle": "Anaphylactic reaction due to vaccination, subsequent encounter",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        },
+        {
+          "code": "T80.62XA",
+          "officialTitle": "Other serum reaction due to vaccination, initial encounter",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        },
+        {
+          "code": "T80.62XD",
+          "officialTitle": "Other serum reaction due to vaccination, subsequent encounter",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        },
+        {
+          "code": "T81.503A",
+          "officialTitle": "Unspecified complication of foreign body accidentally left in body following injection or immunization, initial encounter",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        },
+        {
+          "code": "T81.503D",
+          "officialTitle": "Unspecified complication of foreign body accidentally left in body following injection or immunization, subsequent encounter",
+          "billable": true,
+          "rationale": "The code represents active treatment or routine follow-up of an acute injury, poisoning, or external-cause event."
+        }
+      ]
+    },
+    {
+      "id": "self_limited_symptoms",
+      "label": "Self-limited symptoms",
+      "confidence": "MEDIUM",
+      "questionable": true,
+      "reason": "Acute symptoms usually do not establish a chronic diagnosis, although persistent symptoms can be relevant.",
+      "count": 6,
+      "billableCount": 6,
+      "examples": [
+        {
+          "code": "R05.1",
+          "officialTitle": "Acute cough",
+          "billable": true,
+          "rationale": "Acute cough is an acute symptom and not CCM-specific chronic content."
+        },
+        {
+          "code": "R05.2",
+          "officialTitle": "Subacute cough",
+          "billable": true,
+          "rationale": "The title describes clearly acute injury, infection, symptom, poisoning, or exposure content."
+        },
+        {
+          "code": "R09.A0",
+          "officialTitle": "Foreign body sensation, unspecified",
+          "billable": true,
+          "rationale": "The title describes clearly acute injury, infection, symptom, poisoning, or exposure content."
+        },
+        {
+          "code": "R09.A1",
+          "officialTitle": "Foreign body sensation, nose",
+          "billable": true,
+          "rationale": "The title describes clearly acute injury, infection, symptom, poisoning, or exposure content."
+        },
+        {
+          "code": "R09.A2",
+          "officialTitle": "Foreign body sensation, throat",
+          "billable": true,
+          "rationale": "The title describes clearly acute injury, infection, symptom, poisoning, or exposure content."
+        },
+        {
+          "code": "R09.A9",
+          "officialTitle": "Foreign body sensation, other site",
+          "billable": true,
+          "rationale": "The title describes clearly acute injury, infection, symptom, poisoning, or exposure content."
+        }
+      ]
+    },
+    {
+      "id": "abnormal_screening_findings",
+      "label": "Abnormal screening findings",
+      "confidence": "LOW",
+      "questionable": true,
+      "reason": "An abnormal screening result is not yet a confirmed chronic diagnosis, but automatic FAIL may be too strong when durable disease is suspected.",
+      "count": 5,
+      "billableCount": 5,
+      "examples": [
+        {
+          "code": "P09.1",
+          "officialTitle": "Abnormal findings on neonatal screening for inborn errors of metabolism",
+          "billable": true,
+          "rationale": "The code is limited to routine screening, immunization, observation, fitting, or administrative encounter content."
+        },
+        {
+          "code": "P09.2",
+          "officialTitle": "Abnormal findings on neonatal screening for congenital endocrine disease",
+          "billable": true,
+          "rationale": "The code is limited to routine screening, immunization, observation, fitting, or administrative encounter content."
+        },
+        {
+          "code": "P09.3",
+          "officialTitle": "Abnormal findings on neonatal screening for congenital hematologic disorders",
+          "billable": true,
+          "rationale": "The code is limited to routine screening, immunization, observation, fitting, or administrative encounter content."
+        },
+        {
+          "code": "P09.4",
+          "officialTitle": "Abnormal findings on neonatal screening for cystic fibrosis",
+          "billable": true,
+          "rationale": "The code is limited to routine screening, immunization, observation, fitting, or administrative encounter content."
+        },
+        {
+          "code": "P09.5",
+          "officialTitle": "Abnormal findings on neonatal screening for critical congenital heart disease",
+          "billable": true,
+          "rationale": "The code is limited to routine screening, immunization, observation, fitting, or administrative encounter content."
+        }
+      ]
+    },
+    {
+      "id": "acute_infections",
+      "label": "Acute infections",
+      "confidence": "HIGH",
+      "questionable": false,
+      "reason": "Clearly acute infections without chronic sequelae generally do not warrant reusable CCM-specific content.",
+      "count": 2,
+      "billableCount": 2,
+      "examples": [
+        {
+          "code": "J00",
+          "officialTitle": "Acute nasopharyngitis [common cold]",
+          "billable": true,
+          "rationale": "The title describes clearly acute injury, infection, symptom, poisoning, or exposure content."
+        },
+        {
+          "code": "J06.9",
+          "officialTitle": "Acute upper respiratory infection, unspecified",
+          "billable": true,
+          "rationale": "The title describes clearly acute injury, infection, symptom, poisoning, or exposure content."
+        }
+      ]
+    }
+  ],
+  "potentialFalseFail": {
+    "total": 9073,
+    "categories": [
+      {
+        "id": "fracture_healing_complication",
+        "count": 8088
+      },
+      {
+        "id": "recurrent_device_or_postprocedural",
+        "count": 529
+      },
+      {
+        "id": "major_disabling_injury_followup",
+        "count": 417
+      },
+      {
+        "id": "dialysis_or_transplant_context",
+        "count": 33
+      },
+      {
+        "id": "abnormal_screening_finding",
+        "count": 5
+      },
+      {
+        "id": "history_status_dependency",
+        "count": 1
+      }
+    ]
+  },
+  "potentialPassReview": {
+    "total": 1058,
+    "categories": [
+      {
+        "id": "blanket_congenital_chapter_pass",
+        "count": 894
+      },
+      {
+        "id": "acute_language_without_canonical_core",
+        "count": 164
+      }
+    ]
+  },
+  "unsureSummary": {
+    "billable": 28570,
+    "nonBillable": 21972,
+    "topChapters": [
+      {
+        "id": "S",
+        "count": 15274
+      },
+      {
+        "id": "T",
+        "count": 7956
+      },
+      {
+        "id": "M",
+        "count": 6504
+      },
+      {
+        "id": "H",
+        "count": 3589
+      },
+      {
+        "id": "V",
+        "count": 3084
+      },
+      {
+        "id": "O",
+        "count": 2995
+      },
+      {
+        "id": "Z",
+        "count": 1660
+      },
+      {
+        "id": "W",
+        "count": 1008
+      },
+      {
+        "id": "Y",
+        "count": 1005
+      },
+      {
+        "id": "R",
+        "count": 950
+      }
+    ]
+  },
+  "unmappedPass": {
+    "total": 4583,
+    "groups": [
+      {
+        "id": "hypertensive_cardiorenal",
+        "label": "Hypertensive heart and kidney disease",
+        "disposition": "MAP_EXISTING_WITH_VARIANTS",
+        "target": "essential_hypertension + heart failure/CKD modules",
+        "recommendation": "Review I11-I13 for a hypertension core plus heart-failure and CKD content variants; do not flatten organ involvement.",
+        "count": 8,
+        "billableCount": 8,
+        "examples": [
+          {
+            "code": "I11.0",
+            "officialTitle": "Hypertensive heart disease with heart failure",
+            "billable": true,
+            "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+          },
+          {
+            "code": "I11.9",
+            "officialTitle": "Hypertensive heart disease without heart failure",
+            "billable": true,
+            "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+          },
+          {
+            "code": "I12.0",
+            "officialTitle": "Hypertensive chronic kidney disease with stage 5 chronic kidney disease or end stage renal disease",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "I12.9",
+            "officialTitle": "Hypertensive chronic kidney disease with stage 1 through stage 4 chronic kidney disease, or unspecified chronic kidney disease",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "I13.0",
+            "officialTitle": "Hypertensive heart and chronic kidney disease with heart failure and stage 1 through stage 4 chronic kidney disease, or unspecified chronic kidney disease",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "I13.10",
+            "officialTitle": "Hypertensive heart and chronic kidney disease without heart failure, with stage 1 through stage 4 chronic kidney disease, or unspecified chronic kidney disease",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          }
+        ]
+      },
+      {
+        "id": "ischemic_heart_disease",
+        "label": "Other ischemic heart disease",
+        "disposition": "MAP_EXISTING_OR_UNSURE",
+        "target": "coronary_artery_disease",
+        "recommendation": "Review angina and chronic ischemic disease for the CAD core; retain acute ischemic presentations as context-dependent.",
+        "count": 20,
+        "billableCount": 20,
+        "examples": [
+          {
+            "code": "I20.0",
+            "officialTitle": "Unstable angina",
+            "billable": true,
+            "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+          },
+          {
+            "code": "I20.1",
+            "officialTitle": "Angina pectoris with documented spasm",
+            "billable": true,
+            "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+          },
+          {
+            "code": "I20.2",
+            "officialTitle": "Refractory angina pectoris",
+            "billable": true,
+            "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+          },
+          {
+            "code": "I20.81",
+            "officialTitle": "Angina pectoris with coronary microvascular dysfunction",
+            "billable": true,
+            "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+          },
+          {
+            "code": "I20.89",
+            "officialTitle": "Other forms of angina pectoris",
+            "billable": true,
+            "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+          },
+          {
+            "code": "I20.9",
+            "officialTitle": "Angina pectoris, unspecified",
+            "billable": true,
+            "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+          }
+        ]
+      },
+      {
+        "id": "other_arrhythmias",
+        "label": "Conduction disorders and other arrhythmias",
+        "disposition": "LIKELY_NEW_CANONICAL",
+        "target": "cardiac_arrhythmia",
+        "recommendation": "Create a broader arrhythmia concept only after separating conduction disease, implanted-device needs, and rhythm-specific monitoring.",
+        "count": 42,
+        "billableCount": 42,
+        "examples": [
+          {
+            "code": "I44.0",
+            "officialTitle": "Atrioventricular block, first degree",
+            "billable": true,
+            "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+          },
+          {
+            "code": "I44.1",
+            "officialTitle": "Atrioventricular block, second degree",
+            "billable": true,
+            "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+          },
+          {
+            "code": "I44.2",
+            "officialTitle": "Atrioventricular block, complete",
+            "billable": true,
+            "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+          },
+          {
+            "code": "I44.30",
+            "officialTitle": "Unspecified atrioventricular block",
+            "billable": true,
+            "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+          },
+          {
+            "code": "I44.39",
+            "officialTitle": "Other atrioventricular block",
+            "billable": true,
+            "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+          },
+          {
+            "code": "I44.4",
+            "officialTitle": "Left anterior fascicular block",
+            "billable": true,
+            "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+          }
+        ]
+      },
+      {
+        "id": "hematology_immune",
+        "label": "Hematologic and immune disorders",
+        "disposition": "MIXED",
+        "target": "anemia or new hematology/immune concepts",
+        "recommendation": "Map clear anemia families to anemia, while keeping coagulation, marrow, and immune disorders distinct.",
+        "count": 155,
+        "billableCount": 155,
+        "examples": [
+          {
+            "code": "D47.1",
+            "officialTitle": "Chronic myeloproliferative disease",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "D50.0",
+            "officialTitle": "Iron deficiency anemia secondary to blood loss (chronic)",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "D50.1",
+            "officialTitle": "Sideropenic dysphagia",
+            "billable": true,
+            "rationale": "This hematologic or immune diagnosis is reasonably likely to require longitudinal monitoring."
+          },
+          {
+            "code": "D50.8",
+            "officialTitle": "Other iron deficiency anemias",
+            "billable": true,
+            "rationale": "This hematologic or immune diagnosis is reasonably likely to require longitudinal monitoring."
+          },
+          {
+            "code": "D50.9",
+            "officialTitle": "Iron deficiency anemia, unspecified",
+            "billable": true,
+            "rationale": "This hematologic or immune diagnosis is reasonably likely to require longitudinal monitoring."
+          },
+          {
+            "code": "D51.0",
+            "officialTitle": "Vitamin B12 deficiency anemia due to intrinsic factor deficiency",
+            "billable": true,
+            "rationale": "This hematologic or immune diagnosis is reasonably likely to require longitudinal monitoring."
+          }
+        ]
+      },
+      {
+        "id": "mental_behavioral",
+        "label": "Other mental and behavioral disorders",
+        "disposition": "LIKELY_NEW_CANONICAL",
+        "target": "condition-specific behavioral health concepts",
+        "recommendation": "Prioritize substance-use, PTSD, obsessive-compulsive, and other persistent disorders; avoid one broad mental-health profile.",
+        "count": 599,
+        "billableCount": 599,
+        "examples": [
+          {
+            "code": "F04",
+            "officialTitle": "Amnestic disorder due to known physiological condition",
+            "billable": true,
+            "rationale": "Mental and behavioral diagnoses commonly require longitudinal management."
+          },
+          {
+            "code": "F06.0",
+            "officialTitle": "Psychotic disorder with hallucinations due to known physiological condition",
+            "billable": true,
+            "rationale": "Mental and behavioral diagnoses commonly require longitudinal management."
+          },
+          {
+            "code": "F06.1",
+            "officialTitle": "Catatonic disorder due to known physiological condition",
+            "billable": true,
+            "rationale": "Mental and behavioral diagnoses commonly require longitudinal management."
+          },
+          {
+            "code": "F06.2",
+            "officialTitle": "Psychotic disorder with delusions due to known physiological condition",
+            "billable": true,
+            "rationale": "Mental and behavioral diagnoses commonly require longitudinal management."
+          },
+          {
+            "code": "F06.30",
+            "officialTitle": "Mood disorder due to known physiological condition, unspecified",
+            "billable": true,
+            "rationale": "Mental and behavioral diagnoses commonly require longitudinal management."
+          },
+          {
+            "code": "F06.31",
+            "officialTitle": "Mood disorder due to known physiological condition with depressive features",
+            "billable": true,
+            "rationale": "Mental and behavioral diagnoses commonly require longitudinal management."
+          }
+        ]
+      },
+      {
+        "id": "neurologic",
+        "label": "Other neurologic disorders",
+        "disposition": "MIXED",
+        "target": "existing neurologic concepts or new condition families",
+        "recommendation": "Review movement, neuromuscular, cerebral palsy, sleep, and cognitive families for distinct longitudinal frameworks.",
+        "count": 492,
+        "billableCount": 492,
+        "examples": [
+          {
+            "code": "G03.1",
+            "officialTitle": "Chronic meningitis",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "G03.2",
+            "officialTitle": "Benign recurrent meningitis [Mollaret]",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "G10",
+            "officialTitle": "Huntington's disease",
+            "billable": true,
+            "rationale": "This neurologic diagnosis is reasonably likely to require longitudinal management."
+          },
+          {
+            "code": "G11.0",
+            "officialTitle": "Congenital nonprogressive ataxia",
+            "billable": true,
+            "rationale": "This neurologic diagnosis is reasonably likely to require longitudinal management."
+          },
+          {
+            "code": "G11.10",
+            "officialTitle": "Early-onset cerebellar ataxia, unspecified",
+            "billable": true,
+            "rationale": "This neurologic diagnosis is reasonably likely to require longitudinal management."
+          },
+          {
+            "code": "G11.11",
+            "officialTitle": "Friedreich ataxia",
+            "billable": true,
+            "rationale": "This neurologic diagnosis is reasonably likely to require longitudinal management."
+          }
+        ]
+      },
+      {
+        "id": "endocrine_metabolic",
+        "label": "Other endocrine and metabolic disorders",
+        "disposition": "LIKELY_NEW_CANONICAL",
+        "target": "endocrine/metabolic condition families",
+        "recommendation": "Group thyroid, pituitary, adrenal, parathyroid, and inherited metabolic disorders by management framework rather than code wording.",
+        "count": 466,
+        "billableCount": 466,
+        "examples": [
+          {
+            "code": "E00.0",
+            "officialTitle": "Congenital iodine-deficiency syndrome, neurological type",
+            "billable": true,
+            "rationale": "Endocrine, nutritional, and metabolic diagnoses are commonly longitudinal conditions."
+          },
+          {
+            "code": "E00.1",
+            "officialTitle": "Congenital iodine-deficiency syndrome, myxedematous type",
+            "billable": true,
+            "rationale": "Endocrine, nutritional, and metabolic diagnoses are commonly longitudinal conditions."
+          },
+          {
+            "code": "E00.2",
+            "officialTitle": "Congenital iodine-deficiency syndrome, mixed type",
+            "billable": true,
+            "rationale": "Endocrine, nutritional, and metabolic diagnoses are commonly longitudinal conditions."
+          },
+          {
+            "code": "E00.9",
+            "officialTitle": "Congenital iodine-deficiency syndrome, unspecified",
+            "billable": true,
+            "rationale": "Endocrine, nutritional, and metabolic diagnoses are commonly longitudinal conditions."
+          },
+          {
+            "code": "E01.0",
+            "officialTitle": "Iodine-deficiency related diffuse (endemic) goiter",
+            "billable": true,
+            "rationale": "Endocrine, nutritional, and metabolic diagnoses are commonly longitudinal conditions."
+          },
+          {
+            "code": "E01.1",
+            "officialTitle": "Iodine-deficiency related multinodular (endemic) goiter",
+            "billable": true,
+            "rationale": "Endocrine, nutritional, and metabolic diagnoses are commonly longitudinal conditions."
+          }
+        ]
+      },
+      {
+        "id": "congenital_inherited",
+        "label": "Congenital and inherited disorders",
+        "disposition": "REVIEW_BEFORE_MAPPING",
+        "target": "condition-family taxonomy",
+        "recommendation": "The blanket congenital PASS rule creates a large rare-condition queue; review persistence and adult care burden by family before adding canonical IDs.",
+        "count": 894,
+        "billableCount": 894,
+        "examples": [
+          {
+            "code": "Q00.0",
+            "officialTitle": "Anencephaly",
+            "billable": true,
+            "rationale": "Congenital conditions are commonly persistent and remain available for longitudinal care management."
+          },
+          {
+            "code": "Q00.1",
+            "officialTitle": "Craniorachischisis",
+            "billable": true,
+            "rationale": "Congenital conditions are commonly persistent and remain available for longitudinal care management."
+          },
+          {
+            "code": "Q00.2",
+            "officialTitle": "Iniencephaly",
+            "billable": true,
+            "rationale": "Congenital conditions are commonly persistent and remain available for longitudinal care management."
+          },
+          {
+            "code": "Q01.0",
+            "officialTitle": "Frontal encephalocele",
+            "billable": true,
+            "rationale": "Congenital conditions are commonly persistent and remain available for longitudinal care management."
+          },
+          {
+            "code": "Q01.1",
+            "officialTitle": "Nasofrontal encephalocele",
+            "billable": true,
+            "rationale": "Congenital conditions are commonly persistent and remain available for longitudinal care management."
+          },
+          {
+            "code": "Q01.2",
+            "officialTitle": "Occipital encephalocele",
+            "billable": true,
+            "rationale": "Congenital conditions are commonly persistent and remain available for longitudinal care management."
+          }
+        ]
+      },
+      {
+        "id": "musculoskeletal",
+        "label": "Other musculoskeletal disorders",
+        "disposition": "MIXED",
+        "target": "pain/arthritis concepts or new condition families",
+        "recommendation": "Review inflammatory, spinal, connective-tissue, and chronic deformity families; avoid mapping all pain to osteoarthritis.",
+        "count": 536,
+        "billableCount": 536,
+        "examples": [
+          {
+            "code": "M12.00",
+            "officialTitle": "Chronic postrheumatic arthropathy [Jaccoud], unspecified site",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "M12.011",
+            "officialTitle": "Chronic postrheumatic arthropathy [Jaccoud], right shoulder",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "M12.012",
+            "officialTitle": "Chronic postrheumatic arthropathy [Jaccoud], left shoulder",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "M12.019",
+            "officialTitle": "Chronic postrheumatic arthropathy [Jaccoud], unspecified shoulder",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "M12.021",
+            "officialTitle": "Chronic postrheumatic arthropathy [Jaccoud], right elbow",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "M12.022",
+            "officialTitle": "Chronic postrheumatic arthropathy [Jaccoud], left elbow",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          }
+        ]
+      },
+      {
+        "id": "dermatologic",
+        "label": "Chronic dermatologic disorders",
+        "disposition": "LIKELY_NEW_CANONICAL",
+        "target": "psoriasis/dermatitis/chronic wound concepts",
+        "recommendation": "Separate inflammatory dermatoses, chronic ulcers, and infection-prone skin disease by monitoring needs.",
+        "count": 23,
+        "billableCount": 23,
+        "examples": [
+          {
+            "code": "L12.2",
+            "officialTitle": "Chronic bullous disease of childhood",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "L20.0",
+            "officialTitle": "Besnier's prurigo",
+            "billable": true,
+            "rationale": "This dermatologic diagnosis is reasonably likely to require longitudinal management."
+          },
+          {
+            "code": "L20.81",
+            "officialTitle": "Atopic neurodermatitis",
+            "billable": true,
+            "rationale": "This dermatologic diagnosis is reasonably likely to require longitudinal management."
+          },
+          {
+            "code": "L20.82",
+            "officialTitle": "Flexural eczema",
+            "billable": true,
+            "rationale": "This dermatologic diagnosis is reasonably likely to require longitudinal management."
+          },
+          {
+            "code": "L20.83",
+            "officialTitle": "Infantile (acute) (chronic) eczema",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "L20.84",
+            "officialTitle": "Intrinsic (allergic) eczema",
+            "billable": true,
+            "rationale": "This dermatologic diagnosis is reasonably likely to require longitudinal management."
+          }
+        ]
+      },
+      {
+        "id": "digestive_hepatic",
+        "label": "Other digestive and hepatic disorders",
+        "disposition": "MIXED",
+        "target": "condition-specific GI/hepatic concepts",
+        "recommendation": "Review chronic pancreatic, hepatic, malabsorption, and motility families without merging acute digestive episodes.",
+        "count": 172,
+        "billableCount": 172,
+        "examples": [
+          {
+            "code": "K04.5",
+            "officialTitle": "Chronic apical periodontitis",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "K05.10",
+            "officialTitle": "Chronic gingivitis, plaque induced",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "K05.11",
+            "officialTitle": "Chronic gingivitis, non-plaque induced",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "K05.30",
+            "officialTitle": "Chronic periodontitis, unspecified",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "K05.311",
+            "officialTitle": "Chronic periodontitis, localized, slight",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "K05.312",
+            "officialTitle": "Chronic periodontitis, localized, moderate",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          }
+        ]
+      },
+      {
+        "id": "respiratory",
+        "label": "Other chronic respiratory disorders",
+        "disposition": "MIXED",
+        "target": "COPD/asthma or new pulmonary concepts",
+        "recommendation": "Review bronchiectasis, interstitial disease, oxygen needs, and sleep-related breathing disorders for separate variants.",
+        "count": 137,
+        "billableCount": 137,
+        "examples": [
+          {
+            "code": "J01.01",
+            "officialTitle": "Acute recurrent maxillary sinusitis",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "J01.11",
+            "officialTitle": "Acute recurrent frontal sinusitis",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "J01.21",
+            "officialTitle": "Acute recurrent ethmoidal sinusitis",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "J01.31",
+            "officialTitle": "Acute recurrent sphenoidal sinusitis",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "J01.41",
+            "officialTitle": "Acute recurrent pansinusitis",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "J01.81",
+            "officialTitle": "Other acute recurrent sinusitis",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          }
+        ]
+      },
+      {
+        "id": "renal_urologic",
+        "label": "Other renal and urologic disorders",
+        "disposition": "LIKELY_NEW_CANONICAL",
+        "target": "renal/urologic condition families",
+        "recommendation": "Keep chronic renal, bladder, prostate, and incontinence frameworks distinct; do not force all into CKD.",
+        "count": 151,
+        "billableCount": 151,
+        "examples": [
+          {
+            "code": "N02.0",
+            "officialTitle": "Recurrent and persistent hematuria with minor glomerular abnormality",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "N02.1",
+            "officialTitle": "Recurrent and persistent hematuria with focal and segmental glomerular lesions",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "N02.2",
+            "officialTitle": "Recurrent and persistent hematuria with diffuse membranous glomerulonephritis",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "N02.3",
+            "officialTitle": "Recurrent and persistent hematuria with diffuse mesangial proliferative glomerulonephritis",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "N02.4",
+            "officialTitle": "Recurrent and persistent hematuria with diffuse endocapillary proliferative glomerulonephritis",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "N02.5",
+            "officialTitle": "Recurrent and persistent hematuria with diffuse mesangiocapillary glomerulonephritis",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          }
+        ]
+      },
+      {
+        "id": "ophthalmic",
+        "label": "Other chronic ophthalmic disorders",
+        "disposition": "LIKELY_NEW_CANONICAL",
+        "target": "visual impairment/retinal condition families",
+        "recommendation": "Add visual impairment and chronic retinal concepts only where monitoring and functional-support content is reusable.",
+        "count": 138,
+        "billableCount": 138,
+        "examples": [
+          {
+            "code": "H04.021",
+            "officialTitle": "Chronic dacryoadenitis, right lacrimal gland",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "H04.022",
+            "officialTitle": "Chronic dacryoadenitis, left lacrimal gland",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "H04.023",
+            "officialTitle": "Chronic dacryoadenitis, bilateral lacrimal gland",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "H04.029",
+            "officialTitle": "Chronic dacryoadenitis, unspecified lacrimal gland",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "H04.031",
+            "officialTitle": "Chronic enlargement of right lacrimal gland",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "H04.032",
+            "officialTitle": "Chronic enlargement of left lacrimal gland",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          }
+        ]
+      },
+      {
+        "id": "other",
+        "label": "Other unmapped PASS",
+        "disposition": "REVIEW",
+        "target": null,
+        "recommendation": "Review by three-character family and clinical domain; do not force a mapping solely to reduce the queue.",
+        "count": 750,
+        "billableCount": 750,
+        "examples": [
+          {
+            "code": "A04.71",
+            "officialTitle": "Enterocolitis due to Clostridium difficile, recurrent",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "A04.72",
+            "officialTitle": "Enterocolitis due to Clostridium difficile, not specified as recurrent",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "A06.1",
+            "officialTitle": "Chronic intestinal amebiasis",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "A24.2",
+            "officialTitle": "Subacute and chronic melioidosis",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "A39.3",
+            "officialTitle": "Chronic meningococcemia",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          },
+          {
+            "code": "B37.32",
+            "officialTitle": "Chronic candidiasis of vulva and vagina",
+            "billable": true,
+            "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+          }
+        ]
+      }
+    ]
+  },
+  "canonicalReview": {
+    "total": 81,
+    "largest": [
+      {
+        "id": "malignancy",
+        "name": "Active Malignancy",
+        "clinicalDomain": "oncology",
+        "mappedCodeCount": 1539,
+        "billableMappedCodeCount": 1226,
+        "contentGroupCount": 91,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "rheumatoid_arthritis",
+        "name": "Rheumatoid Arthritis",
+        "clinicalDomain": "rheumatology",
+        "mappedCodeCount": 418,
+        "billableMappedCodeCount": 312,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "chronic_gout",
+        "name": "Chronic Gout",
+        "clinicalDomain": "rheumatology",
+        "mappedCodeCount": 404,
+        "billableMappedCodeCount": 242,
+        "contentGroupCount": 2,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "osteoporosis",
+        "name": "Osteoporosis",
+        "clinicalDomain": "musculoskeletal",
+        "mappedCodeCount": 401,
+        "billableMappedCodeCount": 327,
+        "contentGroupCount": 2,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "non_pressure_chronic_ulcer",
+        "name": "Non-Pressure Chronic Ulcer",
+        "clinicalDomain": "wound_care",
+        "mappedCodeCount": 355,
+        "billableMappedCodeCount": 304,
+        "contentGroupCount": 2,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "secondary_diabetes_mellitus",
+        "name": "Secondary Diabetes Mellitus",
+        "clinicalDomain": "endocrinology",
+        "mappedCodeCount": 348,
+        "billableMappedCodeCount": 258,
+        "contentGroupCount": 13,
+        "medicareRelevance": "RARE",
+        "medicareRelevanceRationale": "Uncommon across the overall Medicare CCM population, but potentially high burden for affected beneficiaries and therefore not an exclusion signal."
+      },
+      {
+        "id": "glaucoma",
+        "name": "Glaucoma",
+        "clinicalDomain": "ophthalmology",
+        "mappedCodeCount": 320,
+        "billableMappedCodeCount": 253,
+        "contentGroupCount": 15,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "peripheral_vascular_disease",
+        "name": "Peripheral Vascular Disease",
+        "clinicalDomain": "vascular",
+        "mappedCodeCount": 305,
+        "billableMappedCodeCount": 252,
+        "contentGroupCount": 4,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "cerebrovascular_disease",
+        "name": "Cerebrovascular Disease",
+        "clinicalDomain": "neurology",
+        "mappedCodeCount": 289,
+        "billableMappedCodeCount": 240,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "pressure_ulcer",
+        "name": "Pressure Ulcer",
+        "clinicalDomain": "wound_care",
+        "mappedCodeCount": 208,
+        "billableMappedCodeCount": 175,
+        "contentGroupCount": 7,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "osteoarthritis",
+        "name": "Osteoarthritis",
+        "clinicalDomain": "musculoskeletal",
+        "mappedCodeCount": 130,
+        "billableMappedCodeCount": 98,
+        "contentGroupCount": 1,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "chronic_osteomyelitis",
+        "name": "Chronic Osteomyelitis",
+        "clinicalDomain": "infectious_disease",
+        "mappedCodeCount": 128,
+        "billableMappedCodeCount": 96,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      }
+    ],
+    "smallest": [
+      {
+        "id": "amyotrophic_lateral_sclerosis",
+        "name": "Amyotrophic Lateral Sclerosis",
+        "clinicalDomain": "neurology",
+        "mappedCodeCount": 1,
+        "billableMappedCodeCount": 1,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "anemia",
+        "name": "Anemia",
+        "clinicalDomain": "hematology",
+        "mappedCodeCount": 1,
+        "billableMappedCodeCount": 1,
+        "contentGroupCount": 1,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "cervical_radiculopathy",
+        "name": "Cervical Radiculopathy",
+        "clinicalDomain": "neurology",
+        "mappedCodeCount": 1,
+        "billableMappedCodeCount": 1,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "cervical_spinal_stenosis",
+        "name": "Cervical Spinal Stenosis",
+        "clinicalDomain": "musculoskeletal",
+        "mappedCodeCount": 1,
+        "billableMappedCodeCount": 1,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "chronic_back_pain",
+        "name": "Chronic Back Pain",
+        "clinicalDomain": "musculoskeletal",
+        "mappedCodeCount": 1,
+        "billableMappedCodeCount": 1,
+        "contentGroupCount": 1,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "chronic_venous_insufficiency",
+        "name": "Chronic Venous Insufficiency",
+        "clinicalDomain": "vascular",
+        "mappedCodeCount": 1,
+        "billableMappedCodeCount": 1,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "essential_hypertension",
+        "name": "Essential Hypertension",
+        "clinicalDomain": "cardiovascular",
+        "mappedCodeCount": 1,
+        "billableMappedCodeCount": 1,
+        "contentGroupCount": 1,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "essential_tremor",
+        "name": "Essential Tremor",
+        "clinicalDomain": "neurology",
+        "mappedCodeCount": 1,
+        "billableMappedCodeCount": 1,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "fibromyalgia",
+        "name": "Fibromyalgia",
+        "clinicalDomain": "rheumatology",
+        "mappedCodeCount": 1,
+        "billableMappedCodeCount": 1,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "hiv_disease",
+        "name": "Human Immunodeficiency Virus Disease",
+        "clinicalDomain": "infectious_disease",
+        "mappedCodeCount": 1,
+        "billableMappedCodeCount": 1,
+        "contentGroupCount": 1,
+        "medicareRelevance": "RARE",
+        "medicareRelevanceRationale": "Uncommon across the overall Medicare CCM population, but potentially high burden for affected beneficiaries and therefore not an exclusion signal."
+      },
+      {
+        "id": "lumbar_radiculopathy",
+        "name": "Lumbar Radiculopathy",
+        "clinicalDomain": "neurology",
+        "mappedCodeCount": 2,
+        "billableMappedCodeCount": 2,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "lumbar_spinal_stenosis",
+        "name": "Lumbar Spinal Stenosis",
+        "clinicalDomain": "musculoskeletal",
+        "mappedCodeCount": 2,
+        "billableMappedCodeCount": 2,
+        "contentGroupCount": 2,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      }
+    ],
+    "all": [
+      {
+        "id": "malignancy",
+        "name": "Active Malignancy",
+        "clinicalDomain": "oncology",
+        "mappedCodeCount": 1539,
+        "billableMappedCodeCount": 1226,
+        "contentGroupCount": 91,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "rheumatoid_arthritis",
+        "name": "Rheumatoid Arthritis",
+        "clinicalDomain": "rheumatology",
+        "mappedCodeCount": 418,
+        "billableMappedCodeCount": 312,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "chronic_gout",
+        "name": "Chronic Gout",
+        "clinicalDomain": "rheumatology",
+        "mappedCodeCount": 404,
+        "billableMappedCodeCount": 242,
+        "contentGroupCount": 2,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "osteoporosis",
+        "name": "Osteoporosis",
+        "clinicalDomain": "musculoskeletal",
+        "mappedCodeCount": 401,
+        "billableMappedCodeCount": 327,
+        "contentGroupCount": 2,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "non_pressure_chronic_ulcer",
+        "name": "Non-Pressure Chronic Ulcer",
+        "clinicalDomain": "wound_care",
+        "mappedCodeCount": 355,
+        "billableMappedCodeCount": 304,
+        "contentGroupCount": 2,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "secondary_diabetes_mellitus",
+        "name": "Secondary Diabetes Mellitus",
+        "clinicalDomain": "endocrinology",
+        "mappedCodeCount": 348,
+        "billableMappedCodeCount": 258,
+        "contentGroupCount": 13,
+        "medicareRelevance": "RARE",
+        "medicareRelevanceRationale": "Uncommon across the overall Medicare CCM population, but potentially high burden for affected beneficiaries and therefore not an exclusion signal."
+      },
+      {
+        "id": "glaucoma",
+        "name": "Glaucoma",
+        "clinicalDomain": "ophthalmology",
+        "mappedCodeCount": 320,
+        "billableMappedCodeCount": 253,
+        "contentGroupCount": 15,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "peripheral_vascular_disease",
+        "name": "Peripheral Vascular Disease",
+        "clinicalDomain": "vascular",
+        "mappedCodeCount": 305,
+        "billableMappedCodeCount": 252,
+        "contentGroupCount": 4,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "cerebrovascular_disease",
+        "name": "Cerebrovascular Disease",
+        "clinicalDomain": "neurology",
+        "mappedCodeCount": 289,
+        "billableMappedCodeCount": 240,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "pressure_ulcer",
+        "name": "Pressure Ulcer",
+        "clinicalDomain": "wound_care",
+        "mappedCodeCount": 208,
+        "billableMappedCodeCount": 175,
+        "contentGroupCount": 7,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "osteoarthritis",
+        "name": "Osteoarthritis",
+        "clinicalDomain": "musculoskeletal",
+        "mappedCodeCount": 130,
+        "billableMappedCodeCount": 98,
+        "contentGroupCount": 1,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "chronic_osteomyelitis",
+        "name": "Chronic Osteomyelitis",
+        "clinicalDomain": "infectious_disease",
+        "mappedCodeCount": 128,
+        "billableMappedCodeCount": 96,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "type_1_diabetes",
+        "name": "Type 1 Diabetes",
+        "clinicalDomain": "endocrinology",
+        "mappedCodeCount": 117,
+        "billableMappedCodeCount": 87,
+        "contentGroupCount": 12,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "type_2_diabetes",
+        "name": "Type 2 Diabetes",
+        "clinicalDomain": "endocrine",
+        "mappedCodeCount": 117,
+        "billableMappedCodeCount": 87,
+        "contentGroupCount": 13,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "dementia",
+        "name": "Dementia",
+        "clinicalDomain": "neurology",
+        "mappedCodeCount": 104,
+        "billableMappedCodeCount": 76,
+        "contentGroupCount": 8,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "inflammatory_bowel_disease",
+        "name": "Inflammatory Bowel Disease",
+        "clinicalDomain": "gastroenterology",
+        "mappedCodeCount": 101,
+        "billableMappedCodeCount": 77,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "epilepsy",
+        "name": "Epilepsy",
+        "clinicalDomain": "neurology",
+        "mappedCodeCount": 94,
+        "billableMappedCodeCount": 58,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "chronic_migraine",
+        "name": "Chronic Migraine",
+        "clinicalDomain": "neurology",
+        "mappedCodeCount": 82,
+        "billableMappedCodeCount": 48,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "visual_impairment",
+        "name": "Visual Impairment",
+        "clinicalDomain": "ophthalmology",
+        "mappedCodeCount": 76,
+        "billableMappedCodeCount": 44,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "age_related_macular_degeneration",
+        "name": "Age-related Macular Degeneration",
+        "clinicalDomain": "ophthalmology",
+        "mappedCodeCount": 74,
+        "billableMappedCodeCount": 58,
+        "contentGroupCount": 1,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "alcohol_use_disorder",
+        "name": "Alcohol Use Disorder",
+        "clinicalDomain": "behavioral_health",
+        "mappedCodeCount": 74,
+        "billableMappedCodeCount": 58,
+        "contentGroupCount": 4,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "coronary_artery_disease",
+        "name": "Coronary Artery Disease",
+        "clinicalDomain": "cardiovascular",
+        "mappedCodeCount": 70,
+        "billableMappedCodeCount": 56,
+        "contentGroupCount": 1,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "opioid_use_disorder",
+        "name": "Opioid Use Disorder",
+        "clinicalDomain": "behavioral_health",
+        "mappedCodeCount": 58,
+        "billableMappedCodeCount": 45,
+        "contentGroupCount": 4,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "cervical_disc_disease",
+        "name": "Cervical Disc Disease",
+        "clinicalDomain": "musculoskeletal",
+        "mappedCodeCount": 55,
+        "billableMappedCodeCount": 42,
+        "contentGroupCount": 3,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "hearing_loss",
+        "name": "Hearing Loss",
+        "clinicalDomain": "audiology",
+        "mappedCodeCount": 54,
+        "billableMappedCodeCount": 39,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "sickle_cell_disease",
+        "name": "Sickle Cell Disease",
+        "clinicalDomain": "hematology",
+        "mappedCodeCount": 53,
+        "billableMappedCodeCount": 43,
+        "contentGroupCount": 3,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "bipolar_disorder",
+        "name": "Bipolar Disorder",
+        "clinicalDomain": "behavioral_health",
+        "mappedCodeCount": 34,
+        "billableMappedCodeCount": 28,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "aortic_aneurysm",
+        "name": "Aortic Aneurysm",
+        "clinicalDomain": "vascular",
+        "mappedCodeCount": 31,
+        "billableMappedCodeCount": 24,
+        "contentGroupCount": 2,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "interstitial_lung_disease",
+        "name": "Interstitial Lung Disease",
+        "clinicalDomain": "pulmonology",
+        "mappedCodeCount": 31,
+        "billableMappedCodeCount": 24,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "lumbar_disc_disease",
+        "name": "Lumbar Disc Disease",
+        "clinicalDomain": "musculoskeletal",
+        "mappedCodeCount": 30,
+        "billableMappedCodeCount": 30,
+        "contentGroupCount": 3,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "chronic_heart_failure",
+        "name": "Chronic Heart Failure",
+        "clinicalDomain": "cardiovascular",
+        "mappedCodeCount": 29,
+        "billableMappedCodeCount": 23,
+        "contentGroupCount": 12,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "valvular_heart_disease",
+        "name": "Valvular Heart Disease",
+        "clinicalDomain": "cardiology",
+        "mappedCodeCount": 27,
+        "billableMappedCodeCount": 22,
+        "contentGroupCount": 5,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "asthma",
+        "name": "Asthma",
+        "clinicalDomain": "pulmonary",
+        "mappedCodeCount": 26,
+        "billableMappedCodeCount": 18,
+        "contentGroupCount": 15,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "nicotine_dependence",
+        "name": "Nicotine Dependence",
+        "clinicalDomain": "behavioral_health",
+        "mappedCodeCount": 26,
+        "billableMappedCodeCount": 20,
+        "contentGroupCount": 4,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "hyperlipidemia",
+        "name": "Hyperlipidemia",
+        "clinicalDomain": "cardiometabolic",
+        "mappedCodeCount": 24,
+        "billableMappedCodeCount": 18,
+        "contentGroupCount": 1,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "major_depressive_disorder",
+        "name": "Major Depressive Disorder",
+        "clinicalDomain": "behavioral_health",
+        "mappedCodeCount": 23,
+        "billableMappedCodeCount": 19,
+        "contentGroupCount": 1,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "ankylosing_spondylitis",
+        "name": "Ankylosing Spondylitis",
+        "clinicalDomain": "rheumatology",
+        "mappedCodeCount": 22,
+        "billableMappedCodeCount": 20,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "hyperthyroidism",
+        "name": "Hyperthyroidism",
+        "clinicalDomain": "endocrinology",
+        "mappedCodeCount": 22,
+        "billableMappedCodeCount": 14,
+        "contentGroupCount": 2,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "insomnia",
+        "name": "Insomnia",
+        "clinicalDomain": "sleep_medicine",
+        "mappedCodeCount": 19,
+        "billableMappedCodeCount": 16,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "muscular_dystrophy",
+        "name": "Muscular Dystrophy",
+        "clinicalDomain": "neurology",
+        "mappedCodeCount": 17,
+        "billableMappedCodeCount": 15,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "transplant_status",
+        "name": "Transplant Status",
+        "clinicalDomain": "transplant_medicine",
+        "mappedCodeCount": 16,
+        "billableMappedCodeCount": 14,
+        "contentGroupCount": 8,
+        "medicareRelevance": "RARE",
+        "medicareRelevanceRationale": "Uncommon across the overall Medicare CCM population, but potentially high burden for affected beneficiaries and therefore not an exclusion signal."
+      },
+      {
+        "id": "psoriasis",
+        "name": "Psoriasis",
+        "clinicalDomain": "dermatology",
+        "mappedCodeCount": 15,
+        "billableMappedCodeCount": 13,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "sarcoidosis",
+        "name": "Sarcoidosis",
+        "clinicalDomain": "pulmonology",
+        "mappedCodeCount": 15,
+        "billableMappedCodeCount": 13,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "obesity",
+        "name": "Obesity",
+        "clinicalDomain": "cardiometabolic",
+        "mappedCodeCount": 14,
+        "billableMappedCodeCount": 10,
+        "contentGroupCount": 1,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "atrial_fibrillation",
+        "name": "Atrial Fibrillation",
+        "clinicalDomain": "cardiovascular",
+        "mappedCodeCount": 13,
+        "billableMappedCodeCount": 9,
+        "contentGroupCount": 1,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "cirrhosis",
+        "name": "Cirrhosis",
+        "clinicalDomain": "hepatology",
+        "mappedCodeCount": 13,
+        "billableMappedCodeCount": 10,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "copd",
+        "name": "COPD",
+        "clinicalDomain": "pulmonary",
+        "mappedCodeCount": 13,
+        "billableMappedCodeCount": 10,
+        "contentGroupCount": 2,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "chronic_kidney_disease",
+        "name": "Chronic Kidney Disease",
+        "clinicalDomain": "renal",
+        "mappedCodeCount": 12,
+        "billableMappedCodeCount": 10,
+        "contentGroupCount": 3,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "systemic_lupus_erythematosus",
+        "name": "Systemic Lupus Erythematosus",
+        "clinicalDomain": "rheumatology",
+        "mappedCodeCount": 12,
+        "billableMappedCodeCount": 10,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "cardiomyopathy",
+        "name": "Cardiomyopathy",
+        "clinicalDomain": "cardiology",
+        "mappedCodeCount": 11,
+        "billableMappedCodeCount": 10,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "multiple_sclerosis",
+        "name": "Multiple Sclerosis",
+        "clinicalDomain": "neurology",
+        "mappedCodeCount": 11,
+        "billableMappedCodeCount": 8,
+        "contentGroupCount": 1,
+        "medicareRelevance": "RARE",
+        "medicareRelevanceRationale": "Uncommon across the overall Medicare CCM population, but potentially high burden for affected beneficiaries and therefore not an exclusion signal."
+      },
+      {
+        "id": "schizophrenia",
+        "name": "Schizophrenia",
+        "clinicalDomain": "behavioral_health",
+        "mappedCodeCount": 10,
+        "billableMappedCodeCount": 8,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "sleep_apnea",
+        "name": "Sleep Apnea",
+        "clinicalDomain": "sleep_medicine",
+        "mappedCodeCount": 10,
+        "billableMappedCodeCount": 9,
+        "contentGroupCount": 1,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "hypothyroidism",
+        "name": "Hypothyroidism",
+        "clinicalDomain": "endocrine",
+        "mappedCodeCount": 9,
+        "billableMappedCodeCount": 8,
+        "contentGroupCount": 1,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "peripheral_neuropathy",
+        "name": "Peripheral Neuropathy",
+        "clinicalDomain": "neurology",
+        "mappedCodeCount": 9,
+        "billableMappedCodeCount": 7,
+        "contentGroupCount": 1,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "cerebral_palsy",
+        "name": "Cerebral Palsy",
+        "clinicalDomain": "neurology",
+        "mappedCodeCount": 8,
+        "billableMappedCodeCount": 7,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "parkinson_disease",
+        "name": "Parkinson Disease",
+        "clinicalDomain": "neurology",
+        "mappedCodeCount": 8,
+        "billableMappedCodeCount": 5,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "pulmonary_hypertension",
+        "name": "Pulmonary Hypertension",
+        "clinicalDomain": "cardiopulmonary",
+        "mappedCodeCount": 7,
+        "billableMappedCodeCount": 6,
+        "contentGroupCount": 1,
+        "medicareRelevance": "RARE",
+        "medicareRelevanceRationale": "Uncommon across the overall Medicare CCM population, but potentially high burden for affected beneficiaries and therefore not an exclusion signal."
+      },
+      {
+        "id": "adrenal_insufficiency",
+        "name": "Adrenal Insufficiency",
+        "clinicalDomain": "endocrinology",
+        "mappedCodeCount": 6,
+        "billableMappedCodeCount": 5,
+        "contentGroupCount": 2,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "chronic_viral_hepatitis",
+        "name": "Chronic Viral Hepatitis",
+        "clinicalDomain": "hepatology",
+        "mappedCodeCount": 6,
+        "billableMappedCodeCount": 5,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "generalized_anxiety_disorder",
+        "name": "Generalized Anxiety Disorder",
+        "clinicalDomain": "behavioral_health",
+        "mappedCodeCount": 6,
+        "billableMappedCodeCount": 5,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "benign_prostatic_hyperplasia",
+        "name": "Benign Prostatic Hyperplasia",
+        "clinicalDomain": "urology",
+        "mappedCodeCount": 5,
+        "billableMappedCodeCount": 4,
+        "contentGroupCount": 2,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "chronic_pain",
+        "name": "Chronic Pain",
+        "clinicalDomain": "pain_management",
+        "mappedCodeCount": 5,
+        "billableMappedCodeCount": 4,
+        "contentGroupCount": 1,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "dry_eye_syndrome",
+        "name": "Dry Eye Syndrome",
+        "clinicalDomain": "ophthalmology",
+        "mappedCodeCount": 5,
+        "billableMappedCodeCount": 4,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "gerd",
+        "name": "Gastroesophageal Reflux Disease",
+        "clinicalDomain": "gastrointestinal",
+        "mappedCodeCount": 5,
+        "billableMappedCodeCount": 3,
+        "contentGroupCount": 1,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "bronchiectasis",
+        "name": "Bronchiectasis",
+        "clinicalDomain": "pulmonology",
+        "mappedCodeCount": 4,
+        "billableMappedCodeCount": 3,
+        "contentGroupCount": 3,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "chronic_respiratory_failure",
+        "name": "Chronic Respiratory Failure",
+        "clinicalDomain": "pulmonology",
+        "mappedCodeCount": 4,
+        "billableMappedCodeCount": 3,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "myasthenia_gravis",
+        "name": "Myasthenia Gravis",
+        "clinicalDomain": "neurology",
+        "mappedCodeCount": 4,
+        "billableMappedCodeCount": 2,
+        "contentGroupCount": 2,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "post_traumatic_stress_disorder",
+        "name": "Post-Traumatic Stress Disorder",
+        "clinicalDomain": "behavioral_health",
+        "mappedCodeCount": 4,
+        "billableMappedCodeCount": 3,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "lumbar_radiculopathy",
+        "name": "Lumbar Radiculopathy",
+        "clinicalDomain": "neurology",
+        "mappedCodeCount": 2,
+        "billableMappedCodeCount": 2,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "lumbar_spinal_stenosis",
+        "name": "Lumbar Spinal Stenosis",
+        "clinicalDomain": "musculoskeletal",
+        "mappedCodeCount": 2,
+        "billableMappedCodeCount": 2,
+        "contentGroupCount": 2,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "amyotrophic_lateral_sclerosis",
+        "name": "Amyotrophic Lateral Sclerosis",
+        "clinicalDomain": "neurology",
+        "mappedCodeCount": 1,
+        "billableMappedCodeCount": 1,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "anemia",
+        "name": "Anemia",
+        "clinicalDomain": "hematology",
+        "mappedCodeCount": 1,
+        "billableMappedCodeCount": 1,
+        "contentGroupCount": 1,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "cervical_radiculopathy",
+        "name": "Cervical Radiculopathy",
+        "clinicalDomain": "neurology",
+        "mappedCodeCount": 1,
+        "billableMappedCodeCount": 1,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "cervical_spinal_stenosis",
+        "name": "Cervical Spinal Stenosis",
+        "clinicalDomain": "musculoskeletal",
+        "mappedCodeCount": 1,
+        "billableMappedCodeCount": 1,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "chronic_back_pain",
+        "name": "Chronic Back Pain",
+        "clinicalDomain": "musculoskeletal",
+        "mappedCodeCount": 1,
+        "billableMappedCodeCount": 1,
+        "contentGroupCount": 1,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "chronic_venous_insufficiency",
+        "name": "Chronic Venous Insufficiency",
+        "clinicalDomain": "vascular",
+        "mappedCodeCount": 1,
+        "billableMappedCodeCount": 1,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "essential_hypertension",
+        "name": "Essential Hypertension",
+        "clinicalDomain": "cardiovascular",
+        "mappedCodeCount": 1,
+        "billableMappedCodeCount": 1,
+        "contentGroupCount": 1,
+        "medicareRelevance": "COMMON",
+        "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "essential_tremor",
+        "name": "Essential Tremor",
+        "clinicalDomain": "neurology",
+        "mappedCodeCount": 1,
+        "billableMappedCodeCount": 1,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "fibromyalgia",
+        "name": "Fibromyalgia",
+        "clinicalDomain": "rheumatology",
+        "mappedCodeCount": 1,
+        "billableMappedCodeCount": 1,
+        "contentGroupCount": 1,
+        "medicareRelevance": "OCCASIONAL",
+        "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "hiv_disease",
+        "name": "Human Immunodeficiency Virus Disease",
+        "clinicalDomain": "infectious_disease",
+        "mappedCodeCount": 1,
+        "billableMappedCodeCount": 1,
+        "contentGroupCount": 1,
+        "medicareRelevance": "RARE",
+        "medicareRelevanceRationale": "Uncommon across the overall Medicare CCM population, but potentially high burden for affected beneficiaries and therefore not an exclusion signal."
+      }
+    ],
+    "mergeOpportunities": [
+      {
+        "ids": [
+          "chronic_back_pain",
+          "chronic_pain"
+        ],
+        "confidence": "HIGH",
+        "recommendation": "Consider one chronic-pain canonical core with back-pain and neoplasm-related variants; preserve site-specific functional modules where needed."
+      },
+      {
+        "ids": [
+          "type_1_diabetes",
+          "type_2_diabetes",
+          "secondary_diabetes_mellitus"
+        ],
+        "confidence": "MEDIUM",
+        "recommendation": "Retain distinct canonical IDs, but share a diabetes core and complication modules to avoid duplicate questions."
+      },
+      {
+        "ids": [
+          "peripheral_neuropathy",
+          "type_1_diabetes",
+          "type_2_diabetes"
+        ],
+        "confidence": "MEDIUM",
+        "recommendation": "Keep neuropathy independently selectable while reusing a complication module for diabetic neuropathy."
+      }
+    ],
+    "splitOpportunities": [
+      {
+        "id": "peripheral_vascular_disease",
+        "priority": "HIGH",
+        "recommendation": "Split general content by uncomplicated disease, ulceration, gangrene, and revascularization/amputation burden; laterality alone should still collapse."
+      },
+      {
+        "id": "malignancy",
+        "priority": "HIGH",
+        "recommendation": "Retain site families but add active treatment, metastatic disease, remission/surveillance, and symptom-burden dimensions."
+      },
+      {
+        "id": "rheumatoid_arthritis",
+        "priority": "HIGH",
+        "recommendation": "Separate general inflammatory arthritis from organ involvement, treatment toxicity, and severe functional impairment modules."
+      },
+      {
+        "id": "osteoporosis",
+        "priority": "MEDIUM",
+        "recommendation": "Current-fracture separation is useful; consider healing status and recurrent-fracture risk without creating site-by-side profiles."
+      },
+      {
+        "id": "cerebrovascular_disease",
+        "priority": "MEDIUM",
+        "recommendation": "Add deficit-specific modules for cognition, speech, motor impairment, swallowing, and mobility while sharing a stroke core."
+      },
+      {
+        "id": "osteoarthritis",
+        "priority": "MEDIUM",
+        "recommendation": "Laterality should remain collapsed, but weight-bearing versus upper-extremity disease may need different function and fall-risk modules."
+      }
+    ]
+  },
+  "medicareRelevance": {
+    "summary": [
+      {
+        "id": "OCCASIONAL",
+        "count": 52
+      },
+      {
+        "id": "COMMON",
+        "count": 24
+      },
+      {
+        "id": "RARE",
+        "count": 5
+      }
+    ],
+    "conditions": [
+      {
+        "id": "malignancy",
+        "name": "Active Malignancy",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "rheumatoid_arthritis",
+        "name": "Rheumatoid Arthritis",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "chronic_gout",
+        "name": "Chronic Gout",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "osteoporosis",
+        "name": "Osteoporosis",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "non_pressure_chronic_ulcer",
+        "name": "Non-Pressure Chronic Ulcer",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "secondary_diabetes_mellitus",
+        "name": "Secondary Diabetes Mellitus",
+        "relevance": "RARE",
+        "rationale": "Uncommon across the overall Medicare CCM population, but potentially high burden for affected beneficiaries and therefore not an exclusion signal."
+      },
+      {
+        "id": "glaucoma",
+        "name": "Glaucoma",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "peripheral_vascular_disease",
+        "name": "Peripheral Vascular Disease",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "cerebrovascular_disease",
+        "name": "Cerebrovascular Disease",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "pressure_ulcer",
+        "name": "Pressure Ulcer",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "osteoarthritis",
+        "name": "Osteoarthritis",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "chronic_osteomyelitis",
+        "name": "Chronic Osteomyelitis",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "type_1_diabetes",
+        "name": "Type 1 Diabetes",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "type_2_diabetes",
+        "name": "Type 2 Diabetes",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "dementia",
+        "name": "Dementia",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "inflammatory_bowel_disease",
+        "name": "Inflammatory Bowel Disease",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "epilepsy",
+        "name": "Epilepsy",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "chronic_migraine",
+        "name": "Chronic Migraine",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "visual_impairment",
+        "name": "Visual Impairment",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "age_related_macular_degeneration",
+        "name": "Age-related Macular Degeneration",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "alcohol_use_disorder",
+        "name": "Alcohol Use Disorder",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "coronary_artery_disease",
+        "name": "Coronary Artery Disease",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "opioid_use_disorder",
+        "name": "Opioid Use Disorder",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "cervical_disc_disease",
+        "name": "Cervical Disc Disease",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "hearing_loss",
+        "name": "Hearing Loss",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "sickle_cell_disease",
+        "name": "Sickle Cell Disease",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "bipolar_disorder",
+        "name": "Bipolar Disorder",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "aortic_aneurysm",
+        "name": "Aortic Aneurysm",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "interstitial_lung_disease",
+        "name": "Interstitial Lung Disease",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "lumbar_disc_disease",
+        "name": "Lumbar Disc Disease",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "chronic_heart_failure",
+        "name": "Chronic Heart Failure",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "valvular_heart_disease",
+        "name": "Valvular Heart Disease",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "asthma",
+        "name": "Asthma",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "nicotine_dependence",
+        "name": "Nicotine Dependence",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "hyperlipidemia",
+        "name": "Hyperlipidemia",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "major_depressive_disorder",
+        "name": "Major Depressive Disorder",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "ankylosing_spondylitis",
+        "name": "Ankylosing Spondylitis",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "hyperthyroidism",
+        "name": "Hyperthyroidism",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "insomnia",
+        "name": "Insomnia",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "muscular_dystrophy",
+        "name": "Muscular Dystrophy",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "transplant_status",
+        "name": "Transplant Status",
+        "relevance": "RARE",
+        "rationale": "Uncommon across the overall Medicare CCM population, but potentially high burden for affected beneficiaries and therefore not an exclusion signal."
+      },
+      {
+        "id": "psoriasis",
+        "name": "Psoriasis",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "sarcoidosis",
+        "name": "Sarcoidosis",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "obesity",
+        "name": "Obesity",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "atrial_fibrillation",
+        "name": "Atrial Fibrillation",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "cirrhosis",
+        "name": "Cirrhosis",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "copd",
+        "name": "COPD",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "chronic_kidney_disease",
+        "name": "Chronic Kidney Disease",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "systemic_lupus_erythematosus",
+        "name": "Systemic Lupus Erythematosus",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "cardiomyopathy",
+        "name": "Cardiomyopathy",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "multiple_sclerosis",
+        "name": "Multiple Sclerosis",
+        "relevance": "RARE",
+        "rationale": "Uncommon across the overall Medicare CCM population, but potentially high burden for affected beneficiaries and therefore not an exclusion signal."
+      },
+      {
+        "id": "schizophrenia",
+        "name": "Schizophrenia",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "sleep_apnea",
+        "name": "Sleep Apnea",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "hypothyroidism",
+        "name": "Hypothyroidism",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "peripheral_neuropathy",
+        "name": "Peripheral Neuropathy",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "cerebral_palsy",
+        "name": "Cerebral Palsy",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "parkinson_disease",
+        "name": "Parkinson Disease",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "pulmonary_hypertension",
+        "name": "Pulmonary Hypertension",
+        "relevance": "RARE",
+        "rationale": "Uncommon across the overall Medicare CCM population, but potentially high burden for affected beneficiaries and therefore not an exclusion signal."
+      },
+      {
+        "id": "adrenal_insufficiency",
+        "name": "Adrenal Insufficiency",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "chronic_viral_hepatitis",
+        "name": "Chronic Viral Hepatitis",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "generalized_anxiety_disorder",
+        "name": "Generalized Anxiety Disorder",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "benign_prostatic_hyperplasia",
+        "name": "Benign Prostatic Hyperplasia",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "chronic_pain",
+        "name": "Chronic Pain",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "dry_eye_syndrome",
+        "name": "Dry Eye Syndrome",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "gerd",
+        "name": "Gastroesophageal Reflux Disease",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "bronchiectasis",
+        "name": "Bronchiectasis",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "chronic_respiratory_failure",
+        "name": "Chronic Respiratory Failure",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "myasthenia_gravis",
+        "name": "Myasthenia Gravis",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "post_traumatic_stress_disorder",
+        "name": "Post-Traumatic Stress Disorder",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "lumbar_radiculopathy",
+        "name": "Lumbar Radiculopathy",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "lumbar_spinal_stenosis",
+        "name": "Lumbar Spinal Stenosis",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "amyotrophic_lateral_sclerosis",
+        "name": "Amyotrophic Lateral Sclerosis",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "anemia",
+        "name": "Anemia",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "cervical_radiculopathy",
+        "name": "Cervical Radiculopathy",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "cervical_spinal_stenosis",
+        "name": "Cervical Spinal Stenosis",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "chronic_back_pain",
+        "name": "Chronic Back Pain",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "chronic_venous_insufficiency",
+        "name": "Chronic Venous Insufficiency",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "essential_hypertension",
+        "name": "Essential Hypertension",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "essential_tremor",
+        "name": "Essential Tremor",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "fibromyalgia",
+        "name": "Fibromyalgia",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "hiv_disease",
+        "name": "Human Immunodeficiency Virus Disease",
+        "relevance": "RARE",
+        "rationale": "Uncommon across the overall Medicare CCM population, but potentially high burden for affected beneficiaries and therefore not an exclusion signal."
+      }
+    ]
+  },
+  "stability": {
+    "score": 68,
+    "canonicalIdsUnique": true,
+    "clinicalContentGroupIdsUnique": true,
+    "singletonContentGroups": 57,
+    "lateralityCollapsedGroups": 71,
+    "assessment": "Deterministic and structurally valid, but not semantically frozen for broad generation."
+  }
+}

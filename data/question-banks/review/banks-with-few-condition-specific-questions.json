@@ -1,0 +1,97 @@
+{
+  "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+  "threshold": 3,
+  "banks": [
+    {
+      "bankId": "ccm-bank.coronary_artery_disease",
+      "canonicalConditionId": "coronary_artery_disease",
+      "conditionSpecificQuestionIds": [
+        "ccm.cardiac.chest_discomfort",
+        "ccm.anticoag.bleeding"
+      ]
+    },
+    {
+      "bankId": "ccm-bank.obesity",
+      "canonicalConditionId": "obesity",
+      "conditionSpecificQuestionIds": [
+        "ccm.weight.plan_barrier"
+      ]
+    },
+    {
+      "bankId": "ccm-bank.hypothyroidism",
+      "canonicalConditionId": "hypothyroidism",
+      "conditionSpecificQuestionIds": [
+        "ccm.thyroid.lab_due"
+      ]
+    },
+    {
+      "bankId": "ccm-bank.gerd",
+      "canonicalConditionId": "gerd",
+      "conditionSpecificQuestionIds": [
+        "ccm.gerd.swallowing",
+        "ccm.liver.bleeding_red_flag"
+      ]
+    },
+    {
+      "bankId": "ccm-bank.anemia",
+      "canonicalConditionId": "anemia",
+      "conditionSpecificQuestionIds": [
+        "ccm.anemia.symptom_change",
+        "ccm.hematology.lab_followup"
+      ]
+    },
+    {
+      "bankId": "ccm-bank.osteoporosis",
+      "canonicalConditionId": "osteoporosis",
+      "conditionSpecificQuestionIds": [
+        "ccm.osteoporosis.new_fracture",
+        "ccm.osteoporosis.treatment_barrier"
+      ]
+    },
+    {
+      "bankId": "ccm-bank.chronic_pain",
+      "canonicalConditionId": "chronic_pain",
+      "conditionSpecificQuestionIds": []
+    },
+    {
+      "bankId": "ccm-bank.epilepsy",
+      "canonicalConditionId": "epilepsy",
+      "conditionSpecificQuestionIds": [
+        "ccm.seizure.event",
+        "ccm.seizure.rescue_plan"
+      ]
+    },
+    {
+      "bankId": "ccm-bank.fibromyalgia",
+      "canonicalConditionId": "fibromyalgia",
+      "conditionSpecificQuestionIds": [
+        "ccm.fibromyalgia.recovery",
+        "ccm.sleep.daytime_impact"
+      ]
+    },
+    {
+      "bankId": "ccm-bank.chronic_venous_insufficiency",
+      "canonicalConditionId": "chronic_venous_insufficiency",
+      "conditionSpecificQuestionIds": [
+        "ccm.vascular.foot_wound",
+        "ccm.venous.swelling_skin"
+      ]
+    },
+    {
+      "bankId": "ccm-bank.post_traumatic_stress_disorder",
+      "canonicalConditionId": "post_traumatic_stress_disorder",
+      "conditionSpecificQuestionIds": [
+        "ccm.mental.trauma_change",
+        "ccm.mental.safety_thoughts"
+      ]
+    },
+    {
+      "bankId": "ccm-bank.hyperthyroidism",
+      "canonicalConditionId": "hyperthyroidism",
+      "conditionSpecificQuestionIds": [
+        "ccm.thyroid.lab_due",
+        "ccm.endocrine.heart_racing"
+      ]
+    }
+  ]
+}

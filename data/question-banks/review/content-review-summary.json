@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+  "contentVersion": 1,
+  "newCanonicalConditionCount": 35,
+  "newlyMappedCodeCount": 1551,
+  "populatedBankCount": 66,
+  "newQuestionCount": 103,
+  "reusedExistingQuestionCount": 28,
+  "averageDefaultQuestionCount": 9.03,
+  "maximumDefaultQuestionCount": 16,
+  "lateralityCollapsedGroupCount": 7,
+  "materialVariantCount": 30,
+  "redFlagQuestionCount": 28,
+  "remainingUnmappedPassCount": 4583,
+  "remainingPriorities": [
+    {
+      "family": "I82",
+      "count": 145
+    },
+    {
+      "family": "M48",
+      "count": 116
+    },
+    {
+      "family": "I63",
+      "count": 91
+    },
+    {
+      "family": "F19",
+      "count": 63
+    },
+    {
+      "family": "F13",
+      "count": 58
+    },
+    {
+      "family": "I83",
+      "count": 57
+    },
+    {
+      "family": "M41",
+      "count": 55
+    },
+    {
+      "family": "M43",
+      "count": 50
+    },
+    {
+      "family": "F14",
+      "count": 48
+    },
+    {
+      "family": "F15",
+      "count": 48
+    },
+    {
+      "family": "M47",
+      "count": 45
+    },
+    {
+      "family": "Q72",
+      "count": 44
+    },
+    {
+      "family": "I87",
+      "count": 43
+    },
+    {
+      "family": "F16",
+      "count": 40
+    },
+    {
+      "family": "G44",
+      "count": 40
+    },
+    {
+      "family": "G57",
+      "count": 40
+    },
+    {
+      "family": "Q71",
+      "count": 40
+    },
+    {
+      "family": "F12",
+      "count": 39
+    },
+    {
+      "family": "F18",
+      "count": 39
+    },
+    {
+      "family": "I80",
+      "count": 39
+    }
+  ]
+}

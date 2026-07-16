@@ -1,0 +1,229 @@
+{
+  "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+  "questions": [
+    {
+      "questionId": "ccm.neuro.new_weakness",
+      "text": "Have you developed new or worsening weakness in an arm or leg?",
+      "urgency": "same_day",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    },
+    {
+      "questionId": "ccm.spine.bowel_bladder_change",
+      "text": "Have you had a new loss of bowel or bladder control?",
+      "urgency": "urgent",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    },
+    {
+      "questionId": "ccm.spine.saddle_numbness",
+      "text": "Have you had new numbness around the groin, buttocks, or inner thighs?",
+      "urgency": "urgent",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    },
+    {
+      "questionId": "ccm.inflammatory.infection_signs",
+      "text": "Have you had a fever or other infection concern while using immune-suppressing treatment?",
+      "urgency": "same_day",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    },
+    {
+      "questionId": "ccm.wound.infection_red_flag",
+      "text": "Do you have spreading redness, warmth, or fever with the wound?",
+      "urgency": "same_day",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    },
+    {
+      "questionId": "ccm.pulmonary.urgent_breathing",
+      "text": "Are you short of breath at rest or unable to speak comfortably because of breathing difficulty?",
+      "urgency": "urgent",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    },
+    {
+      "questionId": "ccm.liver.confusion",
+      "text": "Have you or someone close to you noticed new confusion or unusual sleepiness?",
+      "urgency": "same_day",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    },
+    {
+      "questionId": "ccm.liver.bleeding_red_flag",
+      "text": "Have you vomited blood or passed black, tar-like stool?",
+      "urgency": "urgent",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    },
+    {
+      "questionId": "ccm.liver.jaundice_change",
+      "text": "Have your eyes or skin become more yellow?",
+      "urgency": "same_day",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    },
+    {
+      "questionId": "ccm.sickle.fever",
+      "text": "Do you have a fever now or have you had one with new illness symptoms?",
+      "urgency": "urgent",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    },
+    {
+      "questionId": "ccm.sickle.chest_symptoms",
+      "text": "Have you had new chest pain or new breathing difficulty?",
+      "urgency": "urgent",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    },
+    {
+      "questionId": "ccm.vascular.rest_pain",
+      "text": "Do you have foot or leg pain while resting, especially at night?",
+      "urgency": "same_day",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    },
+    {
+      "questionId": "ccm.vascular.foot_wound",
+      "text": "Do you have a foot or leg sore that is new or not healing?",
+      "urgency": "same_day",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    },
+    {
+      "questionId": "ccm.aorta.new_pain",
+      "text": "Have you had sudden severe chest, back, or abdominal pain?",
+      "urgency": "urgent",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    },
+    {
+      "questionId": "ccm.mental.safety_thoughts",
+      "text": "Have you had thoughts of harming yourself or that you would be better off dead?",
+      "urgency": "urgent",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    },
+    {
+      "questionId": "ccm.substance.withdrawal_red_flag",
+      "text": "Are you having severe shaking, confusion, hallucinations, or a seizure while cutting down or stopping?",
+      "urgency": "urgent",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    },
+    {
+      "questionId": "ccm.neuro.swallow_breathe",
+      "text": "Have swallowing or breathing become newly difficult because of muscle weakness?",
+      "urgency": "urgent",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    },
+    {
+      "questionId": "ccm.parkinson.swallowing",
+      "text": "Have you had new trouble swallowing food or drinks?",
+      "urgency": "same_day",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    },
+    {
+      "questionId": "ccm.seizure.event",
+      "text": "Have you had a seizure since the last review?",
+      "urgency": "same_day",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    },
+    {
+      "questionId": "ccm.urinary.emptying",
+      "text": "Have you been unable to empty your bladder or unable to urinate?",
+      "urgency": "same_day",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    },
+    {
+      "questionId": "ccm.vision.sudden_change",
+      "text": "Have you had a sudden loss of vision or a new dark curtain over your vision?",
+      "urgency": "urgent",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    },
+    {
+      "questionId": "ccm.endocrine.heart_racing",
+      "text": "Have you had new episodes of a racing or irregular heartbeat?",
+      "urgency": "same_day",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    },
+    {
+      "questionId": "ccm.adrenal.vomiting_red_flag",
+      "text": "Are vomiting or severe illness keeping you from taking your adrenal medicine?",
+      "urgency": "urgent",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    },
+    {
+      "questionId": "ccm.cardiac.chest_discomfort",
+      "text": "Have you had new or worsening chest pressure or discomfort?",
+      "urgency": "urgent",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    },
+    {
+      "questionId": "ccm.cardiac.fainting",
+      "text": "Have you fainted or nearly fainted since the last review?",
+      "urgency": "same_day",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    },
+    {
+      "questionId": "ccm.anticoag.bleeding",
+      "text": "If you use a blood thinner, have you had unusual bleeding or large unexplained bruises?",
+      "urgency": "same_day",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    },
+    {
+      "questionId": "ccm.gerd.swallowing",
+      "text": "Has food felt stuck when you swallow?",
+      "urgency": "same_day",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    },
+    {
+      "questionId": "ccm.ibd.stool_change",
+      "text": "Have bowel movements become more frequent or contained blood?",
+      "urgency": "same_day",
+      "providerNotification": true,
+      "monthlyAppropriate": true,
+      "assessment": "Retain as drafted; threshold and local escalation protocol require clinician approval."
+    }
+  ]
+}

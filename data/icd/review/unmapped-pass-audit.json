@@ -1,0 +1,711 @@
+{
+  "auditVersion": "2026-07-knowledge-quality-1",
+  "total": 4583,
+  "groups": [
+    {
+      "id": "hypertensive_cardiorenal",
+      "label": "Hypertensive heart and kidney disease",
+      "disposition": "MAP_EXISTING_WITH_VARIANTS",
+      "target": "essential_hypertension + heart failure/CKD modules",
+      "recommendation": "Review I11-I13 for a hypertension core plus heart-failure and CKD content variants; do not flatten organ involvement.",
+      "count": 8,
+      "billableCount": 8,
+      "examples": [
+        {
+          "code": "I11.0",
+          "officialTitle": "Hypertensive heart disease with heart failure",
+          "billable": true,
+          "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+        },
+        {
+          "code": "I11.9",
+          "officialTitle": "Hypertensive heart disease without heart failure",
+          "billable": true,
+          "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+        },
+        {
+          "code": "I12.0",
+          "officialTitle": "Hypertensive chronic kidney disease with stage 5 chronic kidney disease or end stage renal disease",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "I12.9",
+          "officialTitle": "Hypertensive chronic kidney disease with stage 1 through stage 4 chronic kidney disease, or unspecified chronic kidney disease",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "I13.0",
+          "officialTitle": "Hypertensive heart and chronic kidney disease with heart failure and stage 1 through stage 4 chronic kidney disease, or unspecified chronic kidney disease",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "I13.10",
+          "officialTitle": "Hypertensive heart and chronic kidney disease without heart failure, with stage 1 through stage 4 chronic kidney disease, or unspecified chronic kidney disease",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        }
+      ]
+    },
+    {
+      "id": "ischemic_heart_disease",
+      "label": "Other ischemic heart disease",
+      "disposition": "MAP_EXISTING_OR_UNSURE",
+      "target": "coronary_artery_disease",
+      "recommendation": "Review angina and chronic ischemic disease for the CAD core; retain acute ischemic presentations as context-dependent.",
+      "count": 20,
+      "billableCount": 20,
+      "examples": [
+        {
+          "code": "I20.0",
+          "officialTitle": "Unstable angina",
+          "billable": true,
+          "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+        },
+        {
+          "code": "I20.1",
+          "officialTitle": "Angina pectoris with documented spasm",
+          "billable": true,
+          "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+        },
+        {
+          "code": "I20.2",
+          "officialTitle": "Refractory angina pectoris",
+          "billable": true,
+          "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+        },
+        {
+          "code": "I20.81",
+          "officialTitle": "Angina pectoris with coronary microvascular dysfunction",
+          "billable": true,
+          "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+        },
+        {
+          "code": "I20.89",
+          "officialTitle": "Other forms of angina pectoris",
+          "billable": true,
+          "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+        },
+        {
+          "code": "I20.9",
+          "officialTitle": "Angina pectoris, unspecified",
+          "billable": true,
+          "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+        }
+      ]
+    },
+    {
+      "id": "other_arrhythmias",
+      "label": "Conduction disorders and other arrhythmias",
+      "disposition": "LIKELY_NEW_CANONICAL",
+      "target": "cardiac_arrhythmia",
+      "recommendation": "Create a broader arrhythmia concept only after separating conduction disease, implanted-device needs, and rhythm-specific monitoring.",
+      "count": 42,
+      "billableCount": 42,
+      "examples": [
+        {
+          "code": "I44.0",
+          "officialTitle": "Atrioventricular block, first degree",
+          "billable": true,
+          "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+        },
+        {
+          "code": "I44.1",
+          "officialTitle": "Atrioventricular block, second degree",
+          "billable": true,
+          "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+        },
+        {
+          "code": "I44.2",
+          "officialTitle": "Atrioventricular block, complete",
+          "billable": true,
+          "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+        },
+        {
+          "code": "I44.30",
+          "officialTitle": "Unspecified atrioventricular block",
+          "billable": true,
+          "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+        },
+        {
+          "code": "I44.39",
+          "officialTitle": "Other atrioventricular block",
+          "billable": true,
+          "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+        },
+        {
+          "code": "I44.4",
+          "officialTitle": "Left anterior fascicular block",
+          "billable": true,
+          "rationale": "This circulatory diagnosis is reasonably likely to require longitudinal monitoring."
+        }
+      ]
+    },
+    {
+      "id": "hematology_immune",
+      "label": "Hematologic and immune disorders",
+      "disposition": "MIXED",
+      "target": "anemia or new hematology/immune concepts",
+      "recommendation": "Map clear anemia families to anemia, while keeping coagulation, marrow, and immune disorders distinct.",
+      "count": 155,
+      "billableCount": 155,
+      "examples": [
+        {
+          "code": "D47.1",
+          "officialTitle": "Chronic myeloproliferative disease",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "D50.0",
+          "officialTitle": "Iron deficiency anemia secondary to blood loss (chronic)",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "D50.1",
+          "officialTitle": "Sideropenic dysphagia",
+          "billable": true,
+          "rationale": "This hematologic or immune diagnosis is reasonably likely to require longitudinal monitoring."
+        },
+        {
+          "code": "D50.8",
+          "officialTitle": "Other iron deficiency anemias",
+          "billable": true,
+          "rationale": "This hematologic or immune diagnosis is reasonably likely to require longitudinal monitoring."
+        },
+        {
+          "code": "D50.9",
+          "officialTitle": "Iron deficiency anemia, unspecified",
+          "billable": true,
+          "rationale": "This hematologic or immune diagnosis is reasonably likely to require longitudinal monitoring."
+        },
+        {
+          "code": "D51.0",
+          "officialTitle": "Vitamin B12 deficiency anemia due to intrinsic factor deficiency",
+          "billable": true,
+          "rationale": "This hematologic or immune diagnosis is reasonably likely to require longitudinal monitoring."
+        }
+      ]
+    },
+    {
+      "id": "mental_behavioral",
+      "label": "Other mental and behavioral disorders",
+      "disposition": "LIKELY_NEW_CANONICAL",
+      "target": "condition-specific behavioral health concepts",
+      "recommendation": "Prioritize substance-use, PTSD, obsessive-compulsive, and other persistent disorders; avoid one broad mental-health profile.",
+      "count": 599,
+      "billableCount": 599,
+      "examples": [
+        {
+          "code": "F04",
+          "officialTitle": "Amnestic disorder due to known physiological condition",
+          "billable": true,
+          "rationale": "Mental and behavioral diagnoses commonly require longitudinal management."
+        },
+        {
+          "code": "F06.0",
+          "officialTitle": "Psychotic disorder with hallucinations due to known physiological condition",
+          "billable": true,
+          "rationale": "Mental and behavioral diagnoses commonly require longitudinal management."
+        },
+        {
+          "code": "F06.1",
+          "officialTitle": "Catatonic disorder due to known physiological condition",
+          "billable": true,
+          "rationale": "Mental and behavioral diagnoses commonly require longitudinal management."
+        },
+        {
+          "code": "F06.2",
+          "officialTitle": "Psychotic disorder with delusions due to known physiological condition",
+          "billable": true,
+          "rationale": "Mental and behavioral diagnoses commonly require longitudinal management."
+        },
+        {
+          "code": "F06.30",
+          "officialTitle": "Mood disorder due to known physiological condition, unspecified",
+          "billable": true,
+          "rationale": "Mental and behavioral diagnoses commonly require longitudinal management."
+        },
+        {
+          "code": "F06.31",
+          "officialTitle": "Mood disorder due to known physiological condition with depressive features",
+          "billable": true,
+          "rationale": "Mental and behavioral diagnoses commonly require longitudinal management."
+        }
+      ]
+    },
+    {
+      "id": "neurologic",
+      "label": "Other neurologic disorders",
+      "disposition": "MIXED",
+      "target": "existing neurologic concepts or new condition families",
+      "recommendation": "Review movement, neuromuscular, cerebral palsy, sleep, and cognitive families for distinct longitudinal frameworks.",
+      "count": 492,
+      "billableCount": 492,
+      "examples": [
+        {
+          "code": "G03.1",
+          "officialTitle": "Chronic meningitis",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "G03.2",
+          "officialTitle": "Benign recurrent meningitis [Mollaret]",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "G10",
+          "officialTitle": "Huntington's disease",
+          "billable": true,
+          "rationale": "This neurologic diagnosis is reasonably likely to require longitudinal management."
+        },
+        {
+          "code": "G11.0",
+          "officialTitle": "Congenital nonprogressive ataxia",
+          "billable": true,
+          "rationale": "This neurologic diagnosis is reasonably likely to require longitudinal management."
+        },
+        {
+          "code": "G11.10",
+          "officialTitle": "Early-onset cerebellar ataxia, unspecified",
+          "billable": true,
+          "rationale": "This neurologic diagnosis is reasonably likely to require longitudinal management."
+        },
+        {
+          "code": "G11.11",
+          "officialTitle": "Friedreich ataxia",
+          "billable": true,
+          "rationale": "This neurologic diagnosis is reasonably likely to require longitudinal management."
+        }
+      ]
+    },
+    {
+      "id": "endocrine_metabolic",
+      "label": "Other endocrine and metabolic disorders",
+      "disposition": "LIKELY_NEW_CANONICAL",
+      "target": "endocrine/metabolic condition families",
+      "recommendation": "Group thyroid, pituitary, adrenal, parathyroid, and inherited metabolic disorders by management framework rather than code wording.",
+      "count": 466,
+      "billableCount": 466,
+      "examples": [
+        {
+          "code": "E00.0",
+          "officialTitle": "Congenital iodine-deficiency syndrome, neurological type",
+          "billable": true,
+          "rationale": "Endocrine, nutritional, and metabolic diagnoses are commonly longitudinal conditions."
+        },
+        {
+          "code": "E00.1",
+          "officialTitle": "Congenital iodine-deficiency syndrome, myxedematous type",
+          "billable": true,
+          "rationale": "Endocrine, nutritional, and metabolic diagnoses are commonly longitudinal conditions."
+        },
+        {
+          "code": "E00.2",
+          "officialTitle": "Congenital iodine-deficiency syndrome, mixed type",
+          "billable": true,
+          "rationale": "Endocrine, nutritional, and metabolic diagnoses are commonly longitudinal conditions."
+        },
+        {
+          "code": "E00.9",
+          "officialTitle": "Congenital iodine-deficiency syndrome, unspecified",
+          "billable": true,
+          "rationale": "Endocrine, nutritional, and metabolic diagnoses are commonly longitudinal conditions."
+        },
+        {
+          "code": "E01.0",
+          "officialTitle": "Iodine-deficiency related diffuse (endemic) goiter",
+          "billable": true,
+          "rationale": "Endocrine, nutritional, and metabolic diagnoses are commonly longitudinal conditions."
+        },
+        {
+          "code": "E01.1",
+          "officialTitle": "Iodine-deficiency related multinodular (endemic) goiter",
+          "billable": true,
+          "rationale": "Endocrine, nutritional, and metabolic diagnoses are commonly longitudinal conditions."
+        }
+      ]
+    },
+    {
+      "id": "congenital_inherited",
+      "label": "Congenital and inherited disorders",
+      "disposition": "REVIEW_BEFORE_MAPPING",
+      "target": "condition-family taxonomy",
+      "recommendation": "The blanket congenital PASS rule creates a large rare-condition queue; review persistence and adult care burden by family before adding canonical IDs.",
+      "count": 894,
+      "billableCount": 894,
+      "examples": [
+        {
+          "code": "Q00.0",
+          "officialTitle": "Anencephaly",
+          "billable": true,
+          "rationale": "Congenital conditions are commonly persistent and remain available for longitudinal care management."
+        },
+        {
+          "code": "Q00.1",
+          "officialTitle": "Craniorachischisis",
+          "billable": true,
+          "rationale": "Congenital conditions are commonly persistent and remain available for longitudinal care management."
+        },
+        {
+          "code": "Q00.2",
+          "officialTitle": "Iniencephaly",
+          "billable": true,
+          "rationale": "Congenital conditions are commonly persistent and remain available for longitudinal care management."
+        },
+        {
+          "code": "Q01.0",
+          "officialTitle": "Frontal encephalocele",
+          "billable": true,
+          "rationale": "Congenital conditions are commonly persistent and remain available for longitudinal care management."
+        },
+        {
+          "code": "Q01.1",
+          "officialTitle": "Nasofrontal encephalocele",
+          "billable": true,
+          "rationale": "Congenital conditions are commonly persistent and remain available for longitudinal care management."
+        },
+        {
+          "code": "Q01.2",
+          "officialTitle": "Occipital encephalocele",
+          "billable": true,
+          "rationale": "Congenital conditions are commonly persistent and remain available for longitudinal care management."
+        }
+      ]
+    },
+    {
+      "id": "musculoskeletal",
+      "label": "Other musculoskeletal disorders",
+      "disposition": "MIXED",
+      "target": "pain/arthritis concepts or new condition families",
+      "recommendation": "Review inflammatory, spinal, connective-tissue, and chronic deformity families; avoid mapping all pain to osteoarthritis.",
+      "count": 536,
+      "billableCount": 536,
+      "examples": [
+        {
+          "code": "M12.00",
+          "officialTitle": "Chronic postrheumatic arthropathy [Jaccoud], unspecified site",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "M12.011",
+          "officialTitle": "Chronic postrheumatic arthropathy [Jaccoud], right shoulder",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "M12.012",
+          "officialTitle": "Chronic postrheumatic arthropathy [Jaccoud], left shoulder",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "M12.019",
+          "officialTitle": "Chronic postrheumatic arthropathy [Jaccoud], unspecified shoulder",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "M12.021",
+          "officialTitle": "Chronic postrheumatic arthropathy [Jaccoud], right elbow",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "M12.022",
+          "officialTitle": "Chronic postrheumatic arthropathy [Jaccoud], left elbow",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        }
+      ]
+    },
+    {
+      "id": "dermatologic",
+      "label": "Chronic dermatologic disorders",
+      "disposition": "LIKELY_NEW_CANONICAL",
+      "target": "psoriasis/dermatitis/chronic wound concepts",
+      "recommendation": "Separate inflammatory dermatoses, chronic ulcers, and infection-prone skin disease by monitoring needs.",
+      "count": 23,
+      "billableCount": 23,
+      "examples": [
+        {
+          "code": "L12.2",
+          "officialTitle": "Chronic bullous disease of childhood",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "L20.0",
+          "officialTitle": "Besnier's prurigo",
+          "billable": true,
+          "rationale": "This dermatologic diagnosis is reasonably likely to require longitudinal management."
+        },
+        {
+          "code": "L20.81",
+          "officialTitle": "Atopic neurodermatitis",
+          "billable": true,
+          "rationale": "This dermatologic diagnosis is reasonably likely to require longitudinal management."
+        },
+        {
+          "code": "L20.82",
+          "officialTitle": "Flexural eczema",
+          "billable": true,
+          "rationale": "This dermatologic diagnosis is reasonably likely to require longitudinal management."
+        },
+        {
+          "code": "L20.83",
+          "officialTitle": "Infantile (acute) (chronic) eczema",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "L20.84",
+          "officialTitle": "Intrinsic (allergic) eczema",
+          "billable": true,
+          "rationale": "This dermatologic diagnosis is reasonably likely to require longitudinal management."
+        }
+      ]
+    },
+    {
+      "id": "digestive_hepatic",
+      "label": "Other digestive and hepatic disorders",
+      "disposition": "MIXED",
+      "target": "condition-specific GI/hepatic concepts",
+      "recommendation": "Review chronic pancreatic, hepatic, malabsorption, and motility families without merging acute digestive episodes.",
+      "count": 172,
+      "billableCount": 172,
+      "examples": [
+        {
+          "code": "K04.5",
+          "officialTitle": "Chronic apical periodontitis",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "K05.10",
+          "officialTitle": "Chronic gingivitis, plaque induced",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "K05.11",
+          "officialTitle": "Chronic gingivitis, non-plaque induced",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "K05.30",
+          "officialTitle": "Chronic periodontitis, unspecified",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "K05.311",
+          "officialTitle": "Chronic periodontitis, localized, slight",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "K05.312",
+          "officialTitle": "Chronic periodontitis, localized, moderate",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        }
+      ]
+    },
+    {
+      "id": "respiratory",
+      "label": "Other chronic respiratory disorders",
+      "disposition": "MIXED",
+      "target": "COPD/asthma or new pulmonary concepts",
+      "recommendation": "Review bronchiectasis, interstitial disease, oxygen needs, and sleep-related breathing disorders for separate variants.",
+      "count": 137,
+      "billableCount": 137,
+      "examples": [
+        {
+          "code": "J01.01",
+          "officialTitle": "Acute recurrent maxillary sinusitis",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "J01.11",
+          "officialTitle": "Acute recurrent frontal sinusitis",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "J01.21",
+          "officialTitle": "Acute recurrent ethmoidal sinusitis",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "J01.31",
+          "officialTitle": "Acute recurrent sphenoidal sinusitis",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "J01.41",
+          "officialTitle": "Acute recurrent pansinusitis",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "J01.81",
+          "officialTitle": "Other acute recurrent sinusitis",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        }
+      ]
+    },
+    {
+      "id": "renal_urologic",
+      "label": "Other renal and urologic disorders",
+      "disposition": "LIKELY_NEW_CANONICAL",
+      "target": "renal/urologic condition families",
+      "recommendation": "Keep chronic renal, bladder, prostate, and incontinence frameworks distinct; do not force all into CKD.",
+      "count": 151,
+      "billableCount": 151,
+      "examples": [
+        {
+          "code": "N02.0",
+          "officialTitle": "Recurrent and persistent hematuria with minor glomerular abnormality",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "N02.1",
+          "officialTitle": "Recurrent and persistent hematuria with focal and segmental glomerular lesions",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "N02.2",
+          "officialTitle": "Recurrent and persistent hematuria with diffuse membranous glomerulonephritis",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "N02.3",
+          "officialTitle": "Recurrent and persistent hematuria with diffuse mesangial proliferative glomerulonephritis",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "N02.4",
+          "officialTitle": "Recurrent and persistent hematuria with diffuse endocapillary proliferative glomerulonephritis",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "N02.5",
+          "officialTitle": "Recurrent and persistent hematuria with diffuse mesangiocapillary glomerulonephritis",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        }
+      ]
+    },
+    {
+      "id": "ophthalmic",
+      "label": "Other chronic ophthalmic disorders",
+      "disposition": "LIKELY_NEW_CANONICAL",
+      "target": "visual impairment/retinal condition families",
+      "recommendation": "Add visual impairment and chronic retinal concepts only where monitoring and functional-support content is reusable.",
+      "count": 138,
+      "billableCount": 138,
+      "examples": [
+        {
+          "code": "H04.021",
+          "officialTitle": "Chronic dacryoadenitis, right lacrimal gland",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "H04.022",
+          "officialTitle": "Chronic dacryoadenitis, left lacrimal gland",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "H04.023",
+          "officialTitle": "Chronic dacryoadenitis, bilateral lacrimal gland",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "H04.029",
+          "officialTitle": "Chronic dacryoadenitis, unspecified lacrimal gland",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "H04.031",
+          "officialTitle": "Chronic enlargement of right lacrimal gland",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "H04.032",
+          "officialTitle": "Chronic enlargement of left lacrimal gland",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        }
+      ]
+    },
+    {
+      "id": "other",
+      "label": "Other unmapped PASS",
+      "disposition": "REVIEW",
+      "target": null,
+      "recommendation": "Review by three-character family and clinical domain; do not force a mapping solely to reduce the queue.",
+      "count": 750,
+      "billableCount": 750,
+      "examples": [
+        {
+          "code": "A04.71",
+          "officialTitle": "Enterocolitis due to Clostridium difficile, recurrent",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "A04.72",
+          "officialTitle": "Enterocolitis due to Clostridium difficile, not specified as recurrent",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "A06.1",
+          "officialTitle": "Chronic intestinal amebiasis",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "A24.2",
+          "officialTitle": "Subacute and chronic melioidosis",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "A39.3",
+          "officialTitle": "Chronic meningococcemia",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        },
+        {
+          "code": "B37.32",
+          "officialTitle": "Chronic candidiasis of vulva and vagina",
+          "billable": true,
+          "rationale": "The official title explicitly indicates a chronic, recurrent, persistent, or long-term condition."
+        }
+      ]
+    }
+  ]
+}

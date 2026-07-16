@@ -1,0 +1,382 @@
+{
+  "overrides": [
+    {
+      "code": "I10",
+      "title": "Essential (primary) hypertension",
+      "classification": "PASS",
+      "rationale": "Hypertension is a common chronic CCM condition.",
+      "canonicalConditionId": "essential_hypertension",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "E11.9",
+      "title": "Type 2 diabetes mellitus without complications",
+      "classification": "PASS",
+      "rationale": "Type 2 diabetes is a chronic condition requiring longitudinal management.",
+      "canonicalConditionId": "type_2_diabetes",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "E11.65",
+      "title": "Type 2 diabetes mellitus with hyperglycemia",
+      "classification": "PASS",
+      "rationale": "Type 2 diabetes with hyperglycemia maps to the reusable diabetes condition.",
+      "canonicalConditionId": "type_2_diabetes",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "E11.22",
+      "title": "Type 2 diabetes mellitus with diabetic chronic kidney disease",
+      "classification": "PASS",
+      "rationale": "Diabetes with kidney involvement remains managed under the diabetes canonical condition.",
+      "canonicalConditionId": "type_2_diabetes",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "J44.9",
+      "title": "Chronic obstructive pulmonary disease, unspecified",
+      "classification": "PASS",
+      "rationale": "COPD is a chronic pulmonary condition appropriate for CCM content.",
+      "canonicalConditionId": "copd",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "J44.1",
+      "title": "Chronic obstructive pulmonary disease with acute exacerbation",
+      "classification": "PASS",
+      "rationale": "The acute exacerbation is part of an underlying chronic COPD condition.",
+      "canonicalConditionId": "copd",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "I50.9",
+      "title": "Heart failure, unspecified",
+      "classification": "PASS",
+      "rationale": "Heart failure is a chronic cardiovascular condition commonly managed in CCM.",
+      "canonicalConditionId": "chronic_heart_failure",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "I50.32",
+      "title": "Chronic diastolic (congestive) heart failure",
+      "classification": "PASS",
+      "rationale": "Chronic heart failure maps to the heart failure canonical condition.",
+      "canonicalConditionId": "chronic_heart_failure",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "N18.30",
+      "title": "Chronic kidney disease, stage 3 unspecified",
+      "classification": "PASS",
+      "rationale": "CKD is a chronic condition with ongoing monitoring needs.",
+      "canonicalConditionId": "chronic_kidney_disease",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "N18.4",
+      "title": "Chronic kidney disease, stage 4 (severe)",
+      "classification": "PASS",
+      "rationale": "Advanced CKD is a chronic condition with ongoing monitoring needs.",
+      "canonicalConditionId": "chronic_kidney_disease",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "E78.5",
+      "title": "Hyperlipidemia, unspecified",
+      "classification": "PASS",
+      "rationale": "Hyperlipidemia is a chronic cardiometabolic condition.",
+      "canonicalConditionId": "hyperlipidemia",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "J45.909",
+      "title": "Unspecified asthma, uncomplicated",
+      "classification": "PASS",
+      "rationale": "Asthma is commonly chronic and can require CCM monitoring.",
+      "canonicalConditionId": "asthma",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "F32.9",
+      "title": "Major depressive disorder, single episode, unspecified",
+      "classification": "PASS",
+      "rationale": "Major depression can be chronic or recurrent and is appropriate for reusable CCM content.",
+      "canonicalConditionId": "major_depressive_disorder",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "F33.1",
+      "title": "Major depressive disorder, recurrent, moderate",
+      "classification": "PASS",
+      "rationale": "Recurrent major depression maps to the depression canonical condition.",
+      "canonicalConditionId": "major_depressive_disorder",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "F41.1",
+      "title": "Generalized anxiety disorder",
+      "classification": "PASS",
+      "rationale": "Generalized anxiety disorder can require longitudinal management.",
+      "canonicalConditionId": "generalized_anxiety_disorder",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "M19.90",
+      "title": "Unspecified osteoarthritis, unspecified site",
+      "classification": "PASS",
+      "rationale": "Osteoarthritis is a chronic musculoskeletal condition.",
+      "canonicalConditionId": "osteoarthritis",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "I48.91",
+      "title": "Unspecified atrial fibrillation",
+      "classification": "PASS",
+      "rationale": "Atrial fibrillation is a chronic cardiovascular condition needing longitudinal management.",
+      "canonicalConditionId": "atrial_fibrillation",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "I25.10",
+      "title": "Atherosclerotic heart disease of native coronary artery without angina pectoris",
+      "classification": "PASS",
+      "rationale": "Coronary artery disease is a chronic cardiovascular condition.",
+      "canonicalConditionId": "coronary_artery_disease",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "E66.9",
+      "title": "Obesity, unspecified",
+      "classification": "PASS",
+      "rationale": "Obesity is a chronic cardiometabolic condition.",
+      "canonicalConditionId": "obesity",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "E03.9",
+      "title": "Hypothyroidism, unspecified",
+      "classification": "PASS",
+      "rationale": "Hypothyroidism is typically chronic and requires ongoing management.",
+      "canonicalConditionId": "hypothyroidism",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "K21.9",
+      "title": "Gastro-esophageal reflux disease without esophagitis",
+      "classification": "PASS",
+      "rationale": "GERD is often chronic and can require longitudinal management.",
+      "canonicalConditionId": "gerd",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "H40.9",
+      "title": "Unspecified glaucoma",
+      "classification": "PASS",
+      "rationale": "Glaucoma is a chronic condition requiring ongoing monitoring.",
+      "canonicalConditionId": "glaucoma",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "H35.30",
+      "title": "Unspecified macular degeneration",
+      "classification": "PASS",
+      "rationale": "Macular degeneration is a chronic ophthalmic condition.",
+      "canonicalConditionId": "age_related_macular_degeneration",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "H04.123",
+      "title": "Dry eye syndrome of bilateral lacrimal glands",
+      "classification": "PASS",
+      "rationale": "Dry eye syndrome can be chronic and monitored longitudinally.",
+      "canonicalConditionId": "dry_eye_syndrome",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "M54.50",
+      "title": "Low back pain, unspecified",
+      "classification": "PASS",
+      "rationale": "Low back pain in CCM populations is often chronic and maps to chronic back pain content.",
+      "canonicalConditionId": "chronic_back_pain",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "G62.9",
+      "title": "Polyneuropathy, unspecified",
+      "classification": "PASS",
+      "rationale": "Peripheral neuropathy is commonly chronic and needs ongoing management.",
+      "canonicalConditionId": "peripheral_neuropathy",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "F03.90",
+      "title": "Unspecified dementia, unspecified severity, without behavioral disturbance",
+      "classification": "PASS",
+      "rationale": "Dementia is a chronic condition requiring longitudinal care coordination.",
+      "canonicalConditionId": "dementia",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "G20",
+      "title": "Parkinson's disease",
+      "classification": "PASS",
+      "rationale": "Parkinson disease is a chronic neurologic condition.",
+      "canonicalConditionId": "parkinson_disease",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "G20.A1",
+      "title": "Parkinson's disease without dyskinesia, without mention of fluctuations",
+      "classification": "PASS",
+      "rationale": "Parkinson disease maps to the reusable Parkinson canonical condition.",
+      "canonicalConditionId": "parkinson_disease",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "G43.709",
+      "title": "Chronic migraine without aura, not intractable, without status migrainosus",
+      "classification": "PASS",
+      "rationale": "Chronic migraine is a longitudinal neurologic condition.",
+      "canonicalConditionId": "chronic_migraine",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "D64.9",
+      "title": "Anemia, unspecified",
+      "classification": "PASS",
+      "rationale": "Anemia can be chronic and require monitoring in CCM populations.",
+      "canonicalConditionId": "anemia",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "M81.0",
+      "title": "Age-related osteoporosis without current pathological fracture",
+      "classification": "PASS",
+      "rationale": "Osteoporosis is a chronic condition requiring longitudinal risk management.",
+      "canonicalConditionId": "osteoporosis",
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "mapped_existing"
+    },
+    {
+      "code": "R53.83",
+      "title": "Other fatigue",
+      "classification": "UNSURE",
+      "rationale": "Fatigue may reflect chronic illness or a transient symptom and needs context.",
+      "canonicalConditionId": null,
+      "reviewStatus": "needs_clinical_review",
+      "generatedStatus": "deferred"
+    },
+    {
+      "code": "R42",
+      "title": "Dizziness and giddiness",
+      "classification": "UNSURE",
+      "rationale": "Dizziness is a symptom whose chronic-care relevance depends on the cause.",
+      "canonicalConditionId": null,
+      "reviewStatus": "needs_clinical_review",
+      "generatedStatus": "deferred"
+    },
+    {
+      "code": "R60.9",
+      "title": "Edema, unspecified",
+      "classification": "UNSURE",
+      "rationale": "Edema may be linked to chronic disease but is not specific enough by itself.",
+      "canonicalConditionId": null,
+      "reviewStatus": "needs_clinical_review",
+      "generatedStatus": "deferred"
+    },
+    {
+      "code": "Z79.899",
+      "title": "Other long term (current) drug therapy",
+      "classification": "UNSURE",
+      "rationale": "Long-term drug therapy suggests ongoing care but does not identify a condition.",
+      "canonicalConditionId": null,
+      "reviewStatus": "needs_clinical_review",
+      "generatedStatus": "deferred"
+    },
+    {
+      "code": "R26.89",
+      "title": "Other abnormalities of gait and mobility",
+      "classification": "UNSURE",
+      "rationale": "Gait abnormality may be chronic but needs diagnostic context before content generation.",
+      "canonicalConditionId": null,
+      "reviewStatus": "needs_clinical_review",
+      "generatedStatus": "deferred"
+    },
+    {
+      "code": "Z23",
+      "title": "Encounter for immunization",
+      "classification": "FAIL",
+      "rationale": "Immunization encounters are preventive services, not chronic condition content.",
+      "canonicalConditionId": null,
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "blocked"
+    },
+    {
+      "code": "Z00.00",
+      "title": "Encounter for general adult medical examination without abnormal findings",
+      "classification": "FAIL",
+      "rationale": "Routine examination codes do not represent a chronic condition.",
+      "canonicalConditionId": null,
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "blocked"
+    },
+    {
+      "code": "R05.1",
+      "title": "Acute cough",
+      "classification": "FAIL",
+      "rationale": "Acute cough is an acute symptom and not CCM-specific chronic content.",
+      "canonicalConditionId": null,
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "blocked"
+    },
+    {
+      "code": "S61.411A",
+      "title": "Laceration without foreign body of right hand, initial encounter",
+      "classification": "FAIL",
+      "rationale": "Initial traumatic laceration encounters are overwhelmingly not CCM content.",
+      "canonicalConditionId": null,
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "blocked"
+    },
+    {
+      "code": "W19.XXXA",
+      "title": "Unspecified fall, initial encounter",
+      "classification": "FAIL",
+      "rationale": "External cause initial encounter codes do not represent chronic condition profiles.",
+      "canonicalConditionId": null,
+      "reviewStatus": "system_reviewed",
+      "generatedStatus": "blocked"
+    }
+  ]
+}

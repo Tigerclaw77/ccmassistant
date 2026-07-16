@@ -1,0 +1,1994 @@
+{
+  "conditions": [
+    {
+      "id": "essential_hypertension",
+      "name": "Essential Hypertension",
+      "description": "Starter canonical chronic condition profile. Clinical content placeholders only.",
+      "aliases": [
+        "Hypertension",
+        "High blood pressure",
+        "HTN"
+      ],
+      "clinicalDomain": "cardiovascular",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "chronic_heart_failure",
+          "chronic_kidney_disease",
+          "coronary_artery_disease"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "type_2_diabetes",
+      "name": "Type 2 Diabetes",
+      "description": "Starter canonical chronic condition profile. Clinical content placeholders only.",
+      "aliases": [
+        "Type 2 diabetes mellitus",
+        "Diabetes mellitus type 2",
+        "T2DM"
+      ],
+      "clinicalDomain": "endocrine",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "chronic_kidney_disease",
+          "essential_hypertension",
+          "hyperlipidemia"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "copd",
+      "name": "COPD",
+      "description": "Starter canonical chronic condition profile. Clinical content placeholders only.",
+      "aliases": [
+        "Chronic obstructive pulmonary disease",
+        "Emphysema",
+        "Chronic bronchitis"
+      ],
+      "clinicalDomain": "pulmonary",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "asthma",
+          "chronic_heart_failure"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "chronic_heart_failure",
+      "name": "Chronic Heart Failure",
+      "description": "Starter canonical chronic condition profile. Clinical content placeholders only.",
+      "aliases": [
+        "CHF",
+        "Congestive heart failure",
+        "Heart failure"
+      ],
+      "clinicalDomain": "cardiovascular",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "essential_hypertension",
+          "coronary_artery_disease",
+          "chronic_kidney_disease"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "chronic_kidney_disease",
+      "name": "Chronic Kidney Disease",
+      "description": "Starter canonical chronic condition profile. Clinical content placeholders only.",
+      "aliases": [
+        "CKD",
+        "Chronic renal disease"
+      ],
+      "clinicalDomain": "renal",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "type_2_diabetes",
+          "essential_hypertension",
+          "chronic_heart_failure"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "hyperlipidemia",
+      "name": "Hyperlipidemia",
+      "description": "Starter canonical chronic condition profile. Clinical content placeholders only.",
+      "aliases": [
+        "Dyslipidemia",
+        "High cholesterol",
+        "HLD"
+      ],
+      "clinicalDomain": "cardiometabolic",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "coronary_artery_disease",
+          "type_2_diabetes",
+          "essential_hypertension"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "asthma",
+      "name": "Asthma",
+      "description": "Starter canonical chronic condition profile. Clinical content placeholders only.",
+      "aliases": [
+        "Reactive airway disease"
+      ],
+      "clinicalDomain": "pulmonary",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "copd"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "major_depressive_disorder",
+      "name": "Major Depressive Disorder",
+      "description": "Starter canonical chronic condition profile. Clinical content placeholders only.",
+      "aliases": [
+        "Depression",
+        "MDD",
+        "Major depression"
+      ],
+      "clinicalDomain": "behavioral_health",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "generalized_anxiety_disorder"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "generalized_anxiety_disorder",
+      "name": "Generalized Anxiety Disorder",
+      "description": "Starter canonical chronic condition profile. Clinical content placeholders only.",
+      "aliases": [
+        "Anxiety",
+        "GAD"
+      ],
+      "clinicalDomain": "behavioral_health",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "major_depressive_disorder"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "osteoarthritis",
+      "name": "Osteoarthritis",
+      "description": "Starter canonical chronic condition profile. Clinical content placeholders only.",
+      "aliases": [
+        "Degenerative joint disease",
+        "OA"
+      ],
+      "clinicalDomain": "musculoskeletal",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "chronic_back_pain",
+          "osteoporosis"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "atrial_fibrillation",
+      "name": "Atrial Fibrillation",
+      "description": "Starter canonical chronic condition profile. Clinical content placeholders only.",
+      "aliases": [
+        "AFib",
+        "A fib"
+      ],
+      "clinicalDomain": "cardiovascular",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "chronic_heart_failure",
+          "coronary_artery_disease"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "coronary_artery_disease",
+      "name": "Coronary Artery Disease",
+      "description": "Starter canonical chronic condition profile. Clinical content placeholders only.",
+      "aliases": [
+        "CAD",
+        "Atherosclerotic heart disease",
+        "Heart disease"
+      ],
+      "clinicalDomain": "cardiovascular",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "essential_hypertension",
+          "hyperlipidemia",
+          "chronic_heart_failure"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "obesity",
+      "name": "Obesity",
+      "description": "Starter canonical chronic condition profile. Clinical content placeholders only.",
+      "aliases": [
+        "Obese",
+        "Adiposity"
+      ],
+      "clinicalDomain": "cardiometabolic",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "type_2_diabetes",
+          "essential_hypertension",
+          "osteoarthritis"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "hypothyroidism",
+      "name": "Hypothyroidism",
+      "description": "Starter canonical chronic condition profile. Clinical content placeholders only.",
+      "aliases": [
+        "Low thyroid"
+      ],
+      "clinicalDomain": "endocrine",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "gerd",
+      "name": "Gastroesophageal Reflux Disease",
+      "description": "Starter canonical chronic condition profile. Clinical content placeholders only.",
+      "aliases": [
+        "GERD",
+        "Acid reflux",
+        "Reflux disease"
+      ],
+      "clinicalDomain": "gastrointestinal",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "glaucoma",
+      "name": "Glaucoma",
+      "description": "Starter canonical chronic condition profile. Clinical content placeholders only.",
+      "aliases": [
+        "Chronic glaucoma"
+      ],
+      "clinicalDomain": "ophthalmology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "age_related_macular_degeneration",
+          "dry_eye_syndrome"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "age_related_macular_degeneration",
+      "name": "Age-related Macular Degeneration",
+      "description": "Starter canonical chronic condition profile. Clinical content placeholders only.",
+      "aliases": [
+        "Macular degeneration",
+        "AMD",
+        "Age related macular degeneration"
+      ],
+      "clinicalDomain": "ophthalmology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "glaucoma"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "dry_eye_syndrome",
+      "name": "Dry Eye Syndrome",
+      "description": "Starter canonical chronic condition profile. Clinical content placeholders only.",
+      "aliases": [
+        "Dry eye",
+        "Dry eyes",
+        "Ocular surface disease"
+      ],
+      "clinicalDomain": "ophthalmology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "glaucoma"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "chronic_back_pain",
+      "name": "Chronic Back Pain",
+      "description": "Starter canonical chronic condition profile. Clinical content placeholders only.",
+      "aliases": [
+        "Back pain",
+        "Low back pain",
+        "Chronic low back pain"
+      ],
+      "clinicalDomain": "musculoskeletal",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "osteoarthritis",
+          "peripheral_neuropathy"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "peripheral_neuropathy",
+      "name": "Peripheral Neuropathy",
+      "description": "Starter canonical chronic condition profile. Clinical content placeholders only.",
+      "aliases": [
+        "Neuropathy",
+        "Nerve pain"
+      ],
+      "clinicalDomain": "neurology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "type_2_diabetes",
+          "chronic_back_pain"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "dementia",
+      "name": "Dementia",
+      "description": "Starter canonical chronic condition profile. Clinical content placeholders only.",
+      "aliases": [
+        "Unspecified dementia",
+        "Cognitive decline",
+        "Memory disorder"
+      ],
+      "clinicalDomain": "neurology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "major_depressive_disorder",
+          "parkinson_disease"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "parkinson_disease",
+      "name": "Parkinson Disease",
+      "description": "Starter canonical chronic condition profile. Clinical content placeholders only.",
+      "aliases": [
+        "Parkinson's disease",
+        "Parkinsons disease",
+        "PD"
+      ],
+      "clinicalDomain": "neurology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "dementia"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "chronic_migraine",
+      "name": "Chronic Migraine",
+      "description": "Starter canonical chronic condition profile. Clinical content placeholders only.",
+      "aliases": [
+        "Migraine",
+        "Chronic headaches"
+      ],
+      "clinicalDomain": "neurology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "anemia",
+      "name": "Anemia",
+      "description": "Starter canonical chronic condition profile. Clinical content placeholders only.",
+      "aliases": [
+        "Low hemoglobin"
+      ],
+      "clinicalDomain": "hematology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "chronic_kidney_disease"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "osteoporosis",
+      "name": "Osteoporosis",
+      "description": "Starter canonical chronic condition profile. Clinical content placeholders only.",
+      "aliases": [
+        "Low bone density"
+      ],
+      "clinicalDomain": "musculoskeletal",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "osteoarthritis"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "type_1_diabetes",
+      "name": "Type 1 Diabetes",
+      "description": "Canonical condition identity only; clinical content is not generated in this dataset sprint.",
+      "aliases": [
+        "T1DM",
+        "Type 1 diabetes mellitus"
+      ],
+      "clinicalDomain": "endocrinology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "type_2_diabetes",
+          "chronic_kidney_disease"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "secondary_diabetes_mellitus",
+      "name": "Secondary Diabetes Mellitus",
+      "description": "Canonical condition identity only; clinical content is not generated in this dataset sprint.",
+      "aliases": [
+        "Drug-induced diabetes",
+        "Other specified diabetes"
+      ],
+      "clinicalDomain": "endocrinology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "type_1_diabetes",
+          "type_2_diabetes"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "malignancy",
+      "name": "Active Malignancy",
+      "description": "Broad canonical identity with organ-specific clinical content groups; no clinical content is generated here.",
+      "aliases": [
+        "Cancer",
+        "Malignant neoplasm"
+      ],
+      "clinicalDomain": "oncology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "chronic_pain",
+      "name": "Chronic Pain",
+      "description": "Canonical condition identity only; clinical content is not generated in this dataset sprint.",
+      "aliases": [
+        "Chronic pain syndrome"
+      ],
+      "clinicalDomain": "pain_management",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "chronic_back_pain",
+          "osteoarthritis"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "chronic_respiratory_failure",
+      "name": "Chronic Respiratory Failure",
+      "description": "Canonical condition identity only; clinical content is not generated in this dataset sprint.",
+      "aliases": [
+        "Chronic respiratory insufficiency"
+      ],
+      "clinicalDomain": "pulmonology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "copd"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "pulmonary_hypertension",
+      "name": "Pulmonary Hypertension",
+      "description": "Canonical condition identity only; clinical content is not generated in this dataset sprint.",
+      "aliases": [
+        "Pulmonary arterial hypertension"
+      ],
+      "clinicalDomain": "cardiopulmonary",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "chronic_heart_failure"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "transplant_status",
+      "name": "Transplant Status",
+      "description": "Broad canonical identity with organ-specific clinical content groups; no clinical content is generated here.",
+      "aliases": [
+        "Organ transplant status"
+      ],
+      "clinicalDomain": "transplant_medicine",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "cardiomyopathy",
+      "name": "Cardiomyopathy",
+      "description": "Canonical condition identity only; clinical content is not generated in this dataset sprint.",
+      "aliases": [
+        "Heart muscle disease"
+      ],
+      "clinicalDomain": "cardiology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "chronic_heart_failure"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "valvular_heart_disease",
+      "name": "Valvular Heart Disease",
+      "description": "Canonical condition identity only; clinical content is not generated in this dataset sprint.",
+      "aliases": [
+        "Heart valve disease"
+      ],
+      "clinicalDomain": "cardiology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "chronic_heart_failure"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "cerebrovascular_disease",
+      "name": "Cerebrovascular Disease",
+      "description": "Canonical condition identity for chronic cerebrovascular sequelae; no clinical content is generated here.",
+      "aliases": [
+        "Stroke sequelae",
+        "CVA sequelae"
+      ],
+      "clinicalDomain": "neurology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "peripheral_vascular_disease",
+      "name": "Peripheral Vascular Disease",
+      "description": "Canonical condition identity only; clinical content is not generated in this dataset sprint.",
+      "aliases": [
+        "PAD",
+        "Peripheral arterial disease"
+      ],
+      "clinicalDomain": "vascular",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "coronary_artery_disease"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "multiple_sclerosis",
+      "name": "Multiple Sclerosis",
+      "description": "Canonical condition identity only; clinical content is not generated in this dataset sprint.",
+      "aliases": [
+        "MS"
+      ],
+      "clinicalDomain": "neurology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "epilepsy",
+      "name": "Epilepsy",
+      "description": "Canonical condition identity only; clinical content is not generated in this dataset sprint.",
+      "aliases": [
+        "Seizure disorder"
+      ],
+      "clinicalDomain": "neurology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "schizophrenia",
+      "name": "Schizophrenia",
+      "description": "Canonical condition identity only; clinical content is not generated in this dataset sprint.",
+      "aliases": [
+        "Schizophrenia spectrum disorder"
+      ],
+      "clinicalDomain": "behavioral_health",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "bipolar_disorder",
+      "name": "Bipolar Disorder",
+      "description": "Canonical condition identity only; clinical content is not generated in this dataset sprint.",
+      "aliases": [
+        "Bipolar affective disorder"
+      ],
+      "clinicalDomain": "behavioral_health",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "major_depressive_disorder"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "sleep_apnea",
+      "name": "Sleep Apnea",
+      "description": "Canonical condition identity only; clinical content is not generated in this dataset sprint.",
+      "aliases": [
+        "OSA",
+        "Obstructive sleep apnea"
+      ],
+      "clinicalDomain": "sleep_medicine",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "obesity"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "inflammatory_bowel_disease",
+      "name": "Inflammatory Bowel Disease",
+      "description": "Canonical condition identity only; clinical content is not generated in this dataset sprint.",
+      "aliases": [
+        "IBD",
+        "Crohn disease",
+        "Ulcerative colitis"
+      ],
+      "clinicalDomain": "gastroenterology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "chronic_viral_hepatitis",
+      "name": "Chronic Viral Hepatitis",
+      "description": "Canonical condition identity only; clinical content is not generated in this dataset sprint.",
+      "aliases": [
+        "Chronic hepatitis B",
+        "Chronic hepatitis C"
+      ],
+      "clinicalDomain": "hepatology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "hiv_disease",
+      "name": "Human Immunodeficiency Virus Disease",
+      "description": "Canonical condition identity only; clinical content is not generated in this dataset sprint.",
+      "aliases": [
+        "HIV"
+      ],
+      "clinicalDomain": "infectious_disease",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "rheumatoid_arthritis",
+      "name": "Rheumatoid Arthritis",
+      "description": "Canonical condition identity only; clinical content is not generated in this dataset sprint.",
+      "aliases": [
+        "RA"
+      ],
+      "clinicalDomain": "rheumatology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [
+          "osteoarthritis"
+        ],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "pressure_ulcer",
+      "name": "Pressure Ulcer",
+      "description": "Canonical condition identity with stage-specific clinical content groups; no clinical content is generated here.",
+      "aliases": [
+        "Pressure injury",
+        "Decubitus ulcer"
+      ],
+      "clinicalDomain": "wound_care",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [],
+        "icdMappings": []
+      }
+    },
+    {
+      "id": "lumbar_spinal_stenosis",
+      "name": "Lumbar Spinal Stenosis",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map M48.061 and M48.062; retain neurogenic claudication as a material variant.",
+      "aliases": [
+        "Lumbar canal stenosis"
+      ],
+      "clinicalDomain": "musculoskeletal",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map M48.061 and M48.062; retain neurogenic claudication as a material variant."
+        ]
+      }
+    },
+    {
+      "id": "cervical_spinal_stenosis",
+      "name": "Cervical Spinal Stenosis",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map M48.02; keep cervical monitoring distinct from lumbar claudication content.",
+      "aliases": [
+        "Cervical canal stenosis"
+      ],
+      "clinicalDomain": "musculoskeletal",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map M48.02; keep cervical monitoring distinct from lumbar claudication content."
+        ]
+      }
+    },
+    {
+      "id": "lumbar_radiculopathy",
+      "name": "Lumbar Radiculopathy",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map M54.16 and M54.17; collapse laterality while preserving the exact diagnosis title.",
+      "aliases": [
+        "Lumbosacral radiculopathy",
+        "Lumbar nerve root disorder"
+      ],
+      "clinicalDomain": "neurology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map M54.16 and M54.17; collapse laterality while preserving the exact diagnosis title."
+        ]
+      }
+    },
+    {
+      "id": "cervical_radiculopathy",
+      "name": "Cervical Radiculopathy",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map M54.12; keep cervical upper-extremity monitoring separate from lumbar disease.",
+      "aliases": [
+        "Cervical nerve root disorder"
+      ],
+      "clinicalDomain": "neurology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map M54.12; keep cervical upper-extremity monitoring separate from lumbar disease."
+        ]
+      }
+    },
+    {
+      "id": "cervical_disc_disease",
+      "name": "Cervical Disc Disease",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map M50 billable diagnoses; retain myelopathy and radiculopathy variants.",
+      "aliases": [
+        "Cervical disc disorder",
+        "Cervical degenerative disc disease"
+      ],
+      "clinicalDomain": "musculoskeletal",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map M50 billable diagnoses; retain myelopathy and radiculopathy variants."
+        ]
+      }
+    },
+    {
+      "id": "lumbar_disc_disease",
+      "name": "Lumbar Disc Disease",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map billable M51 diagnoses whose official titles identify lumbar or lumbosacral disease; retain myelopathy and radiculopathy variants.",
+      "aliases": [
+        "Lumbar degenerative disc disease",
+        "Lumbosacral disc disorder"
+      ],
+      "clinicalDomain": "musculoskeletal",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map billable M51 diagnoses whose official titles identify lumbar or lumbosacral disease; retain myelopathy and radiculopathy variants."
+        ]
+      }
+    },
+    {
+      "id": "fibromyalgia",
+      "name": "Fibromyalgia",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map M79.7 as a specific chronic pain-processing disorder, not a generic pain identity.",
+      "aliases": [
+        "Fibromyalgia syndrome"
+      ],
+      "clinicalDomain": "rheumatology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map M79.7 as a specific chronic pain-processing disorder, not a generic pain identity."
+        ]
+      }
+    },
+    {
+      "id": "chronic_gout",
+      "name": "Chronic Gout",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map M1A chronic gout; collapse site and laterality while retaining tophus status.",
+      "aliases": [
+        "Gouty arthritis",
+        "Tophaceous gout"
+      ],
+      "clinicalDomain": "rheumatology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map M1A chronic gout; collapse site and laterality while retaining tophus status."
+        ]
+      }
+    },
+    {
+      "id": "non_pressure_chronic_ulcer",
+      "name": "Non-Pressure Chronic Ulcer",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map L97 and L98 diagnoses explicitly titled non-pressure chronic ulcer; collapse laterality and retain deep tissue involvement.",
+      "aliases": [
+        "Chronic skin ulcer",
+        "Non-pressure ulcer"
+      ],
+      "clinicalDomain": "wound_care",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map L97 and L98 diagnoses explicitly titled non-pressure chronic ulcer; collapse laterality and retain deep tissue involvement."
+        ]
+      }
+    },
+    {
+      "id": "chronic_osteomyelitis",
+      "name": "Chronic Osteomyelitis",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map M86 diagnoses explicitly titled chronic osteomyelitis; collapse site and laterality for bank identity.",
+      "aliases": [
+        "Chronic bone infection"
+      ],
+      "clinicalDomain": "infectious_disease",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map M86 diagnoses explicitly titled chronic osteomyelitis; collapse site and laterality for bank identity."
+        ]
+      }
+    },
+    {
+      "id": "chronic_venous_insufficiency",
+      "name": "Chronic Venous Insufficiency",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map I87.2 only; do not merge post-thrombotic syndrome or acute thrombosis.",
+      "aliases": [
+        "Peripheral venous insufficiency"
+      ],
+      "clinicalDomain": "vascular",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map I87.2 only; do not merge post-thrombotic syndrome or acute thrombosis."
+        ]
+      }
+    },
+    {
+      "id": "cirrhosis",
+      "name": "Cirrhosis",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map K74 fibrosis and cirrhosis diagnoses; retain exact etiology and stage wording in the ICD record.",
+      "aliases": [
+        "Hepatic cirrhosis",
+        "Liver fibrosis and cirrhosis"
+      ],
+      "clinicalDomain": "hepatology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map K74 fibrosis and cirrhosis diagnoses; retain exact etiology and stage wording in the ICD record."
+        ]
+      }
+    },
+    {
+      "id": "psoriasis",
+      "name": "Psoriasis",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map L40 psoriasis diagnoses; do not merge unrelated dermatitis conditions.",
+      "aliases": [
+        "Plaque psoriasis"
+      ],
+      "clinicalDomain": "dermatology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map L40 psoriasis diagnoses; do not merge unrelated dermatitis conditions."
+        ]
+      }
+    },
+    {
+      "id": "interstitial_lung_disease",
+      "name": "Interstitial Lung Disease",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map J84 interstitial pulmonary diseases; preserve the exact disease title.",
+      "aliases": [
+        "Pulmonary fibrosis",
+        "ILD"
+      ],
+      "clinicalDomain": "pulmonology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map J84 interstitial pulmonary diseases; preserve the exact disease title."
+        ]
+      }
+    },
+    {
+      "id": "bronchiectasis",
+      "name": "Bronchiectasis",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map J47 and retain exacerbation or lower-respiratory-infection treatment-state variants.",
+      "aliases": [
+        "Chronic bronchiectasis"
+      ],
+      "clinicalDomain": "pulmonology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map J47 and retain exacerbation or lower-respiratory-infection treatment-state variants."
+        ]
+      }
+    },
+    {
+      "id": "sickle_cell_disease",
+      "name": "Sickle Cell Disease",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map D57 sickle-cell disorders; retain crisis and acute-chest variants.",
+      "aliases": [
+        "Sickle-cell disorder"
+      ],
+      "clinicalDomain": "hematology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map D57 sickle-cell disorders; retain crisis and acute-chest variants."
+        ]
+      }
+    },
+    {
+      "id": "ankylosing_spondylitis",
+      "name": "Ankylosing Spondylitis",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map M45 ankylosing spondylitis; collapse spinal subsite for bank identity.",
+      "aliases": [
+        "Axial spondyloarthritis"
+      ],
+      "clinicalDomain": "rheumatology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map M45 ankylosing spondylitis; collapse spinal subsite for bank identity."
+        ]
+      }
+    },
+    {
+      "id": "systemic_lupus_erythematosus",
+      "name": "Systemic Lupus Erythematosus",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map M32 systemic lupus erythematosus; preserve organ involvement in the exact ICD title.",
+      "aliases": [
+        "SLE",
+        "Lupus"
+      ],
+      "clinicalDomain": "rheumatology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map M32 systemic lupus erythematosus; preserve organ involvement in the exact ICD title."
+        ]
+      }
+    },
+    {
+      "id": "sarcoidosis",
+      "name": "Sarcoidosis",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map D86 sarcoidosis; preserve organ involvement in the exact ICD title.",
+      "aliases": [
+        "Systemic sarcoidosis"
+      ],
+      "clinicalDomain": "pulmonology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map D86 sarcoidosis; preserve organ involvement in the exact ICD title."
+        ]
+      }
+    },
+    {
+      "id": "aortic_aneurysm",
+      "name": "Aortic Aneurysm",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map I71 diagnoses whose official title identifies aneurysm; do not map dissection-only diagnoses and retain rupture status.",
+      "aliases": [
+        "Aortic aneurysm without dissection"
+      ],
+      "clinicalDomain": "vascular",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map I71 diagnoses whose official title identifies aneurysm; do not map dissection-only diagnoses and retain rupture status."
+        ]
+      }
+    },
+    {
+      "id": "post_traumatic_stress_disorder",
+      "name": "Post-Traumatic Stress Disorder",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map F43.1 PTSD diagnoses; do not merge acute stress or adjustment disorders.",
+      "aliases": [
+        "PTSD"
+      ],
+      "clinicalDomain": "behavioral_health",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map F43.1 PTSD diagnoses; do not merge acute stress or adjustment disorders."
+        ]
+      }
+    },
+    {
+      "id": "alcohol_use_disorder",
+      "name": "Alcohol Use Disorder",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map F10 alcohol-related abuse and dependence diagnoses; retain remission, withdrawal, and complication states.",
+      "aliases": [
+        "Alcohol dependence",
+        "Alcohol abuse"
+      ],
+      "clinicalDomain": "behavioral_health",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map F10 alcohol-related abuse and dependence diagnoses; retain remission, withdrawal, and complication states."
+        ]
+      }
+    },
+    {
+      "id": "opioid_use_disorder",
+      "name": "Opioid Use Disorder",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map F11 opioid-related abuse and dependence diagnoses; retain remission, withdrawal, and complication states.",
+      "aliases": [
+        "Opioid dependence",
+        "Opioid abuse"
+      ],
+      "clinicalDomain": "behavioral_health",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map F11 opioid-related abuse and dependence diagnoses; retain remission, withdrawal, and complication states."
+        ]
+      }
+    },
+    {
+      "id": "nicotine_dependence",
+      "name": "Nicotine Dependence",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map F17 nicotine-dependence diagnoses; retain remission and withdrawal states.",
+      "aliases": [
+        "Tobacco dependence"
+      ],
+      "clinicalDomain": "behavioral_health",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map F17 nicotine-dependence diagnoses; retain remission and withdrawal states."
+        ]
+      }
+    },
+    {
+      "id": "insomnia",
+      "name": "Insomnia",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map G47.0 and F51.0 insomnia diagnoses; do not merge hypersomnia or parasomnia.",
+      "aliases": [
+        "Chronic insomnia",
+        "Primary insomnia"
+      ],
+      "clinicalDomain": "sleep_medicine",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map G47.0 and F51.0 insomnia diagnoses; do not merge hypersomnia or parasomnia."
+        ]
+      }
+    },
+    {
+      "id": "essential_tremor",
+      "name": "Essential Tremor",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map G25.0 only; do not merge drug-induced tremor or other movement disorders.",
+      "aliases": [
+        "Familial tremor"
+      ],
+      "clinicalDomain": "neurology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map G25.0 only; do not merge drug-induced tremor or other movement disorders."
+        ]
+      }
+    },
+    {
+      "id": "benign_prostatic_hyperplasia",
+      "name": "Benign Prostatic Hyperplasia",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map N40 BPH diagnoses; retain lower-urinary-tract-symptom state.",
+      "aliases": [
+        "BPH",
+        "Enlarged prostate"
+      ],
+      "clinicalDomain": "urology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map N40 BPH diagnoses; retain lower-urinary-tract-symptom state."
+        ]
+      }
+    },
+    {
+      "id": "hearing_loss",
+      "name": "Hearing Loss",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map H90 and H91 hearing-loss diagnoses; collapse ear laterality while preserving type in the exact title.",
+      "aliases": [
+        "Conductive hearing loss",
+        "Sensorineural hearing loss"
+      ],
+      "clinicalDomain": "audiology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map H90 and H91 hearing-loss diagnoses; collapse ear laterality while preserving type in the exact title."
+        ]
+      }
+    },
+    {
+      "id": "amyotrophic_lateral_sclerosis",
+      "name": "Amyotrophic Lateral Sclerosis",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map G12.21 only; do not merge other motor-neuron diseases.",
+      "aliases": [
+        "ALS",
+        "Lou Gehrig disease"
+      ],
+      "clinicalDomain": "neurology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map G12.21 only; do not merge other motor-neuron diseases."
+        ]
+      }
+    },
+    {
+      "id": "myasthenia_gravis",
+      "name": "Myasthenia Gravis",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map G70 diagnoses explicitly titled myasthenia gravis; retain crisis status.",
+      "aliases": [
+        "MG"
+      ],
+      "clinicalDomain": "neurology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map G70 diagnoses explicitly titled myasthenia gravis; retain crisis status."
+        ]
+      }
+    },
+    {
+      "id": "hyperthyroidism",
+      "name": "Hyperthyroidism",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map E05 thyrotoxicosis diagnoses; retain crisis or storm as a high-risk state.",
+      "aliases": [
+        "Thyrotoxicosis"
+      ],
+      "clinicalDomain": "endocrinology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map E05 thyrotoxicosis diagnoses; retain crisis or storm as a high-risk state."
+        ]
+      }
+    },
+    {
+      "id": "adrenal_insufficiency",
+      "name": "Adrenal Insufficiency",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map E27 diagnoses explicitly identifying adrenocortical insufficiency or Addisonian crisis.",
+      "aliases": [
+        "Addison disease",
+        "Adrenocortical insufficiency"
+      ],
+      "clinicalDomain": "endocrinology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map E27 diagnoses explicitly identifying adrenocortical insufficiency or Addisonian crisis."
+        ]
+      }
+    },
+    {
+      "id": "cerebral_palsy",
+      "name": "Cerebral Palsy",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map G80 cerebral palsy diagnoses; collapse laterality while preserving functional diagnosis wording.",
+      "aliases": [
+        "CP"
+      ],
+      "clinicalDomain": "neurology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map G80 cerebral palsy diagnoses; collapse laterality while preserving functional diagnosis wording."
+        ]
+      }
+    },
+    {
+      "id": "muscular_dystrophy",
+      "name": "Muscular Dystrophy",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map G71 diagnoses explicitly identifying muscular dystrophy; preserve subtype in the exact title.",
+      "aliases": [
+        "Inherited muscular dystrophy"
+      ],
+      "clinicalDomain": "neurology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map G71 diagnoses explicitly identifying muscular dystrophy; preserve subtype in the exact title."
+        ]
+      }
+    },
+    {
+      "id": "visual_impairment",
+      "name": "Visual Impairment",
+      "description": "Canonical condition identity added in the controlled clinical-content batch. Mapping rationale: Map H54 blindness and low-vision diagnoses; collapse eye laterality while preserving severity category.",
+      "aliases": [
+        "Low vision",
+        "Blindness"
+      ],
+      "clinicalDomain": "ophthalmology",
+      "profileStatus": "starter_placeholder",
+      "content": {
+        "questionModules": [],
+        "carePlanTemplateId": null,
+        "commonGoals": [],
+        "monitoringConcepts": [],
+        "educationTopics": [],
+        "commonInterventions": [],
+        "relatedConditionIds": [],
+        "clinicalNotes": [
+          "Question content is DRAFT_CLINICAL_REVIEW, content version 1."
+        ],
+        "icdMappings": [
+          "Map H54 blindness and low-vision diagnoses; collapse eye laterality while preserving severity category."
+        ]
+      }
+    }
+  ]
+}

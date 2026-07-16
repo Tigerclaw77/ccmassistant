@@ -1,0 +1,455 @@
+{
+  "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+  "records": [
+    {
+      "code": "E05.00",
+      "officialTitle": "Thyrotoxicosis with diffuse goiter without thyrotoxic crisis or storm",
+      "canonicalConditionId": "hyperthyroidism",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "E05.01",
+      "officialTitle": "Thyrotoxicosis with diffuse goiter with thyrotoxic crisis or storm",
+      "canonicalConditionId": "hyperthyroidism",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "E05.10",
+      "officialTitle": "Thyrotoxicosis with toxic single thyroid nodule without thyrotoxic crisis or storm",
+      "canonicalConditionId": "hyperthyroidism",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "E05.11",
+      "officialTitle": "Thyrotoxicosis with toxic single thyroid nodule with thyrotoxic crisis or storm",
+      "canonicalConditionId": "hyperthyroidism",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "E05.20",
+      "officialTitle": "Thyrotoxicosis with toxic multinodular goiter without thyrotoxic crisis or storm",
+      "canonicalConditionId": "hyperthyroidism",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "E05.21",
+      "officialTitle": "Thyrotoxicosis with toxic multinodular goiter with thyrotoxic crisis or storm",
+      "canonicalConditionId": "hyperthyroidism",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "E05.30",
+      "officialTitle": "Thyrotoxicosis from ectopic thyroid tissue without thyrotoxic crisis or storm",
+      "canonicalConditionId": "hyperthyroidism",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "E05.31",
+      "officialTitle": "Thyrotoxicosis from ectopic thyroid tissue with thyrotoxic crisis or storm",
+      "canonicalConditionId": "hyperthyroidism",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "E05.40",
+      "officialTitle": "Thyrotoxicosis factitia without thyrotoxic crisis or storm",
+      "canonicalConditionId": "hyperthyroidism",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "E05.41",
+      "officialTitle": "Thyrotoxicosis factitia with thyrotoxic crisis or storm",
+      "canonicalConditionId": "hyperthyroidism",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "E05.80",
+      "officialTitle": "Other thyrotoxicosis without thyrotoxic crisis or storm",
+      "canonicalConditionId": "hyperthyroidism",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "E05.81",
+      "officialTitle": "Other thyrotoxicosis with thyrotoxic crisis or storm",
+      "canonicalConditionId": "hyperthyroidism",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "E05.90",
+      "officialTitle": "Thyrotoxicosis, unspecified without thyrotoxic crisis or storm",
+      "canonicalConditionId": "hyperthyroidism",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "E05.91",
+      "officialTitle": "Thyrotoxicosis, unspecified with thyrotoxic crisis or storm",
+      "canonicalConditionId": "hyperthyroidism",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "E27.2",
+      "officialTitle": "Addisonian crisis",
+      "canonicalConditionId": "adrenal_insufficiency",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F10.12",
+      "officialTitle": "Alcohol abuse with intoxication",
+      "canonicalConditionId": "alcohol_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F10.120",
+      "officialTitle": "Alcohol abuse with intoxication, uncomplicated",
+      "canonicalConditionId": "alcohol_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F10.121",
+      "officialTitle": "Alcohol abuse with intoxication delirium",
+      "canonicalConditionId": "alcohol_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F10.129",
+      "officialTitle": "Alcohol abuse with intoxication, unspecified",
+      "canonicalConditionId": "alcohol_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F10.13",
+      "officialTitle": "Alcohol abuse, with withdrawal",
+      "canonicalConditionId": "alcohol_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F10.130",
+      "officialTitle": "Alcohol abuse with withdrawal, uncomplicated",
+      "canonicalConditionId": "alcohol_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F10.131",
+      "officialTitle": "Alcohol abuse with withdrawal delirium",
+      "canonicalConditionId": "alcohol_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F10.132",
+      "officialTitle": "Alcohol abuse with withdrawal with perceptual disturbance",
+      "canonicalConditionId": "alcohol_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F10.139",
+      "officialTitle": "Alcohol abuse with withdrawal, unspecified",
+      "canonicalConditionId": "alcohol_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F10.22",
+      "officialTitle": "Alcohol dependence with intoxication",
+      "canonicalConditionId": "alcohol_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F10.220",
+      "officialTitle": "Alcohol dependence with intoxication, uncomplicated",
+      "canonicalConditionId": "alcohol_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F10.221",
+      "officialTitle": "Alcohol dependence with intoxication delirium",
+      "canonicalConditionId": "alcohol_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F10.229",
+      "officialTitle": "Alcohol dependence with intoxication, unspecified",
+      "canonicalConditionId": "alcohol_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F10.23",
+      "officialTitle": "Alcohol dependence with withdrawal",
+      "canonicalConditionId": "alcohol_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F10.230",
+      "officialTitle": "Alcohol dependence with withdrawal, uncomplicated",
+      "canonicalConditionId": "alcohol_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F10.231",
+      "officialTitle": "Alcohol dependence with withdrawal delirium",
+      "canonicalConditionId": "alcohol_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F10.232",
+      "officialTitle": "Alcohol dependence with withdrawal with perceptual disturbance",
+      "canonicalConditionId": "alcohol_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F10.239",
+      "officialTitle": "Alcohol dependence with withdrawal, unspecified",
+      "canonicalConditionId": "alcohol_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F10.92",
+      "officialTitle": "Alcohol use, unspecified with intoxication",
+      "canonicalConditionId": "alcohol_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F10.920",
+      "officialTitle": "Alcohol use, unspecified with intoxication, uncomplicated",
+      "canonicalConditionId": "alcohol_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F10.921",
+      "officialTitle": "Alcohol use, unspecified with intoxication delirium",
+      "canonicalConditionId": "alcohol_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F10.929",
+      "officialTitle": "Alcohol use, unspecified with intoxication, unspecified",
+      "canonicalConditionId": "alcohol_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F10.93",
+      "officialTitle": "Alcohol use, unspecified with withdrawal",
+      "canonicalConditionId": "alcohol_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F10.930",
+      "officialTitle": "Alcohol use, unspecified with withdrawal, uncomplicated",
+      "canonicalConditionId": "alcohol_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F10.931",
+      "officialTitle": "Alcohol use, unspecified with withdrawal delirium",
+      "canonicalConditionId": "alcohol_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F10.932",
+      "officialTitle": "Alcohol use, unspecified with withdrawal with perceptual disturbance",
+      "canonicalConditionId": "alcohol_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F10.939",
+      "officialTitle": "Alcohol use, unspecified with withdrawal, unspecified",
+      "canonicalConditionId": "alcohol_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F11.12",
+      "officialTitle": "Opioid abuse with intoxication",
+      "canonicalConditionId": "opioid_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F11.120",
+      "officialTitle": "Opioid abuse with intoxication, uncomplicated",
+      "canonicalConditionId": "opioid_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F11.121",
+      "officialTitle": "Opioid abuse with intoxication delirium",
+      "canonicalConditionId": "opioid_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F11.122",
+      "officialTitle": "Opioid abuse with intoxication with perceptual disturbance",
+      "canonicalConditionId": "opioid_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F11.129",
+      "officialTitle": "Opioid abuse with intoxication, unspecified",
+      "canonicalConditionId": "opioid_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F11.13",
+      "officialTitle": "Opioid abuse with withdrawal",
+      "canonicalConditionId": "opioid_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F11.22",
+      "officialTitle": "Opioid dependence with intoxication",
+      "canonicalConditionId": "opioid_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F11.220",
+      "officialTitle": "Opioid dependence with intoxication, uncomplicated",
+      "canonicalConditionId": "opioid_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F11.221",
+      "officialTitle": "Opioid dependence with intoxication delirium",
+      "canonicalConditionId": "opioid_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F11.222",
+      "officialTitle": "Opioid dependence with intoxication with perceptual disturbance",
+      "canonicalConditionId": "opioid_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F11.229",
+      "officialTitle": "Opioid dependence with intoxication, unspecified",
+      "canonicalConditionId": "opioid_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F11.23",
+      "officialTitle": "Opioid dependence with withdrawal",
+      "canonicalConditionId": "opioid_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F11.92",
+      "officialTitle": "Opioid use, unspecified with intoxication",
+      "canonicalConditionId": "opioid_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F11.920",
+      "officialTitle": "Opioid use, unspecified with intoxication, uncomplicated",
+      "canonicalConditionId": "opioid_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F11.921",
+      "officialTitle": "Opioid use, unspecified with intoxication delirium",
+      "canonicalConditionId": "opioid_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F11.922",
+      "officialTitle": "Opioid use, unspecified with intoxication with perceptual disturbance",
+      "canonicalConditionId": "opioid_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F11.929",
+      "officialTitle": "Opioid use, unspecified with intoxication, unspecified",
+      "canonicalConditionId": "opioid_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "F11.93",
+      "officialTitle": "Opioid use, unspecified with withdrawal",
+      "canonicalConditionId": "opioid_use_disorder",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "I71.1",
+      "officialTitle": "Thoracic aortic aneurysm, ruptured",
+      "canonicalConditionId": "aortic_aneurysm",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "I71.10",
+      "officialTitle": "Thoracic aortic aneurysm, ruptured, unspecified",
+      "canonicalConditionId": "aortic_aneurysm",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "I71.11",
+      "officialTitle": "Aneurysm of the ascending aorta, ruptured",
+      "canonicalConditionId": "aortic_aneurysm",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "I71.12",
+      "officialTitle": "Aneurysm of the aortic arch, ruptured",
+      "canonicalConditionId": "aortic_aneurysm",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "I71.13",
+      "officialTitle": "Aneurysm of the descending thoracic aorta, ruptured",
+      "canonicalConditionId": "aortic_aneurysm",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "I71.3",
+      "officialTitle": "Abdominal aortic aneurysm, ruptured",
+      "canonicalConditionId": "aortic_aneurysm",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "I71.30",
+      "officialTitle": "Abdominal aortic aneurysm, ruptured, unspecified",
+      "canonicalConditionId": "aortic_aneurysm",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "I71.31",
+      "officialTitle": "Pararenal abdominal aortic aneurysm, ruptured",
+      "canonicalConditionId": "aortic_aneurysm",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "I71.32",
+      "officialTitle": "Juxtarenal abdominal aortic aneurysm, ruptured",
+      "canonicalConditionId": "aortic_aneurysm",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "I71.33",
+      "officialTitle": "Infrarenal abdominal aortic aneurysm, ruptured",
+      "canonicalConditionId": "aortic_aneurysm",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "I71.5",
+      "officialTitle": "Thoracoabdominal aortic aneurysm, ruptured",
+      "canonicalConditionId": "aortic_aneurysm",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "I71.50",
+      "officialTitle": "Thoracoabdominal aortic aneurysm, ruptured, unspecified",
+      "canonicalConditionId": "aortic_aneurysm",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "I71.51",
+      "officialTitle": "Supraceliac aneurysm of the thoracoabdominal aorta, ruptured",
+      "canonicalConditionId": "aortic_aneurysm",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "I71.52",
+      "officialTitle": "Paravisceral aneurysm of the thoracoabdominal aorta, ruptured",
+      "canonicalConditionId": "aortic_aneurysm",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    },
+    {
+      "code": "I71.8",
+      "officialTitle": "Aortic aneurysm of unspecified site, ruptured",
+      "canonicalConditionId": "aortic_aneurysm",
+      "reason": "The chronic canonical identity is clear, but acute-state wording requires clinician confirmation before default monthly use."
+    }
+  ]
+}

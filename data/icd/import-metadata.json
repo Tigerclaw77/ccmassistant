@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "release": {
+    "releaseYear": 2026,
+    "version": "FY 2026 April 1, 2026",
+    "effectiveFrom": "2026-04-01",
+    "effectiveThrough": "2026-09-30",
+    "sourceUrl": "https://www.cms.gov/files/zip/april-1-2026-code-descriptions-tabular-order.zip",
+    "sourceFileName": "april-1-2026-code-descriptions-tabular-order.zip",
+    "sourceEntryName": "Code Descriptions/icd10cm_order_2026.txt",
+    "expectedSourceSha256": "4fd9d8b37f02ab42827c7e7be30595c005b0cc3a6bae7a515e3f4c86b6918688",
+    "expectedRowCount": 98186,
+    "expectedBillableCount": 74719
+  },
+  "importedAt": "2026-07-15T01:19:26.074Z",
+  "rowCount": 98186,
+  "billableCount": 74719,
+  "nonBillableCount": 23467,
+  "source": {
+    "url": "https://www.cms.gov/files/zip/april-1-2026-code-descriptions-tabular-order.zip",
+    "fileName": "april-1-2026-code-descriptions-tabular-order.zip",
+    "entryName": "Code Descriptions/icd10cm_order_2026.txt",
+    "sha256": "4fd9d8b37f02ab42827c7e7be30595c005b0cc3a6bae7a515e3f4c86b6918688",
+    "entrySha256": "6dc95c9c7e96c734806e1682f4bf9df76251d60e99199bba0d375ba3dd11026b"
+  },
+  "reproducibility": "The importer reuses importedAt for an unchanged source checksum; npm run icd:check regenerates all artifacts in memory and compares exact bytes."
+}

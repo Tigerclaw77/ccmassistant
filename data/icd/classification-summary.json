@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "release": "FY 2026 April 1, 2026",
+  "importedAt": "2026-07-15T01:19:26.074Z",
+  "sourceSha256": "4fd9d8b37f02ab42827c7e7be30595c005b0cc3a6bae7a515e3f4c86b6918688",
+  "totalCodes": 98186,
+  "billableCodes": 74719,
+  "nonBillableCodes": 23467,
+  "classifications": {
+    "PASS": 11192,
+    "FAIL": 36452,
+    "UNSURE": 50542
+  },
+  "mappedPass": 6609,
+  "unmappedPass": 4583,
+  "canonicalConditionCount": 81,
+  "clinicalContentGroupCount": 301,
+  "duplicateGroupCount": 244,
+  "lateralityDuplicateGroupCount": 71,
+  "topFamilies": [
+    {
+      "family": "S82",
+      "count": 3346
+    },
+    {
+      "family": "S52",
+      "count": 3034
+    },
+    {
+      "family": "S72",
+      "count": 2660
+    },
+    {
+      "family": "S62",
+      "count": 2230
+    },
+    {
+      "family": "S42",
+      "count": 1644
+    },
+    {
+      "family": "S92",
+      "count": 1631
+    },
+    {
+      "family": "S63",
+      "count": 1283
+    },
+    {
+      "family": "M84",
+      "count": 1121
+    },
+    {
+      "family": "S32",
+      "count": 1024
+    },
+    {
+      "family": "T23",
+      "count": 945
+    },
+    {
+      "family": "S06",
+      "count": 815
+    },
+    {
+      "family": "S61",
+      "count": 811
+    },
+    {
+      "family": "S31",
+      "count": 781
+    },
+    {
+      "family": "T22",
+      "count": 769
+    },
+    {
+      "family": "S66",
+      "count": 761
+    },
+    {
+      "family": "S60",
+      "count": 746
+    },
+    {
+      "family": "T63",
+      "count": 656
+    },
+    {
+      "family": "S56",
+      "count": 617
+    },
+    {
+      "family": "S02",
+      "count": 553
+    },
+    {
+      "family": "S12",
+      "count": 529
+    }
+  ],
+  "warnings": [
+    "4,583 PASS records are intentionally unmapped and require canonical review before content generation."
+  ]
+}

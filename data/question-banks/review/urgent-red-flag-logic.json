@@ -1,0 +1,1370 @@
+{
+  "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+  "questions": [
+    {
+      "id": "ccm.neuro.new_weakness",
+      "category": "symptoms",
+      "text": "Have you developed new or worsening weakness in an arm or leg?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for neurologic progression that may require prompt clinical assessment.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-neuro-new_weakness-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "new_or_worsening_limb_weakness",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "lumbar_spinal_stenosis",
+        "cervical_spinal_stenosis",
+        "lumbar_radiculopathy",
+        "cervical_radiculopathy",
+        "cervical_disc_disease",
+        "lumbar_disc_disease",
+        "chronic_back_pain",
+        "amyotrophic_lateral_sclerosis",
+        "myasthenia_gravis",
+        "cerebral_palsy",
+        "muscular_dystrophy",
+        "multiple_sclerosis"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.spine.bowel_bladder_change",
+      "category": "symptoms",
+      "text": "Have you had a new loss of bowel or bladder control?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for possible severe neural compression requiring urgent evaluation.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-spine-bowel_bladder_change-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "new_bowel_or_bladder_loss",
+              "urgency": "urgent",
+              "providerNotification": true
+            }
+          ]
+        },
+        {
+          "id": "ccm-spine-bowel_bladder_change-branch",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "show_questions",
+              "questionIds": [
+                "ccm.spine.saddle_numbness"
+              ]
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "lumbar_spinal_stenosis",
+        "cervical_spinal_stenosis",
+        "lumbar_radiculopathy",
+        "cervical_radiculopathy",
+        "cervical_disc_disease",
+        "lumbar_disc_disease",
+        "chronic_back_pain"
+      ],
+      "followUpBehavior": "A yes response creates a urgent clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.spine.saddle_numbness",
+      "category": "symptoms",
+      "text": "Have you had new numbness around the groin, buttocks, or inner thighs?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Adds a focused follow-up for possible cauda equina or severe cord compression.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [
+        {
+          "questionId": "ccm.spine.bowel_bladder_change",
+          "operator": "equals",
+          "value": true
+        }
+      ],
+      "followUpTriggers": [
+        {
+          "id": "ccm-spine-saddle_numbness-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "new_saddle_numbness",
+              "urgency": "urgent",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "lumbar_spinal_stenosis",
+        "cervical_spinal_stenosis",
+        "lumbar_radiculopathy",
+        "cervical_radiculopathy",
+        "cervical_disc_disease",
+        "lumbar_disc_disease",
+        "chronic_back_pain"
+      ],
+      "followUpBehavior": "A yes response creates a urgent clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.inflammatory.infection_signs",
+      "category": "symptoms",
+      "text": "Have you had a fever or other infection concern while using immune-suppressing treatment?",
+      "helperText": "Answer no if you are not using an immune-suppressing treatment.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for infection concerns when immune-suppressing treatment is actually in use.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-inflammatory-infection_signs-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "infection_concern_on_immunosuppression",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "chronic_gout",
+        "ankylosing_spondylitis",
+        "systemic_lupus_erythematosus",
+        "psoriasis",
+        "rheumatoid_arthritis",
+        "inflammatory_bowel_disease"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.wound.infection_red_flag",
+      "category": "symptoms",
+      "text": "Do you have spreading redness, warmth, or fever with the wound?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for possible spreading infection requiring prompt review.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-wound-infection_red_flag-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "possible_wound_infection",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "non_pressure_chronic_ulcer",
+        "pressure_ulcer",
+        "chronic_osteomyelitis"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.pulmonary.urgent_breathing",
+      "category": "symptoms",
+      "text": "Are you short of breath at rest or unable to speak comfortably because of breathing difficulty?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for severe respiratory compromise.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-pulmonary-urgent_breathing-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "severe_breathing_difficulty",
+              "urgency": "urgent",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "interstitial_lung_disease",
+        "bronchiectasis",
+        "sarcoidosis",
+        "copd",
+        "asthma",
+        "chronic_respiratory_failure"
+      ],
+      "followUpBehavior": "A yes response creates a urgent clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.liver.confusion",
+      "category": "symptoms",
+      "text": "Have you or someone close to you noticed new confusion or unusual sleepiness?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for possible hepatic encephalopathy or other acute change.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-liver-confusion-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "new_confusion_with_cirrhosis",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "cirrhosis"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.liver.bleeding_red_flag",
+      "category": "symptoms",
+      "text": "Have you vomited blood or passed black, tar-like stool?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for possible gastrointestinal bleeding requiring urgent evaluation.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-liver-bleeding_red_flag-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "possible_gastrointestinal_bleeding",
+              "urgency": "urgent",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "cirrhosis",
+        "gerd"
+      ],
+      "followUpBehavior": "A yes response creates a urgent clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.liver.jaundice_change",
+      "category": "symptoms",
+      "text": "Have your eyes or skin become more yellow?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Tracks visible change that may reflect worsening liver dysfunction.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-liver-jaundice_change-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "worsening_jaundice",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "cirrhosis"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.sickle.fever",
+      "category": "symptoms",
+      "text": "Do you have a fever now or have you had one with new illness symptoms?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for infection risk requiring prompt assessment in sickle cell disease.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-sickle-fever-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "fever_with_sickle_cell_disease",
+              "urgency": "urgent",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "sickle_cell_disease"
+      ],
+      "followUpBehavior": "A yes response creates a urgent clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.sickle.chest_symptoms",
+      "category": "symptoms",
+      "text": "Have you had new chest pain or new breathing difficulty?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for possible acute chest syndrome or another urgent cardiopulmonary problem.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-sickle-chest_symptoms-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "possible_acute_chest_syndrome",
+              "urgency": "urgent",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "sickle_cell_disease"
+      ],
+      "followUpBehavior": "A yes response creates a urgent clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.vascular.rest_pain",
+      "category": "symptoms",
+      "text": "Do you have foot or leg pain while resting, especially at night?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for possible advanced limb ischemia.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-vascular-rest_pain-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "vascular_rest_pain",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "peripheral_vascular_disease"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.vascular.foot_wound",
+      "category": "symptoms",
+      "text": "Do you have a foot or leg sore that is new or not healing?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Identifies skin breakdown with vascular, diabetes-related, or sensory-loss healing risk.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-vascular-foot_wound-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "new_or_nonhealing_foot_wound",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "chronic_venous_insufficiency",
+        "peripheral_vascular_disease",
+        "type_2_diabetes",
+        "peripheral_neuropathy"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.aorta.new_pain",
+      "category": "symptoms",
+      "text": "Have you had sudden severe chest, back, or abdominal pain?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for a symptom pattern requiring emergency evaluation in a patient with aortic aneurysm.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-aorta-new_pain-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "possible_aortic_emergency",
+              "urgency": "urgent",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "aortic_aneurysm"
+      ],
+      "followUpBehavior": "A yes response creates a urgent clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.mental.safety_thoughts",
+      "category": "symptoms",
+      "text": "Have you had thoughts of harming yourself or that you would be better off dead?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for an urgent behavioral-health safety concern.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-mental-safety_thoughts-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "self_harm_thoughts",
+              "urgency": "urgent",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "post_traumatic_stress_disorder",
+        "major_depressive_disorder",
+        "bipolar_disorder",
+        "schizophrenia"
+      ],
+      "followUpBehavior": "A yes response creates a urgent clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.substance.withdrawal_red_flag",
+      "category": "symptoms",
+      "text": "Are you having severe shaking, confusion, hallucinations, or a seizure while cutting down or stopping?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for potentially dangerous withdrawal symptoms.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-substance-withdrawal_red_flag-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "severe_withdrawal_symptoms",
+              "urgency": "urgent",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "alcohol_use_disorder",
+        "opioid_use_disorder"
+      ],
+      "followUpBehavior": "A yes response creates a urgent clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.neuro.swallow_breathe",
+      "category": "symptoms",
+      "text": "Have swallowing or breathing become newly difficult because of muscle weakness?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for bulbar or respiratory decline in neuromuscular disease.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-neuro-swallow_breathe-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "neuromuscular_swallowing_or_breathing_decline",
+              "urgency": "urgent",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "amyotrophic_lateral_sclerosis",
+        "myasthenia_gravis",
+        "cerebral_palsy",
+        "muscular_dystrophy",
+        "multiple_sclerosis"
+      ],
+      "followUpBehavior": "A yes response creates a urgent clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.parkinson.swallowing",
+      "category": "symptoms",
+      "text": "Have you had new trouble swallowing food or drinks?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for swallowing decline that may increase aspiration and nutrition risk.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-parkinson-swallowing-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "new_swallowing_difficulty_parkinson",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "parkinson_disease"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.seizure.event",
+      "category": "symptoms",
+      "text": "Have you had a seizure since the last review?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Tracks the core disease event for epilepsy.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-seizure-event-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "breakthrough_seizure",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "epilepsy"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.urinary.emptying",
+      "category": "symptoms",
+      "text": "Have you been unable to empty your bladder or unable to urinate?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for urinary retention requiring prompt evaluation.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-urinary-emptying-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "possible_urinary_retention",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "benign_prostatic_hyperplasia"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.vision.sudden_change",
+      "category": "symptoms",
+      "text": "Have you had a sudden loss of vision or a new dark curtain over your vision?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for an urgent vision change.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-vision-sudden_change-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "sudden_vision_loss",
+              "urgency": "urgent",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "visual_impairment",
+        "glaucoma",
+        "age_related_macular_degeneration"
+      ],
+      "followUpBehavior": "A yes response creates a urgent clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.endocrine.heart_racing",
+      "category": "symptoms",
+      "text": "Have you had new episodes of a racing or irregular heartbeat?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for a potentially important rhythm symptom.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-endocrine-heart_racing-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "new_racing_or_irregular_heartbeat",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "hyperthyroidism",
+        "atrial_fibrillation"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.adrenal.vomiting_red_flag",
+      "category": "symptoms",
+      "text": "Are vomiting or severe illness keeping you from taking your adrenal medicine?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for adrenal-crisis risk during intercurrent illness.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-adrenal-vomiting_red_flag-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "possible_adrenal_crisis_risk",
+              "urgency": "urgent",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "adrenal_insufficiency"
+      ],
+      "followUpBehavior": "A yes response creates a urgent clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.cardiac.chest_discomfort",
+      "category": "symptoms",
+      "text": "Have you had new or worsening chest pressure or discomfort?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for a potentially urgent cardiac symptom.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-cardiac-chest_discomfort-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "new_or_worsening_chest_discomfort",
+              "urgency": "urgent",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "coronary_artery_disease",
+        "valvular_heart_disease",
+        "chronic_heart_failure"
+      ],
+      "followUpBehavior": "A yes response creates a urgent clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.cardiac.fainting",
+      "category": "symptoms",
+      "text": "Have you fainted or nearly fainted since the last review?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for hemodynamic or rhythm-related instability.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-cardiac-fainting-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "syncope_or_near_syncope",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "atrial_fibrillation",
+        "valvular_heart_disease",
+        "aortic_aneurysm"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.anticoag.bleeding",
+      "category": "symptoms",
+      "text": "If you use a blood thinner, have you had unusual bleeding or large unexplained bruises?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for anticoagulant harm without assuming use.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-anticoag-bleeding-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "possible_anticoagulant_bleeding",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "atrial_fibrillation",
+        "coronary_artery_disease",
+        "valvular_heart_disease"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.gerd.swallowing",
+      "category": "symptoms",
+      "text": "Has food felt stuck when you swallow?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Screens for an alarm symptom needing prompt assessment.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-gerd-swallowing-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "new_dysphagia",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "gerd"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ccm.ibd.stool_change",
+      "category": "symptoms",
+      "text": "Have bowel movements become more frequent or contained blood?",
+      "helperText": "Answer yes if this has occurred since the last contact.",
+      "answerType": "yes_no",
+      "required": false,
+      "validation": {},
+      "clinicalRationale": "Tracks a potentially important change in inflammatory bowel disease.",
+      "billingRelevance": "Supports condition-specific longitudinal assessment and care coordination.",
+      "contexts": [
+        "intake",
+        "monthly_checkin",
+        "care_plan_review"
+      ],
+      "conditionIds": [],
+      "tags": [
+        "red_flag"
+      ],
+      "displayWhen": [],
+      "followUpTriggers": [
+        {
+          "id": "ccm-ibd-stool_change-yes",
+          "when": {
+            "operator": "equals",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "flag_for_review",
+              "code": "ibd_blood_or_frequency_change",
+              "urgency": "same_day",
+              "providerNotification": true
+            }
+          ]
+        }
+      ],
+      "previousVersions": [],
+      "version": 1,
+      "sourceCanonicalConditionIds": [
+        "inflammatory_bowel_disease"
+      ],
+      "followUpBehavior": "A yes response creates a same_day clinical-review flag.",
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    }
+  ]
+}

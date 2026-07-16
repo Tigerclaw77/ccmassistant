@@ -1,0 +1,1304 @@
+{
+  "metrics": {
+    "schemaVersion": 1,
+    "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+    "banksReviewed": 29,
+    "averageBankSizeBefore": 10.24,
+    "averageBankSizeAfter": 8.45,
+    "largestBankBefore": 16,
+    "largestBankAfter": 12,
+    "smallestBankBefore": 4,
+    "smallestBankAfter": 6,
+    "bankReferencesRemoved": 67,
+    "bankReferencesAdded": 15,
+    "duplicateConceptsRemoved": 7,
+    "questionsRewritten": 14,
+    "questionsMerged": 7,
+    "newReusableQuestions": 3,
+    "newConditionSpecificQuestions": 3,
+    "banksImproved": 29,
+    "qualityScoreBefore": 63,
+    "qualityScoreAfter": 89,
+    "qualityScoreImprovement": 26,
+    "scoringRubric": "Internal 100-point review rubric: usefulness 25, patient wording 20, cognitive load 20, follow-up logic 15, context fit 10, cross-condition consistency 10."
+  },
+  "conditions": [
+    {
+      "canonicalConditionId": "essential_hypertension",
+      "displayName": "Essential Hypertension",
+      "currentBankSize": 8,
+      "recommendedBankSize": 7,
+      "currentDefaultCount": 8,
+      "recommendedDefaultCount": 5,
+      "questionsRemoved": [
+        "ccm.function.daily_activity_difficulty"
+      ],
+      "questionsAdded": [],
+      "questionsRewritten": [
+        "ccm.treatment.plan_barrier",
+        "ccm.specialist.visit_change"
+      ],
+      "questionsReordered": [
+        "ccm.bp.latest_systolic",
+        "ccm.bp.monitoring_barrier",
+        "ccm.medication.has_issue",
+        "ccm.treatment.plan_barrier",
+        "ccm.specialist.visit_change",
+        "ccm.goal.priority"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [
+        "ccm.specialist.visit_change",
+        "ccm.goal.priority"
+      ],
+      "questionsMadeRecommended": [],
+      "providerReviewQuestions": [],
+      "coordinatorActionQuestions": [
+        "ccm.treatment.plan_barrier",
+        "ccm.specialist.visit_change"
+      ],
+      "remainingConcerns": [
+        "No structural concern; clinician wording review remains required before publication."
+      ]
+    },
+    {
+      "canonicalConditionId": "type_2_diabetes",
+      "displayName": "Type 2 Diabetes",
+      "currentBankSize": 11,
+      "recommendedBankSize": 9,
+      "currentDefaultCount": 10,
+      "recommendedDefaultCount": 8,
+      "questionsRemoved": [
+        "ccm.specialist.visit_change",
+        "ccm.vascular.foot_wound"
+      ],
+      "questionsAdded": [],
+      "questionsRewritten": [
+        "ccm.treatment.plan_barrier"
+      ],
+      "questionsReordered": [
+        "ccm.diabetes.latest_glucose",
+        "ccm.diabetes.high_pattern",
+        "ccm.diabetes.low_episode",
+        "ccm.diabetes.foot_concern",
+        "ccm.medication.has_issue",
+        "ccm.treatment.plan_barrier",
+        "ccm.function.daily_activity_difficulty",
+        "ccm.goal.priority"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [],
+      "questionsMadeRecommended": [],
+      "providerReviewQuestions": [],
+      "coordinatorActionQuestions": [
+        "ccm.treatment.plan_barrier"
+      ],
+      "remainingConcerns": [
+        "No structural concern; clinician wording review remains required before publication."
+      ]
+    },
+    {
+      "canonicalConditionId": "chronic_heart_failure",
+      "displayName": "Chronic Heart Failure",
+      "currentBankSize": 12,
+      "recommendedBankSize": 10,
+      "currentDefaultCount": 11,
+      "recommendedDefaultCount": 8,
+      "questionsRemoved": [
+        "ccm.specialist.visit_change",
+        "ccm.ckd.swelling_change"
+      ],
+      "questionsAdded": [],
+      "questionsRewritten": [
+        "ccm.treatment.plan_barrier"
+      ],
+      "questionsReordered": [
+        "ccm.chf.rapid_weight_gain",
+        "ccm.chf.swelling_change",
+        "ccm.symptom.shortness_of_breath",
+        "ccm.cardiac.chest_discomfort",
+        "ccm.medication.has_issue",
+        "ccm.treatment.plan_barrier",
+        "ccm.function.daily_activity_difficulty",
+        "ccm.bp.latest_systolic",
+        "ccm.goal.priority"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [
+        "ccm.bp.latest_systolic"
+      ],
+      "questionsMadeRecommended": [],
+      "providerReviewQuestions": [
+        "ccm.cardiac.chest_discomfort"
+      ],
+      "coordinatorActionQuestions": [
+        "ccm.treatment.plan_barrier"
+      ],
+      "remainingConcerns": [
+        "Clinician must approve local escalation thresholds and notification timing."
+      ]
+    },
+    {
+      "canonicalConditionId": "chronic_kidney_disease",
+      "displayName": "Chronic Kidney Disease",
+      "currentBankSize": 10,
+      "recommendedBankSize": 8,
+      "currentDefaultCount": 9,
+      "recommendedDefaultCount": 6,
+      "questionsRemoved": [
+        "ccm.specialist.visit_change",
+        "ccm.chf.swelling_change"
+      ],
+      "questionsAdded": [],
+      "questionsRewritten": [
+        "ccm.treatment.plan_barrier"
+      ],
+      "questionsReordered": [
+        "ccm.ckd.lab_due",
+        "ccm.ckd.swelling_change",
+        "ccm.bp.latest_systolic",
+        "ccm.medication.has_issue",
+        "ccm.treatment.plan_barrier",
+        "ccm.function.daily_activity_difficulty",
+        "ccm.goal.priority"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [
+        "ccm.function.daily_activity_difficulty"
+      ],
+      "questionsMadeRecommended": [],
+      "providerReviewQuestions": [],
+      "coordinatorActionQuestions": [
+        "ccm.treatment.plan_barrier"
+      ],
+      "remainingConcerns": [
+        "No structural concern; clinician wording review remains required before publication."
+      ]
+    },
+    {
+      "canonicalConditionId": "copd",
+      "displayName": "COPD",
+      "currentBankSize": 13,
+      "recommendedBankSize": 11,
+      "currentDefaultCount": 12,
+      "recommendedDefaultCount": 8,
+      "questionsRemoved": [
+        "ccm.treatment.plan_barrier",
+        "ccm.symptom.shortness_of_breath"
+      ],
+      "questionsAdded": [],
+      "questionsRewritten": [
+        "ccm.pulmonary.oxygen_issue",
+        "ccm.specialist.visit_change"
+      ],
+      "questionsReordered": [
+        "ccm.pulmonary.breathing_change",
+        "ccm.pulmonary.cough_sputum_change",
+        "ccm.pulmonary.urgent_breathing",
+        "ccm.pulmonary.flare_treatment",
+        "ccm.copd.rescue_inhaler_use",
+        "ccm.medication.has_issue",
+        "ccm.function.daily_activity_difficulty",
+        "ccm.specialist.visit_change",
+        "ccm.goal.priority"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [
+        "ccm.pulmonary.oxygen_issue",
+        "ccm.specialist.visit_change"
+      ],
+      "questionsMadeRecommended": [],
+      "providerReviewQuestions": [
+        "ccm.pulmonary.urgent_breathing"
+      ],
+      "coordinatorActionQuestions": [
+        "ccm.pulmonary.oxygen_issue",
+        "ccm.specialist.visit_change"
+      ],
+      "remainingConcerns": [
+        "Clinician must approve local escalation thresholds and notification timing."
+      ]
+    },
+    {
+      "canonicalConditionId": "asthma",
+      "displayName": "Asthma",
+      "currentBankSize": 4,
+      "recommendedBankSize": 9,
+      "currentDefaultCount": 4,
+      "recommendedDefaultCount": 7,
+      "questionsRemoved": [],
+      "questionsAdded": [
+        "ccm.pulmonary.urgent_breathing",
+        "ccm.pulmonary.flare_treatment",
+        "ccm.treatment.plan_barrier",
+        "ccm.function.daily_activity_difficulty",
+        "ccm.goal.priority"
+      ],
+      "questionsRewritten": [
+        "ccm.treatment.plan_barrier"
+      ],
+      "questionsReordered": [
+        "ccm.medication.has_issue"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [
+        "ccm.function.daily_activity_difficulty",
+        "ccm.goal.priority"
+      ],
+      "questionsMadeRecommended": [
+        "ccm.pulmonary.urgent_breathing",
+        "ccm.pulmonary.flare_treatment",
+        "ccm.treatment.plan_barrier"
+      ],
+      "providerReviewQuestions": [
+        "ccm.pulmonary.urgent_breathing"
+      ],
+      "coordinatorActionQuestions": [
+        "ccm.treatment.plan_barrier"
+      ],
+      "remainingConcerns": [
+        "Clinician must approve local escalation thresholds and notification timing."
+      ]
+    },
+    {
+      "canonicalConditionId": "coronary_artery_disease",
+      "displayName": "Coronary Artery Disease",
+      "currentBankSize": 11,
+      "recommendedBankSize": 9,
+      "currentDefaultCount": 10,
+      "recommendedDefaultCount": 6,
+      "questionsRemoved": [
+        "ccm.bp.monitoring_barrier",
+        "ccm.specialist.pending_followup"
+      ],
+      "questionsAdded": [],
+      "questionsRewritten": [
+        "ccm.treatment.plan_barrier",
+        "ccm.specialist.visit_change"
+      ],
+      "questionsReordered": [
+        "ccm.cardiac.chest_discomfort",
+        "ccm.medication.has_issue",
+        "ccm.treatment.plan_barrier",
+        "ccm.bp.latest_systolic",
+        "ccm.specialist.visit_change",
+        "ccm.goal.priority"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [
+        "ccm.anticoag.bleeding",
+        "ccm.specialist.visit_change"
+      ],
+      "questionsMadeRecommended": [],
+      "providerReviewQuestions": [
+        "ccm.cardiac.chest_discomfort",
+        "ccm.anticoag.bleeding"
+      ],
+      "coordinatorActionQuestions": [
+        "ccm.treatment.plan_barrier",
+        "ccm.specialist.visit_change"
+      ],
+      "remainingConcerns": [
+        "Clinician must approve local escalation thresholds and notification timing."
+      ]
+    },
+    {
+      "canonicalConditionId": "atrial_fibrillation",
+      "displayName": "Atrial Fibrillation",
+      "currentBankSize": 12,
+      "recommendedBankSize": 9,
+      "currentDefaultCount": 11,
+      "recommendedDefaultCount": 6,
+      "questionsRemoved": [
+        "ccm.function.daily_activity_difficulty",
+        "ccm.bp.monitoring_barrier",
+        "ccm.specialist.pending_followup"
+      ],
+      "questionsAdded": [],
+      "questionsRewritten": [
+        "ccm.treatment.plan_barrier",
+        "ccm.specialist.visit_change"
+      ],
+      "questionsReordered": [
+        "ccm.endocrine.heart_racing",
+        "ccm.cardiac.fainting",
+        "ccm.anticoag.bleeding",
+        "ccm.medication.has_issue",
+        "ccm.treatment.plan_barrier",
+        "ccm.bp.latest_systolic",
+        "ccm.specialist.visit_change",
+        "ccm.goal.priority"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [
+        "ccm.bp.latest_systolic",
+        "ccm.specialist.visit_change"
+      ],
+      "questionsMadeRecommended": [],
+      "providerReviewQuestions": [
+        "ccm.endocrine.heart_racing",
+        "ccm.cardiac.fainting",
+        "ccm.anticoag.bleeding"
+      ],
+      "coordinatorActionQuestions": [
+        "ccm.treatment.plan_barrier",
+        "ccm.specialist.visit_change"
+      ],
+      "remainingConcerns": [
+        "Clinician must approve local escalation thresholds and notification timing."
+      ]
+    },
+    {
+      "canonicalConditionId": "peripheral_vascular_disease",
+      "displayName": "Peripheral Vascular Disease",
+      "currentBankSize": 9,
+      "recommendedBankSize": 9,
+      "currentDefaultCount": 8,
+      "recommendedDefaultCount": 7,
+      "questionsRemoved": [
+        "ccm.specialist.visit_change",
+        "ccm.pain.severity",
+        "ccm.specialist.pending_followup"
+      ],
+      "questionsAdded": [
+        "ccm.vascular.walking_leg_pain",
+        "ccm.vascular.rest_pain",
+        "ccm.vascular.foot_wound"
+      ],
+      "questionsRewritten": [
+        "ccm.vascular.foot_wound",
+        "ccm.treatment.plan_barrier"
+      ],
+      "questionsReordered": [
+        "ccm.medication.has_issue",
+        "ccm.treatment.plan_barrier",
+        "ccm.function.daily_activity_difficulty",
+        "ccm.falls.had_fall"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [
+        "ccm.falls.had_fall"
+      ],
+      "questionsMadeRecommended": [
+        "ccm.vascular.walking_leg_pain",
+        "ccm.vascular.rest_pain",
+        "ccm.vascular.foot_wound"
+      ],
+      "providerReviewQuestions": [
+        "ccm.vascular.rest_pain",
+        "ccm.vascular.foot_wound"
+      ],
+      "coordinatorActionQuestions": [
+        "ccm.treatment.plan_barrier"
+      ],
+      "remainingConcerns": [
+        "Clinician must approve local escalation thresholds and notification timing."
+      ]
+    },
+    {
+      "canonicalConditionId": "hyperlipidemia",
+      "displayName": "Hyperlipidemia",
+      "currentBankSize": 8,
+      "recommendedBankSize": 6,
+      "currentDefaultCount": 8,
+      "recommendedDefaultCount": 4,
+      "questionsRemoved": [
+        "ccm.function.daily_activity_difficulty",
+        "ccm.specialist.visit_change"
+      ],
+      "questionsAdded": [],
+      "questionsRewritten": [
+        "ccm.treatment.plan_barrier"
+      ],
+      "questionsReordered": [
+        "ccm.lipid.lab_due",
+        "ccm.medication.has_issue",
+        "ccm.nutrition.food_access",
+        "ccm.goal.priority"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [
+        "ccm.nutrition.food_access",
+        "ccm.goal.priority"
+      ],
+      "questionsMadeRecommended": [],
+      "providerReviewQuestions": [],
+      "coordinatorActionQuestions": [
+        "ccm.treatment.plan_barrier"
+      ],
+      "remainingConcerns": [
+        "Small preset; confirm it is sufficient for the clinic's patient mix."
+      ]
+    },
+    {
+      "canonicalConditionId": "osteoarthritis",
+      "displayName": "Osteoarthritis",
+      "currentBankSize": 10,
+      "recommendedBankSize": 8,
+      "currentDefaultCount": 9,
+      "recommendedDefaultCount": 7,
+      "questionsRemoved": [
+        "ccm.function.daily_activity_difficulty",
+        "ccm.specialist.visit_change"
+      ],
+      "questionsAdded": [],
+      "questionsRewritten": [
+        "ccm.treatment.plan_barrier"
+      ],
+      "questionsReordered": [
+        "ccm.pain.severity",
+        "ccm.pain.function_interference",
+        "ccm.arthritis.stiffness_change",
+        "ccm.falls.had_fall",
+        "ccm.medication.has_issue",
+        "ccm.treatment.plan_barrier",
+        "ccm.goal.priority"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [],
+      "questionsMadeRecommended": [],
+      "providerReviewQuestions": [],
+      "coordinatorActionQuestions": [
+        "ccm.treatment.plan_barrier"
+      ],
+      "remainingConcerns": [
+        "No structural concern; clinician wording review remains required before publication."
+      ]
+    },
+    {
+      "canonicalConditionId": "glaucoma",
+      "displayName": "Glaucoma",
+      "currentBankSize": 10,
+      "recommendedBankSize": 6,
+      "currentDefaultCount": 9,
+      "recommendedDefaultCount": 4,
+      "questionsRemoved": [
+        "ccm.medication.has_issue",
+        "ccm.function.daily_activity_difficulty",
+        "ccm.treatment.plan_barrier",
+        "ccm.specialist.visit_change"
+      ],
+      "questionsAdded": [],
+      "questionsRewritten": [
+        "ccm.vision.daily_tasks",
+        "ccm.vision.treatment_barrier"
+      ],
+      "questionsReordered": [
+        "ccm.vision.sudden_change",
+        "ccm.vision.daily_tasks",
+        "ccm.vision.treatment_barrier",
+        "ccm.specialist.pending_followup",
+        "ccm.goal.priority"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [
+        "ccm.specialist.pending_followup"
+      ],
+      "questionsMadeRecommended": [],
+      "providerReviewQuestions": [
+        "ccm.vision.sudden_change"
+      ],
+      "coordinatorActionQuestions": [
+        "ccm.vision.treatment_barrier"
+      ],
+      "remainingConcerns": [
+        "Small preset; confirm it is sufficient for the clinic's patient mix.",
+        "Clinician must approve local escalation thresholds and notification timing."
+      ]
+    },
+    {
+      "canonicalConditionId": "age_related_macular_degeneration",
+      "displayName": "Age-related Macular Degeneration",
+      "currentBankSize": 12,
+      "recommendedBankSize": 8,
+      "currentDefaultCount": 11,
+      "recommendedDefaultCount": 4,
+      "questionsRemoved": [
+        "ccm.medication.has_issue",
+        "ccm.function.daily_activity_difficulty",
+        "ccm.treatment.plan_barrier",
+        "ccm.specialist.visit_change"
+      ],
+      "questionsAdded": [],
+      "questionsRewritten": [
+        "ccm.vision.daily_tasks",
+        "ccm.vision.treatment_barrier"
+      ],
+      "questionsReordered": [
+        "ccm.vision.sudden_change",
+        "ccm.vision.daily_tasks",
+        "ccm.vision.treatment_barrier",
+        "ccm.falls.had_fall",
+        "ccm.transportation.barrier",
+        "ccm.specialist.pending_followup",
+        "ccm.goal.priority"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [
+        "ccm.falls.had_fall",
+        "ccm.transportation.barrier",
+        "ccm.specialist.pending_followup"
+      ],
+      "questionsMadeRecommended": [],
+      "providerReviewQuestions": [
+        "ccm.vision.sudden_change"
+      ],
+      "coordinatorActionQuestions": [
+        "ccm.vision.treatment_barrier"
+      ],
+      "remainingConcerns": [
+        "Small preset; confirm it is sufficient for the clinic's patient mix.",
+        "Clinician must approve local escalation thresholds and notification timing."
+      ]
+    },
+    {
+      "canonicalConditionId": "major_depressive_disorder",
+      "displayName": "Major Depressive Disorder",
+      "currentBankSize": 9,
+      "recommendedBankSize": 8,
+      "currentDefaultCount": 9,
+      "recommendedDefaultCount": 7,
+      "questionsRemoved": [
+        "ccm.specialist.visit_change"
+      ],
+      "questionsAdded": [],
+      "questionsRewritten": [
+        "ccm.treatment.plan_barrier"
+      ],
+      "questionsReordered": [
+        "ccm.mental.mood_frequency",
+        "ccm.mental.safety_thoughts",
+        "ccm.function.daily_activity_difficulty",
+        "ccm.sleep.quality",
+        "ccm.medication.has_issue",
+        "ccm.treatment.plan_barrier",
+        "ccm.goal.priority"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeRecommended": [],
+      "providerReviewQuestions": [
+        "ccm.mental.safety_thoughts"
+      ],
+      "coordinatorActionQuestions": [
+        "ccm.treatment.plan_barrier"
+      ],
+      "remainingConcerns": [
+        "Clinician must approve local escalation thresholds and notification timing."
+      ]
+    },
+    {
+      "canonicalConditionId": "generalized_anxiety_disorder",
+      "displayName": "Generalized Anxiety Disorder",
+      "currentBankSize": 5,
+      "recommendedBankSize": 7,
+      "currentDefaultCount": 4,
+      "recommendedDefaultCount": 6,
+      "questionsRemoved": [],
+      "questionsAdded": [
+        "ccm.function.daily_activity_difficulty",
+        "ccm.treatment.plan_barrier"
+      ],
+      "questionsRewritten": [
+        "ccm.treatment.plan_barrier"
+      ],
+      "questionsReordered": [
+        "ccm.sleep.quality",
+        "ccm.medication.has_issue",
+        "ccm.goal.priority"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [],
+      "questionsMadeRecommended": [
+        "ccm.function.daily_activity_difficulty",
+        "ccm.treatment.plan_barrier"
+      ],
+      "providerReviewQuestions": [],
+      "coordinatorActionQuestions": [
+        "ccm.treatment.plan_barrier"
+      ],
+      "remainingConcerns": [
+        "No structural concern; clinician wording review remains required before publication."
+      ]
+    },
+    {
+      "canonicalConditionId": "dementia",
+      "displayName": "Dementia",
+      "currentBankSize": 10,
+      "recommendedBankSize": 8,
+      "currentDefaultCount": 9,
+      "recommendedDefaultCount": 6,
+      "questionsRemoved": [
+        "ccm.treatment.plan_barrier",
+        "ccm.specialist.visit_change"
+      ],
+      "questionsAdded": [],
+      "questionsRewritten": [
+        "ccm.dementia.safety_change"
+      ],
+      "questionsReordered": [
+        "ccm.dementia.safety_change",
+        "ccm.dementia.caregiver_strain",
+        "ccm.function.daily_activity_difficulty",
+        "ccm.falls.had_fall",
+        "ccm.medication.has_issue",
+        "ccm.specialist.pending_followup",
+        "ccm.goal.priority"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [
+        "ccm.specialist.pending_followup"
+      ],
+      "questionsMadeRecommended": [],
+      "providerReviewQuestions": [
+        "ccm.dementia.safety_change"
+      ],
+      "coordinatorActionQuestions": [
+        "ccm.dementia.caregiver_strain"
+      ],
+      "remainingConcerns": [
+        "Clinician must approve local escalation thresholds and notification timing."
+      ]
+    },
+    {
+      "canonicalConditionId": "parkinson_disease",
+      "displayName": "Parkinson Disease",
+      "currentBankSize": 7,
+      "recommendedBankSize": 9,
+      "currentDefaultCount": 4,
+      "recommendedDefaultCount": 7,
+      "questionsRemoved": [
+        "ccm.sleep.quality"
+      ],
+      "questionsAdded": [
+        "ccm.parkinson.mobility_change",
+        "ccm.parkinson.wearing_off",
+        "ccm.parkinson.swallowing"
+      ],
+      "questionsRewritten": [],
+      "questionsReordered": [
+        "ccm.function.daily_activity_difficulty",
+        "ccm.medication.has_issue",
+        "ccm.specialist.pending_followup",
+        "ccm.goal.priority"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [],
+      "questionsMadeRecommended": [
+        "ccm.parkinson.mobility_change",
+        "ccm.parkinson.wearing_off",
+        "ccm.parkinson.swallowing"
+      ],
+      "providerReviewQuestions": [
+        "ccm.parkinson.mobility_change",
+        "ccm.parkinson.wearing_off",
+        "ccm.parkinson.swallowing"
+      ],
+      "coordinatorActionQuestions": [],
+      "remainingConcerns": [
+        "Clinician must approve local escalation thresholds and notification timing."
+      ]
+    },
+    {
+      "canonicalConditionId": "peripheral_neuropathy",
+      "displayName": "Peripheral Neuropathy",
+      "currentBankSize": 12,
+      "recommendedBankSize": 10,
+      "currentDefaultCount": 11,
+      "recommendedDefaultCount": 8,
+      "questionsRemoved": [
+        "ccm.specialist.visit_change",
+        "ccm.specialist.pending_followup"
+      ],
+      "questionsAdded": [],
+      "questionsRewritten": [
+        "ccm.vascular.foot_wound",
+        "ccm.treatment.plan_barrier"
+      ],
+      "questionsReordered": [
+        "ccm.neuropathy.sensation_change",
+        "ccm.neuro.balance_change",
+        "ccm.vascular.foot_wound",
+        "ccm.falls.had_fall",
+        "ccm.function.daily_activity_difficulty",
+        "ccm.medication.has_issue",
+        "ccm.treatment.plan_barrier",
+        "ccm.sleep.quality",
+        "ccm.goal.priority"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [
+        "ccm.sleep.quality"
+      ],
+      "questionsMadeRecommended": [],
+      "providerReviewQuestions": [
+        "ccm.vascular.foot_wound"
+      ],
+      "coordinatorActionQuestions": [
+        "ccm.treatment.plan_barrier"
+      ],
+      "remainingConcerns": [
+        "Clinician must approve local escalation thresholds and notification timing."
+      ]
+    },
+    {
+      "canonicalConditionId": "chronic_back_pain",
+      "displayName": "Chronic Back Pain",
+      "currentBankSize": 16,
+      "recommendedBankSize": 12,
+      "currentDefaultCount": 15,
+      "recommendedDefaultCount": 8,
+      "questionsRemoved": [
+        "ccm.function.daily_activity_difficulty",
+        "ccm.specialist.visit_change",
+        "ccm.spine.walking_tolerance",
+        "ccm.spine.leg_symptoms_standing"
+      ],
+      "questionsAdded": [],
+      "questionsRewritten": [
+        "ccm.treatment.plan_barrier"
+      ],
+      "questionsReordered": [
+        "ccm.pain.severity",
+        "ccm.pain.function_interference",
+        "ccm.neuro.new_weakness",
+        "ccm.spine.bowel_bladder_change",
+        "ccm.spine.saddle_numbness",
+        "ccm.spine.therapy_progress",
+        "ccm.medication.has_issue",
+        "ccm.treatment.plan_barrier",
+        "ccm.falls.had_fall",
+        "ccm.spine.procedure_planned",
+        "ccm.goal.priority"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [
+        "ccm.spine.saddle_numbness",
+        "ccm.falls.had_fall",
+        "ccm.spine.procedure_planned"
+      ],
+      "questionsMadeRecommended": [],
+      "providerReviewQuestions": [
+        "ccm.neuro.new_weakness",
+        "ccm.spine.bowel_bladder_change",
+        "ccm.spine.saddle_numbness"
+      ],
+      "coordinatorActionQuestions": [
+        "ccm.treatment.plan_barrier"
+      ],
+      "remainingConcerns": [
+        "Clinician must approve local escalation thresholds and notification timing."
+      ]
+    },
+    {
+      "canonicalConditionId": "lumbar_spinal_stenosis",
+      "displayName": "Lumbar Spinal Stenosis",
+      "currentBankSize": 16,
+      "recommendedBankSize": 12,
+      "currentDefaultCount": 15,
+      "recommendedDefaultCount": 9,
+      "questionsRemoved": [
+        "ccm.function.daily_activity_difficulty",
+        "ccm.treatment.plan_barrier",
+        "ccm.specialist.visit_change",
+        "ccm.pain.severity"
+      ],
+      "questionsAdded": [],
+      "questionsRewritten": [],
+      "questionsReordered": [
+        "ccm.spine.walking_tolerance",
+        "ccm.spine.leg_symptoms_standing",
+        "ccm.neuro.new_weakness",
+        "ccm.spine.bowel_bladder_change",
+        "ccm.spine.saddle_numbness",
+        "ccm.spine.therapy_progress",
+        "ccm.pain.function_interference",
+        "ccm.falls.had_fall",
+        "ccm.medication.has_issue",
+        "ccm.spine.procedure_planned",
+        "ccm.goal.priority"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [
+        "ccm.spine.saddle_numbness",
+        "ccm.spine.procedure_planned"
+      ],
+      "questionsMadeRecommended": [],
+      "providerReviewQuestions": [
+        "ccm.neuro.new_weakness",
+        "ccm.spine.bowel_bladder_change",
+        "ccm.spine.saddle_numbness"
+      ],
+      "coordinatorActionQuestions": [],
+      "remainingConcerns": [
+        "Clinician must approve local escalation thresholds and notification timing."
+      ]
+    },
+    {
+      "canonicalConditionId": "fibromyalgia",
+      "displayName": "Fibromyalgia",
+      "currentBankSize": 11,
+      "recommendedBankSize": 8,
+      "currentDefaultCount": 10,
+      "recommendedDefaultCount": 7,
+      "questionsRemoved": [
+        "ccm.function.daily_activity_difficulty",
+        "ccm.specialist.visit_change",
+        "ccm.falls.had_fall"
+      ],
+      "questionsAdded": [],
+      "questionsRewritten": [
+        "ccm.fibromyalgia.recovery",
+        "ccm.treatment.plan_barrier"
+      ],
+      "questionsReordered": [
+        "ccm.pain.severity",
+        "ccm.pain.function_interference",
+        "ccm.fibromyalgia.recovery",
+        "ccm.sleep.daytime_impact",
+        "ccm.medication.has_issue",
+        "ccm.treatment.plan_barrier",
+        "ccm.goal.priority"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [],
+      "questionsMadeRecommended": [],
+      "providerReviewQuestions": [],
+      "coordinatorActionQuestions": [
+        "ccm.treatment.plan_barrier"
+      ],
+      "remainingConcerns": [
+        "No structural concern; clinician wording review remains required before publication."
+      ]
+    },
+    {
+      "canonicalConditionId": "obesity",
+      "displayName": "Obesity",
+      "currentBankSize": 9,
+      "recommendedBankSize": 7,
+      "currentDefaultCount": 8,
+      "recommendedDefaultCount": 4,
+      "questionsRemoved": [
+        "ccm.treatment.plan_barrier",
+        "ccm.specialist.visit_change",
+        "ccm.hospital.had_admission",
+        "ccm.emergency.had_visit"
+      ],
+      "questionsAdded": [
+        "ccm.goal.progress",
+        "ccm.nutrition.food_access"
+      ],
+      "questionsRewritten": [],
+      "questionsReordered": [
+        "ccm.weight.plan_barrier",
+        "ccm.function.daily_activity_difficulty",
+        "ccm.medication.has_issue",
+        "ccm.goal.priority"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [
+        "ccm.function.daily_activity_difficulty",
+        "ccm.medication.has_issue"
+      ],
+      "questionsMadeRecommended": [
+        "ccm.goal.progress",
+        "ccm.nutrition.food_access"
+      ],
+      "providerReviewQuestions": [],
+      "coordinatorActionQuestions": [
+        "ccm.weight.plan_barrier"
+      ],
+      "remainingConcerns": [
+        "Small preset; confirm it is sufficient for the clinic's patient mix.",
+        "Keep wording weight-neutral and align goals with the patient's agreed plan."
+      ]
+    },
+    {
+      "canonicalConditionId": "hypothyroidism",
+      "displayName": "Hypothyroidism",
+      "currentBankSize": 9,
+      "recommendedBankSize": 7,
+      "currentDefaultCount": 8,
+      "recommendedDefaultCount": 4,
+      "questionsRemoved": [
+        "ccm.specialist.visit_change",
+        "ccm.nutrition.food_access"
+      ],
+      "questionsAdded": [],
+      "questionsRewritten": [
+        "ccm.treatment.plan_barrier"
+      ],
+      "questionsReordered": [
+        "ccm.thyroid.lab_due",
+        "ccm.medication.has_issue",
+        "ccm.function.daily_activity_difficulty",
+        "ccm.specialist.pending_followup",
+        "ccm.goal.priority"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [
+        "ccm.function.daily_activity_difficulty",
+        "ccm.specialist.pending_followup"
+      ],
+      "questionsMadeRecommended": [],
+      "providerReviewQuestions": [],
+      "coordinatorActionQuestions": [
+        "ccm.treatment.plan_barrier"
+      ],
+      "remainingConcerns": [
+        "Small preset; confirm it is sufficient for the clinic's patient mix."
+      ]
+    },
+    {
+      "canonicalConditionId": "gerd",
+      "displayName": "Gastroesophageal Reflux Disease",
+      "currentBankSize": 10,
+      "recommendedBankSize": 7,
+      "currentDefaultCount": 9,
+      "recommendedDefaultCount": 5,
+      "questionsRemoved": [
+        "ccm.function.daily_activity_difficulty",
+        "ccm.specialist.visit_change",
+        "ccm.nutrition.food_access"
+      ],
+      "questionsAdded": [],
+      "questionsRewritten": [
+        "ccm.gerd.swallowing",
+        "ccm.treatment.plan_barrier"
+      ],
+      "questionsReordered": [
+        "ccm.gerd.swallowing",
+        "ccm.liver.bleeding_red_flag",
+        "ccm.medication.has_issue",
+        "ccm.treatment.plan_barrier",
+        "ccm.specialist.pending_followup",
+        "ccm.goal.priority"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [
+        "ccm.specialist.pending_followup"
+      ],
+      "questionsMadeRecommended": [],
+      "providerReviewQuestions": [
+        "ccm.gerd.swallowing",
+        "ccm.liver.bleeding_red_flag"
+      ],
+      "coordinatorActionQuestions": [
+        "ccm.treatment.plan_barrier"
+      ],
+      "remainingConcerns": [
+        "Clinician must approve local escalation thresholds and notification timing."
+      ]
+    },
+    {
+      "canonicalConditionId": "anemia",
+      "displayName": "Anemia",
+      "currentBankSize": 10,
+      "recommendedBankSize": 8,
+      "currentDefaultCount": 9,
+      "recommendedDefaultCount": 6,
+      "questionsRemoved": [
+        "ccm.specialist.visit_change",
+        "ccm.specialist.pending_followup"
+      ],
+      "questionsAdded": [],
+      "questionsRewritten": [
+        "ccm.anemia.symptom_change",
+        "ccm.treatment.plan_barrier"
+      ],
+      "questionsReordered": [
+        "ccm.anemia.symptom_change",
+        "ccm.hematology.lab_followup",
+        "ccm.function.daily_activity_difficulty",
+        "ccm.medication.has_issue",
+        "ccm.treatment.plan_barrier",
+        "ccm.hospital.had_admission",
+        "ccm.goal.priority"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [
+        "ccm.hospital.had_admission"
+      ],
+      "questionsMadeRecommended": [],
+      "providerReviewQuestions": [
+        "ccm.anemia.symptom_change"
+      ],
+      "coordinatorActionQuestions": [
+        "ccm.treatment.plan_barrier"
+      ],
+      "remainingConcerns": [
+        "Clinician must approve local escalation thresholds and notification timing."
+      ]
+    },
+    {
+      "canonicalConditionId": "osteoporosis",
+      "displayName": "Osteoporosis",
+      "currentBankSize": 11,
+      "recommendedBankSize": 8,
+      "currentDefaultCount": 10,
+      "recommendedDefaultCount": 5,
+      "questionsRemoved": [
+        "ccm.treatment.plan_barrier",
+        "ccm.specialist.visit_change",
+        "ccm.pain.function_interference"
+      ],
+      "questionsAdded": [],
+      "questionsRewritten": [
+        "ccm.osteoporosis.new_fracture"
+      ],
+      "questionsReordered": [
+        "ccm.osteoporosis.new_fracture",
+        "ccm.falls.had_fall",
+        "ccm.osteoporosis.treatment_barrier",
+        "ccm.medication.has_issue",
+        "ccm.pain.severity",
+        "ccm.function.daily_activity_difficulty",
+        "ccm.goal.priority"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [
+        "ccm.pain.severity",
+        "ccm.function.daily_activity_difficulty"
+      ],
+      "questionsMadeRecommended": [],
+      "providerReviewQuestions": [
+        "ccm.osteoporosis.new_fracture"
+      ],
+      "coordinatorActionQuestions": [],
+      "remainingConcerns": [
+        "Clinician must approve local escalation thresholds and notification timing."
+      ]
+    },
+    {
+      "canonicalConditionId": "malignancy",
+      "displayName": "Active Malignancy",
+      "currentBankSize": 11,
+      "recommendedBankSize": 9,
+      "currentDefaultCount": 10,
+      "recommendedDefaultCount": 7,
+      "questionsRemoved": [
+        "ccm.treatment.plan_barrier",
+        "ccm.specialist.visit_change"
+      ],
+      "questionsAdded": [],
+      "questionsRewritten": [],
+      "questionsReordered": [
+        "ccm.cancer.new_symptom",
+        "ccm.cancer.treatment_change",
+        "ccm.liver.appetite_weight",
+        "ccm.hematology.lab_followup",
+        "ccm.medication.has_issue",
+        "ccm.function.daily_activity_difficulty",
+        "ccm.specialist.pending_followup",
+        "ccm.goal.priority"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [
+        "ccm.hematology.lab_followup"
+      ],
+      "questionsMadeRecommended": [],
+      "providerReviewQuestions": [
+        "ccm.cancer.new_symptom"
+      ],
+      "coordinatorActionQuestions": [],
+      "remainingConcerns": [
+        "Clinician must approve local escalation thresholds and notification timing.",
+        "Cancer site and treatment phase still require coordinator judgment."
+      ]
+    },
+    {
+      "canonicalConditionId": "chronic_pain",
+      "displayName": "Chronic Pain",
+      "currentBankSize": 9,
+      "recommendedBankSize": 8,
+      "currentDefaultCount": 8,
+      "recommendedDefaultCount": 6,
+      "questionsRemoved": [
+        "ccm.specialist.visit_change"
+      ],
+      "questionsAdded": [],
+      "questionsRewritten": [
+        "ccm.treatment.plan_barrier"
+      ],
+      "questionsReordered": [
+        "ccm.pain.severity",
+        "ccm.pain.function_interference",
+        "ccm.medication.has_issue",
+        "ccm.treatment.plan_barrier",
+        "ccm.sleep.quality",
+        "ccm.function.daily_activity_difficulty",
+        "ccm.goal.priority"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [
+        "ccm.function.daily_activity_difficulty"
+      ],
+      "questionsMadeRecommended": [],
+      "providerReviewQuestions": [],
+      "coordinatorActionQuestions": [
+        "ccm.treatment.plan_barrier"
+      ],
+      "remainingConcerns": [
+        "No structural concern; clinician wording review remains required before publication."
+      ]
+    },
+    {
+      "canonicalConditionId": "sleep_apnea",
+      "displayName": "Sleep Apnea",
+      "currentBankSize": 12,
+      "recommendedBankSize": 8,
+      "currentDefaultCount": 11,
+      "recommendedDefaultCount": 5,
+      "questionsRemoved": [
+        "ccm.medication.has_issue",
+        "ccm.treatment.plan_barrier",
+        "ccm.specialist.visit_change",
+        "ccm.sleep.treatment_barrier"
+      ],
+      "questionsAdded": [],
+      "questionsRewritten": [
+        "ccm.osa.device_barrier"
+      ],
+      "questionsReordered": [
+        "ccm.osa.device_use",
+        "ccm.osa.device_barrier",
+        "ccm.sleep.daytime_impact",
+        "ccm.sleep.quality",
+        "ccm.function.daily_activity_difficulty",
+        "ccm.specialist.pending_followup",
+        "ccm.goal.priority"
+      ],
+      "questionsMovedToIntakeOnly": [],
+      "questionsMovedToMonthlyOnly": [],
+      "questionsMovedOutOfMonthly": [
+        "ccm.goal.priority"
+      ],
+      "questionsMadeOptional": [
+        "ccm.function.daily_activity_difficulty",
+        "ccm.specialist.pending_followup"
+      ],
+      "questionsMadeRecommended": [],
+      "providerReviewQuestions": [],
+      "coordinatorActionQuestions": [
+        "ccm.osa.device_barrier"
+      ],
+      "remainingConcerns": [
+        "No structural concern; clinician wording review remains required before publication."
+      ]
+    }
+  ]
+}

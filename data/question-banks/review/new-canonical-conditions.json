@@ -1,0 +1,1356 @@
+{
+  "schemaVersion": 1,
+  "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+  "contentVersion": 1,
+  "newCanonicalConditionCount": 35,
+  "newlyMappedCodeCount": 1551,
+  "populatedBankCount": 66,
+  "newQuestionCount": 103,
+  "reusedExistingQuestionCount": 28,
+  "averageDefaultQuestionCount": 9.03,
+  "maximumDefaultQuestionCount": 16,
+  "lateralityCollapsedGroupCount": 7,
+  "materialVariantCount": 30,
+  "redFlagQuestionCount": 28,
+  "remainingUnmappedPassCount": 4583,
+  "remainingPriorities": [
+    {
+      "family": "I82",
+      "count": 145
+    },
+    {
+      "family": "M48",
+      "count": 116
+    },
+    {
+      "family": "I63",
+      "count": 91
+    },
+    {
+      "family": "F19",
+      "count": 63
+    },
+    {
+      "family": "F13",
+      "count": 58
+    },
+    {
+      "family": "I83",
+      "count": 57
+    },
+    {
+      "family": "M41",
+      "count": 55
+    },
+    {
+      "family": "M43",
+      "count": 50
+    },
+    {
+      "family": "F14",
+      "count": 48
+    },
+    {
+      "family": "F15",
+      "count": 48
+    },
+    {
+      "family": "M47",
+      "count": 45
+    },
+    {
+      "family": "Q72",
+      "count": 44
+    },
+    {
+      "family": "I87",
+      "count": 43
+    },
+    {
+      "family": "F16",
+      "count": 40
+    },
+    {
+      "family": "G44",
+      "count": 40
+    },
+    {
+      "family": "G57",
+      "count": 40
+    },
+    {
+      "family": "Q71",
+      "count": 40
+    },
+    {
+      "family": "F12",
+      "count": 39
+    },
+    {
+      "family": "F18",
+      "count": 39
+    },
+    {
+      "family": "I80",
+      "count": 39
+    }
+  ],
+  "conditions": [
+    {
+      "id": "lumbar_spinal_stenosis",
+      "name": "Lumbar Spinal Stenosis",
+      "clinicalDomain": "musculoskeletal",
+      "mappingRationale": "Map M48.061 and M48.062; retain neurogenic claudication as a material variant.",
+      "mappedCodeCount": 2,
+      "billableCodeCount": 2,
+      "sampleCodes": [
+        {
+          "code": "M48.061",
+          "officialTitle": "Spinal stenosis, lumbar region without neurogenic claudication"
+        },
+        {
+          "code": "M48.062",
+          "officialTitle": "Spinal stenosis, lumbar region with neurogenic claudication"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "cervical_spinal_stenosis",
+      "name": "Cervical Spinal Stenosis",
+      "clinicalDomain": "musculoskeletal",
+      "mappingRationale": "Map M48.02; keep cervical monitoring distinct from lumbar claudication content.",
+      "mappedCodeCount": 1,
+      "billableCodeCount": 1,
+      "sampleCodes": [
+        {
+          "code": "M48.02",
+          "officialTitle": "Spinal stenosis, cervical region"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "lumbar_radiculopathy",
+      "name": "Lumbar Radiculopathy",
+      "clinicalDomain": "neurology",
+      "mappingRationale": "Map M54.16 and M54.17; collapse laterality while preserving the exact diagnosis title.",
+      "mappedCodeCount": 2,
+      "billableCodeCount": 2,
+      "sampleCodes": [
+        {
+          "code": "M54.16",
+          "officialTitle": "Radiculopathy, lumbar region"
+        },
+        {
+          "code": "M54.17",
+          "officialTitle": "Radiculopathy, lumbosacral region"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "cervical_radiculopathy",
+      "name": "Cervical Radiculopathy",
+      "clinicalDomain": "neurology",
+      "mappingRationale": "Map M54.12; keep cervical upper-extremity monitoring separate from lumbar disease.",
+      "mappedCodeCount": 1,
+      "billableCodeCount": 1,
+      "sampleCodes": [
+        {
+          "code": "M54.12",
+          "officialTitle": "Radiculopathy, cervical region"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "cervical_disc_disease",
+      "name": "Cervical Disc Disease",
+      "clinicalDomain": "musculoskeletal",
+      "mappingRationale": "Map M50 billable diagnoses; retain myelopathy and radiculopathy variants.",
+      "mappedCodeCount": 55,
+      "billableCodeCount": 42,
+      "sampleCodes": [
+        {
+          "code": "M50",
+          "officialTitle": "Cervical disc disorders"
+        },
+        {
+          "code": "M50.0",
+          "officialTitle": "Cervical disc disorder with myelopathy"
+        },
+        {
+          "code": "M50.00",
+          "officialTitle": "Cervical disc disorder with myelopathy, unspecified cervical region"
+        },
+        {
+          "code": "M50.01",
+          "officialTitle": "Cervical disc disorder with myelopathy, high cervical region"
+        },
+        {
+          "code": "M50.02",
+          "officialTitle": "Cervical disc disorder with myelopathy, mid-cervical region"
+        },
+        {
+          "code": "M50.020",
+          "officialTitle": "Cervical disc disorder with myelopathy, mid-cervical region, unspecified level"
+        },
+        {
+          "code": "M50.021",
+          "officialTitle": "Cervical disc disorder at C4-C5 level with myelopathy"
+        },
+        {
+          "code": "M50.022",
+          "officialTitle": "Cervical disc disorder at C5-C6 level with myelopathy"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "lumbar_disc_disease",
+      "name": "Lumbar Disc Disease",
+      "clinicalDomain": "musculoskeletal",
+      "mappingRationale": "Map billable M51 diagnoses whose official titles identify lumbar or lumbosacral disease; retain myelopathy and radiculopathy variants.",
+      "mappedCodeCount": 30,
+      "billableCodeCount": 30,
+      "sampleCodes": [
+        {
+          "code": "M51.05",
+          "officialTitle": "Intervertebral disc disorders with myelopathy, thoracolumbar region"
+        },
+        {
+          "code": "M51.06",
+          "officialTitle": "Intervertebral disc disorders with myelopathy, lumbar region"
+        },
+        {
+          "code": "M51.15",
+          "officialTitle": "Intervertebral disc disorders with radiculopathy, thoracolumbar region"
+        },
+        {
+          "code": "M51.16",
+          "officialTitle": "Intervertebral disc disorders with radiculopathy, lumbar region"
+        },
+        {
+          "code": "M51.17",
+          "officialTitle": "Intervertebral disc disorders with radiculopathy, lumbosacral region"
+        },
+        {
+          "code": "M51.25",
+          "officialTitle": "Other intervertebral disc displacement, thoracolumbar region"
+        },
+        {
+          "code": "M51.26",
+          "officialTitle": "Other intervertebral disc displacement, lumbar region"
+        },
+        {
+          "code": "M51.27",
+          "officialTitle": "Other intervertebral disc displacement, lumbosacral region"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "fibromyalgia",
+      "name": "Fibromyalgia",
+      "clinicalDomain": "rheumatology",
+      "mappingRationale": "Map M79.7 as a specific chronic pain-processing disorder, not a generic pain identity.",
+      "mappedCodeCount": 1,
+      "billableCodeCount": 1,
+      "sampleCodes": [
+        {
+          "code": "M79.7",
+          "officialTitle": "Fibromyalgia"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "chronic_gout",
+      "name": "Chronic Gout",
+      "clinicalDomain": "rheumatology",
+      "mappingRationale": "Map M1A chronic gout; collapse site and laterality while retaining tophus status.",
+      "mappedCodeCount": 404,
+      "billableCodeCount": 242,
+      "sampleCodes": [
+        {
+          "code": "M1A",
+          "officialTitle": "Chronic gout"
+        },
+        {
+          "code": "M1A.0",
+          "officialTitle": "Idiopathic chronic gout"
+        },
+        {
+          "code": "M1A.00",
+          "officialTitle": "Idiopathic chronic gout, unspecified site"
+        },
+        {
+          "code": "M1A.00X0",
+          "officialTitle": "Idiopathic chronic gout, unspecified site, without tophus (tophi)"
+        },
+        {
+          "code": "M1A.00X1",
+          "officialTitle": "Idiopathic chronic gout, unspecified site, with tophus (tophi)"
+        },
+        {
+          "code": "M1A.01",
+          "officialTitle": "Idiopathic chronic gout, shoulder"
+        },
+        {
+          "code": "M1A.011",
+          "officialTitle": "Idiopathic chronic gout, right shoulder"
+        },
+        {
+          "code": "M1A.0110",
+          "officialTitle": "Idiopathic chronic gout, right shoulder, without tophus (tophi)"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "non_pressure_chronic_ulcer",
+      "name": "Non-Pressure Chronic Ulcer",
+      "clinicalDomain": "wound_care",
+      "mappingRationale": "Map L97 and L98 diagnoses explicitly titled non-pressure chronic ulcer; collapse laterality and retain deep tissue involvement.",
+      "mappedCodeCount": 355,
+      "billableCodeCount": 304,
+      "sampleCodes": [
+        {
+          "code": "L97",
+          "officialTitle": "Non-pressure chronic ulcer of lower limb, not elsewhere classified"
+        },
+        {
+          "code": "L97.1",
+          "officialTitle": "Non-pressure chronic ulcer of thigh"
+        },
+        {
+          "code": "L97.10",
+          "officialTitle": "Non-pressure chronic ulcer of unspecified thigh"
+        },
+        {
+          "code": "L97.101",
+          "officialTitle": "Non-pressure chronic ulcer of unspecified thigh limited to breakdown of skin"
+        },
+        {
+          "code": "L97.102",
+          "officialTitle": "Non-pressure chronic ulcer of unspecified thigh with fat layer exposed"
+        },
+        {
+          "code": "L97.103",
+          "officialTitle": "Non-pressure chronic ulcer of unspecified thigh with necrosis of muscle"
+        },
+        {
+          "code": "L97.104",
+          "officialTitle": "Non-pressure chronic ulcer of unspecified thigh with necrosis of bone"
+        },
+        {
+          "code": "L97.105",
+          "officialTitle": "Non-pressure chronic ulcer of unspecified thigh with muscle involvement without evidence of necrosis"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "chronic_osteomyelitis",
+      "name": "Chronic Osteomyelitis",
+      "clinicalDomain": "infectious_disease",
+      "mappingRationale": "Map M86 diagnoses explicitly titled chronic osteomyelitis; collapse site and laterality for bank identity.",
+      "mappedCodeCount": 128,
+      "billableCodeCount": 96,
+      "sampleCodes": [
+        {
+          "code": "M86.3",
+          "officialTitle": "Chronic multifocal osteomyelitis"
+        },
+        {
+          "code": "M86.30",
+          "officialTitle": "Chronic multifocal osteomyelitis, unspecified site"
+        },
+        {
+          "code": "M86.31",
+          "officialTitle": "Chronic multifocal osteomyelitis, shoulder"
+        },
+        {
+          "code": "M86.311",
+          "officialTitle": "Chronic multifocal osteomyelitis, right shoulder"
+        },
+        {
+          "code": "M86.312",
+          "officialTitle": "Chronic multifocal osteomyelitis, left shoulder"
+        },
+        {
+          "code": "M86.319",
+          "officialTitle": "Chronic multifocal osteomyelitis, unspecified shoulder"
+        },
+        {
+          "code": "M86.32",
+          "officialTitle": "Chronic multifocal osteomyelitis, humerus"
+        },
+        {
+          "code": "M86.321",
+          "officialTitle": "Chronic multifocal osteomyelitis, right humerus"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "chronic_venous_insufficiency",
+      "name": "Chronic Venous Insufficiency",
+      "clinicalDomain": "vascular",
+      "mappingRationale": "Map I87.2 only; do not merge post-thrombotic syndrome or acute thrombosis.",
+      "mappedCodeCount": 1,
+      "billableCodeCount": 1,
+      "sampleCodes": [
+        {
+          "code": "I87.2",
+          "officialTitle": "Venous insufficiency (chronic) (peripheral)"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "cirrhosis",
+      "name": "Cirrhosis",
+      "clinicalDomain": "hepatology",
+      "mappingRationale": "Map K74 fibrosis and cirrhosis diagnoses; retain exact etiology and stage wording in the ICD record.",
+      "mappedCodeCount": 13,
+      "billableCodeCount": 10,
+      "sampleCodes": [
+        {
+          "code": "K74",
+          "officialTitle": "Fibrosis and cirrhosis of liver"
+        },
+        {
+          "code": "K74.0",
+          "officialTitle": "Hepatic fibrosis"
+        },
+        {
+          "code": "K74.00",
+          "officialTitle": "Hepatic fibrosis, unspecified"
+        },
+        {
+          "code": "K74.01",
+          "officialTitle": "Hepatic fibrosis, early fibrosis"
+        },
+        {
+          "code": "K74.02",
+          "officialTitle": "Hepatic fibrosis, advanced fibrosis"
+        },
+        {
+          "code": "K74.1",
+          "officialTitle": "Hepatic sclerosis"
+        },
+        {
+          "code": "K74.2",
+          "officialTitle": "Hepatic fibrosis with hepatic sclerosis"
+        },
+        {
+          "code": "K74.3",
+          "officialTitle": "Primary biliary cirrhosis"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "psoriasis",
+      "name": "Psoriasis",
+      "clinicalDomain": "dermatology",
+      "mappingRationale": "Map L40 psoriasis diagnoses; do not merge unrelated dermatitis conditions.",
+      "mappedCodeCount": 15,
+      "billableCodeCount": 13,
+      "sampleCodes": [
+        {
+          "code": "L40",
+          "officialTitle": "Psoriasis"
+        },
+        {
+          "code": "L40.0",
+          "officialTitle": "Psoriasis vulgaris"
+        },
+        {
+          "code": "L40.1",
+          "officialTitle": "Generalized pustular psoriasis"
+        },
+        {
+          "code": "L40.2",
+          "officialTitle": "Acrodermatitis continua"
+        },
+        {
+          "code": "L40.3",
+          "officialTitle": "Pustulosis palmaris et plantaris"
+        },
+        {
+          "code": "L40.4",
+          "officialTitle": "Guttate psoriasis"
+        },
+        {
+          "code": "L40.5",
+          "officialTitle": "Arthropathic psoriasis"
+        },
+        {
+          "code": "L40.50",
+          "officialTitle": "Arthropathic psoriasis, unspecified"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "interstitial_lung_disease",
+      "name": "Interstitial Lung Disease",
+      "clinicalDomain": "pulmonology",
+      "mappingRationale": "Map J84 interstitial pulmonary diseases; preserve the exact disease title.",
+      "mappedCodeCount": 31,
+      "billableCodeCount": 24,
+      "sampleCodes": [
+        {
+          "code": "J84",
+          "officialTitle": "Other interstitial pulmonary diseases"
+        },
+        {
+          "code": "J84.0",
+          "officialTitle": "Alveolar and parieto-alveolar conditions"
+        },
+        {
+          "code": "J84.01",
+          "officialTitle": "Alveolar proteinosis"
+        },
+        {
+          "code": "J84.02",
+          "officialTitle": "Pulmonary alveolar microlithiasis"
+        },
+        {
+          "code": "J84.03",
+          "officialTitle": "Idiopathic pulmonary hemosiderosis"
+        },
+        {
+          "code": "J84.09",
+          "officialTitle": "Other alveolar and parieto-alveolar conditions"
+        },
+        {
+          "code": "J84.1",
+          "officialTitle": "Other interstitial pulmonary diseases with fibrosis"
+        },
+        {
+          "code": "J84.10",
+          "officialTitle": "Pulmonary fibrosis, unspecified"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "bronchiectasis",
+      "name": "Bronchiectasis",
+      "clinicalDomain": "pulmonology",
+      "mappingRationale": "Map J47 and retain exacerbation or lower-respiratory-infection treatment-state variants.",
+      "mappedCodeCount": 4,
+      "billableCodeCount": 3,
+      "sampleCodes": [
+        {
+          "code": "J47",
+          "officialTitle": "Bronchiectasis"
+        },
+        {
+          "code": "J47.0",
+          "officialTitle": "Bronchiectasis with acute lower respiratory infection"
+        },
+        {
+          "code": "J47.1",
+          "officialTitle": "Bronchiectasis with (acute) exacerbation"
+        },
+        {
+          "code": "J47.9",
+          "officialTitle": "Bronchiectasis, uncomplicated"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "sickle_cell_disease",
+      "name": "Sickle Cell Disease",
+      "clinicalDomain": "hematology",
+      "mappingRationale": "Map D57 sickle-cell disorders; retain crisis and acute-chest variants.",
+      "mappedCodeCount": 53,
+      "billableCodeCount": 43,
+      "sampleCodes": [
+        {
+          "code": "D57",
+          "officialTitle": "Sickle-cell disorders"
+        },
+        {
+          "code": "D57.0",
+          "officialTitle": "Hb-SS disease with crisis"
+        },
+        {
+          "code": "D57.00",
+          "officialTitle": "Hb-SS disease with crisis, unspecified"
+        },
+        {
+          "code": "D57.01",
+          "officialTitle": "Hb-SS disease with acute chest syndrome"
+        },
+        {
+          "code": "D57.02",
+          "officialTitle": "Hb-SS disease with splenic sequestration"
+        },
+        {
+          "code": "D57.03",
+          "officialTitle": "Hb-SS disease with cerebral vascular involvement"
+        },
+        {
+          "code": "D57.04",
+          "officialTitle": "Hb-SS disease with dactylitis"
+        },
+        {
+          "code": "D57.09",
+          "officialTitle": "Hb-SS disease with crisis with other specified complication"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "ankylosing_spondylitis",
+      "name": "Ankylosing Spondylitis",
+      "clinicalDomain": "rheumatology",
+      "mappingRationale": "Map M45 ankylosing spondylitis; collapse spinal subsite for bank identity.",
+      "mappedCodeCount": 22,
+      "billableCodeCount": 20,
+      "sampleCodes": [
+        {
+          "code": "M45",
+          "officialTitle": "Ankylosing spondylitis"
+        },
+        {
+          "code": "M45.0",
+          "officialTitle": "Ankylosing spondylitis of multiple sites in spine"
+        },
+        {
+          "code": "M45.1",
+          "officialTitle": "Ankylosing spondylitis of occipito-atlanto-axial region"
+        },
+        {
+          "code": "M45.2",
+          "officialTitle": "Ankylosing spondylitis of cervical region"
+        },
+        {
+          "code": "M45.3",
+          "officialTitle": "Ankylosing spondylitis of cervicothoracic region"
+        },
+        {
+          "code": "M45.4",
+          "officialTitle": "Ankylosing spondylitis of thoracic region"
+        },
+        {
+          "code": "M45.5",
+          "officialTitle": "Ankylosing spondylitis of thoracolumbar region"
+        },
+        {
+          "code": "M45.6",
+          "officialTitle": "Ankylosing spondylitis lumbar region"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "systemic_lupus_erythematosus",
+      "name": "Systemic Lupus Erythematosus",
+      "clinicalDomain": "rheumatology",
+      "mappingRationale": "Map M32 systemic lupus erythematosus; preserve organ involvement in the exact ICD title.",
+      "mappedCodeCount": 12,
+      "billableCodeCount": 10,
+      "sampleCodes": [
+        {
+          "code": "M32",
+          "officialTitle": "Systemic lupus erythematosus (SLE)"
+        },
+        {
+          "code": "M32.0",
+          "officialTitle": "Drug-induced systemic lupus erythematosus"
+        },
+        {
+          "code": "M32.1",
+          "officialTitle": "Systemic lupus erythematosus with organ or system involvement"
+        },
+        {
+          "code": "M32.10",
+          "officialTitle": "Systemic lupus erythematosus, organ or system involvement unspecified"
+        },
+        {
+          "code": "M32.11",
+          "officialTitle": "Endocarditis in systemic lupus erythematosus"
+        },
+        {
+          "code": "M32.12",
+          "officialTitle": "Pericarditis in systemic lupus erythematosus"
+        },
+        {
+          "code": "M32.13",
+          "officialTitle": "Lung involvement in systemic lupus erythematosus"
+        },
+        {
+          "code": "M32.14",
+          "officialTitle": "Glomerular disease in systemic lupus erythematosus"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "sarcoidosis",
+      "name": "Sarcoidosis",
+      "clinicalDomain": "pulmonology",
+      "mappingRationale": "Map D86 sarcoidosis; preserve organ involvement in the exact ICD title.",
+      "mappedCodeCount": 15,
+      "billableCodeCount": 13,
+      "sampleCodes": [
+        {
+          "code": "D86",
+          "officialTitle": "Sarcoidosis"
+        },
+        {
+          "code": "D86.0",
+          "officialTitle": "Sarcoidosis of lung"
+        },
+        {
+          "code": "D86.1",
+          "officialTitle": "Sarcoidosis of lymph nodes"
+        },
+        {
+          "code": "D86.2",
+          "officialTitle": "Sarcoidosis of lung with sarcoidosis of lymph nodes"
+        },
+        {
+          "code": "D86.3",
+          "officialTitle": "Sarcoidosis of skin"
+        },
+        {
+          "code": "D86.8",
+          "officialTitle": "Sarcoidosis of other sites"
+        },
+        {
+          "code": "D86.81",
+          "officialTitle": "Sarcoid meningitis"
+        },
+        {
+          "code": "D86.82",
+          "officialTitle": "Multiple cranial nerve palsies in sarcoidosis"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "aortic_aneurysm",
+      "name": "Aortic Aneurysm",
+      "clinicalDomain": "vascular",
+      "mappingRationale": "Map I71 diagnoses whose official title identifies aneurysm; do not map dissection-only diagnoses and retain rupture status.",
+      "mappedCodeCount": 31,
+      "billableCodeCount": 24,
+      "sampleCodes": [
+        {
+          "code": "I71",
+          "officialTitle": "Aortic aneurysm and dissection"
+        },
+        {
+          "code": "I71.1",
+          "officialTitle": "Thoracic aortic aneurysm, ruptured"
+        },
+        {
+          "code": "I71.10",
+          "officialTitle": "Thoracic aortic aneurysm, ruptured, unspecified"
+        },
+        {
+          "code": "I71.11",
+          "officialTitle": "Aneurysm of the ascending aorta, ruptured"
+        },
+        {
+          "code": "I71.12",
+          "officialTitle": "Aneurysm of the aortic arch, ruptured"
+        },
+        {
+          "code": "I71.13",
+          "officialTitle": "Aneurysm of the descending thoracic aorta, ruptured"
+        },
+        {
+          "code": "I71.2",
+          "officialTitle": "Thoracic aortic aneurysm, without rupture"
+        },
+        {
+          "code": "I71.20",
+          "officialTitle": "Thoracic aortic aneurysm, without rupture, unspecified"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "post_traumatic_stress_disorder",
+      "name": "Post-Traumatic Stress Disorder",
+      "clinicalDomain": "behavioral_health",
+      "mappingRationale": "Map F43.1 PTSD diagnoses; do not merge acute stress or adjustment disorders.",
+      "mappedCodeCount": 4,
+      "billableCodeCount": 3,
+      "sampleCodes": [
+        {
+          "code": "F43.1",
+          "officialTitle": "Post-traumatic stress disorder (PTSD)"
+        },
+        {
+          "code": "F43.10",
+          "officialTitle": "Post-traumatic stress disorder, unspecified"
+        },
+        {
+          "code": "F43.11",
+          "officialTitle": "Post-traumatic stress disorder, acute"
+        },
+        {
+          "code": "F43.12",
+          "officialTitle": "Post-traumatic stress disorder, chronic"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "alcohol_use_disorder",
+      "name": "Alcohol Use Disorder",
+      "clinicalDomain": "behavioral_health",
+      "mappingRationale": "Map F10 alcohol-related abuse and dependence diagnoses; retain remission, withdrawal, and complication states.",
+      "mappedCodeCount": 74,
+      "billableCodeCount": 58,
+      "sampleCodes": [
+        {
+          "code": "F10",
+          "officialTitle": "Alcohol related disorders"
+        },
+        {
+          "code": "F10.1",
+          "officialTitle": "Alcohol abuse"
+        },
+        {
+          "code": "F10.10",
+          "officialTitle": "Alcohol abuse, uncomplicated"
+        },
+        {
+          "code": "F10.11",
+          "officialTitle": "Alcohol abuse, in remission"
+        },
+        {
+          "code": "F10.12",
+          "officialTitle": "Alcohol abuse with intoxication"
+        },
+        {
+          "code": "F10.120",
+          "officialTitle": "Alcohol abuse with intoxication, uncomplicated"
+        },
+        {
+          "code": "F10.121",
+          "officialTitle": "Alcohol abuse with intoxication delirium"
+        },
+        {
+          "code": "F10.129",
+          "officialTitle": "Alcohol abuse with intoxication, unspecified"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "opioid_use_disorder",
+      "name": "Opioid Use Disorder",
+      "clinicalDomain": "behavioral_health",
+      "mappingRationale": "Map F11 opioid-related abuse and dependence diagnoses; retain remission, withdrawal, and complication states.",
+      "mappedCodeCount": 58,
+      "billableCodeCount": 45,
+      "sampleCodes": [
+        {
+          "code": "F11",
+          "officialTitle": "Opioid related disorders"
+        },
+        {
+          "code": "F11.1",
+          "officialTitle": "Opioid abuse"
+        },
+        {
+          "code": "F11.10",
+          "officialTitle": "Opioid abuse, uncomplicated"
+        },
+        {
+          "code": "F11.11",
+          "officialTitle": "Opioid abuse, in remission"
+        },
+        {
+          "code": "F11.12",
+          "officialTitle": "Opioid abuse with intoxication"
+        },
+        {
+          "code": "F11.120",
+          "officialTitle": "Opioid abuse with intoxication, uncomplicated"
+        },
+        {
+          "code": "F11.121",
+          "officialTitle": "Opioid abuse with intoxication delirium"
+        },
+        {
+          "code": "F11.122",
+          "officialTitle": "Opioid abuse with intoxication with perceptual disturbance"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "nicotine_dependence",
+      "name": "Nicotine Dependence",
+      "clinicalDomain": "behavioral_health",
+      "mappingRationale": "Map F17 nicotine-dependence diagnoses; retain remission and withdrawal states.",
+      "mappedCodeCount": 26,
+      "billableCodeCount": 20,
+      "sampleCodes": [
+        {
+          "code": "F17",
+          "officialTitle": "Nicotine dependence"
+        },
+        {
+          "code": "F17.2",
+          "officialTitle": "Nicotine dependence"
+        },
+        {
+          "code": "F17.20",
+          "officialTitle": "Nicotine dependence, unspecified"
+        },
+        {
+          "code": "F17.200",
+          "officialTitle": "Nicotine dependence, unspecified, uncomplicated"
+        },
+        {
+          "code": "F17.201",
+          "officialTitle": "Nicotine dependence, unspecified, in remission"
+        },
+        {
+          "code": "F17.203",
+          "officialTitle": "Nicotine dependence unspecified, with withdrawal"
+        },
+        {
+          "code": "F17.208",
+          "officialTitle": "Nicotine dependence, unspecified, with other nicotine-induced disorders"
+        },
+        {
+          "code": "F17.209",
+          "officialTitle": "Nicotine dependence, unspecified, with unspecified nicotine-induced disorders"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "insomnia",
+      "name": "Insomnia",
+      "clinicalDomain": "sleep_medicine",
+      "mappingRationale": "Map G47.0 and F51.0 insomnia diagnoses; do not merge hypersomnia or parasomnia.",
+      "mappedCodeCount": 19,
+      "billableCodeCount": 16,
+      "sampleCodes": [
+        {
+          "code": "F51.0",
+          "officialTitle": "Insomnia not due to a substance or known physiological condition"
+        },
+        {
+          "code": "F51.01",
+          "officialTitle": "Primary insomnia"
+        },
+        {
+          "code": "F51.02",
+          "officialTitle": "Adjustment insomnia"
+        },
+        {
+          "code": "F51.03",
+          "officialTitle": "Paradoxical insomnia"
+        },
+        {
+          "code": "F51.04",
+          "officialTitle": "Psychophysiologic insomnia"
+        },
+        {
+          "code": "F51.05",
+          "officialTitle": "Insomnia due to other mental disorder"
+        },
+        {
+          "code": "F51.09",
+          "officialTitle": "Other insomnia not due to a substance or known physiological condition"
+        },
+        {
+          "code": "F51.1",
+          "officialTitle": "Hypersomnia not due to a substance or known physiological condition"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "essential_tremor",
+      "name": "Essential Tremor",
+      "clinicalDomain": "neurology",
+      "mappingRationale": "Map G25.0 only; do not merge drug-induced tremor or other movement disorders.",
+      "mappedCodeCount": 1,
+      "billableCodeCount": 1,
+      "sampleCodes": [
+        {
+          "code": "G25.0",
+          "officialTitle": "Essential tremor"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "benign_prostatic_hyperplasia",
+      "name": "Benign Prostatic Hyperplasia",
+      "clinicalDomain": "urology",
+      "mappingRationale": "Map N40 BPH diagnoses; retain lower-urinary-tract-symptom state.",
+      "mappedCodeCount": 5,
+      "billableCodeCount": 4,
+      "sampleCodes": [
+        {
+          "code": "N40",
+          "officialTitle": "Benign prostatic hyperplasia"
+        },
+        {
+          "code": "N40.0",
+          "officialTitle": "Benign prostatic hyperplasia without lower urinary tract symptoms"
+        },
+        {
+          "code": "N40.1",
+          "officialTitle": "Benign prostatic hyperplasia with lower urinary tract symptoms"
+        },
+        {
+          "code": "N40.2",
+          "officialTitle": "Nodular prostate without lower urinary tract symptoms"
+        },
+        {
+          "code": "N40.3",
+          "officialTitle": "Nodular prostate with lower urinary tract symptoms"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "hearing_loss",
+      "name": "Hearing Loss",
+      "clinicalDomain": "audiology",
+      "mappingRationale": "Map H90 and H91 hearing-loss diagnoses; collapse ear laterality while preserving type in the exact title.",
+      "mappedCodeCount": 54,
+      "billableCodeCount": 39,
+      "sampleCodes": [
+        {
+          "code": "H90",
+          "officialTitle": "Conductive and sensorineural hearing loss"
+        },
+        {
+          "code": "H90.0",
+          "officialTitle": "Conductive hearing loss, bilateral"
+        },
+        {
+          "code": "H90.1",
+          "officialTitle": "Conductive hearing loss, unilateral with unrestricted hearing on the contralateral side"
+        },
+        {
+          "code": "H90.11",
+          "officialTitle": "Conductive hearing loss, unilateral, right ear, with unrestricted hearing on the contralateral side"
+        },
+        {
+          "code": "H90.12",
+          "officialTitle": "Conductive hearing loss, unilateral, left ear, with unrestricted hearing on the contralateral side"
+        },
+        {
+          "code": "H90.2",
+          "officialTitle": "Conductive hearing loss, unspecified"
+        },
+        {
+          "code": "H90.3",
+          "officialTitle": "Sensorineural hearing loss, bilateral"
+        },
+        {
+          "code": "H90.4",
+          "officialTitle": "Sensorineural hearing loss, unilateral with unrestricted hearing on the contralateral side"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "amyotrophic_lateral_sclerosis",
+      "name": "Amyotrophic Lateral Sclerosis",
+      "clinicalDomain": "neurology",
+      "mappingRationale": "Map G12.21 only; do not merge other motor-neuron diseases.",
+      "mappedCodeCount": 1,
+      "billableCodeCount": 1,
+      "sampleCodes": [
+        {
+          "code": "G12.21",
+          "officialTitle": "Amyotrophic lateral sclerosis"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "myasthenia_gravis",
+      "name": "Myasthenia Gravis",
+      "clinicalDomain": "neurology",
+      "mappingRationale": "Map G70 diagnoses explicitly titled myasthenia gravis; retain crisis status.",
+      "mappedCodeCount": 4,
+      "billableCodeCount": 2,
+      "sampleCodes": [
+        {
+          "code": "G70",
+          "officialTitle": "Myasthenia gravis and other myoneural disorders"
+        },
+        {
+          "code": "G70.0",
+          "officialTitle": "Myasthenia gravis"
+        },
+        {
+          "code": "G70.00",
+          "officialTitle": "Myasthenia gravis without (acute) exacerbation"
+        },
+        {
+          "code": "G70.01",
+          "officialTitle": "Myasthenia gravis with (acute) exacerbation"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "hyperthyroidism",
+      "name": "Hyperthyroidism",
+      "clinicalDomain": "endocrinology",
+      "mappingRationale": "Map E05 thyrotoxicosis diagnoses; retain crisis or storm as a high-risk state.",
+      "mappedCodeCount": 22,
+      "billableCodeCount": 14,
+      "sampleCodes": [
+        {
+          "code": "E05",
+          "officialTitle": "Thyrotoxicosis [hyperthyroidism]"
+        },
+        {
+          "code": "E05.0",
+          "officialTitle": "Thyrotoxicosis with diffuse goiter"
+        },
+        {
+          "code": "E05.00",
+          "officialTitle": "Thyrotoxicosis with diffuse goiter without thyrotoxic crisis or storm"
+        },
+        {
+          "code": "E05.01",
+          "officialTitle": "Thyrotoxicosis with diffuse goiter with thyrotoxic crisis or storm"
+        },
+        {
+          "code": "E05.1",
+          "officialTitle": "Thyrotoxicosis with toxic single thyroid nodule"
+        },
+        {
+          "code": "E05.10",
+          "officialTitle": "Thyrotoxicosis with toxic single thyroid nodule without thyrotoxic crisis or storm"
+        },
+        {
+          "code": "E05.11",
+          "officialTitle": "Thyrotoxicosis with toxic single thyroid nodule with thyrotoxic crisis or storm"
+        },
+        {
+          "code": "E05.2",
+          "officialTitle": "Thyrotoxicosis with toxic multinodular goiter"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "adrenal_insufficiency",
+      "name": "Adrenal Insufficiency",
+      "clinicalDomain": "endocrinology",
+      "mappingRationale": "Map E27 diagnoses explicitly identifying adrenocortical insufficiency or Addisonian crisis.",
+      "mappedCodeCount": 6,
+      "billableCodeCount": 5,
+      "sampleCodes": [
+        {
+          "code": "E27.1",
+          "officialTitle": "Primary adrenocortical insufficiency"
+        },
+        {
+          "code": "E27.2",
+          "officialTitle": "Addisonian crisis"
+        },
+        {
+          "code": "E27.3",
+          "officialTitle": "Drug-induced adrenocortical insufficiency"
+        },
+        {
+          "code": "E27.4",
+          "officialTitle": "Other and unspecified adrenocortical insufficiency"
+        },
+        {
+          "code": "E27.40",
+          "officialTitle": "Unspecified adrenocortical insufficiency"
+        },
+        {
+          "code": "E27.49",
+          "officialTitle": "Other adrenocortical insufficiency"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "cerebral_palsy",
+      "name": "Cerebral Palsy",
+      "clinicalDomain": "neurology",
+      "mappingRationale": "Map G80 cerebral palsy diagnoses; collapse laterality while preserving functional diagnosis wording.",
+      "mappedCodeCount": 8,
+      "billableCodeCount": 7,
+      "sampleCodes": [
+        {
+          "code": "G80",
+          "officialTitle": "Cerebral palsy"
+        },
+        {
+          "code": "G80.0",
+          "officialTitle": "Spastic quadriplegic cerebral palsy"
+        },
+        {
+          "code": "G80.1",
+          "officialTitle": "Spastic diplegic cerebral palsy"
+        },
+        {
+          "code": "G80.2",
+          "officialTitle": "Spastic hemiplegic cerebral palsy"
+        },
+        {
+          "code": "G80.3",
+          "officialTitle": "Athetoid cerebral palsy"
+        },
+        {
+          "code": "G80.4",
+          "officialTitle": "Ataxic cerebral palsy"
+        },
+        {
+          "code": "G80.8",
+          "officialTitle": "Other cerebral palsy"
+        },
+        {
+          "code": "G80.9",
+          "officialTitle": "Cerebral palsy, unspecified"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "muscular_dystrophy",
+      "name": "Muscular Dystrophy",
+      "clinicalDomain": "neurology",
+      "mappingRationale": "Map G71 diagnoses explicitly identifying muscular dystrophy; preserve subtype in the exact title.",
+      "mappedCodeCount": 17,
+      "billableCodeCount": 15,
+      "sampleCodes": [
+        {
+          "code": "G71.0",
+          "officialTitle": "Muscular dystrophy"
+        },
+        {
+          "code": "G71.00",
+          "officialTitle": "Muscular dystrophy, unspecified"
+        },
+        {
+          "code": "G71.01",
+          "officialTitle": "Duchenne or Becker muscular dystrophy"
+        },
+        {
+          "code": "G71.02",
+          "officialTitle": "Facioscapulohumeral muscular dystrophy"
+        },
+        {
+          "code": "G71.031",
+          "officialTitle": "Autosomal dominant limb girdle muscular dystrophy"
+        },
+        {
+          "code": "G71.032",
+          "officialTitle": "Autosomal recessive limb girdle muscular dystrophy due to calpain-3 dysfunction"
+        },
+        {
+          "code": "G71.033",
+          "officialTitle": "Limb girdle muscular dystrophy due to dysferlin dysfunction"
+        },
+        {
+          "code": "G71.034",
+          "officialTitle": "Limb girdle muscular dystrophy due to sarcoglycan dysfunction"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    },
+    {
+      "id": "visual_impairment",
+      "name": "Visual Impairment",
+      "clinicalDomain": "ophthalmology",
+      "mappingRationale": "Map H54 blindness and low-vision diagnoses; collapse eye laterality while preserving severity category.",
+      "mappedCodeCount": 76,
+      "billableCodeCount": 44,
+      "sampleCodes": [
+        {
+          "code": "H54",
+          "officialTitle": "Blindness and low vision"
+        },
+        {
+          "code": "H54.0",
+          "officialTitle": "Blindness, both eyes"
+        },
+        {
+          "code": "H54.0X",
+          "officialTitle": "Blindness, both eyes, different category levels"
+        },
+        {
+          "code": "H54.0X3",
+          "officialTitle": "Blindness right eye, category 3"
+        },
+        {
+          "code": "H54.0X33",
+          "officialTitle": "Blindness right eye category 3, blindness left eye category 3"
+        },
+        {
+          "code": "H54.0X34",
+          "officialTitle": "Blindness right eye category 3, blindness left eye category 4"
+        },
+        {
+          "code": "H54.0X35",
+          "officialTitle": "Blindness right eye category 3, blindness left eye category 5"
+        },
+        {
+          "code": "H54.0X4",
+          "officialTitle": "Blindness right eye, category 4"
+        }
+      ],
+      "reviewStatus": "DRAFT_CLINICAL_REVIEW",
+      "contentVersion": 1
+    }
+  ]
+}

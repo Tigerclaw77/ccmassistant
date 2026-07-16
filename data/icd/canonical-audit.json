@@ -1,0 +1,1387 @@
+{
+  "auditVersion": "2026-07-knowledge-quality-1",
+  "conditions": [
+    {
+      "id": "malignancy",
+      "name": "Active Malignancy",
+      "clinicalDomain": "oncology",
+      "mappedCodeCount": 1539,
+      "billableMappedCodeCount": 1226,
+      "contentGroupCount": 91,
+      "medicareRelevance": "COMMON",
+      "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+    },
+    {
+      "id": "rheumatoid_arthritis",
+      "name": "Rheumatoid Arthritis",
+      "clinicalDomain": "rheumatology",
+      "mappedCodeCount": 418,
+      "billableMappedCodeCount": 312,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "chronic_gout",
+      "name": "Chronic Gout",
+      "clinicalDomain": "rheumatology",
+      "mappedCodeCount": 404,
+      "billableMappedCodeCount": 242,
+      "contentGroupCount": 2,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "osteoporosis",
+      "name": "Osteoporosis",
+      "clinicalDomain": "musculoskeletal",
+      "mappedCodeCount": 401,
+      "billableMappedCodeCount": 327,
+      "contentGroupCount": 2,
+      "medicareRelevance": "COMMON",
+      "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+    },
+    {
+      "id": "non_pressure_chronic_ulcer",
+      "name": "Non-Pressure Chronic Ulcer",
+      "clinicalDomain": "wound_care",
+      "mappedCodeCount": 355,
+      "billableMappedCodeCount": 304,
+      "contentGroupCount": 2,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "secondary_diabetes_mellitus",
+      "name": "Secondary Diabetes Mellitus",
+      "clinicalDomain": "endocrinology",
+      "mappedCodeCount": 348,
+      "billableMappedCodeCount": 258,
+      "contentGroupCount": 13,
+      "medicareRelevance": "RARE",
+      "medicareRelevanceRationale": "Uncommon across the overall Medicare CCM population, but potentially high burden for affected beneficiaries and therefore not an exclusion signal."
+    },
+    {
+      "id": "glaucoma",
+      "name": "Glaucoma",
+      "clinicalDomain": "ophthalmology",
+      "mappedCodeCount": 320,
+      "billableMappedCodeCount": 253,
+      "contentGroupCount": 15,
+      "medicareRelevance": "COMMON",
+      "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+    },
+    {
+      "id": "peripheral_vascular_disease",
+      "name": "Peripheral Vascular Disease",
+      "clinicalDomain": "vascular",
+      "mappedCodeCount": 305,
+      "billableMappedCodeCount": 252,
+      "contentGroupCount": 4,
+      "medicareRelevance": "COMMON",
+      "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+    },
+    {
+      "id": "cerebrovascular_disease",
+      "name": "Cerebrovascular Disease",
+      "clinicalDomain": "neurology",
+      "mappedCodeCount": 289,
+      "billableMappedCodeCount": 240,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "pressure_ulcer",
+      "name": "Pressure Ulcer",
+      "clinicalDomain": "wound_care",
+      "mappedCodeCount": 208,
+      "billableMappedCodeCount": 175,
+      "contentGroupCount": 7,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "osteoarthritis",
+      "name": "Osteoarthritis",
+      "clinicalDomain": "musculoskeletal",
+      "mappedCodeCount": 130,
+      "billableMappedCodeCount": 98,
+      "contentGroupCount": 1,
+      "medicareRelevance": "COMMON",
+      "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+    },
+    {
+      "id": "chronic_osteomyelitis",
+      "name": "Chronic Osteomyelitis",
+      "clinicalDomain": "infectious_disease",
+      "mappedCodeCount": 128,
+      "billableMappedCodeCount": 96,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "type_1_diabetes",
+      "name": "Type 1 Diabetes",
+      "clinicalDomain": "endocrinology",
+      "mappedCodeCount": 117,
+      "billableMappedCodeCount": 87,
+      "contentGroupCount": 12,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "type_2_diabetes",
+      "name": "Type 2 Diabetes",
+      "clinicalDomain": "endocrine",
+      "mappedCodeCount": 117,
+      "billableMappedCodeCount": 87,
+      "contentGroupCount": 13,
+      "medicareRelevance": "COMMON",
+      "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+    },
+    {
+      "id": "dementia",
+      "name": "Dementia",
+      "clinicalDomain": "neurology",
+      "mappedCodeCount": 104,
+      "billableMappedCodeCount": 76,
+      "contentGroupCount": 8,
+      "medicareRelevance": "COMMON",
+      "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+    },
+    {
+      "id": "inflammatory_bowel_disease",
+      "name": "Inflammatory Bowel Disease",
+      "clinicalDomain": "gastroenterology",
+      "mappedCodeCount": 101,
+      "billableMappedCodeCount": 77,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "epilepsy",
+      "name": "Epilepsy",
+      "clinicalDomain": "neurology",
+      "mappedCodeCount": 94,
+      "billableMappedCodeCount": 58,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "chronic_migraine",
+      "name": "Chronic Migraine",
+      "clinicalDomain": "neurology",
+      "mappedCodeCount": 82,
+      "billableMappedCodeCount": 48,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "visual_impairment",
+      "name": "Visual Impairment",
+      "clinicalDomain": "ophthalmology",
+      "mappedCodeCount": 76,
+      "billableMappedCodeCount": 44,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "age_related_macular_degeneration",
+      "name": "Age-related Macular Degeneration",
+      "clinicalDomain": "ophthalmology",
+      "mappedCodeCount": 74,
+      "billableMappedCodeCount": 58,
+      "contentGroupCount": 1,
+      "medicareRelevance": "COMMON",
+      "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+    },
+    {
+      "id": "alcohol_use_disorder",
+      "name": "Alcohol Use Disorder",
+      "clinicalDomain": "behavioral_health",
+      "mappedCodeCount": 74,
+      "billableMappedCodeCount": 58,
+      "contentGroupCount": 4,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "coronary_artery_disease",
+      "name": "Coronary Artery Disease",
+      "clinicalDomain": "cardiovascular",
+      "mappedCodeCount": 70,
+      "billableMappedCodeCount": 56,
+      "contentGroupCount": 1,
+      "medicareRelevance": "COMMON",
+      "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+    },
+    {
+      "id": "opioid_use_disorder",
+      "name": "Opioid Use Disorder",
+      "clinicalDomain": "behavioral_health",
+      "mappedCodeCount": 58,
+      "billableMappedCodeCount": 45,
+      "contentGroupCount": 4,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "cervical_disc_disease",
+      "name": "Cervical Disc Disease",
+      "clinicalDomain": "musculoskeletal",
+      "mappedCodeCount": 55,
+      "billableMappedCodeCount": 42,
+      "contentGroupCount": 3,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "hearing_loss",
+      "name": "Hearing Loss",
+      "clinicalDomain": "audiology",
+      "mappedCodeCount": 54,
+      "billableMappedCodeCount": 39,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "sickle_cell_disease",
+      "name": "Sickle Cell Disease",
+      "clinicalDomain": "hematology",
+      "mappedCodeCount": 53,
+      "billableMappedCodeCount": 43,
+      "contentGroupCount": 3,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "bipolar_disorder",
+      "name": "Bipolar Disorder",
+      "clinicalDomain": "behavioral_health",
+      "mappedCodeCount": 34,
+      "billableMappedCodeCount": 28,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "aortic_aneurysm",
+      "name": "Aortic Aneurysm",
+      "clinicalDomain": "vascular",
+      "mappedCodeCount": 31,
+      "billableMappedCodeCount": 24,
+      "contentGroupCount": 2,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "interstitial_lung_disease",
+      "name": "Interstitial Lung Disease",
+      "clinicalDomain": "pulmonology",
+      "mappedCodeCount": 31,
+      "billableMappedCodeCount": 24,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "lumbar_disc_disease",
+      "name": "Lumbar Disc Disease",
+      "clinicalDomain": "musculoskeletal",
+      "mappedCodeCount": 30,
+      "billableMappedCodeCount": 30,
+      "contentGroupCount": 3,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "chronic_heart_failure",
+      "name": "Chronic Heart Failure",
+      "clinicalDomain": "cardiovascular",
+      "mappedCodeCount": 29,
+      "billableMappedCodeCount": 23,
+      "contentGroupCount": 12,
+      "medicareRelevance": "COMMON",
+      "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+    },
+    {
+      "id": "valvular_heart_disease",
+      "name": "Valvular Heart Disease",
+      "clinicalDomain": "cardiology",
+      "mappedCodeCount": 27,
+      "billableMappedCodeCount": 22,
+      "contentGroupCount": 5,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "asthma",
+      "name": "Asthma",
+      "clinicalDomain": "pulmonary",
+      "mappedCodeCount": 26,
+      "billableMappedCodeCount": 18,
+      "contentGroupCount": 15,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "nicotine_dependence",
+      "name": "Nicotine Dependence",
+      "clinicalDomain": "behavioral_health",
+      "mappedCodeCount": 26,
+      "billableMappedCodeCount": 20,
+      "contentGroupCount": 4,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "hyperlipidemia",
+      "name": "Hyperlipidemia",
+      "clinicalDomain": "cardiometabolic",
+      "mappedCodeCount": 24,
+      "billableMappedCodeCount": 18,
+      "contentGroupCount": 1,
+      "medicareRelevance": "COMMON",
+      "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+    },
+    {
+      "id": "major_depressive_disorder",
+      "name": "Major Depressive Disorder",
+      "clinicalDomain": "behavioral_health",
+      "mappedCodeCount": 23,
+      "billableMappedCodeCount": 19,
+      "contentGroupCount": 1,
+      "medicareRelevance": "COMMON",
+      "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+    },
+    {
+      "id": "ankylosing_spondylitis",
+      "name": "Ankylosing Spondylitis",
+      "clinicalDomain": "rheumatology",
+      "mappedCodeCount": 22,
+      "billableMappedCodeCount": 20,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "hyperthyroidism",
+      "name": "Hyperthyroidism",
+      "clinicalDomain": "endocrinology",
+      "mappedCodeCount": 22,
+      "billableMappedCodeCount": 14,
+      "contentGroupCount": 2,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "insomnia",
+      "name": "Insomnia",
+      "clinicalDomain": "sleep_medicine",
+      "mappedCodeCount": 19,
+      "billableMappedCodeCount": 16,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "muscular_dystrophy",
+      "name": "Muscular Dystrophy",
+      "clinicalDomain": "neurology",
+      "mappedCodeCount": 17,
+      "billableMappedCodeCount": 15,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "transplant_status",
+      "name": "Transplant Status",
+      "clinicalDomain": "transplant_medicine",
+      "mappedCodeCount": 16,
+      "billableMappedCodeCount": 14,
+      "contentGroupCount": 8,
+      "medicareRelevance": "RARE",
+      "medicareRelevanceRationale": "Uncommon across the overall Medicare CCM population, but potentially high burden for affected beneficiaries and therefore not an exclusion signal."
+    },
+    {
+      "id": "psoriasis",
+      "name": "Psoriasis",
+      "clinicalDomain": "dermatology",
+      "mappedCodeCount": 15,
+      "billableMappedCodeCount": 13,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "sarcoidosis",
+      "name": "Sarcoidosis",
+      "clinicalDomain": "pulmonology",
+      "mappedCodeCount": 15,
+      "billableMappedCodeCount": 13,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "obesity",
+      "name": "Obesity",
+      "clinicalDomain": "cardiometabolic",
+      "mappedCodeCount": 14,
+      "billableMappedCodeCount": 10,
+      "contentGroupCount": 1,
+      "medicareRelevance": "COMMON",
+      "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+    },
+    {
+      "id": "atrial_fibrillation",
+      "name": "Atrial Fibrillation",
+      "clinicalDomain": "cardiovascular",
+      "mappedCodeCount": 13,
+      "billableMappedCodeCount": 9,
+      "contentGroupCount": 1,
+      "medicareRelevance": "COMMON",
+      "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+    },
+    {
+      "id": "cirrhosis",
+      "name": "Cirrhosis",
+      "clinicalDomain": "hepatology",
+      "mappedCodeCount": 13,
+      "billableMappedCodeCount": 10,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "copd",
+      "name": "COPD",
+      "clinicalDomain": "pulmonary",
+      "mappedCodeCount": 13,
+      "billableMappedCodeCount": 10,
+      "contentGroupCount": 2,
+      "medicareRelevance": "COMMON",
+      "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+    },
+    {
+      "id": "chronic_kidney_disease",
+      "name": "Chronic Kidney Disease",
+      "clinicalDomain": "renal",
+      "mappedCodeCount": 12,
+      "billableMappedCodeCount": 10,
+      "contentGroupCount": 3,
+      "medicareRelevance": "COMMON",
+      "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+    },
+    {
+      "id": "systemic_lupus_erythematosus",
+      "name": "Systemic Lupus Erythematosus",
+      "clinicalDomain": "rheumatology",
+      "mappedCodeCount": 12,
+      "billableMappedCodeCount": 10,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "cardiomyopathy",
+      "name": "Cardiomyopathy",
+      "clinicalDomain": "cardiology",
+      "mappedCodeCount": 11,
+      "billableMappedCodeCount": 10,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "multiple_sclerosis",
+      "name": "Multiple Sclerosis",
+      "clinicalDomain": "neurology",
+      "mappedCodeCount": 11,
+      "billableMappedCodeCount": 8,
+      "contentGroupCount": 1,
+      "medicareRelevance": "RARE",
+      "medicareRelevanceRationale": "Uncommon across the overall Medicare CCM population, but potentially high burden for affected beneficiaries and therefore not an exclusion signal."
+    },
+    {
+      "id": "schizophrenia",
+      "name": "Schizophrenia",
+      "clinicalDomain": "behavioral_health",
+      "mappedCodeCount": 10,
+      "billableMappedCodeCount": 8,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "sleep_apnea",
+      "name": "Sleep Apnea",
+      "clinicalDomain": "sleep_medicine",
+      "mappedCodeCount": 10,
+      "billableMappedCodeCount": 9,
+      "contentGroupCount": 1,
+      "medicareRelevance": "COMMON",
+      "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+    },
+    {
+      "id": "hypothyroidism",
+      "name": "Hypothyroidism",
+      "clinicalDomain": "endocrine",
+      "mappedCodeCount": 9,
+      "billableMappedCodeCount": 8,
+      "contentGroupCount": 1,
+      "medicareRelevance": "COMMON",
+      "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+    },
+    {
+      "id": "peripheral_neuropathy",
+      "name": "Peripheral Neuropathy",
+      "clinicalDomain": "neurology",
+      "mappedCodeCount": 9,
+      "billableMappedCodeCount": 7,
+      "contentGroupCount": 1,
+      "medicareRelevance": "COMMON",
+      "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+    },
+    {
+      "id": "cerebral_palsy",
+      "name": "Cerebral Palsy",
+      "clinicalDomain": "neurology",
+      "mappedCodeCount": 8,
+      "billableMappedCodeCount": 7,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "parkinson_disease",
+      "name": "Parkinson Disease",
+      "clinicalDomain": "neurology",
+      "mappedCodeCount": 8,
+      "billableMappedCodeCount": 5,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "pulmonary_hypertension",
+      "name": "Pulmonary Hypertension",
+      "clinicalDomain": "cardiopulmonary",
+      "mappedCodeCount": 7,
+      "billableMappedCodeCount": 6,
+      "contentGroupCount": 1,
+      "medicareRelevance": "RARE",
+      "medicareRelevanceRationale": "Uncommon across the overall Medicare CCM population, but potentially high burden for affected beneficiaries and therefore not an exclusion signal."
+    },
+    {
+      "id": "adrenal_insufficiency",
+      "name": "Adrenal Insufficiency",
+      "clinicalDomain": "endocrinology",
+      "mappedCodeCount": 6,
+      "billableMappedCodeCount": 5,
+      "contentGroupCount": 2,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "chronic_viral_hepatitis",
+      "name": "Chronic Viral Hepatitis",
+      "clinicalDomain": "hepatology",
+      "mappedCodeCount": 6,
+      "billableMappedCodeCount": 5,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "generalized_anxiety_disorder",
+      "name": "Generalized Anxiety Disorder",
+      "clinicalDomain": "behavioral_health",
+      "mappedCodeCount": 6,
+      "billableMappedCodeCount": 5,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "benign_prostatic_hyperplasia",
+      "name": "Benign Prostatic Hyperplasia",
+      "clinicalDomain": "urology",
+      "mappedCodeCount": 5,
+      "billableMappedCodeCount": 4,
+      "contentGroupCount": 2,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "chronic_pain",
+      "name": "Chronic Pain",
+      "clinicalDomain": "pain_management",
+      "mappedCodeCount": 5,
+      "billableMappedCodeCount": 4,
+      "contentGroupCount": 1,
+      "medicareRelevance": "COMMON",
+      "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+    },
+    {
+      "id": "dry_eye_syndrome",
+      "name": "Dry Eye Syndrome",
+      "clinicalDomain": "ophthalmology",
+      "mappedCodeCount": 5,
+      "billableMappedCodeCount": 4,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "gerd",
+      "name": "Gastroesophageal Reflux Disease",
+      "clinicalDomain": "gastrointestinal",
+      "mappedCodeCount": 5,
+      "billableMappedCodeCount": 3,
+      "contentGroupCount": 1,
+      "medicareRelevance": "COMMON",
+      "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+    },
+    {
+      "id": "bronchiectasis",
+      "name": "Bronchiectasis",
+      "clinicalDomain": "pulmonology",
+      "mappedCodeCount": 4,
+      "billableMappedCodeCount": 3,
+      "contentGroupCount": 3,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "chronic_respiratory_failure",
+      "name": "Chronic Respiratory Failure",
+      "clinicalDomain": "pulmonology",
+      "mappedCodeCount": 4,
+      "billableMappedCodeCount": 3,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "myasthenia_gravis",
+      "name": "Myasthenia Gravis",
+      "clinicalDomain": "neurology",
+      "mappedCodeCount": 4,
+      "billableMappedCodeCount": 2,
+      "contentGroupCount": 2,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "post_traumatic_stress_disorder",
+      "name": "Post-Traumatic Stress Disorder",
+      "clinicalDomain": "behavioral_health",
+      "mappedCodeCount": 4,
+      "billableMappedCodeCount": 3,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "lumbar_radiculopathy",
+      "name": "Lumbar Radiculopathy",
+      "clinicalDomain": "neurology",
+      "mappedCodeCount": 2,
+      "billableMappedCodeCount": 2,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "lumbar_spinal_stenosis",
+      "name": "Lumbar Spinal Stenosis",
+      "clinicalDomain": "musculoskeletal",
+      "mappedCodeCount": 2,
+      "billableMappedCodeCount": 2,
+      "contentGroupCount": 2,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "amyotrophic_lateral_sclerosis",
+      "name": "Amyotrophic Lateral Sclerosis",
+      "clinicalDomain": "neurology",
+      "mappedCodeCount": 1,
+      "billableMappedCodeCount": 1,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "anemia",
+      "name": "Anemia",
+      "clinicalDomain": "hematology",
+      "mappedCodeCount": 1,
+      "billableMappedCodeCount": 1,
+      "contentGroupCount": 1,
+      "medicareRelevance": "COMMON",
+      "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+    },
+    {
+      "id": "cervical_radiculopathy",
+      "name": "Cervical Radiculopathy",
+      "clinicalDomain": "neurology",
+      "mappedCodeCount": 1,
+      "billableMappedCodeCount": 1,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "cervical_spinal_stenosis",
+      "name": "Cervical Spinal Stenosis",
+      "clinicalDomain": "musculoskeletal",
+      "mappedCodeCount": 1,
+      "billableMappedCodeCount": 1,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "chronic_back_pain",
+      "name": "Chronic Back Pain",
+      "clinicalDomain": "musculoskeletal",
+      "mappedCodeCount": 1,
+      "billableMappedCodeCount": 1,
+      "contentGroupCount": 1,
+      "medicareRelevance": "COMMON",
+      "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+    },
+    {
+      "id": "chronic_venous_insufficiency",
+      "name": "Chronic Venous Insufficiency",
+      "clinicalDomain": "vascular",
+      "mappedCodeCount": 1,
+      "billableMappedCodeCount": 1,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "essential_hypertension",
+      "name": "Essential Hypertension",
+      "clinicalDomain": "cardiovascular",
+      "mappedCodeCount": 1,
+      "billableMappedCodeCount": 1,
+      "contentGroupCount": 1,
+      "medicareRelevance": "COMMON",
+      "medicareRelevanceRationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+    },
+    {
+      "id": "essential_tremor",
+      "name": "Essential Tremor",
+      "clinicalDomain": "neurology",
+      "mappedCodeCount": 1,
+      "billableMappedCodeCount": 1,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "fibromyalgia",
+      "name": "Fibromyalgia",
+      "clinicalDomain": "rheumatology",
+      "mappedCodeCount": 1,
+      "billableMappedCodeCount": 1,
+      "contentGroupCount": 1,
+      "medicareRelevance": "OCCASIONAL",
+      "medicareRelevanceRationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+    },
+    {
+      "id": "hiv_disease",
+      "name": "Human Immunodeficiency Virus Disease",
+      "clinicalDomain": "infectious_disease",
+      "mappedCodeCount": 1,
+      "billableMappedCodeCount": 1,
+      "contentGroupCount": 1,
+      "medicareRelevance": "RARE",
+      "medicareRelevanceRationale": "Uncommon across the overall Medicare CCM population, but potentially high burden for affected beneficiaries and therefore not an exclusion signal."
+    }
+  ],
+  "mergeOpportunities": [
+    {
+      "ids": [
+        "chronic_back_pain",
+        "chronic_pain"
+      ],
+      "confidence": "HIGH",
+      "recommendation": "Consider one chronic-pain canonical core with back-pain and neoplasm-related variants; preserve site-specific functional modules where needed."
+    },
+    {
+      "ids": [
+        "type_1_diabetes",
+        "type_2_diabetes",
+        "secondary_diabetes_mellitus"
+      ],
+      "confidence": "MEDIUM",
+      "recommendation": "Retain distinct canonical IDs, but share a diabetes core and complication modules to avoid duplicate questions."
+    },
+    {
+      "ids": [
+        "peripheral_neuropathy",
+        "type_1_diabetes",
+        "type_2_diabetes"
+      ],
+      "confidence": "MEDIUM",
+      "recommendation": "Keep neuropathy independently selectable while reusing a complication module for diabetic neuropathy."
+    }
+  ],
+  "splitOpportunities": [
+    {
+      "id": "peripheral_vascular_disease",
+      "priority": "HIGH",
+      "recommendation": "Split general content by uncomplicated disease, ulceration, gangrene, and revascularization/amputation burden; laterality alone should still collapse."
+    },
+    {
+      "id": "malignancy",
+      "priority": "HIGH",
+      "recommendation": "Retain site families but add active treatment, metastatic disease, remission/surveillance, and symptom-burden dimensions."
+    },
+    {
+      "id": "rheumatoid_arthritis",
+      "priority": "HIGH",
+      "recommendation": "Separate general inflammatory arthritis from organ involvement, treatment toxicity, and severe functional impairment modules."
+    },
+    {
+      "id": "osteoporosis",
+      "priority": "MEDIUM",
+      "recommendation": "Current-fracture separation is useful; consider healing status and recurrent-fracture risk without creating site-by-side profiles."
+    },
+    {
+      "id": "cerebrovascular_disease",
+      "priority": "MEDIUM",
+      "recommendation": "Add deficit-specific modules for cognition, speech, motor impairment, swallowing, and mobility while sharing a stroke core."
+    },
+    {
+      "id": "osteoarthritis",
+      "priority": "MEDIUM",
+      "recommendation": "Laterality should remain collapsed, but weight-bearing versus upper-extremity disease may need different function and fall-risk modules."
+    }
+  ],
+  "medicareRelevance": {
+    "summary": [
+      {
+        "id": "OCCASIONAL",
+        "count": 52
+      },
+      {
+        "id": "COMMON",
+        "count": 24
+      },
+      {
+        "id": "RARE",
+        "count": 5
+      }
+    ],
+    "conditions": [
+      {
+        "id": "malignancy",
+        "name": "Active Malignancy",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "rheumatoid_arthritis",
+        "name": "Rheumatoid Arthritis",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "chronic_gout",
+        "name": "Chronic Gout",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "osteoporosis",
+        "name": "Osteoporosis",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "non_pressure_chronic_ulcer",
+        "name": "Non-Pressure Chronic Ulcer",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "secondary_diabetes_mellitus",
+        "name": "Secondary Diabetes Mellitus",
+        "relevance": "RARE",
+        "rationale": "Uncommon across the overall Medicare CCM population, but potentially high burden for affected beneficiaries and therefore not an exclusion signal."
+      },
+      {
+        "id": "glaucoma",
+        "name": "Glaucoma",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "peripheral_vascular_disease",
+        "name": "Peripheral Vascular Disease",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "cerebrovascular_disease",
+        "name": "Cerebrovascular Disease",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "pressure_ulcer",
+        "name": "Pressure Ulcer",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "osteoarthritis",
+        "name": "Osteoarthritis",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "chronic_osteomyelitis",
+        "name": "Chronic Osteomyelitis",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "type_1_diabetes",
+        "name": "Type 1 Diabetes",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "type_2_diabetes",
+        "name": "Type 2 Diabetes",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "dementia",
+        "name": "Dementia",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "inflammatory_bowel_disease",
+        "name": "Inflammatory Bowel Disease",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "epilepsy",
+        "name": "Epilepsy",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "chronic_migraine",
+        "name": "Chronic Migraine",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "visual_impairment",
+        "name": "Visual Impairment",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "age_related_macular_degeneration",
+        "name": "Age-related Macular Degeneration",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "alcohol_use_disorder",
+        "name": "Alcohol Use Disorder",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "coronary_artery_disease",
+        "name": "Coronary Artery Disease",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "opioid_use_disorder",
+        "name": "Opioid Use Disorder",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "cervical_disc_disease",
+        "name": "Cervical Disc Disease",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "hearing_loss",
+        "name": "Hearing Loss",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "sickle_cell_disease",
+        "name": "Sickle Cell Disease",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "bipolar_disorder",
+        "name": "Bipolar Disorder",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "aortic_aneurysm",
+        "name": "Aortic Aneurysm",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "interstitial_lung_disease",
+        "name": "Interstitial Lung Disease",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "lumbar_disc_disease",
+        "name": "Lumbar Disc Disease",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "chronic_heart_failure",
+        "name": "Chronic Heart Failure",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "valvular_heart_disease",
+        "name": "Valvular Heart Disease",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "asthma",
+        "name": "Asthma",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "nicotine_dependence",
+        "name": "Nicotine Dependence",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "hyperlipidemia",
+        "name": "Hyperlipidemia",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "major_depressive_disorder",
+        "name": "Major Depressive Disorder",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "ankylosing_spondylitis",
+        "name": "Ankylosing Spondylitis",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "hyperthyroidism",
+        "name": "Hyperthyroidism",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "insomnia",
+        "name": "Insomnia",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "muscular_dystrophy",
+        "name": "Muscular Dystrophy",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "transplant_status",
+        "name": "Transplant Status",
+        "relevance": "RARE",
+        "rationale": "Uncommon across the overall Medicare CCM population, but potentially high burden for affected beneficiaries and therefore not an exclusion signal."
+      },
+      {
+        "id": "psoriasis",
+        "name": "Psoriasis",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "sarcoidosis",
+        "name": "Sarcoidosis",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "obesity",
+        "name": "Obesity",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "atrial_fibrillation",
+        "name": "Atrial Fibrillation",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "cirrhosis",
+        "name": "Cirrhosis",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "copd",
+        "name": "COPD",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "chronic_kidney_disease",
+        "name": "Chronic Kidney Disease",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "systemic_lupus_erythematosus",
+        "name": "Systemic Lupus Erythematosus",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "cardiomyopathy",
+        "name": "Cardiomyopathy",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "multiple_sclerosis",
+        "name": "Multiple Sclerosis",
+        "relevance": "RARE",
+        "rationale": "Uncommon across the overall Medicare CCM population, but potentially high burden for affected beneficiaries and therefore not an exclusion signal."
+      },
+      {
+        "id": "schizophrenia",
+        "name": "Schizophrenia",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "sleep_apnea",
+        "name": "Sleep Apnea",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "hypothyroidism",
+        "name": "Hypothyroidism",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "peripheral_neuropathy",
+        "name": "Peripheral Neuropathy",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "cerebral_palsy",
+        "name": "Cerebral Palsy",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "parkinson_disease",
+        "name": "Parkinson Disease",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "pulmonary_hypertension",
+        "name": "Pulmonary Hypertension",
+        "relevance": "RARE",
+        "rationale": "Uncommon across the overall Medicare CCM population, but potentially high burden for affected beneficiaries and therefore not an exclusion signal."
+      },
+      {
+        "id": "adrenal_insufficiency",
+        "name": "Adrenal Insufficiency",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "chronic_viral_hepatitis",
+        "name": "Chronic Viral Hepatitis",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "generalized_anxiety_disorder",
+        "name": "Generalized Anxiety Disorder",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "benign_prostatic_hyperplasia",
+        "name": "Benign Prostatic Hyperplasia",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "chronic_pain",
+        "name": "Chronic Pain",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "dry_eye_syndrome",
+        "name": "Dry Eye Syndrome",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "gerd",
+        "name": "Gastroesophageal Reflux Disease",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "bronchiectasis",
+        "name": "Bronchiectasis",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "chronic_respiratory_failure",
+        "name": "Chronic Respiratory Failure",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "myasthenia_gravis",
+        "name": "Myasthenia Gravis",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "post_traumatic_stress_disorder",
+        "name": "Post-Traumatic Stress Disorder",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "lumbar_radiculopathy",
+        "name": "Lumbar Radiculopathy",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "lumbar_spinal_stenosis",
+        "name": "Lumbar Spinal Stenosis",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "amyotrophic_lateral_sclerosis",
+        "name": "Amyotrophic Lateral Sclerosis",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "anemia",
+        "name": "Anemia",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "cervical_radiculopathy",
+        "name": "Cervical Radiculopathy",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "cervical_spinal_stenosis",
+        "name": "Cervical Spinal Stenosis",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "chronic_back_pain",
+        "name": "Chronic Back Pain",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "chronic_venous_insufficiency",
+        "name": "Chronic Venous Insufficiency",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "essential_hypertension",
+        "name": "Essential Hypertension",
+        "relevance": "COMMON",
+        "rationale": "Frequently encountered in older or disabled Medicare populations and commonly relevant to longitudinal care coordination."
+      },
+      {
+        "id": "essential_tremor",
+        "name": "Essential Tremor",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "fibromyalgia",
+        "name": "Fibromyalgia",
+        "relevance": "OCCASIONAL",
+        "rationale": "Meaningfully present in Medicare CCM populations but less broadly encountered than core cardiometabolic, pulmonary, musculoskeletal, and cognitive conditions."
+      },
+      {
+        "id": "hiv_disease",
+        "name": "Human Immunodeficiency Virus Disease",
+        "relevance": "RARE",
+        "rationale": "Uncommon across the overall Medicare CCM population, but potentially high burden for affected beneficiaries and therefore not an exclusion signal."
+      }
+    ]
+  },
+  "stability": {
+    "score": 68,
+    "canonicalIdsUnique": true,
+    "clinicalContentGroupIdsUnique": true,
+    "singletonContentGroups": 57,
+    "lateralityCollapsedGroups": 71,
+    "assessment": "Deterministic and structurally valid, but not semantically frozen for broad generation."
+  }
+}
