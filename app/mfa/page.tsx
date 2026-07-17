@@ -11,10 +11,12 @@ import {
   verifyMfaEnrollment,
   type MfaEnrollmentState,
 } from "../../lib/mfa-enrollment";
+import { safeAppPath } from "../../lib/auth-redirect";
 import AuthShell from "../../components/auth/AuthShell";
 
 export default function MfaPage() {
   const router = useRouter();
+  const [nextPath] = useState(() => typeof window === "undefined" ? "/patients" : safeAppPath(new URLSearchParams(window.location.search).get("next")));
   const [factorId, setFactorId] = useState<string | null>(null);
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [secret, setSecret] = useState<string | null>(null);
@@ -81,7 +83,7 @@ export default function MfaPage() {
         storage: sessionStorage,
         userId,
       });
-      router.replace("/patients");
+      router.replace(nextPath);
       router.refresh();
     } catch (verifyError) {
       setError(verifyError instanceof Error ? verifyError.message : "Unable to verify MFA code");

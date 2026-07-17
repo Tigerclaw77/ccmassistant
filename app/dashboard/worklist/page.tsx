@@ -11,6 +11,7 @@ import { getSupabaseAuthHeaders } from "../../../lib/supabase";
 import { Search, SearchX, UsersRound } from "lucide-react";
 import EmptyState from "../../../components/ui/EmptyState";
 import LoadingState from "../../../components/ui/LoadingState";
+import { CARE_PLAN_REVIEW_LABELS } from "../../../lib/ccm/care-plan-workflow";
 
 type ActivePracticeResponse = { error?: string; practice?: { id: string; name: string } };
 type WorklistResponse = {
@@ -247,6 +248,7 @@ export default function WorklistPage() {
                   <td className="px-4 py-3 align-top"><span className={`inline-flex rounded-md border px-2 py-1 text-xs ${statusClass(row.readinessStatus)}`}>{statusLabel(row.readinessStatus)}</span></td>
                   <td className="px-4 py-3 align-top">
                     <Link className="font-medium underline" href={withCoordinatorContext(row.nextActionUrl, context)}>{row.nextAction}</Link>
+                    {row.carePlanReviewStatus ? <div className="mt-1 text-xs font-medium text-slate-600">Care plan: {CARE_PLAN_REVIEW_LABELS[row.carePlanReviewStatus]}</div> : null}
                     <div className="mt-2 flex flex-wrap gap-1">
                       {row.queueKeys.slice(0, 3).map((key) => <span className="border bg-white px-1.5 py-0.5 text-[11px] text-slate-600" key={key}>{STAFF_QUEUE_LABELS[key]}</span>)}
                     </div>

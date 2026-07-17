@@ -1,5 +1,6 @@
 import type {
   CarePlan,
+  CarePlanReviewStatus,
   CcmEnrollment,
   CheckinInstance,
   MonthlyBillability,
@@ -19,6 +20,7 @@ export type WorklistPriority = "urgent" | "high" | "normal" | "low" | "none";
 export type WorklistRow = {
   assignedCoordinatorId: string | null;
   billingMonth: string;
+  carePlanReviewStatus: CarePlanReviewStatus | null;
   documentedMinutes: number;
   dob: string | null;
   externalId: string | null;
@@ -144,7 +146,7 @@ function fallbackReasonCodes(args: {
 
 export function composeWorklistRows(source: WorklistSource, billingMonth: string, threshold: number): WorklistRow[] {
   const enrollments = latestByPatient(source.enrollments);
-  const carePlans = latestByPatient(source.carePlans.filter((row) => row.status === "active"));
+  const carePlans = latestByPatient(source.carePlans);
   const intakes = latestByPatient(source.intakeSummaries.filter((row) => row.status === "accepted"));
   const checkIns = latestByPatient(source.checkIns.filter((row) => row.billing_month === billingMonth));
   const billability = new Map(source.billability.map((row) => [row.patient_id, row]));
@@ -157,10 +159,11 @@ export function composeWorklistRows(source: WorklistSource, billingMonth: string
     const minutes = source.minutesByPatientId[patient.id] ?? 0;
     const monthly = billability.get(patient.id);
     const task = highestSessionTask(source.sessions, patient.id);
+    const carePlan = carePlans.get(patient.id);
     const reasons = monthly?.reason_codes?.length ? monthly.reason_codes : [
       ...(source.practiceAttestationComplete ? [] : ["incomplete_practice_attestation"]),
       ...fallbackReasonCodes({
-      carePlan: carePlans.get(patient.id),
+      carePlan,
       checkIn: checkIns.get(patient.id),
       conditions: source.conditions.filter((row) => row.patient_id === patient.id),
       enrollment,
@@ -185,6 +188,7 @@ export function composeWorklistRows(source: WorklistSource, billingMonth: string
     const baseRow = {
       assignedCoordinatorId: enrollment?.care_coordinator_member_id ?? patient.care_coordinator_member_id,
       billingMonth,
+      carePlanReviewStatus: carePlan?.review_status ?? null,
       documentedMinutes: minutes,
       dob: patient.dob,
       externalId: patient.external_id,

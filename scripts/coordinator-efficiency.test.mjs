@@ -96,7 +96,9 @@ test("time entry, check-in actions, assignment defaults, and batch recalculation
   ]);
   assert.match(timePage, /useState<number \| "">\(""\)/);
   assert.match(timePage, /billingMonthFromOccurredDate\(occurredDate\)/);
-  assert.match(checkinPage, /Create and copy invitation/);
+  assert.match(checkinPage, /Create check-in/);
+  assert.match(checkinPage, /Send Monthly Check-In/);
+  assert.match(checkinPage, /createOnly: true/);
   assert.match(checkinPage, /Document non-response and close/);
   assert.match(patientForm, /providerRows\.length === 1/);
   assert.match(billingPage, /\/api\/billability\/recalculate\/batch/);

@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { currentMonthValue, normalizeBillingMonth, withCoordinatorContext } from "../../../lib/ccm/month-context";
 import { STAFF_QUEUE_LABELS } from "../../../lib/ccm/staff-experience";
 import type { WorklistRow } from "../../../lib/ccm/worklist";
+import type { CarePlan } from "../../../lib/ccm/types";
 import { getSupabaseAuthHeaders } from "../../../lib/supabase";
 import { CheckCircle2 } from "lucide-react";
 import EmptyState from "../../../components/ui/EmptyState";
@@ -20,6 +21,13 @@ type WorklistResponse = {
   rows?: WorklistRow[];
 };
 
+type PendingCarePlan = CarePlan & { patient_name: string };
+
+type CarePlanReviewsResponse = {
+  carePlans?: PendingCarePlan[];
+  error?: string;
+};
+
 function attentionType(row: WorklistRow): string {
   if (row.priority === "urgent") return "Clinical alert";
   if (row.reasonCodes.includes("missing_provider_attestation")) return "Eligibility approval";
@@ -32,6 +40,7 @@ export default function ProviderDashboardPage() {
   const [billingMonth, setBillingMonth] = useState(currentMonthValue());
   const [practiceName, setPracticeName] = useState("");
   const [rows, setRows] = useState<WorklistRow[]>([]);
+  const [pendingCarePlans, setPendingCarePlans] = useState<PendingCarePlan[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -63,11 +72,20 @@ export default function ProviderDashboardPage() {
         pageSize: "100",
         practiceId: activeResult.practice.id,
       });
-      const response = await fetch(`/api/worklist?${query}`, { headers: await getSupabaseAuthHeaders() });
-      const result = (await response.json()) as WorklistResponse;
+      const headers = await getSupabaseAuthHeaders();
+      const [response, carePlanResponse] = await Promise.all([
+        fetch(`/api/worklist?${query}`, { headers }),
+        fetch(`/api/care-plan-reviews?practiceId=${encodeURIComponent(activeResult.practice.id)}&pending=true`, { headers }),
+      ]);
+      const [result, carePlanResult] = await Promise.all([
+        response.json() as Promise<WorklistResponse>,
+        carePlanResponse.json() as Promise<CarePlanReviewsResponse>,
+      ]);
       if (!active) return;
       if (!response.ok) setError(result.error ?? "Unable to load provider attention queue");
+      else if (!carePlanResponse.ok) setError(carePlanResult.error ?? "Unable to load pending provider reviews");
       setRows((result.rows ?? []).filter((row) => row.queueKeys.includes("provider_review")));
+      setPendingCarePlans(carePlanResult.carePlans ?? []);
       setLoading(false);
     }
     void load();
@@ -100,11 +118,24 @@ export default function ProviderDashboardPage() {
       <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <ProviderStat label="Clinical alerts" tone="alert" value={grouped.alerts.length} />
         <ProviderStat label="Eligibility approvals" value={grouped.approvals.length} />
-        <ProviderStat label="Care-plan reviews" value={grouped.carePlans.length} />
+        <ProviderStat label="Pending provider reviews" value={pendingCarePlans.length} />
         <ProviderStat label="Other reviews" value={grouped.other.length} />
       </section>
 
       {error ? <div className="border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div> : null}
+      {!loading && pendingCarePlans.length ? (
+        <section className="surface overflow-hidden">
+          <div className="border-b px-4 py-3"><h2 className="font-semibold">Pending Provider Reviews</h2><p className="text-sm text-slate-600">Care plans explicitly submitted for your approval.</p></div>
+          <div className="divide-y">
+            {pendingCarePlans.map((plan) => (
+              <div className="flex flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between" key={plan.id}>
+                <div><div className="font-medium">{plan.patient_name}</div><div className="text-sm text-slate-600">Version {plan.version} submitted {plan.provider_review_requested_at ? new Date(plan.provider_review_requested_at).toLocaleString() : "for review"}</div></div>
+                <Link className="button-primary text-center" href={withCoordinatorContext(`/patients/${plan.patient_id}/care-plan`, context)}>Review care plan</Link>
+              </div>
+            ))}
+          </div>
+        </section>
+      ) : null}
       {loading ? <LoadingState label="Loading provider review queue" /> : rows.length === 0 ? (
         <EmptyState description="There are no clinical alerts, eligibility approvals, or care-plan reviews waiting for this month." icon={CheckCircle2} title="Provider review is up to date" />
       ) : (

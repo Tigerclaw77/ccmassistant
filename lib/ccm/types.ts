@@ -195,6 +195,34 @@ export type PracticeMember = PracticeScopedRow & {
   invited_email: string | null;
   role: PracticeRole;
   status: MembershipStatus;
+  disabled_at: ISODateTimeString | null;
+  removed_at: ISODateTimeString | null;
+  last_role_changed_at: ISODateTimeString | null;
+};
+
+export type StaffInvitationStatus =
+  | "pending"
+  | "accepted"
+  | "cancelled"
+  | "expired"
+  | "delivery_failed";
+
+export type PracticeStaffInvitation = {
+  id: UUID;
+  practice_id: UUID;
+  member_id: UUID;
+  email: string;
+  role: PracticeRole;
+  status: StaffInvitationStatus;
+  expires_at: ISODateTimeString;
+  sent_at: ISODateTimeString | null;
+  accepted_at: ISODateTimeString | null;
+  cancelled_at: ISODateTimeString | null;
+  resend_count: number;
+  auth_user_id: UUID | null;
+  invited_by: UUID;
+  created_at: ISODateTimeString;
+  updated_at: ISODateTimeString;
 };
 
 export type Provider = PracticeScopedRow & {
@@ -537,6 +565,36 @@ export type CheckinInstance = PracticeScopedRow & {
   metadata: JsonValue;
 };
 
+export type CheckinDeliveryStatus =
+  | "pending"
+  | "delivered"
+  | "opened"
+  | "completed"
+  | "expired"
+  | "failed"
+  | "cancelled";
+
+export type CheckinDelivery = {
+  id: UUID;
+  practice_id: UUID;
+  checkin_instance_id: UUID;
+  patient_id: UUID;
+  method: "email" | "sms" | "link";
+  status: CheckinDeliveryStatus;
+  destination_masked: string | null;
+  provider_message_id: string | null;
+  request_key: string;
+  attempt_number: number;
+  token_expires_at: ISODateTimeString;
+  delivered_at: ISODateTimeString | null;
+  opened_at: ISODateTimeString | null;
+  completed_at: ISODateTimeString | null;
+  expired_at: ISODateTimeString | null;
+  failure_code: string | null;
+  created_by: UUID | null;
+  created_at: ISODateTimeString;
+};
+
 export type CheckinResponse = {
   canonical_question_id: string | null;
   id: UUID;
@@ -587,6 +645,13 @@ export type InteractionLog = PracticeScopedRow & {
   deleted_at: ISODateTimeString | null;
 };
 
+export type CarePlanReviewStatus =
+  | "draft"
+  | "coordinator_ready"
+  | "provider_review_required"
+  | "approved"
+  | "revision_requested";
+
 export type CarePlan = PracticeScopedRow & {
   patient_id: UUID;
   patient_condition_id: UUID | null;
@@ -598,6 +663,43 @@ export type CarePlan = PracticeScopedRow & {
   barriers: JsonValue;
   notes: string | null;
   last_reviewed_at: ISODateTimeString | null;
+  review_status: CarePlanReviewStatus;
+  version: number;
+  coordinator_ready_by: UUID | null;
+  coordinator_ready_at: ISODateTimeString | null;
+  provider_review_requested_by: UUID | null;
+  provider_review_requested_at: ISODateTimeString | null;
+  approved_by: UUID | null;
+  approved_at: ISODateTimeString | null;
+  revision_requested_at: ISODateTimeString | null;
+  review_comments: string | null;
+};
+
+export type CarePlanVersion = {
+  id: UUID;
+  practice_id: UUID;
+  care_plan_id: UUID;
+  version: number;
+  patient_id: UUID;
+  provider_id: UUID | null;
+  goals: JsonValue;
+  interventions: JsonValue;
+  barriers: JsonValue;
+  notes: string | null;
+  created_by: UUID | null;
+  created_at: ISODateTimeString;
+};
+
+export type CarePlanReview = {
+  id: UUID;
+  practice_id: UUID;
+  care_plan_id: UUID;
+  care_plan_version: number;
+  decision: "coordinator_ready" | "submitted" | "approved" | "changes_requested" | "superseded";
+  comments: string | null;
+  reviewer_user_id: UUID;
+  snapshot: JsonValue;
+  created_at: ISODateTimeString;
 };
 
 export type PatientIntakeSummary = PracticeScopedRow & {

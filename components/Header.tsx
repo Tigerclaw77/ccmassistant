@@ -6,6 +6,14 @@ import { useEffect, useMemo, useState } from "react";
 import { LogOut, PlayCircle } from "lucide-react";
 import { getSupabaseAuthHeaders, supabase } from "../lib/supabase";
 import type { PracticeRole } from "../lib/ccm/types";
+import {
+  DEVELOPMENT_AUDIT_ROLE_EVENT,
+  DEVELOPMENT_AUDIT_ROLE_KEY,
+  type DevelopmentAuditRole,
+  auditNavigationRole,
+  isDevelopmentAuditEnabled,
+  isDevelopmentAuditRole,
+} from "../lib/development-audit";
 import BrandMark from "./ui/BrandMark";
 
 type ActivePracticeResponse = {
@@ -61,6 +69,7 @@ function isStaffPath(pathname: string): boolean {
     pathname === "/signup" ||
     pathname === "/forgot-password" ||
     pathname === "/reset-password" ||
+    pathname === "/accept-invitation" ||
     pathname === "/mfa" ||
     pathname === "/setup/practice" ||
     pathname === "/demo" ||
@@ -75,6 +84,7 @@ export default function Header() {
   const [practiceName, setPracticeName] = useState<string>("Practice setup");
   const [userLabel, setUserLabel] = useState<string>("Signed in");
   const [role, setRole] = useState<PracticeRole | null>(null);
+  const [auditRole, setAuditRole] = useState<DevelopmentAuditRole | null>(null);
 
   const staffPath = useMemo(() => isStaffPath(pathname), [pathname]);
 
@@ -136,8 +146,28 @@ export default function Header() {
     };
   }, [staffPath]);
 
-  const navItems = useMemo(() => navigationForRole(role), [role]);
-  const homeHref = role === "provider" ? "/dashboard/provider" : role === "billing_staff" ? "/dashboard/billing" : "/dashboard/worklist";
+  useEffect(() => {
+    if (!isDevelopmentAuditEnabled()) return;
+    const frame = window.requestAnimationFrame(() => {
+      const storedRole = localStorage.getItem(DEVELOPMENT_AUDIT_ROLE_KEY);
+      if (isDevelopmentAuditRole(storedRole)) setAuditRole(storedRole);
+    });
+
+    function updateAuditRole(event: Event) {
+      const nextRole = (event as CustomEvent<unknown>).detail;
+      if (isDevelopmentAuditRole(nextRole)) setAuditRole(nextRole);
+    }
+
+    window.addEventListener(DEVELOPMENT_AUDIT_ROLE_EVENT, updateAuditRole);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener(DEVELOPMENT_AUDIT_ROLE_EVENT, updateAuditRole);
+    };
+  }, []);
+
+  const navigationRole = auditNavigationRole(role, auditRole);
+  const navItems = useMemo(() => navigationForRole(navigationRole), [navigationRole]);
+  const homeHref = navigationRole === "provider" ? "/dashboard/provider" : navigationRole === "billing_staff" ? "/dashboard/billing" : "/dashboard/worklist";
 
   async function signOut() {
     await supabase.auth.signOut();

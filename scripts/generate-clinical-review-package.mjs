@@ -58,7 +58,7 @@ function csvCell(value) {
 function toCsv(headers, rows) {
   return `${[headers, ...rows.map((row) => headers.map((header) => row[header] ?? ""))]
     .map((row) => row.map(csvCell).join(","))
-    .join("\r\n")}\r\n`;
+    .join("\n")}\n`;
 }
 
 function markdownText(value) {

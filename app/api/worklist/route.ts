@@ -85,7 +85,7 @@ export async function GET(request: Request) {
       supabase.from("ccm_enrollments").select("*").eq("practice_id", practiceId).in("patient_id", patientIds),
       supabase.from("interaction_logs").select("patient_id, minutes").eq("practice_id", practiceId).eq("billing_month", billingMonth).in("patient_id", patientIds).is("deleted_at", null),
       supabase.from("monthly_billability").select("*").eq("practice_id", practiceId).eq("billing_month", billingMonth).in("patient_id", patientIds),
-      supabase.from("care_plans").select("*").eq("practice_id", practiceId).in("patient_id", patientIds).eq("status", "active"),
+      supabase.from("care_plans").select("*").eq("practice_id", practiceId).in("patient_id", patientIds),
       supabase.from("patient_conditions").select("*").eq("practice_id", practiceId).in("patient_id", patientIds).eq("is_active", true),
       supabase.from("patient_intake_summaries").select("*").eq("practice_id", practiceId).in("patient_id", patientIds).eq("status", "accepted"),
       supabase.from("checkin_instances").select("*").eq("practice_id", practiceId).eq("billing_month", billingMonth).in("patient_id", patientIds),

@@ -6,6 +6,7 @@ import { pauseQuestionSession, resumeQuestionSession } from "../../../../../../l
 import { sessionStateFromJson, responseText, toPublicQuestionSessionPayload } from "../../../../../../lib/ccm/session-integration.ts";
 import { findQuestionSessionForCheckIn, saveStoredQuestionSession, SessionStateConflictError } from "../../../../../../lib/ccm/session-store";
 import type { AnswerValue } from "../../../../../../lib/ccm/question-bank/types";
+import { markLatestCheckinDeliveryCompleted } from "../../../../../../lib/ccm/checkin-delivery-store";
 
 export async function POST(
   request: Request,
@@ -72,6 +73,10 @@ export async function POST(
         after,
         answeredQuestionId,
       );
+
+      if (after.status === "completed") {
+        await markLatestCheckinDeliveryCompleted(supabase, checkIn.id, checkIn.practice_id);
+      }
 
       if (answeredQuestionId) {
         const storedAnswer = after.answers[answeredQuestionId as `ccm.${string}`];
@@ -176,6 +181,8 @@ export async function POST(
       metadata: { submissionMode: "legacy" },
       practice_id: checkIn.practice_id,
     });
+
+    await markLatestCheckinDeliveryCompleted(supabase, checkIn.id, checkIn.practice_id);
 
     return Response.json({ checkIn: updatedCheckIn, ok: true });
   } catch (error) {

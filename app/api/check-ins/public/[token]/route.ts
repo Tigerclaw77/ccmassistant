@@ -2,6 +2,7 @@ import { createServiceRoleSupabaseClient } from "../../../../../lib/auth";
 import { ACTIVE_PUBLIC_CHECKIN_STATUSES } from "../../../../../lib/ccm/public-checkin";
 import { toPublicQuestionSessionPayload } from "../../../../../lib/ccm/session-integration.ts";
 import { findQuestionSessionForCheckIn } from "../../../../../lib/ccm/session-store";
+import { markLatestCheckinDeliveryOpened } from "../../../../../lib/ccm/checkin-delivery-store";
 
 export async function GET(
   _request: Request,
@@ -72,6 +73,7 @@ export async function GET(
       .filter(Boolean);
 
     const sessionRecord = await findQuestionSessionForCheckIn(supabase, checkIn.id);
+    await markLatestCheckinDeliveryOpened(supabase, checkIn.id, checkIn.practice_id);
 
     return Response.json({
       checkIn: { ...checkIn, token: null },

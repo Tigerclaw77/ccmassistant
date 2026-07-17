@@ -5,8 +5,11 @@ import type {
   BillingEvidenceSnapshot,
   BillabilityStatus,
   CarePlan,
+  CarePlanReview,
+  CarePlanVersion,
   CarePlanStatus,
   CheckinInstance,
+  CheckinDelivery,
   CheckinResponse,
   CheckinStatus,
   ClinicalAnswerType,
@@ -41,6 +44,7 @@ import type {
   QuestionContributionCandidateRecord,
   Practice,
   PracticeMember,
+  PracticeStaffInvitation,
   PracticeRole,
   Provider,
   ProviderPreferences,
@@ -76,6 +80,7 @@ export type Database = {
     Tables: {
       practices: TableDefinition<Practice>;
       practice_members: TableDefinition<PracticeMember>;
+      practice_staff_invitations: TableDefinition<PracticeStaffInvitation>;
       providers: TableDefinition<Provider>;
       provider_preferences: TableDefinition<ProviderPreferences>;
       patients: TableDefinition<Patient>;
@@ -91,10 +96,13 @@ export type Database = {
       question_contribution_candidates: TableDefinition<QuestionContributionCandidateRecord>;
       checkin_templates: TableDefinition<CheckinTemplate>;
       checkin_instances: TableDefinition<CheckinInstance>;
+      checkin_deliveries: TableDefinition<CheckinDelivery>;
       checkin_responses: TableDefinition<CheckinResponse>;
       question_sessions: TableDefinition<QuestionSessionRecord>;
       interaction_logs: TableDefinition<InteractionLog>;
       care_plans: TableDefinition<CarePlan>;
+      care_plan_versions: TableDefinition<CarePlanVersion>;
+      care_plan_reviews: TableDefinition<CarePlanReview>;
       patient_intake_summaries: TableDefinition<PatientIntakeSummary>;
       monthly_billability: TableDefinition<MonthlyBillability>;
       billing_evidence_snapshots: TableDefinition<BillingEvidenceSnapshot>;
@@ -137,6 +145,17 @@ export type Database = {
           requested_practice_id: string | null;
         };
         Returns: Json;
+      };
+      transition_care_plan_review: {
+        Args: {
+          expected_review_status: string;
+          next_review_status: string;
+          review_comment_text: string | null;
+          review_decision: string;
+          reviewer_user_id: string;
+          target_care_plan_id: string;
+        };
+        Returns: CarePlan;
       };
     };
     Enums: {

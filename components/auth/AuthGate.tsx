@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { getSupabaseAuthHeaders, supabase } from "../../lib/supabase";
 
-const PUBLIC_PREFIXES = ["/login", "/signup", "/forgot-password", "/reset-password", "/f/"];
+const PUBLIC_PREFIXES = ["/login", "/signup", "/forgot-password", "/reset-password", "/accept-invitation", "/f/"];
 const PUBLIC_PATHS = ["/", "/demo", "/request-demo"];
 const SETUP_PATH = "/setup/practice";
 const MFA_PATH = "/mfa";
@@ -59,7 +59,9 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
           ]);
 
         if (factorsError || assuranceError || !factors?.totp?.length || assurance?.currentLevel !== "aal2") {
-          router.replace(MFA_PATH);
+          const query = window.location.search.replace(/^\?/, "");
+          const nextPath = `${pathname}${query ? `?${query}` : ""}`;
+          router.replace(`${MFA_PATH}?next=${encodeURIComponent(nextPath)}`);
           return;
         }
       }

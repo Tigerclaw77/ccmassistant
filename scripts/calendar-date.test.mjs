@@ -73,7 +73,7 @@ test("invalid practice timezones are rejected", () => {
   assert.throws(() => validateTimeZone("UTC-5"), /IANA timezone/i);
 });
 
-test("care-plan client and API use the calendar-date contract", async () => {
+test("care-plan approval is server-timestamped while legacy dates retain the calendar-date contract", async () => {
   const page = await readFile(
     new URL("../app/patients/[patientId]/care-plan/page.tsx", import.meta.url),
     "utf8",
@@ -82,9 +82,13 @@ test("care-plan client and API use the calendar-date contract", async () => {
     new URL("../app/api/care-plans/route.ts", import.meta.url),
     "utf8",
   );
+  const reviewMigration = await readFile(
+    new URL("../supabase/migrations/024_pilot_readiness_sprint_1.sql", import.meta.url),
+    "utf8",
+  );
 
-  assert.match(page, /lastReviewedDate:\s*lastReviewedDate \|\| null/);
-  assert.doesNotMatch(page, /T12:00:00|lastReviewedAt:/);
+  assert.doesNotMatch(page, /lastReviewedDate|type="date"/);
+  assert.match(reviewMigration, /approved_at = case when review_decision = 'approved' then now\(\)/i);
   assert.match(route, /validateNotFutureCalendarDate/);
   assert.match(route, /practice\.default_timezone/);
   assert.match(route, /calendarDateToUtcTimestamp/);

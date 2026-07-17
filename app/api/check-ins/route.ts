@@ -189,6 +189,7 @@ export async function POST(request: Request) {
 
     const token = randomUUID().replace(/-/g, "");
     const now = new Date().toISOString();
+    const createOnly = body.createOnly === true;
 
     const { data: checkIn, error } = await supabase
       .from("checkin_instances")
@@ -201,11 +202,11 @@ export async function POST(request: Request) {
         practice_id: practiceId,
         provider_id: enrollment?.assigned_provider_id ?? patient?.primary_provider_id ?? null,
         metadata: { question_session_engine_version: 1 },
-        sent_at: now,
-        status: "sent",
+        sent_at: createOnly ? null : now,
+        status: createOnly ? "ready" : "sent",
         template_id: null,
-        token,
-        token_expires_at: publicCheckinTokenExpiresAt(new Date(now)),
+        token: createOnly ? null : token,
+        token_expires_at: createOnly ? null : publicCheckinTokenExpiresAt(new Date(now)),
         updated_by: user.id,
       })
       .select()

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { getSupabaseAuthHeaders, supabase } from "../../lib/supabase";
 import {
@@ -12,6 +12,8 @@ import {
 } from "../../lib/ccm/types";
 import { ReceiptText, ShieldCheck, Stethoscope, UserCog, UsersRound } from "lucide-react";
 import LoadingState from "../../components/ui/LoadingState";
+import StaffManagement from "../../components/settings/StaffManagement";
+import type { PracticeRole } from "../../lib/ccm/types";
 
 type Practice = {
   id: string;
@@ -32,14 +34,6 @@ type Provider = {
   billing_practitioner_type: BillingPractitionerType;
   manual_review_status: ProviderManualReviewStatus;
   manual_review_reason: string | null;
-};
-
-type PracticeMember = {
-  id: string;
-  user_id: string | null;
-  invited_email: string | null;
-  role: string;
-  status: "invited" | "active" | "inactive";
 };
 
 type PracticeForm = {
@@ -151,22 +145,16 @@ export default function SettingsPage() {
     timezone: "America/Chicago",
   });
   const [providers, setProviders] = useState<Provider[]>([]);
-  const [members, setMembers] = useState<PracticeMember[]>([]);
+  const [currentRole, setCurrentRole] = useState<PracticeRole | null>(null);
   const [newProvider, setNewProvider] = useState<NewProviderForm>(EMPTY_PROVIDER);
   const [editingProviderId, setEditingProviderId] = useState<string | null>(null);
   const [providerDraft, setProviderDraft] = useState<ProviderEditForm | null>(null);
   const [displayName, setDisplayName] = useState("");
   const [userEmail, setUserEmail] = useState("");
-  const [currentUserId, setCurrentUserId] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-
-  const coordinatorMembers = useMemo(
-    () => members.filter((member) => ["owner", "admin", "coordinator"].includes(member.role)),
-    [members],
-  );
 
   async function authedHeaders(): Promise<HeadersInit> {
     const headers = await getSupabaseAuthHeaders();
@@ -191,7 +179,6 @@ export default function SettingsPage() {
 
       setDisplayName(session.user.user_metadata?.display_name ?? "");
       setUserEmail(session.user.email ?? "");
-      setCurrentUserId(session.user.id);
 
       const activePracticeId = localStorage.getItem("activePracticeId");
       const activeResponse = await fetch("/api/practices/active", {
@@ -205,8 +192,9 @@ export default function SettingsPage() {
         throw new Error("Unable to load active practice.");
       }
 
-      const activeResult = (await activeResponse.json()) as { practice: Practice };
+      const activeResult = (await activeResponse.json()) as { membership?: { role: PracticeRole }; practice: Practice };
       const practice = activeResult.practice;
+      setCurrentRole(activeResult.membership?.role ?? null);
       const settings = billingSettingsObject(practice.billing_settings);
       localStorage.setItem("activePracticeId", practice.id);
       setPracticeId(practice.id);
@@ -222,28 +210,17 @@ export default function SettingsPage() {
         timezone: practice.default_timezone ?? "America/Chicago",
       });
 
-      const [providersResponse, membersResponse] = await Promise.all([
-        fetch(`/api/providers?practiceId=${practice.id}&includeInactive=true`, {
-          headers: await getSupabaseAuthHeaders(),
-        }),
-        fetch(`/api/practice-members?practiceId=${practice.id}`, {
-          headers: await getSupabaseAuthHeaders(),
-        }),
-      ]);
+      const providersResponse = await fetch(`/api/providers?practiceId=${practice.id}&includeInactive=true`, {
+        headers: await getSupabaseAuthHeaders(),
+      });
 
       if (!providersResponse.ok) {
         throw new Error("Unable to load billing practitioners.");
       }
 
-      if (!membersResponse.ok) {
-        throw new Error("Unable to load coordinators.");
-      }
-
       const providersResult = (await providersResponse.json()) as { providers: Provider[] };
-      const membersResult = (await membersResponse.json()) as { members: PracticeMember[] };
 
       setProviders(providersResult.providers ?? []);
-      setMembers(membersResult.members ?? []);
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "Unable to load settings.");
     } finally {
@@ -378,41 +355,6 @@ export default function SettingsPage() {
     }
   }
 
-  async function saveMember(member: PracticeMember) {
-    setSaving(member.id);
-    setError(null);
-    setMessage(null);
-
-    try {
-      const response = await fetch("/api/practice-members", {
-        body: JSON.stringify({
-          memberId: member.id,
-          practiceId,
-          status: member.status,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-          ...(await authedHeaders()),
-        },
-        method: "PATCH",
-      });
-
-      const result = await response.json();
-      if (!response.ok) {
-        throw new Error(result.error ?? "Unable to save coordinator.");
-      }
-
-      setMessage("Coordinator saved.");
-      setMembers((current) =>
-        current.map((item) => (item.id === member.id ? result.member : item)),
-      );
-    } catch (caught) {
-      setError(caught instanceof Error ? caught.message : "Unable to save coordinator.");
-    } finally {
-      setSaving(null);
-    }
-  }
-
   async function saveAccount() {
     setSaving("account");
     setError(null);
@@ -518,10 +460,10 @@ export default function SettingsPage() {
           <div className="text-sm font-semibold text-slate-900">Billing Practitioners</div>
           <div className="mt-1 text-xs text-slate-600">{providers.length} practitioner{providers.length === 1 ? "" : "s"} configured</div>
         </a>
-        <a className="surface p-4 hover:bg-slate-50" href="#coordinators">
-          <div className="text-sm font-semibold text-slate-900">Coordinators</div>
-          <div className="mt-1 text-xs text-slate-600">{coordinatorMembers.length} staff record{coordinatorMembers.length === 1 ? "" : "s"}</div>
-        </a>
+        {currentRole === "owner" || currentRole === "admin" ? <a className="surface p-4 hover:bg-slate-50" href="#staff">
+          <div className="text-sm font-semibold text-slate-900">Practice Staff</div>
+          <div className="mt-1 text-xs text-slate-600">Invitations, roles, access, and MFA status</div>
+        </a> : null}
         <a className="surface p-4 hover:bg-slate-50" href="#account">
           <div className="text-sm font-semibold text-slate-900">Account</div>
           <div className="mt-1 text-xs text-slate-600">{userEmail || "Current user"}</div>
@@ -535,7 +477,7 @@ export default function SettingsPage() {
       <section aria-labelledby="access-roles-title">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div><h2 className="text-lg font-semibold text-slate-950" id="access-roles-title">Workspace roles</h2><p className="mt-1 text-sm text-slate-600">Each role sees the work relevant to its responsibility.</p></div>
-          <p className="text-xs font-medium text-slate-500">Role invitations are not enabled in this release.</p>
+          <p className="text-xs font-medium text-slate-500">Owners and administrators manage staff invitations below.</p>
         </div>
         <div className="mt-4 grid gap-px overflow-hidden rounded-md border bg-slate-200 sm:grid-cols-2 lg:grid-cols-5">
           {[
@@ -1041,81 +983,15 @@ export default function SettingsPage() {
         </div>
       </section>
 
-      <section className="rounded border bg-white p-5 shadow-sm" id="coordinators">
+      {currentRole === "owner" || currentRole === "admin" ? <section className="rounded border bg-white p-5 shadow-sm" id="staff">
         <div className="mb-5 border-b pb-3">
-          <h2 className="text-xl font-semibold text-slate-950">Coordinators</h2>
+          <h2 className="text-xl font-semibold text-slate-950">Practice Staff</h2>
           <p className="mt-1 text-sm text-slate-600">
-            Review who can operate the CCM workflow for this practice.
+            Invite staff, assign roles, and manage practice access without changing the protected owner account.
           </p>
         </div>
-
-        <div className="space-y-3">
-          {coordinatorMembers.length === 0 ? (
-            <div className="rounded border border-dashed bg-slate-50 p-4 text-sm text-slate-700">
-              No coordinators are listed for this practice. The signed-in owner can operate the MVP workflow.
-            </div>
-          ) : (
-            coordinatorMembers.map((member) => {
-              const editable = member.role === "coordinator" && member.user_id !== currentUserId;
-              return (
-                <div
-                  className="flex flex-col gap-3 rounded border bg-white p-4 shadow-sm md:flex-row md:items-center md:justify-between"
-                  key={member.id}
-                >
-                  <div>
-                    <p className="font-semibold text-slate-950">
-                      {member.invited_email || (member.user_id === currentUserId ? userEmail : member.user_id)}
-                    </p>
-                    <p className="mt-1 text-sm text-slate-600">
-                      {roleLabel(member.role)} - {roleLabel(member.status)}
-                    </p>
-                    {!editable ? (
-                      <p className="mt-1 text-xs font-medium text-slate-600">
-                        {member.user_id === currentUserId
-                          ? "This is your current account."
-                          : "Only coordinator staff records can be changed here."}
-                      </p>
-                    ) : null}
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <label>
-                      <span className="sr-only">Coordinator status</span>
-                      <select
-                        className="rounded border px-3 py-2 text-sm"
-                        disabled={!editable}
-                        onChange={(event) =>
-                          setMembers((current) =>
-                            current.map((item) =>
-                              item.id === member.id
-                                ? {
-                                    ...item,
-                                    status: event.target.value as PracticeMember["status"],
-                                  }
-                                : item,
-                            ),
-                          )
-                        }
-                        value={member.status}
-                      >
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
-                      </select>
-                    </label>
-                    <button
-                      className="rounded border px-4 py-2 text-sm font-semibold hover:bg-slate-50 disabled:opacity-60"
-                      disabled={!editable || saving === member.id}
-                      onClick={() => saveMember(member)}
-                      type="button"
-                    >
-                      {saving === member.id ? "Saving..." : "Save"}
-                    </button>
-                  </div>
-                </div>
-              );
-            })
-          )}
-        </div>
-      </section>
+        <StaffManagement practiceId={practiceId} />
+      </section> : null}
 
       <section className="rounded border bg-white p-5 shadow-sm" id="account">
         <div className="mb-5 border-b pb-3">

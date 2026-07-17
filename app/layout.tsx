@@ -1,6 +1,8 @@
 import "./globals.css";
 import Header from "../components/Header";
 import AuthGate from "../components/auth/AuthGate";
+import DevelopmentAuditBar from "../components/dev/DevelopmentAuditBar";
+import { isDevelopmentAuditEnabled } from "../lib/development-audit";
 import Script from "next/script";
 
 export const metadata = {
@@ -34,6 +36,7 @@ export default function RootLayout({
 
       <body className="min-h-screen antialiased">
         <Header />
+        {isDevelopmentAuditEnabled() ? <DevelopmentAuditBar /> : null}
         <AuthGate>{children}</AuthGate>
       </body>
     </html>

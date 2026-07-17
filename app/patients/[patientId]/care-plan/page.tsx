@@ -8,19 +8,22 @@ import QuestionSessionPanel from "../../../../components/ccm/QuestionSessionPane
 import LoadingState from "../../../../components/ui/LoadingState";
 import type { QuestionSessionPayload } from "../../../../lib/ccm/session-integration";
 import { buildCarePlanSuggestions, mergeCarePlanText } from "../../../../lib/ccm/care-plan-review";
+import { CARE_PLAN_REVIEW_LABELS, type CarePlanReviewAction } from "../../../../lib/ccm/care-plan-workflow";
 import { currentMonthValue, normalizeBillingMonth, withCoordinatorContext } from "../../../../lib/ccm/month-context";
-import { calendarDateInTimeZone } from "../../../../lib/ccm/validation";
 import { getSupabaseAuthHeaders } from "../../../../lib/supabase";
 import type {
   CarePlan,
+  CarePlanReview,
   CcmEnrollment,
   JsonValue,
   Patient,
   PatientIntakeSummary,
+  PracticeRole,
 } from "../../../../lib/ccm/types";
 
 type ActivePracticeResponse = {
   error?: string;
+  membership?: { role: PracticeRole };
   practice?: {
     default_timezone: string;
     id: string;
@@ -55,10 +58,6 @@ function textToList(value: string): string[] {
     .filter(Boolean);
 }
 
-function isoToDateInput(value: string | null | undefined): string {
-  return value ? value.slice(0, 10) : "";
-}
-
 function jsonObject(value: JsonValue | null | undefined): Record<string, JsonValue> {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
     return {};
@@ -91,12 +90,13 @@ export default function PatientCarePlanPage() {
   const [enrollment, setEnrollment] = useState<CcmEnrollment | null>(null);
   const [carePlan, setCarePlan] = useState<CarePlan | null>(null);
   const [intakeSummary, setIntakeSummary] = useState<PatientIntakeSummary | null>(null);
-  const [status, setStatus] = useState("active");
+  const [memberRole, setMemberRole] = useState<PracticeRole | null>(null);
+  const [reviewHistory, setReviewHistory] = useState<CarePlanReview[]>([]);
+  const [reviewComment, setReviewComment] = useState("");
   const [goals, setGoals] = useState("");
   const [interventions, setInterventions] = useState("");
   const [barriers, setBarriers] = useState("");
   const [notes, setNotes] = useState("");
-  const [lastReviewedDate, setLastReviewedDate] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -131,12 +131,9 @@ export default function PatientCarePlanPage() {
 
       localStorage.setItem("activePracticeId", activeResult.practice.id);
       setPracticeId(activeResult.practice.id);
-      const practiceToday = calendarDateInTimeZone(
-        new Date(),
-        activeResult.practice.default_timezone,
-      );
+      setMemberRole(activeResult.membership?.role ?? null);
 
-      const [patientResponse, carePlansResponse, intakeResponse] = await Promise.all([
+      const [patientResponse, carePlansResponse, intakeResponse, reviewsResponse] = await Promise.all([
         fetch(
           `/api/patients?practiceId=${encodeURIComponent(
             activeResult.practice.id,
@@ -155,11 +152,13 @@ export default function PatientCarePlanPage() {
           )}&patientId=${encodeURIComponent(patientId)}`,
           { headers: await getSupabaseAuthHeaders() },
         ),
+        fetch(`/api/care-plan-reviews?practiceId=${encodeURIComponent(activeResult.practice.id)}&patientId=${encodeURIComponent(patientId)}`, { headers: await getSupabaseAuthHeaders() }),
       ]);
 
       const patientResult = (await patientResponse.json()) as PatientResponse;
       const carePlansResult = (await carePlansResponse.json()) as CarePlansResponse;
       const intakeResult = (await intakeResponse.json()) as IntakeResponse;
+      const reviewsResult = (await reviewsResponse.json()) as { reviews?: CarePlanReview[] };
 
       if (!patientResponse.ok || !patientResult.patient) {
         setError(patientResult.error ?? "Unable to load patient");
@@ -170,24 +169,17 @@ export default function PatientCarePlanPage() {
       setPatient(patientResult.patient);
       setEnrollment(patientResult.enrollment ?? null);
       setIntakeSummary(intakeResult.latestAccepted ?? null);
+      setReviewHistory(reviewsResult.reviews ?? []);
 
-      const selectedCarePlan =
-        (carePlansResult.carePlans ?? []).find((plan) => plan.status === "active") ??
-        carePlansResult.carePlans?.[0] ??
-        null;
+      const selectedCarePlan = carePlansResult.carePlans?.[0] ?? null;
 
       if (selectedCarePlan) {
         setCarePlan(selectedCarePlan);
-        setStatus(selectedCarePlan.status);
         setGoals(listToText(selectedCarePlan.goals));
         setInterventions(listToText(selectedCarePlan.interventions));
         setBarriers(listToText(selectedCarePlan.barriers));
         setNotes(selectedCarePlan.notes ?? "");
-        setLastReviewedDate(
-          isoToDateInput(selectedCarePlan.last_reviewed_at) || practiceToday,
-        );
       } else {
-        setLastReviewedDate(practiceToday);
         const suggestions = buildCarePlanSuggestions(intakeResult.latestAccepted ?? null, null);
         setNotes(mergeCarePlanText("", suggestions.notes));
       }
@@ -211,12 +203,11 @@ export default function PatientCarePlanPage() {
       enrollmentId: enrollment?.id,
       goals: textToList(goals),
       interventions: textToList(interventions),
-      lastReviewedDate: lastReviewedDate || null,
       notes,
       patientId,
       practiceId,
       providerId: enrollment?.assigned_provider_id ?? patient?.primary_provider_id,
-      status,
+      status: carePlan ? undefined : "draft",
     };
 
     const response = await fetch("/api/care-plans", {
@@ -236,12 +227,41 @@ export default function PatientCarePlanPage() {
     }
 
     setCarePlan(result.carePlan);
-    setMessage("Care plan updated for billing review.");
+    setMessage(result.carePlan.review_status === "draft" ? "Care-plan draft saved." : "Care plan saved.");
+  }
+
+  async function updateReview(action: CarePlanReviewAction) {
+    if (!practiceId || !carePlan) return;
+    setSaving(true);
+    setError(null);
+    setMessage(null);
+    const response = await fetch("/api/care-plan-reviews", {
+      body: JSON.stringify({ action, carePlanId: carePlan.id, comments: reviewComment, practiceId }),
+      headers: { "Content-Type": "application/json", ...(await getSupabaseAuthHeaders()) },
+      method: "POST",
+    });
+    const result = (await response.json()) as CarePlansResponse;
+    setSaving(false);
+    if (!response.ok || !result.carePlan) {
+      setError(result.error ?? "Unable to update provider review");
+      return;
+    }
+    setCarePlan(result.carePlan);
+    setReviewComment("");
+    setMessage(action === "approve" ? "Care plan approved." : action === "request_changes" ? "Changes requested from the coordinator." : action === "submit" ? "Sent to the provider for review." : "Care plan marked coordinator ready.");
+    const historyResponse = await fetch(`/api/care-plan-reviews?practiceId=${encodeURIComponent(practiceId)}&patientId=${encodeURIComponent(patientId)}`, { headers: await getSupabaseAuthHeaders() });
+    if (historyResponse.ok) {
+      const history = await historyResponse.json();
+      setReviewHistory(history.reviews ?? []);
+    }
   }
 
   if (loading) {
     return <main className="page-shell"><LoadingState label="Loading care plan" /></main>;
   }
+
+  const canCoordinateReview = memberRole === "owner" || memberRole === "admin" || memberRole === "coordinator";
+  const canProviderReview = memberRole === "owner" || memberRole === "provider";
 
   return (
     <main className="p-6 space-y-6 max-w-4xl">
@@ -312,39 +332,13 @@ export default function PatientCarePlanPage() {
       <section className="rounded-md border bg-white p-4 text-black">
         {!carePlan ? (
           <div className="mb-4 rounded-md border border-blue-200 bg-blue-50 px-3 py-2 text-sm text-blue-800">
-            No care plan exists yet. Add goals, interventions, barriers, and a reviewed date to make this patient-month eligible for billing.
+            No care plan exists yet. Save the draft, complete coordinator review, and submit it for provider approval.
           </div>
         ) : null}
 
         <div className="grid gap-4 md:grid-cols-2">
-          <label className="space-y-1 text-sm">
-            <span className="font-medium">Status</span>
-            <span className="block text-xs text-gray-600">
-              Active care plans can support monthly billing review.
-            </span>
-            <select
-              className="w-full rounded-md border px-3 py-2"
-              value={status}
-              onChange={(event) => setStatus(event.target.value)}
-            >
-              <option value="draft">Draft</option>
-              <option value="active">Active</option>
-              <option value="archived">Archived</option>
-            </select>
-          </label>
-
-          <label className="space-y-1 text-sm">
-            <span className="font-medium">Last reviewed date</span>
-            <span className="block text-xs text-gray-600">
-              This documents when the plan was reviewed for the current care-management workflow.
-            </span>
-            <input
-              type="date"
-              className="w-full rounded-md border px-3 py-2"
-              value={lastReviewedDate}
-              onChange={(event) => setLastReviewedDate(event.target.value)}
-            />
-          </label>
+          <div className="rounded-md border bg-slate-50 p-3 text-sm"><div className="text-xs font-medium text-slate-600">Review status</div><div className="mt-1 font-semibold text-slate-950">{carePlan ? CARE_PLAN_REVIEW_LABELS[carePlan.review_status] : "Draft"}</div>{carePlan?.review_comments ? <div className="mt-2 text-amber-800">{carePlan.review_comments}</div> : null}</div>
+          <div className="rounded-md border bg-slate-50 p-3 text-sm"><div className="text-xs font-medium text-slate-600">Version</div><div className="mt-1 font-semibold text-slate-950">{carePlan?.version ?? 1}</div><div className="mt-1 text-xs text-slate-600">{carePlan?.approved_at ? `Approved ${new Date(carePlan.approved_at).toLocaleString()}` : "Not yet approved"}</div></div>
 
           <label className="space-y-1 text-sm md:col-span-2">
             <span className="font-medium">Goals</span>
@@ -395,14 +389,16 @@ export default function PatientCarePlanPage() {
           </label>
         </div>
 
-        <div className="mt-4 flex items-center gap-3">
+        <div className="mt-4 flex flex-wrap items-center gap-3">
           <button
             onClick={saveCarePlan}
             disabled={saving}
-            className="rounded-md border bg-black px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
+            className="button-primary"
           >
-            {saving ? "Saving..." : "Review and save care plan"}
+            {saving ? "Saving..." : "Save draft"}
           </button>
+          {carePlan && canCoordinateReview && ["draft", "revision_requested"].includes(carePlan.review_status) ? <button className="button-secondary" disabled={saving} onClick={() => updateReview("coordinator_ready")} type="button">Mark coordinator ready</button> : null}
+          {carePlan && canCoordinateReview && carePlan.review_status === "coordinator_ready" ? <button className="button-secondary" disabled={saving} onClick={() => updateReview("submit")} type="button">Submit for provider review</button> : null}
           <Link className="text-sm underline" href={withCoordinatorContext(`/patients/${patientId}/checkin`, context)}>
             Monthly check-in
           </Link>
@@ -411,6 +407,10 @@ export default function PatientCarePlanPage() {
           </Link>
         </div>
       </section>
+
+      {carePlan && canProviderReview && carePlan.review_status === "provider_review_required" ? <section className="rounded-md border border-teal-200 bg-teal-50 p-4 text-black"><h2 className="font-semibold">Provider review required</h2><p className="mt-1 text-sm text-slate-700">Review the current care-plan version, then approve it or return it with specific changes.</p><label className="mt-4 block text-sm"><span className="font-medium">Provider comments</span><textarea className="mt-1 min-h-24 w-full rounded-md border bg-white px-3 py-2" onChange={(event) => setReviewComment(event.target.value)} value={reviewComment} /></label><div className="mt-3 flex flex-wrap gap-2"><button className="button-primary" disabled={saving} onClick={() => updateReview("approve")} type="button">Approve care plan</button><button className="button-secondary" disabled={saving || reviewComment.trim().length < 3} onClick={() => updateReview("request_changes")} type="button">Request coordinator changes</button></div></section> : null}
+
+      {reviewHistory.length ? <section className="rounded-md border bg-white p-4 text-black"><h2 className="font-semibold">Approval history</h2><div className="mt-3 space-y-3">{reviewHistory.map((review) => <div className="border-t pt-3 text-sm first:border-t-0 first:pt-0" key={review.id}><div className="flex flex-wrap justify-between gap-2"><span className="font-medium capitalize">{review.decision.replaceAll("_", " ")} · Version {review.care_plan_version}</span><span className="text-slate-600">{new Date(review.created_at).toLocaleString()}</span></div>{review.comments ? <p className="mt-1 text-slate-700">{review.comments}</p> : null}</div>)}</div></section> : null}
     </main>
   );
 }

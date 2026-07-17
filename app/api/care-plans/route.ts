@@ -1,5 +1,6 @@
 import {
   authErrorResponse,
+  createServiceRoleSupabaseClient,
   PATIENT_WRITE_ROLES,
   requirePracticeMembership,
 } from "../../../lib/auth";
@@ -142,7 +143,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { supabase, user } = await requirePracticeMembership(
+    const { membership, supabase, user } = await requirePracticeMembership(
       request,
       practiceId,
       PATIENT_WRITE_ROLES,
@@ -150,6 +151,9 @@ export async function POST(request: Request) {
 
     const patientId = requiredString(body, "patientId");
     const status = optionalEnum(body, "status", CARE_PLAN_STATUSES) ?? "draft";
+    if (status === "active" && !["owner", "provider"].includes(membership.role)) {
+      return Response.json({ error: "Only a provider can approve and activate a care plan" }, { status: 403 });
+    }
     const providerId = optionalString(body, "providerId");
     const lastReviewedDate = optionalString(body, "lastReviewedDate");
     try {
@@ -179,6 +183,9 @@ export async function POST(request: Request) {
         patient_id: patientId,
         practice_id: practiceId,
         provider_id: providerId,
+        approved_at: status === "active" ? calendarDateToUtcTimestamp(lastReviewedDate) : null,
+        approved_by: status === "active" ? user.id : null,
+        review_status: status === "active" ? "approved" : "draft",
         status,
         updated_by: user.id,
       })
@@ -197,6 +204,18 @@ export async function POST(request: Request) {
       entityType: "care_plan",
       practiceId,
     });
+
+    if (status === "active") {
+      const service = createServiceRoleSupabaseClient();
+      await service.from("care_plan_reviews").insert({
+        care_plan_id: data.id,
+        care_plan_version: data.version,
+        decision: "approved",
+        practice_id: practiceId,
+        reviewer_user_id: user.id,
+        snapshot: { barriers: data.barriers, goals: data.goals, interventions: data.interventions, notes: data.notes, provider_id: data.provider_id },
+      });
+    }
 
     await recalculateBillabilityForMutation(request, { billingMonth: firstDayOfMonth(), patientId, practiceId });
 
@@ -226,7 +245,7 @@ export async function PATCH(request: Request) {
   }
 
   try {
-    const { supabase, user } = await requirePracticeMembership(
+    const { membership, supabase, user } = await requirePracticeMembership(
       request,
       practiceId,
       PATIENT_WRITE_ROLES,
@@ -244,6 +263,10 @@ export async function PATCH(request: Request) {
     }
 
     const status = enumUpdate(body, "status", CARE_PLAN_STATUSES) ?? beforeData.status;
+    const legacyApproval = status === "active" && beforeData.review_status !== "approved";
+    if (legacyApproval && !["owner", "provider"].includes(membership.role)) {
+      return Response.json({ error: "Only a provider can approve and activate a care plan" }, { status: 403 });
+    }
     const providerId =
       "providerId" in body ? stringUpdate(body, "providerId") ?? null : beforeData.provider_id;
     const lastReviewedDate =
@@ -277,6 +300,9 @@ export async function PATCH(request: Request) {
         notes: stringUpdate(body, "notes"),
         patient_condition_id: stringUpdate(body, "patientConditionId"),
         provider_id: stringUpdate(body, "providerId"),
+        approved_at: legacyApproval ? calendarDateToUtcTimestamp(lastReviewedDate) : undefined,
+        approved_by: legacyApproval ? user.id : undefined,
+        review_status: legacyApproval ? "approved" : undefined,
         status: enumUpdate(body, "status", CARE_PLAN_STATUSES),
         updated_by: user.id,
       })
@@ -298,6 +324,18 @@ export async function PATCH(request: Request) {
       entityType: "care_plan",
       practiceId,
     });
+
+    if (legacyApproval) {
+      const service = createServiceRoleSupabaseClient();
+      await service.from("care_plan_reviews").insert({
+        care_plan_id: data.id,
+        care_plan_version: data.version,
+        decision: "approved",
+        practice_id: practiceId,
+        reviewer_user_id: user.id,
+        snapshot: { barriers: data.barriers, goals: data.goals, interventions: data.interventions, notes: data.notes, provider_id: data.provider_id },
+      });
+    }
 
     await recalculateBillabilityForMutation(request, { billingMonth: firstDayOfMonth(), patientId: data.patient_id, practiceId });
 

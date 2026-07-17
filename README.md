@@ -6,19 +6,21 @@ CCM Assistant is a Next.js and Supabase application for controlled chronic care 
 
 Requirements:
 
-- Node.js 22 or newer
-- npm
+- Node.js 24.x
+- npm 11.x
 - A non-production Supabase project
 
 Copy `.env.example` to `.env.local`, supply non-production credentials, then run:
 
 ```powershell
 npm.cmd install
-npm.cmd run env:check
+npm.cmd run env:check:local
 npm.cmd run dev
 ```
 
 `NEXT_PUBLIC_APP_URL` should be `http://localhost:3000` only for local development. Never copy production PHI into a local environment.
+
+See `docs/development/local-setup.md` for the complete laptop setup, Stripe and Resend configuration, migration workflow, and troubleshooting guide.
 
 ## Release gates
 
