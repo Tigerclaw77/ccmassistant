@@ -6,6 +6,8 @@ import { FormEvent, useCallback, useEffect, useState } from "react";
 import PatientTable from "../../components/patients/PatientTable";
 import type { CcmEnrollment, Patient } from "../../lib/ccm/types";
 import { getSupabaseAuthHeaders } from "../../lib/supabase";
+import { Plus, Search } from "lucide-react";
+import LoadingState from "../../components/ui/LoadingState";
 
 type ActivePracticeResponse = { error?: string; practice?: { id: string; name: string } };
 type PatientsResponse = {
@@ -94,19 +96,19 @@ export default function PatientsPage() {
   }
 
   return (
-    <main className="space-y-5 p-6">
+    <main className="page-shell">
       <div className="flex items-center justify-between gap-4">
-        <div><h1 className="text-xl font-semibold">Patients</h1><div className="text-sm text-gray-600">{practiceName ?? "Practice"} - {total} patients</div></div>
-        <Link href="/patients/new" className="rounded-md border bg-black px-4 py-2 text-sm font-medium text-white">Add Patient</Link>
+        <div><p className="eyebrow">Patient registry</p><h1 className="page-title mt-1">Patients</h1><div className="page-description">{practiceName ?? "Practice"} - {total} patient records</div></div>
+        <Link href="/patients/new" className="button-primary"><Plus aria-hidden="true" size={17} /> Add patient</Link>
       </div>
-      <form className="grid gap-3 border-y bg-white py-4 md:grid-cols-[minmax(16rem,1fr)_10rem_12rem_auto]" onSubmit={submitSearch}>
+      <form className="surface grid gap-3 p-4 md:grid-cols-[minmax(16rem,1fr)_10rem_12rem_auto]" onSubmit={submitSearch}>
         <label className="space-y-1 text-sm"><span className="font-medium">Find patient</span><input className="w-full rounded-md border px-3 py-2" onChange={(event) => setSearchDraft(event.target.value)} placeholder="Name, DOB, external ID, or phone" value={searchDraft} /></label>
         <label className="space-y-1 text-sm"><span className="font-medium">Status</span><select className="w-full rounded-md border px-3 py-2" onChange={(event) => setFilters({ page: null, status: event.target.value || null })} value={status}><option value="">All</option><option value="active">Active</option><option value="inactive">Inactive</option></select></label>
         <label className="space-y-1 text-sm"><span className="font-medium">Sort</span><select className="w-full rounded-md border px-3 py-2" onChange={(event) => setFilters({ page: null, sort: event.target.value })} value={sort}><option value="display_name">Patient name</option><option value="dob">Date of birth</option><option value="external_id">External ID</option><option value="status">Status</option></select></label>
-        <button className="self-end rounded-md border bg-black px-4 py-2 text-sm font-medium text-white" type="submit">Search</button>
+        <button className="button-primary self-end" type="submit"><Search aria-hidden="true" size={16} /> Search</button>
       </form>
       {error ? <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div> : null}
-      {loading ? <div className="text-sm text-gray-600">Loading...</div> : <PatientTable enrollmentsByPatientId={enrollments} patients={patients} />}
+      {loading ? <LoadingState label="Loading patient registry" /> : <PatientTable enrollmentsByPatientId={enrollments} patients={patients} />}
       <div className="flex items-center justify-between text-sm"><span>Page {page} of {pageCount}</span><div className="flex gap-2"><button className="rounded-md border px-3 py-2 disabled:opacity-50" disabled={page <= 1} onClick={() => setFilters({ page: String(page - 1) })}>Previous</button><button className="rounded-md border px-3 py-2 disabled:opacity-50" disabled={page >= pageCount} onClick={() => setFilters({ page: String(page + 1) })}>Next</button></div></div>
     </main>
   );

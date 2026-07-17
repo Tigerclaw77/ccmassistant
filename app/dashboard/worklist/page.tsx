@@ -8,6 +8,9 @@ import type { WorklistRow } from "../../../lib/ccm/worklist";
 import { statusLabel } from "../../../lib/ccm/labels";
 import { STAFF_QUEUE_LABELS, type StaffQueueKey } from "../../../lib/ccm/staff-experience";
 import { getSupabaseAuthHeaders } from "../../../lib/supabase";
+import { Search, SearchX, UsersRound } from "lucide-react";
+import EmptyState from "../../../components/ui/EmptyState";
+import LoadingState from "../../../components/ui/LoadingState";
 
 type ActivePracticeResponse = { error?: string; practice?: { id: string; name: string } };
 type WorklistResponse = {
@@ -147,11 +150,12 @@ export default function WorklistPage() {
   }
 
   return (
-    <main className="space-y-5 p-6">
+    <main className="page-shell">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-xl font-semibold">Patient Worklist</h1>
-          <div className="text-sm text-gray-600">{practiceName || "Practice"} - {total} patients</div>
+          <p className="eyebrow">Coordinator workspace</p>
+          <h1 className="page-title mt-1">Patient worklist</h1>
+          <div className="page-description">{practiceName || "Practice"} - start with urgent work, then move patients toward their next required action.</div>
         </div>
         <label className="space-y-1 text-sm">
           <span className="font-medium">Billing month</span>
@@ -210,14 +214,18 @@ export default function WorklistPage() {
             <option value="billed">Billed</option>
           </select>
         </label>
-        <button className="self-end rounded-md border bg-black px-4 py-2 text-sm font-medium text-white" type="submit">Search</button>
+        <button className="button-primary self-end" type="submit"><Search aria-hidden="true" size={16} /> Search</button>
       </form>
 
       {error ? <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div> : null}
-      {loading ? <div className="text-sm text-gray-600">Loading worklist...</div> : visibleRows.length === 0 ? (
-        <div className="border border-dashed bg-white p-5 text-sm text-gray-600">No patients match these filters.</div>
+      {loading ? <LoadingState label="Loading coordinator worklist" /> : visibleRows.length === 0 ? (
+        search || assignment || readiness || attention ? (
+          <EmptyState description="Adjust or clear the current filters to return to the full patient worklist." icon={SearchX} title="No patients match this view" />
+        ) : (
+          <EmptyState actionHref="/patients/new" actionLabel="Add first patient" description="Add a patient and complete enrollment before monthly CCM work appears here." icon={UsersRound} title="Your worklist is ready for its first patient" />
+        )
       ) : (
-        <div className="overflow-x-auto border bg-white text-black">
+        <div className="surface overflow-x-auto text-black">
           <table className="w-full min-w-[780px] border-collapse text-left text-sm">
             <thead className="border-b bg-gray-50 text-xs uppercase text-gray-500">
               <tr><th className="px-4 py-3">Patient</th><th className="px-4 py-3">Progress</th><th className="px-4 py-3">Status</th><th className="px-4 py-3">Next required action</th><th className="px-4 py-3">Owner</th></tr>

@@ -6,6 +6,9 @@ import { currentMonthValue, normalizeBillingMonth, withCoordinatorContext } from
 import { STAFF_QUEUE_LABELS } from "../../../lib/ccm/staff-experience";
 import type { WorklistRow } from "../../../lib/ccm/worklist";
 import { getSupabaseAuthHeaders } from "../../../lib/supabase";
+import { CheckCircle2 } from "lucide-react";
+import EmptyState from "../../../components/ui/EmptyState";
+import LoadingState from "../../../components/ui/LoadingState";
 
 type ActivePracticeResponse = {
   error?: string;
@@ -81,12 +84,12 @@ export default function ProviderDashboardPage() {
   const context = useMemo(() => ({ month: normalizeBillingMonth(billingMonth), source: "worklist" as const }), [billingMonth]);
 
   return (
-    <main className="space-y-5 p-6">
+    <main className="page-shell">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-sm font-medium text-slate-600">Provider workspace</p>
-          <h1 className="text-xl font-semibold">Items Requiring Attention</h1>
-          <p className="mt-1 text-sm text-slate-600">{practiceName || "Practice"} - approvals, care-plan review, and clinical alerts only.</p>
+          <p className="eyebrow">Provider workspace</p>
+          <h1 className="page-title mt-1">Items requiring attention</h1>
+          <p className="page-description">{practiceName || "Practice"} - clinical alerts first, then approvals and care-plan reviews.</p>
         </div>
         <label className="space-y-1 text-sm">
           <span className="font-medium">Billing month</span>
@@ -102,10 +105,10 @@ export default function ProviderDashboardPage() {
       </section>
 
       {error ? <div className="border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div> : null}
-      {loading ? <div className="text-sm text-slate-600">Loading provider queue...</div> : rows.length === 0 ? (
-        <div className="border border-dashed bg-white p-5 text-sm text-slate-600">No provider actions are waiting for this month.</div>
+      {loading ? <LoadingState label="Loading provider review queue" /> : rows.length === 0 ? (
+        <EmptyState description="There are no clinical alerts, eligibility approvals, or care-plan reviews waiting for this month." icon={CheckCircle2} title="Provider review is up to date" />
       ) : (
-        <div className="overflow-x-auto border bg-white">
+        <div className="surface overflow-x-auto">
           <table className="w-full min-w-[760px] text-left text-sm">
             <thead className="border-b bg-slate-50 text-xs uppercase text-slate-600">
               <tr><th className="px-4 py-3">Patient</th><th className="px-4 py-3">Attention</th><th className="px-4 py-3">Reason</th><th className="px-4 py-3">Action</th></tr>

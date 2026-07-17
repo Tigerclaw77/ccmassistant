@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { currentMonthValue, normalizeBillingMonth } from "../../../lib/ccm/month-context";
 import { reasonLabel, statusLabel } from "../../../lib/ccm/labels";
 import { getSupabaseAuthHeaders } from "../../../lib/supabase";
+import { AlertTriangle, ArrowRight, CheckCircle2, Printer } from "lucide-react";
+import Link from "next/link";
+import LoadingState from "../../../components/ui/LoadingState";
 
 type CountItem = { label: string; count: number };
 type ManagementResponse = {
@@ -58,22 +61,29 @@ export default function ManagementDashboardPage() {
   }, [billingMonth]);
 
   return (
-    <main className="space-y-6 p-6">
+    <main className="page-shell">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-sm font-medium text-slate-600">Office management</p>
-          <h1 className="text-xl font-semibold">Practice Operations</h1>
-          <p className="mt-1 text-sm text-slate-600">{practiceName || "Practice"} - enrollment, workload, completion, and documentation flow.</p>
+          <p className="eyebrow">Management workspace</p>
+          <h1 className="page-title mt-1">Practice operations</h1>
+          <p className="page-description">{practiceName || "Practice"} - see what needs attention now, then review workload and monthly flow.</p>
         </div>
         <div className="flex items-end gap-2 print:hidden">
           <label className="space-y-1 text-sm"><span className="font-medium">Reporting month</span><input className="block border px-3 py-2" onChange={(event) => setBillingMonth(event.target.value)} type="month" value={billingMonth.slice(0, 7)} /></label>
-          <button className="border px-3 py-2 text-sm font-medium" onClick={() => window.print()} type="button">Print report</button>
+          <button className="button-secondary" onClick={() => window.print()} type="button"><Printer aria-hidden="true" size={16} /> Print report</button>
         </div>
       </div>
 
       {error ? <div className="border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div> : null}
-      {loading ? <div className="text-sm text-slate-600">Loading operations...</div> : (
+      {loading ? <LoadingState label="Loading practice operations" /> : (
         <>
+          <section className={`surface flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between ${data.patientsAtRisk ? "border-amber-300 bg-amber-50" : ""}`}>
+            <div className="flex items-start gap-3">
+              {data.patientsAtRisk ? <AlertTriangle aria-hidden="true" className="mt-0.5 shrink-0 text-amber-700" size={21} /> : <CheckCircle2 aria-hidden="true" className="mt-0.5 shrink-0 text-teal-700" size={21} />}
+              <div><h2 className="font-semibold text-slate-950">{data.patientsAtRisk ? `${data.patientsAtRisk} patients need attention` : "No elevated patient risk in this view"}</h2><p className="mt-1 text-sm text-slate-600">{data.patientsAtRisk ? "Open the worklist to review urgent, overdue, and blocked patient work." : "Continue with enrollment, workload, and billing-flow review below."}</p></div>
+            </div>
+            <Link className="button-secondary shrink-0" href="/dashboard/worklist">Open worklist <ArrowRight aria-hidden="true" size={16} /></Link>
+          </section>
           <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
             <Metric label="Active CCM patients" value={data.summary?.activePatients ?? 0} />
             <Metric label="Eligible, not enrolled" value={data.summary?.eligibleNotEnrolled ?? 0} />
@@ -113,11 +123,11 @@ export default function ManagementDashboardPage() {
 }
 
 function Metric({ label, suffix = "", tone = "normal", value }: { label: string; suffix?: string; tone?: "normal" | "warning"; value: number }) {
-  return <div className={`border p-4 ${tone === "warning" && value ? "border-amber-300 bg-amber-50" : "bg-white"}`}><div className="text-2xl font-semibold">{value}{suffix}</div><div className="mt-1 text-sm text-slate-600">{label}</div></div>;
+  return <div className={`surface p-4 ${tone === "warning" && value ? "border-amber-300 bg-amber-50" : ""}`}><div className="text-2xl font-semibold text-slate-950">{value}{suffix}</div><div className="mt-1 text-sm text-slate-600">{label}</div></div>;
 }
 
 function Panel({ children, title }: { children: React.ReactNode; title: string }) {
-  return <section className="border bg-white p-4"><h2 className="mb-3 font-semibold">{title}</h2>{children}</section>;
+  return <section className="surface p-4"><h2 className="mb-3 font-semibold text-slate-950">{title}</h2>{children}</section>;
 }
 
 function RankedList({ empty, items }: { empty: string; items: CountItem[] }) {

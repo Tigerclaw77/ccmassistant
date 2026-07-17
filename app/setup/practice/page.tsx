@@ -8,6 +8,7 @@ import {
   isSupportedBillingPractitionerType,
   type BillingPractitionerType,
 } from "../../../lib/ccm/types";
+import { Building2, CheckCircle2, ShieldCheck, UsersRound } from "lucide-react";
 
 function displayLabel(value: string): string {
   return value
@@ -88,17 +89,25 @@ export default function PracticeSetupPage() {
   }
 
   return (
-    <main className="p-6 space-y-4 max-w-lg">
-      <div>
-        <h1 className="text-xl font-semibold">Set up your practice</h1>
-        <p className="text-sm text-gray-600">
-          Create the first practice workspace and billing practitioner profile. You will be the owner.
-        </p>
+    <main className="mx-auto w-full max-w-4xl space-y-6 px-5 py-8 sm:px-8 sm:py-12">
+      <div className="grid gap-6 lg:grid-cols-[1fr_280px] lg:items-end">
+        <div>
+          <p className="eyebrow">Practice setup - step 1 of 1</p>
+          <h1 className="mt-2 text-3xl font-semibold text-slate-950">Create your practice workspace</h1>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
+            Add the practice and first billing practitioner. Your account becomes the practice owner and administrator.
+          </p>
+        </div>
+        <div className="surface grid grid-cols-3 gap-2 p-3 text-center text-xs text-slate-600">
+          <span><Building2 aria-hidden="true" className="mx-auto mb-1 text-teal-700" size={18} />Practice</span>
+          <span><UsersRound aria-hidden="true" className="mx-auto mb-1 text-teal-700" size={18} />Care team</span>
+          <span><ShieldCheck aria-hidden="true" className="mx-auto mb-1 text-teal-700" size={18} />Attestation</span>
+        </div>
       </div>
 
-      <form onSubmit={submit} className="space-y-4">
+      <form onSubmit={submit} className="surface space-y-5 p-5 sm:p-7">
         <div className="space-y-1">
-          <label className="text-sm font-medium" htmlFor="practice-name">
+          <label className="text-sm font-semibold" htmlFor="practice-name">
             Practice name
           </label>
           <p className="text-xs font-medium text-gray-600">
@@ -109,12 +118,12 @@ export default function PracticeSetupPage() {
             required
             value={name}
             onChange={(event) => setName(event.target.value)}
-            className="w-full border rounded px-3 py-2 bg-white text-black"
+            className="w-full rounded-md border px-3 py-2.5"
           />
         </div>
 
         <div className="space-y-1">
-          <label className="text-sm font-medium" htmlFor="provider-name">
+          <label className="text-sm font-semibold" htmlFor="provider-name">
             First billing practitioner name
           </label>
           <p className="text-xs font-medium text-gray-600">
@@ -125,12 +134,12 @@ export default function PracticeSetupPage() {
             required
             value={providerName}
             onChange={(event) => setProviderName(event.target.value)}
-            className="w-full border rounded px-3 py-2 bg-white text-black"
+            className="w-full rounded-md border px-3 py-2.5"
           />
         </div>
 
         <div className="space-y-1">
-          <label className="text-sm font-medium" htmlFor="provider-npi">
+          <label className="text-sm font-semibold" htmlFor="provider-npi">
             Billing practitioner NPI
           </label>
           <p className="text-xs font-medium text-gray-600">
@@ -144,12 +153,12 @@ export default function PracticeSetupPage() {
             placeholder="10-digit NPI"
             value={providerNpi}
             onChange={(event) => setProviderNpi(event.target.value)}
-            className="w-full border rounded px-3 py-2 bg-white text-black"
+            className="w-full rounded-md border px-3 py-2.5"
           />
         </div>
 
         <div className="space-y-1">
-          <label className="text-sm font-medium" htmlFor="provider-type">
+          <label className="text-sm font-semibold" htmlFor="provider-type">
             Billing practitioner type
           </label>
           <p className="text-xs font-medium text-gray-600">
@@ -159,7 +168,7 @@ export default function PracticeSetupPage() {
             id="provider-type"
             value={providerType}
             onChange={(event) => setProviderType(event.target.value as BillingPractitionerType)}
-            className="w-full border rounded px-3 py-2 bg-white text-black"
+            className="w-full rounded-md border px-3 py-2.5"
           >
             {BILLING_PRACTITIONER_TYPES.map((type) => (
               <option key={type} value={type}>
@@ -174,7 +183,8 @@ export default function PracticeSetupPage() {
           ) : null}
         </div>
 
-        <div className="space-y-3 rounded border bg-white p-4 text-sm text-gray-700">
+        <div className="space-y-4 rounded-md border bg-slate-50 p-4 text-sm text-slate-700">
+          <div className="flex items-center gap-2 font-semibold text-slate-900"><CheckCircle2 aria-hidden="true" className="text-teal-700" size={18} />Required practice attestations</div>
           <label className="flex gap-3">
             <input
               required
@@ -204,14 +214,14 @@ export default function PracticeSetupPage() {
           </label>
         </div>
 
-        {error ? <div className="text-sm text-red-600">{error}</div> : null}
+        {error ? <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-700">{error}</div> : null}
 
         <button
           type="submit"
           disabled={loading}
-          className="px-4 py-2 border rounded bg-black text-white disabled:opacity-60"
+          className="button-primary"
         >
-          {loading ? "Creating..." : "Create practice"}
+          {loading ? "Creating secure workspace..." : "Create practice workspace"}
         </button>
       </form>
     </main>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, type FormEvent } from "react";
 import { authRedirectUrl } from "../../lib/auth-redirect";
 import { supabase } from "../../lib/supabase";
+import AuthShell from "../../components/auth/AuthShell";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -28,27 +29,26 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <main className="p-6 space-y-4">
-      <h1 className="text-xl font-semibold">Reset password</h1>
-      <form className="max-w-sm space-y-4" onSubmit={submit}>
+    <AuthShell title="Reset your password" description="Enter the work email associated with your account. We will send a time-limited reset link if the account exists.">
+      <form className="max-w-sm space-y-5" onSubmit={submit}>
         <label className="block space-y-1 text-sm">
-          <span className="font-medium">Email</span>
+          <span className="font-semibold text-slate-800">Work email</span>
           <input
             autoComplete="email"
-            className="w-full rounded border px-3 py-2"
+            className="w-full rounded-md border px-3 py-2.5"
             onChange={(event) => setEmail(event.target.value)}
             required
             type="email"
             value={email}
           />
         </label>
-        {error ? <div className="text-sm text-red-600">{error}</div> : null}
-        {message ? <div className="text-sm text-green-700">{message}</div> : null}
-        <button className="rounded bg-black px-4 py-2 text-sm text-white disabled:opacity-60" disabled={loading}>
+        {error ? <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-700">{error}</div> : null}
+        {message ? <div className="rounded-md border border-teal-200 bg-teal-50 px-3 py-3 text-sm leading-6 text-teal-900">{message}</div> : null}
+        <button className="button-primary w-full" disabled={loading}>
           {loading ? "Sending..." : "Send reset link"}
         </button>
       </form>
-      <Link className="text-sm underline" href="/login">Back to login</Link>
-    </main>
+      <Link className="mt-6 inline-block text-sm font-semibold text-teal-700 hover:text-teal-800" href="/login">Back to sign in</Link>
+    </AuthShell>
   );
 }

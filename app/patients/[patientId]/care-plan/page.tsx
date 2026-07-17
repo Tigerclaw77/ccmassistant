@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import Breadcrumbs from "../../../../components/Breadcrumbs";
 import QuestionSessionPanel from "../../../../components/ccm/QuestionSessionPanel";
+import LoadingState from "../../../../components/ui/LoadingState";
 import type { QuestionSessionPayload } from "../../../../lib/ccm/session-integration";
 import { buildCarePlanSuggestions, mergeCarePlanText } from "../../../../lib/ccm/care-plan-review";
 import { currentMonthValue, normalizeBillingMonth, withCoordinatorContext } from "../../../../lib/ccm/month-context";
@@ -239,7 +240,7 @@ export default function PatientCarePlanPage() {
   }
 
   if (loading) {
-    return <main className="p-6 text-sm text-gray-600">Loading...</main>;
+    return <main className="page-shell"><LoadingState label="Loading care plan" /></main>;
   }
 
   return (

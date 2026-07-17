@@ -3,6 +3,14 @@ import Header from "../components/Header";
 import AuthGate from "../components/auth/AuthGate";
 import Script from "next/script";
 
+export const metadata = {
+  title: {
+    default: "CCM Assistant",
+    template: "%s | CCM Assistant",
+  },
+  description: "Evidence-first chronic care management for coordinated practice teams.",
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -24,7 +32,7 @@ export default function RootLayout({
         </Script>
       </head>
 
-      <body className="min-h-screen">
+      <body className="min-h-screen antialiased">
         <Header />
         <AuthGate>{children}</AuthGate>
       </body>

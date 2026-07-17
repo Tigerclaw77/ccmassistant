@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import Breadcrumbs from "../../../../components/Breadcrumbs";
+import LoadingState from "../../../../components/ui/LoadingState";
 import { getSupabaseAuthHeaders } from "../../../../lib/supabase";
 import type { InteractionLog, Patient } from "../../../../lib/ccm/types";
 import { billingMonthFromOccurredDate, currentMonthValue, normalizeBillingMonth, withCoordinatorContext } from "../../../../lib/ccm/month-context";
@@ -182,7 +183,7 @@ export default function LogInteractionPage() {
   }
 
   if (loading) {
-    return <main className="p-6 text-sm text-gray-600">Loading...</main>;
+    return <main className="page-shell"><LoadingState label="Loading time log" /></main>;
   }
 
   return (

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import type { CcmEnrollment, Patient } from "../../lib/ccm/types";
 import { statusLabel } from "../../lib/ccm/labels";
+import { UsersRound } from "lucide-react";
+import EmptyState from "../ui/EmptyState";
 
 type Props = {
   enrollmentsByPatientId: Record<string, CcmEnrollment | undefined>;
@@ -34,14 +36,18 @@ function StatusBadge({ value }: { value: string | null | undefined }) {
 export default function PatientTable({ enrollmentsByPatientId, patients }: Props) {
   if (patients.length === 0) {
     return (
-      <div className="rounded-md border bg-white p-5 text-sm text-gray-600">
-        No patients yet. Add one enrolled patient to begin the first billable CCM month.
-      </div>
+      <EmptyState
+        actionHref="/patients/new"
+        actionLabel="Add first patient"
+        description="Create a patient record, confirm eligibility and consent, then begin the first monthly CCM workflow."
+        icon={UsersRound}
+        title="No patients in this practice yet"
+      />
     );
   }
 
   return (
-    <div className="overflow-x-auto rounded-md border bg-white text-black">
+    <div className="surface overflow-x-auto text-black">
       <table className="w-full min-w-[760px] border-collapse text-left text-sm">
         <thead className="border-b bg-gray-50 text-xs uppercase tracking-wide text-gray-500">
           <tr>

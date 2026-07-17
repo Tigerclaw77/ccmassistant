@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import PatientForm from "../../../components/patients/PatientForm";
+import LoadingState from "../../../components/ui/LoadingState";
 import { getSupabaseAuthHeaders } from "../../../lib/supabase";
 
 type ActivePracticeResponse = {
@@ -43,7 +44,7 @@ export default function NewPatientPage() {
   }, []);
 
   if (loading) {
-    return <main className="p-6 text-sm text-gray-600">Loading...</main>;
+    return <main className="page-shell"><LoadingState label="Preparing patient registration" /></main>;
   }
 
   if (!practiceId) {

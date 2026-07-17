@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import Breadcrumbs from "../../../../components/Breadcrumbs";
+import LoadingState from "../../../../components/ui/LoadingState";
 import {
   REQUIRED_ELIGIBILITY_FACTS,
   REQUIRED_PROVIDER_ATTESTATIONS,
@@ -203,7 +204,7 @@ export default function PatientEligibilityPage() {
   }
 
   if (loading) {
-    return <main className="p-6 text-sm text-gray-600">Loading...</main>;
+    return <main className="page-shell"><LoadingState label="Loading eligibility review" /></main>;
   }
 
   if (error && !patient) {

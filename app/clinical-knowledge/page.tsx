@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { getSupabaseAuthHeaders } from "../../lib/supabase";
+import LoadingState from "../../components/ui/LoadingState";
 import type {
   ClinicalObjective,
   ClinicalQuestion,
@@ -171,7 +172,7 @@ export default function ClinicalKnowledgePage() {
   }
 
   if (loading) {
-    return <main className="p-6 text-sm text-slate-600">Loading clinical knowledge...</main>;
+    return <main className="page-shell"><LoadingState label="Loading clinical knowledge" /></main>;
   }
 
   return (

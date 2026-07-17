@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import Breadcrumbs from "../../../../components/Breadcrumbs";
 import SessionReviewSummary from "../../../../components/ccm/SessionReviewSummary";
+import LoadingState from "../../../../components/ui/LoadingState";
 import { authRedirectUrl } from "../../../../lib/auth-redirect";
 import { statusLabel } from "../../../../lib/ccm/labels";
 import { getQuestion } from "../../../../lib/ccm/question-bank/questions";
@@ -222,7 +223,7 @@ export default function PatientCheckinPage() {
   }
 
   if (loading) {
-    return <main className="p-6 text-sm text-gray-600">Loading...</main>;
+    return <main className="page-shell"><LoadingState label="Loading monthly check-in" /></main>;
   }
 
   return (

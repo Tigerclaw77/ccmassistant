@@ -3,8 +3,10 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
+import { LogOut, PlayCircle } from "lucide-react";
 import { getSupabaseAuthHeaders, supabase } from "../lib/supabase";
 import type { PracticeRole } from "../lib/ccm/types";
+import BrandMark from "./ui/BrandMark";
 
 type ActivePracticeResponse = {
   membership?: {
@@ -57,6 +59,12 @@ function isStaffPath(pathname: string): boolean {
     pathname === "/" ||
     pathname === "/login" ||
     pathname === "/signup" ||
+    pathname === "/forgot-password" ||
+    pathname === "/reset-password" ||
+    pathname === "/mfa" ||
+    pathname === "/setup/practice" ||
+    pathname === "/demo" ||
+    pathname === "/request-demo" ||
     pathname.startsWith("/f/")
   );
 }
@@ -139,18 +147,23 @@ export default function Header() {
 
   if (!staffPath) {
     return (
-      <header className="w-full border-b bg-white px-6 py-3">
-        <div className="mx-auto flex max-w-6xl items-center justify-between">
-          <Link href="/" className="font-semibold text-lg text-slate-900">
-            CCM Assistant
+      <header className="sticky top-0 z-40 w-full border-b bg-white/95 px-4 py-3 backdrop-blur sm:px-6">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
+          <Link className="shrink-0" href="/" aria-label="CCM Assistant home">
+            <BrandMark />
           </Link>
           {!pathname.startsWith("/f/") ? (
-            <div className="flex items-center gap-4 text-sm">
-              <Link className="text-slate-700 hover:text-slate-950" href="/login">
-                Login
+            <div className="flex shrink-0 items-center gap-2 text-sm sm:gap-3">
+              <nav className="hidden items-center gap-1 lg:flex" aria-label="Public navigation">
+                <Link className="button-quiet" href="/#how-it-works">How it works</Link>
+                <Link className="button-quiet" href="/#security">Security</Link>
+                <Link className="button-quiet" href="/demo"><PlayCircle aria-hidden="true" size={16} /> Demo</Link>
+              </nav>
+              <Link className="button-secondary" href="/login">
+                Sign in
               </Link>
-              <Link className="rounded border px-3 py-1 text-slate-800 hover:bg-slate-50" href="/signup">
-                Sign up
+              <Link className="button-primary hidden sm:inline-flex" href="/request-demo">
+                Request demo
               </Link>
             </div>
           ) : null}
@@ -160,19 +173,20 @@ export default function Header() {
   }
 
   return (
-    <header className="w-full border-b bg-white px-6 py-3">
-      <div className="mx-auto flex max-w-7xl flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-        <div>
-          <Link href={homeHref} className="font-semibold text-lg text-slate-950">
-            CCM Assistant
+    <header className="sticky top-0 z-40 w-full border-b bg-white px-4 py-3 shadow-[0_1px_2px_rgb(15_23_42_/_0.04)] sm:px-6">
+      <div className="mx-auto flex max-w-7xl flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
+        <div className="flex items-center gap-3">
+          <Link href={homeHref} aria-label="CCM Assistant dashboard">
+            <BrandMark />
           </Link>
-          <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-600">
-            <span>Practice: {practiceName}</span>
-            <span>User: {userLabel}</span>
+          <span className="hidden h-8 w-px bg-slate-200 sm:block" aria-hidden="true" />
+          <div className="hidden min-w-0 sm:block">
+            <div className="truncate text-sm font-semibold text-slate-800">{practiceName}</div>
+            <div className="truncate text-xs text-slate-500">{userLabel}</div>
           </div>
         </div>
 
-        <nav className="flex flex-wrap items-center gap-2 text-sm">
+        <nav className="flex items-center gap-1 overflow-x-auto text-sm" aria-label="Practice navigation">
           {navItems.map((item) => {
             const normalizedHref = item.href.split("#")[0];
             const matchPath = item.match === undefined ? normalizedHref : item.match;
@@ -184,8 +198,8 @@ export default function Header() {
 
             return (
               <Link
-                className={`rounded px-3 py-2 ${
-                  active ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100"
+                className={`whitespace-nowrap rounded-md px-3 py-2 font-medium ${
+                  active ? "bg-teal-50 text-teal-800" : "text-slate-700 hover:bg-slate-100"
                 }`}
                 href={item.href}
                 key={`${item.href}-${item.label}`}
@@ -195,11 +209,13 @@ export default function Header() {
             );
           })}
           <button
-            className="rounded border border-slate-300 px-3 py-2 text-slate-700 hover:bg-slate-100"
+            aria-label="Sign out"
+            className="inline-flex size-10 shrink-0 items-center justify-center rounded-md border border-slate-300 text-slate-600 hover:bg-slate-100 hover:text-slate-950"
             onClick={signOut}
             type="button"
+            title="Sign out"
           >
-            Logout
+            <LogOut aria-hidden="true" size={17} />
           </button>
         </nav>
       </div>

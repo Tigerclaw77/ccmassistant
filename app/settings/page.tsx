@@ -10,6 +10,8 @@ import {
   type BillingPractitionerType,
   type ProviderManualReviewStatus,
 } from "../../lib/ccm/types";
+import { ReceiptText, ShieldCheck, Stethoscope, UserCog, UsersRound } from "lucide-react";
+import LoadingState from "../../components/ui/LoadingState";
 
 type Practice = {
   id: string;
@@ -484,14 +486,15 @@ export default function SettingsPage() {
   }
 
   if (loading) {
-    return <main className="p-6 text-sm text-slate-600">Loading settings...</main>;
+    return <main className="page-shell"><LoadingState label="Loading practice settings" /></main>;
   }
 
   return (
-    <main className="mx-auto max-w-6xl space-y-6 p-6">
+    <main className="page-shell max-w-6xl">
       <div>
-        <p className="text-sm text-slate-600">Practice administration</p>
-        <h1 className="text-2xl font-semibold">Settings</h1>
+        <p className="eyebrow">Practice administration</p>
+        <h1 className="page-title mt-1">Settings</h1>
+        <p className="page-description">Manage practice details, billing practitioners, staff access, and your account.</p>
       </div>
 
       {message ? (
@@ -507,29 +510,47 @@ export default function SettingsPage() {
       ) : null}
 
       <nav aria-label="Settings sections" className="grid gap-3 md:grid-cols-5">
-        <a className="rounded border bg-white p-4 shadow-sm hover:bg-slate-50" href="#practice">
+        <a className="surface p-4 hover:bg-slate-50" href="#practice">
           <div className="text-sm font-semibold text-slate-900">Practice</div>
           <div className="mt-1 text-xs text-slate-600">Name, phone, address, threshold</div>
         </a>
-        <a className="rounded border bg-white p-4 shadow-sm hover:bg-slate-50" href="#providers">
+        <a className="surface p-4 hover:bg-slate-50" href="#providers">
           <div className="text-sm font-semibold text-slate-900">Billing Practitioners</div>
           <div className="mt-1 text-xs text-slate-600">{providers.length} practitioner{providers.length === 1 ? "" : "s"} configured</div>
         </a>
-        <a className="rounded border bg-white p-4 shadow-sm hover:bg-slate-50" href="#coordinators">
+        <a className="surface p-4 hover:bg-slate-50" href="#coordinators">
           <div className="text-sm font-semibold text-slate-900">Coordinators</div>
           <div className="mt-1 text-xs text-slate-600">{coordinatorMembers.length} staff record{coordinatorMembers.length === 1 ? "" : "s"}</div>
         </a>
-        <a className="rounded border bg-white p-4 shadow-sm hover:bg-slate-50" href="#account">
+        <a className="surface p-4 hover:bg-slate-50" href="#account">
           <div className="text-sm font-semibold text-slate-900">Account</div>
           <div className="mt-1 text-xs text-slate-600">{userEmail || "Current user"}</div>
         </a>
-        <a className="rounded border bg-white p-4 shadow-sm hover:bg-slate-50" href="#subscription">
+        <a className="surface p-4 hover:bg-slate-50" href="#subscription">
           <div className="text-sm font-semibold text-slate-900">Subscription</div>
           <div className="mt-1 text-xs text-slate-600">Stripe Checkout and billing portal</div>
         </a>
       </nav>
 
-      <section className="rounded border bg-white p-5 shadow-sm" id="practice">
+      <section aria-labelledby="access-roles-title">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div><h2 className="text-lg font-semibold text-slate-950" id="access-roles-title">Workspace roles</h2><p className="mt-1 text-sm text-slate-600">Each role sees the work relevant to its responsibility.</p></div>
+          <p className="text-xs font-medium text-slate-500">Role invitations are not enabled in this release.</p>
+        </div>
+        <div className="mt-4 grid gap-px overflow-hidden rounded-md border bg-slate-200 sm:grid-cols-2 lg:grid-cols-5">
+          {[
+            { icon: ShieldCheck, name: "Owner", text: "Practice control and oversight" },
+            { icon: UserCog, name: "Administrator", text: "Setup and staff operations" },
+            { icon: Stethoscope, name: "Provider", text: "Clinical approvals and review" },
+            { icon: UsersRound, name: "Coordinator", text: "Monthly patient workflow" },
+            { icon: ReceiptText, name: "Billing", text: "Evidence and billing readiness" },
+          ].map(({ icon: Icon, name, text }) => (
+            <div className="bg-white p-4" key={name}><Icon aria-hidden="true" className="text-teal-700" size={19} /><h3 className="mt-3 text-sm font-semibold text-slate-950">{name}</h3><p className="mt-1 text-xs leading-5 text-slate-600">{text}</p></div>
+          ))}
+        </div>
+      </section>
+
+      <section className="surface p-5" id="practice">
         <div className="mb-5 border-b pb-3">
           <h2 className="text-xl font-semibold text-slate-950">Practice</h2>
           <p className="mt-1 text-sm text-slate-600">
@@ -645,7 +666,7 @@ export default function SettingsPage() {
         </button>
       </section>
 
-      <section className="rounded border bg-white p-5 shadow-sm" id="subscription">
+      <section className="surface p-5" id="subscription">
         <div className="mb-5 border-b pb-3">
           <h2 className="text-xl font-semibold text-slate-950">Subscription</h2>
           <p className="mt-1 text-sm text-slate-600">
@@ -672,7 +693,7 @@ export default function SettingsPage() {
         </div>
       </section>
 
-      <section className="rounded border bg-white p-5 shadow-sm" id="providers">
+      <section className="surface p-5" id="providers">
         <div className="mb-5 flex flex-wrap items-start justify-between gap-3 border-b pb-3">
           <div>
             <h2 className="text-xl font-semibold text-slate-950">Billing Practitioners</h2>

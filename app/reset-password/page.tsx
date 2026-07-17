@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../lib/supabase";
+import AuthShell from "../../components/auth/AuthShell";
 
 export default function ResetPasswordPage() {
   const router = useRouter();
@@ -31,14 +32,13 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <main className="p-6 space-y-4">
-      <h1 className="text-xl font-semibold">Choose a new password</h1>
-      <form className="max-w-sm space-y-4" onSubmit={submit}>
+    <AuthShell title="Choose a new password" description="Create a strong password for your CCM Assistant account. Your existing multi-factor authentication remains in place.">
+      <form className="max-w-sm space-y-5" onSubmit={submit}>
         <label className="block space-y-1 text-sm">
-          <span className="font-medium">New password</span>
+          <span className="font-semibold text-slate-800">New password</span>
           <input
             autoComplete="new-password"
-            className="w-full rounded border px-3 py-2"
+            className="w-full rounded-md border px-3 py-2.5"
             minLength={12}
             onChange={(event) => setPassword(event.target.value)}
             required
@@ -46,11 +46,12 @@ export default function ResetPasswordPage() {
             value={password}
           />
         </label>
-        {error ? <div className="text-sm text-red-600">{error}</div> : null}
-        <button className="rounded bg-black px-4 py-2 text-sm text-white disabled:opacity-60" disabled={loading}>
+        <p className="text-xs leading-5 text-slate-500">Use at least 12 characters and avoid passwords used for other services.</p>
+        {error ? <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-700">{error}</div> : null}
+        <button className="button-primary w-full" disabled={loading}>
           {loading ? "Updating..." : "Update password"}
         </button>
       </form>
-    </main>
+    </AuthShell>
   );
 }

@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { getSupabaseAuthHeaders, supabase } from "../../lib/supabase";
 
 const PUBLIC_PREFIXES = ["/login", "/signup", "/forgot-password", "/reset-password", "/f/"];
-const PUBLIC_PATHS = ["/"];
+const PUBLIC_PATHS = ["/", "/demo", "/request-demo"];
 const SETUP_PATH = "/setup/practice";
 const MFA_PATH = "/mfa";
 
@@ -109,7 +109,12 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
   }, [isPublic, pathname, router]);
 
   if (!ready && !isPublic) {
-    return <main className="p-6 text-sm text-gray-600">Loading...</main>;
+    return (
+      <main className="flex min-h-[calc(100svh-65px)] items-center justify-center bg-[#f4f7f7] px-6 text-sm text-slate-600" role="status">
+        <span className="mr-3 size-4 animate-spin rounded-full border-2 border-slate-300 border-t-teal-700" aria-hidden="true" />
+        Verifying secure access...
+      </main>
+    );
   }
 
   return <>{children}</>;

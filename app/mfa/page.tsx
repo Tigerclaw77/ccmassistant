@@ -11,6 +11,7 @@ import {
   verifyMfaEnrollment,
   type MfaEnrollmentState,
 } from "../../lib/mfa-enrollment";
+import AuthShell from "../../components/auth/AuthShell";
 
 export default function MfaPage() {
   const router = useRouter();
@@ -131,32 +132,46 @@ export default function MfaPage() {
     }
   }
 
-  if (loading) return <main className="p-6 text-sm text-gray-600">Preparing secure sign-in...</main>;
+  if (loading) return (
+    <AuthShell title="Secure your account" description="Preparing your authenticator enrollment...">
+      <div className="flex items-center gap-3 text-sm text-slate-600" role="status">
+        <span className="size-4 animate-spin rounded-full border-2 border-slate-300 border-t-teal-700" aria-hidden="true" />
+        Creating a secure enrollment
+      </div>
+    </AuthShell>
+  );
 
   return (
-    <main className="p-6 space-y-5 max-w-lg">
-      <h1 className="text-xl font-semibold">Secure sign-in</h1>
+    <AuthShell title="Set up multi-factor authentication" description="Use an authenticator app to add a second layer of protection before entering your practice workspace.">
       {mode === "cancelled" ? (
-        <p className="text-sm text-gray-600">Authenticator setup was cancelled.</p>
+        <div className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">Authenticator setup was cancelled. Start again when you are ready.</div>
       ) : qrCode ? (
         <div className="space-y-3 text-sm">
-          <p>Scan this code with an authenticator app, then enter the six-digit code.</p>
-          <Image alt="Authenticator setup QR code" height={220} src={qrCode.trimEnd()} unoptimized width={220} />
-          <p className="break-all text-gray-600">Manual setup key: {secret}</p>
+          <ol className="space-y-2 text-slate-700">
+            <li><span className="font-semibold">1.</span> Open your authenticator app and scan the code.</li>
+            <li><span className="font-semibold">2.</span> Enter the current six-digit code below.</li>
+          </ol>
+          <div className="inline-flex rounded-md border bg-white p-3 shadow-sm">
+            <Image alt="Authenticator setup QR code" height={220} src={qrCode.trimEnd()} unoptimized width={220} />
+          </div>
+          <details className="rounded-md border bg-slate-50 px-3 py-2 text-xs text-slate-600">
+            <summary className="cursor-pointer font-semibold text-slate-700">Use a manual setup key</summary>
+            <p className="mt-2 break-all font-mono">{secret}</p>
+          </details>
         </div>
       ) : mode === "recovery" ? (
-        <p className="text-sm text-gray-600">
+        <p className="rounded-md border bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-700">
           Authenticator setup was already started. Enter a current code, or restart setup to display a new QR code.
         </p>
       ) : (
-        <p className="text-sm text-gray-600">Enter the code from your authenticator app.</p>
+        <p className="text-sm text-slate-600">Enter the current code from your authenticator app.</p>
       )}
       {mode !== "cancelled" ? <form className="space-y-4" onSubmit={verify}>
         <label className="block space-y-1 text-sm">
-          <span className="font-medium">Authentication code</span>
+          <span className="font-semibold text-slate-800">Authentication code</span>
           <input
             autoComplete="one-time-code"
-            className="w-full rounded border px-3 py-2"
+            className="w-full rounded-md border px-3 py-2.5 text-center text-lg font-semibold"
             inputMode="numeric"
             maxLength={6}
             minLength={6}
@@ -166,25 +181,25 @@ export default function MfaPage() {
             value={code}
           />
         </label>
-        {error ? <div className="text-sm text-red-600">{error}</div> : null}
-        <button className="rounded bg-black px-4 py-2 text-sm text-white disabled:opacity-60" disabled={verifying || updating || !factorId}>
-          {verifying ? "Verifying..." : "Verify"}
+        {error ? <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-700">{error}</div> : null}
+        <button className="button-primary w-full" disabled={verifying || updating || !factorId}>
+          {verifying ? "Verifying code..." : "Verify and continue"}
         </button>
       </form> : null}
       {mode === "cancelled" ? (
-        <button className="rounded border px-4 py-2 text-sm disabled:opacity-60" disabled={updating} onClick={restart} type="button">
+        <button className="button-primary mt-5" disabled={updating} onClick={restart} type="button">
           {updating ? "Starting..." : "Start setup"}
         </button>
       ) : mode !== "challenge" ? (
-        <div className="flex flex-wrap gap-3">
-          <button className="rounded border px-4 py-2 text-sm disabled:opacity-60" disabled={updating || verifying} onClick={restart} type="button">
+        <div className="mt-4 flex flex-wrap gap-2 border-t pt-4">
+          <button className="button-secondary" disabled={updating || verifying} onClick={restart} type="button">
             {updating ? "Updating..." : "Restart setup"}
           </button>
-          <button className="px-4 py-2 text-sm text-gray-700 disabled:opacity-60" disabled={updating || verifying} onClick={cancel} type="button">
+          <button className="button-quiet" disabled={updating || verifying} onClick={cancel} type="button">
             Cancel setup
           </button>
         </div>
       ) : null}
-    </main>
+    </AuthShell>
   );
 }

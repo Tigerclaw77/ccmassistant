@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import SessionQuestionInput from "../../../components/ccm/SessionQuestionInput";
+import LoadingState from "../../../components/ui/LoadingState";
 import type { AnswerValue } from "../../../lib/ccm/question-bank/types";
 import type { PublicQuestionSessionPayload } from "../../../lib/ccm/session-integration";
 import type { CheckinInstance, Patient, Question } from "../../../lib/ccm/types";
@@ -200,14 +201,15 @@ export default function PublicForm() {
   }
 
   if (loading) {
-    return <main className="p-6 text-sm text-gray-600">Loading...</main>;
+    return <main className="mx-auto max-w-2xl px-5 py-10"><LoadingState label="Opening your secure check-in" /></main>;
   }
 
   if (submitted) {
     return (
-      <main className="p-6 max-w-xl space-y-3">
-        <h1 className="text-xl font-semibold">Response received</h1>
-        <p className="text-sm text-gray-600">
+      <main className="mx-auto max-w-xl space-y-3 px-5 py-12 text-center">
+        <p className="eyebrow">Monthly check-in</p>
+        <h1 className="text-2xl font-semibold text-slate-950">Response received</h1>
+        <p className="text-sm leading-6 text-slate-600">
           Thank you. Your care team at {practice?.name ?? "the practice"} can now review this check-in.
         </p>
       </main>
@@ -216,8 +218,9 @@ export default function PublicForm() {
 
   if (error || !checkIn) {
     return (
-      <main className="p-6 max-w-xl space-y-3">
-        <h1 className="text-xl font-semibold">Check-in unavailable</h1>
+      <main className="mx-auto max-w-xl space-y-3 px-5 py-12">
+        <p className="eyebrow">Secure patient check-in</p>
+        <h1 className="text-2xl font-semibold text-slate-950">Check-in unavailable</h1>
         <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
           {error ?? "Invalid link"}
         </div>
@@ -243,10 +246,10 @@ export default function PublicForm() {
 
   if (alreadySubmitted) {
     return (
-      <main className="p-6 max-w-xl space-y-4">
+      <main className="mx-auto max-w-xl space-y-4 px-5 py-12">
         <div>
-          <p className="text-sm text-gray-600">{practice?.name ?? "CCM Assistant"}</p>
-          <h1 className="text-xl font-semibold">Check-in already submitted</h1>
+          <p className="eyebrow">{practice?.name ?? "CCM Assistant"}</p>
+          <h1 className="mt-2 text-2xl font-semibold text-slate-950">Check-in already submitted</h1>
         </div>
         <div className="rounded-md border bg-white p-4 text-sm text-gray-700">
           We already received this monthly check-in for {patient?.display_name ?? "the patient"}.
@@ -259,10 +262,10 @@ export default function PublicForm() {
   if (mode === "engine" && session) {
     const remaining = session.progress.requiredQuestionsRemaining + session.progress.optionalQuestionsRemaining;
     return (
-      <main className="p-6 max-w-2xl space-y-6">
+      <main className="mx-auto max-w-2xl space-y-6 px-5 py-8 sm:py-12">
         <div>
-          <p className="text-sm text-gray-600">{practice?.name ?? "CCM Assistant"}</p>
-          <h1 className="text-xl font-semibold">Monthly CCM Check-in</h1>
+          <p className="eyebrow">{practice?.name ?? "CCM Assistant"}</p>
+          <h1 className="mt-2 text-2xl font-semibold text-slate-950">Monthly CCM check-in</h1>
           <div className="text-sm text-gray-600">
             {patient?.display_name}{providerName ? ` - ${providerName}` : ""}
           </div>
@@ -271,12 +274,12 @@ export default function PublicForm() {
         {error ? <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div> : null}
 
         {session.status === "paused" ? (
-          <section className="rounded-md border bg-white p-4 text-black">
+          <section className="surface p-5 text-black">
             <p className="text-sm text-gray-700">Your saved check-in is paused.</p>
-            <button className="mt-3 rounded-md border bg-black px-4 py-2 text-sm font-medium text-white disabled:opacity-60" disabled={submitting} onClick={() => updateEngineSession("resume")}>Resume</button>
+            <button className="button-primary mt-3" disabled={submitting} onClick={() => updateEngineSession("resume")}>Resume check-in</button>
           </section>
         ) : session.currentQuestion ? (
-          <section className="space-y-4 rounded-md border bg-white p-4 text-black">
+          <section className="surface space-y-5 p-5 text-black">
             <div className="grid gap-3 text-sm sm:grid-cols-4">
               <div><div className="text-xs text-gray-600">Overall progress</div><div className="font-medium">{session.progress.completionPercentage}%</div></div>
               <div><div className="text-xs text-gray-600">Current section</div><div className="font-medium">{session.currentQuestion.currentSection}</div></div>
@@ -289,8 +292,8 @@ export default function PublicForm() {
               <SessionQuestionInput onChange={setCurrentAnswer} question={session.currentQuestion} value={currentAnswer} />
             </label>
             <div className="flex flex-wrap gap-3">
-              <button className="rounded-md border bg-black px-4 py-2 text-sm font-medium text-white disabled:opacity-60" disabled={submitting} onClick={() => updateEngineSession("answer")}>{submitting ? "Saving..." : "Continue"}</button>
-              <button className="rounded-md border px-3 py-2 text-sm disabled:opacity-60" disabled={submitting} onClick={() => updateEngineSession("pause")}>Save and finish later</button>
+              <button className="button-primary" disabled={submitting} onClick={() => updateEngineSession("answer")}>{submitting ? "Saving answer..." : "Continue"}</button>
+              <button className="button-secondary" disabled={submitting} onClick={() => updateEngineSession("pause")}>Save and finish later</button>
             </div>
           </section>
         ) : null}
@@ -303,17 +306,17 @@ export default function PublicForm() {
   }
 
   return (
-    <main className="p-6 max-w-2xl space-y-6">
+    <main className="mx-auto max-w-2xl space-y-6 px-5 py-8 sm:py-12">
       <div>
-        <p className="text-sm text-gray-600">{practice?.name ?? "CCM Assistant"}</p>
-        <h1 className="text-xl font-semibold">Monthly CCM Check-in</h1>
+        <p className="eyebrow">{practice?.name ?? "CCM Assistant"}</p>
+        <h1 className="mt-2 text-2xl font-semibold text-slate-950">Monthly CCM check-in</h1>
         <div className="text-sm text-gray-600">
           {patient?.display_name}
           {providerName ? ` - ${providerName}` : ""}
         </div>
       </div>
 
-      <section className="rounded-md border bg-white p-4 text-sm text-gray-700">
+      <section className="surface p-5 text-sm leading-6 text-slate-700">
         <p>
           Please answer each required question so your care team can review any changes this month.
         </p>
@@ -330,7 +333,7 @@ export default function PublicForm() {
         </div>
       ) : null}
 
-      <section className="space-y-4 rounded-md border bg-white p-4 text-black">
+      <section className="surface space-y-5 p-5 text-black">
         {questions.map((question) => (
           <label key={question.id} className="block space-y-2 text-sm">
             <span className="font-medium">
@@ -351,7 +354,7 @@ export default function PublicForm() {
         <button
           onClick={submit}
           disabled={submitting || questions.length === 0}
-          className="rounded-md border bg-black px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
+          className="button-primary"
         >
           {submitting ? "Submitting..." : "Submit answers"}
         </button>

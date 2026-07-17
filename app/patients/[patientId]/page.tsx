@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
 import PatientForm from "../../../components/patients/PatientForm";
 import PatientWorkspace from "../../../components/patients/PatientWorkspace";
+import LoadingState from "../../../components/ui/LoadingState";
 import type { AuditEvent, CcmEnrollment, Patient } from "../../../lib/ccm/types";
 import { getSupabaseAuthHeaders } from "../../../lib/supabase";
 
@@ -80,7 +81,7 @@ export default function PatientDetailPage() {
   }, [patientId]);
 
   if (loading) {
-    return <main className="p-6 text-sm text-gray-600">Loading...</main>;
+    return <main className="page-shell"><LoadingState label="Loading patient workspace" /></main>;
   }
 
   if (error || !practiceId || !patient) {

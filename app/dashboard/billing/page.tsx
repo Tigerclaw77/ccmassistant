@@ -14,6 +14,9 @@ import {
   suggestCptReview,
   type BillingReviewCategory,
 } from "../../../lib/ccm/staff-experience";
+import { Calculator, ReceiptText } from "lucide-react";
+import EmptyState from "../../../components/ui/EmptyState";
+import LoadingState from "../../../components/ui/LoadingState";
 
 type ActivePracticeResponse = {
   error?: string;
@@ -279,13 +282,12 @@ export default function BillingPage() {
     : reviewRows;
 
   return (
-    <main className="p-6 space-y-6">
+    <main className="page-shell">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl font-semibold">Monthly Billing</h1>
-          <div className="text-sm text-gray-600">
-            {practiceName || "Practice"} - review patient-month readiness and evidence.
-          </div>
+          <p className="eyebrow">Billing workspace</p>
+          <h1 className="page-title mt-1">Monthly billing review</h1>
+          <div className="page-description">{practiceName || "Practice"} - resolve missing evidence first, then review patient-months ready for action.</div>
         </div>
 
         <div className="flex flex-wrap items-end gap-3">
@@ -309,9 +311,9 @@ export default function BillingPage() {
           <button
             onClick={recalculateAll}
             disabled={!rows?.length || workingPatientId === "batch"}
-            className="rounded-md border bg-black px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
+            className="button-primary"
           >
-            {workingPatientId === "batch" ? "Recalculating..." : "Recalculate all"}
+            <Calculator aria-hidden="true" size={16} /> {workingPatientId === "batch" ? "Recalculating..." : "Recalculate all"}
           </button>
         </div>
       </div>
@@ -352,21 +354,19 @@ export default function BillingPage() {
       ) : null}
 
       {loading ? (
-        <div className="text-sm text-gray-600">Loading...</div>
+        <LoadingState label="Loading monthly billing review" />
       ) : !reviewRows.length ? (
-        <div className="rounded-md border border-dashed bg-white p-5 text-sm text-gray-600">
-          No patients yet. Add an enrolled patient before running monthly billing readiness.
-        </div>
+        <EmptyState actionHref="/patients/new" actionLabel="Add first patient" description="Enroll a patient and document monthly CCM activity before billing readiness can be reviewed." icon={ReceiptText} title="No patient-months to review" />
       ) : (
-        <div className="overflow-x-auto rounded-md border bg-white text-black">
+        <div className="surface overflow-x-auto text-black">
           <table className="w-full min-w-[920px] border-collapse text-left text-sm">
             <thead className="border-b bg-gray-50 text-xs uppercase tracking-wide text-gray-500">
               <tr>
                 <th className="px-4 py-3 font-semibold">Patient</th>
                 <th className="px-4 py-3 font-semibold">Minutes</th>
                 <th className="px-4 py-3 font-semibold">Review queue</th>
-                <th className="px-4 py-3 font-semibold">Missing items</th>
                 <th className="px-4 py-3 font-semibold">Suggested CPT</th>
+                <th className="px-4 py-3 font-semibold">Missing items</th>
                 <th className="px-4 py-3 font-semibold">Reviewed</th>
                 <th className="px-4 py-3 font-semibold">Actions</th>
               </tr>
