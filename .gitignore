@@ -19,6 +19,7 @@ yarn-error.log*
 
 # local service and tool state
 /supabase/.temp/
+/.vercel/
 
 # local exports and inspection output
 /outputs/
