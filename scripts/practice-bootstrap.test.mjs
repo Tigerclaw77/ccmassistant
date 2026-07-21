@@ -13,10 +13,10 @@ test("an empty system routes an authenticated user to first-practice bootstrap",
   );
 });
 
-test("an existing practice without membership is forbidden", () => {
+test("an existing practice without membership starts independent onboarding", () => {
   assert.equal(
     classifyPracticeAccess({ membershipExists: false, practiceExists: true }),
-    "forbidden",
+    "bootstrap",
   );
 });
 
@@ -66,21 +66,21 @@ test("duplicate first-practice bootstrap is serialized and rejected", async () =
   assert.match(migration, /Initial practice bootstrap is closed/i);
 });
 
-test("bootstrap route uses the authenticated RPC and never a service-role write", async () => {
+test("bootstrap route uses the per-user authenticated RPC and never a service-role write", async () => {
   const route = await readFile(
     new URL("../app/api/practices/bootstrap/route.ts", import.meta.url),
     "utf8",
   );
 
   assert.match(route, /requireAuthenticatedUser/);
-  assert.match(route, /hasInitialOwnerClaim/);
-  assert.match(route, /\.rpc\("bootstrap_first_practice"/);
+  assert.doesNotMatch(route, /hasInitialOwnerClaim/);
+  assert.match(route, /\.rpc\("bootstrap_user_practice"/);
   assert.doesNotMatch(route, /createServiceRoleSupabaseClient/);
 });
 
-test("practice access resolution exposes only bootstrap, member, or authorization failure", async () => {
+test("practice access resolution never rejects a verified user solely for lacking membership", async () => {
   const migration = await readFile(
-    new URL("../supabase/migrations/019_practice_access_resolution.sql", import.meta.url),
+    new URL("../supabase/migrations/025_pilot_readiness_sprint_2.sql", import.meta.url),
     "utf8",
   );
   const context = await readFile(
@@ -91,7 +91,7 @@ test("practice access resolution exposes only bootstrap, member, or authorizatio
   assert.match(migration, /auth\.jwt\(\)\s*->>\s*'aal'.*'aal2'/s);
   assert.match(migration, /return jsonb_build_object\('state', 'bootstrap'\)/i);
   assert.match(migration, /'state', 'member'/i);
-  assert.match(migration, /Active practice membership required[\s\S]*42501/i);
+  assert.doesNotMatch(migration, /Active practice membership required/i);
   assert.match(migration, /member\.user_id = current_user_id/i);
   assert.doesNotMatch(context, /createServiceRoleSupabaseClient/);
   assert.match(context, /resolvePracticeAuthorization/);

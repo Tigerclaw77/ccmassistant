@@ -121,6 +121,7 @@ test("an empty account creates exactly one persisted enrollment", async () => {
 
   assert.equal(state.mode, "enrollment");
   assert.equal(state.factorId, "new-1");
+  assert.equal(state.interrupted, false);
   assert.equal(state.qrCode, "qr:new-1");
   assert.equal(api.calls.enroll, 1);
   assert.equal(storage.size(), 1);
@@ -132,7 +133,10 @@ test("reload and back-button remount recover the same factor and QR code", async
   const initial = await prepareMfaEnrollment({ api, storage, userId });
   const reloaded = await prepareMfaEnrollment({ api, storage, userId });
 
-  assert.deepEqual(reloaded, initial);
+  assert.equal(initial.interrupted, false);
+  assert.equal(reloaded.interrupted, true);
+  assert.equal(reloaded.factorId, initial.factorId);
+  assert.equal(reloaded.qrCode, initial.qrCode);
   assert.equal(api.calls.enroll, 1);
   assert.equal(api.calls.unenroll.length, 0);
 });
@@ -156,6 +160,7 @@ test("one unknown unverified factor is reused without automatic replacement", as
   const state = await prepareMfaEnrollment({ api, storage: memoryStorage(), userId });
 
   assert.equal(state.mode, "recovery");
+  assert.equal(state.interrupted, true);
   assert.equal(state.factorId, "existing");
   assert.equal(api.calls.enroll, 0);
   assert.deepEqual(api.calls.unenroll, []);
@@ -179,6 +184,7 @@ test("verified factors are preserved and selected without enrollment mutations",
   const state = await prepareMfaEnrollment({ api, storage: memoryStorage(), userId });
 
   assert.equal(state.mode, "challenge");
+  assert.equal(state.interrupted, false);
   assert.equal(state.factorId, "verified");
   assert.equal(api.calls.enroll, 0);
   assert.deepEqual(api.calls.unenroll, []);

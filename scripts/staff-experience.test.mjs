@@ -44,7 +44,7 @@ function billability(overrides = {}) {
   };
 }
 
-test("coordinator queues identify urgency, blockers, overdue contacts, and threshold opportunities", () => {
+test("coordinator queues identify urgency and evidence-backed blockers; threshold stays secondary", () => {
   const urgent = {
     documentedMinutes: 16,
     owner: "Provider",
@@ -61,12 +61,12 @@ test("coordinator queues identify urgency, blockers, overdue contacts, and thres
     readinessStatus: "not_ready",
     reasonCodes: ["insufficient_minutes"],
   };
-  assert.deepEqual(classifyStaffQueues(oneMore, 20), ["near_threshold", "one_more_interaction"]);
-  assert.equal(countStaffQueues([urgent, oneMore], 20).near_threshold, 2);
+  assert.deepEqual(classifyStaffQueues(oneMore, 20), []);
+  assert.equal(countStaffQueues([urgent, oneMore], 20).near_threshold, 1);
 });
 
 test("billing review categories remain presentation-only and use existing reason codes", () => {
-  assert.equal(billingReviewCategory(billability({ total_minutes: 17, reason_codes: ["insufficient_minutes"] }), 20), "ready_after_small_action");
+  assert.equal(billingReviewCategory(billability({ total_minutes: 17, reason_codes: ["insufficient_minutes"] }), 20), "missing_minutes");
   assert.equal(billingReviewCategory(billability({ reason_codes: ["missing_consent"] }), 20), "consent_issue");
   assert.equal(billingReviewCategory(billability({ reason_codes: ["missing_provider_attestation"] }), 20), "provider_review_pending");
   assert.equal(billingReviewCategory(billability({ status: "ready_to_bill", total_minutes: 20 }), 20), "ready_to_bill");
