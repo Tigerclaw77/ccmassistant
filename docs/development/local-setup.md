@@ -46,7 +46,7 @@ Optional or feature-specific:
 | `RESEND_API_KEY` | Optional email delivery for invitations and patient check-ins |
 | `PATIENT_EMAIL_FROM` | Verified Resend sender; use a non-production sender locally |
 | `STAFF_INVITATION_TTL_MINUTES` | Invitation lifetime; defaults to 60 minutes |
-| `NEXT_PUBLIC_CCM_AUDIT_MODE` | Optional local navigation audit aid; effective only in development |
+| `NEXT_PUBLIC_CCM_AUDIT_MODE` | Optional local Persona Mode and UX audit aid; effective only in development |
 
 Validate the local file without displaying secret values:
 
@@ -99,7 +99,7 @@ npm.cmd run env:check:local
 npm.cmd run dev
 ```
 
-Open `http://localhost:3000`. Authentication, MFA, AAL2, practice authorization, and RLS remain active locally. When explicitly needed for UX review, set `NEXT_PUBLIC_CCM_AUDIT_MODE=true`; it previews navigation only and never changes server authorization.
+Open `http://localhost:3000`. Authentication, MFA, AAL2, practice authorization, and RLS remain active locally. When explicitly needed for UX review, set `NEXT_PUBLIC_CCM_AUDIT_MODE=true` and open `/dev/personas`. Persona Mode layers a session-only development context over the real authenticated user; it never changes database roles or production authorization. See `docs/development/persona-mode.md`.
 
 ## Production Build Locally
 

@@ -1,5 +1,15 @@
 # UX Backlog
 
+## Implemented: task-driven coordinator workflow
+
+- `My Work Today` uses six operational groups and an explicit “Why now” reason.
+- The patient workspace follows Review → Decide → Perform → Document → Route.
+- Threshold progress is secondary and cannot create work by itself.
+- Suggested care review requires an explicit decision and actual-time attestation.
+- Compliance has a read-only workflow audit view.
+
+Remaining hands-on validation: keyboard/screen-reader walkthrough, narrow-screen review, empty/stale/error states against an environment with migration `027`, and realistic multi-provider assignment volumes.
+
 Status: product backlog  
 Goal: capture usability improvements discovered during hands-on testing without implementing them yet  
 Scope: UX refinement after the functional Vertical Slice MVP is complete  

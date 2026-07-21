@@ -8,7 +8,7 @@ Roles: Practice Administrator, Coordinator, Provider, Patient
 
 This review traced every role-visible route, navigation branch, form, empty/loading/error state, authorization-dependent action, and the public secure-link experience. It combined source-level workflow tracing with browser review of the deployed public experience. No clinical content, billing behavior, authorization rule, or production data was changed.
 
-A temporary audit aid is available only when both `NODE_ENV=development` and `NEXT_PUBLIC_CCM_AUDIT_MODE=true`. It previews role-specific navigation, links major workspaces, and opens generated `/f/` patient links. It does not change the signed-in identity, server authorization, practice scope, MFA, or AAL2. `/dev/audit` renders only the not-found boundary in production builds; no audit controls or hub content are rendered.
+A permanent local Persona Mode is available only when both `NODE_ENV=development` and `NEXT_PUBLIC_CCM_AUDIT_MODE=true`. It preserves the signed-in identity, MFA, AAL2, real active-practice membership, and database RLS while layering a browser-session persona over the application authorization resolver. `/dev/personas` and the compatibility `/dev/audit` route render only the not-found boundary in production builds; no persona controls or hub content are rendered.
 
 ## Role Walkthrough Summary
 
@@ -319,4 +319,4 @@ Shared `EmptyState`, `LoadingState`, `button-primary`, `button-secondary`, page 
 
 ## Audit Mode Use
 
-Start local development with `NEXT_PUBLIC_CCM_AUDIT_MODE=true`, sign in normally, complete MFA normally, then open `/dev/audit`. Role preview changes navigation only; actions continue to run as the real authenticated user and are still constrained by canonical practice authorization. Never use the audit flag as a substitute for separate-role authorization testing.
+Start local development with `NEXT_PUBLIC_CCM_AUDIT_MODE=true`, sign in normally, complete MFA normally, then open `/dev/personas`. Persona selection changes the resolver's effective development role and representative navigation for the current tab without updating memberships or audit history. Database RLS still evaluates the real authenticated user. Never use Persona Mode as a substitute for separate-account RLS and authorization testing.
