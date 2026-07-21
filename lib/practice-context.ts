@@ -24,7 +24,11 @@ export async function resolveActivePractice(
   context: AuthContext,
   requestedPracticeId?: UUID | null,
 ): Promise<OptionalPracticeContext> {
-  const authorization = await resolvePracticeAuthorization(context.supabase, requestedPracticeId);
+  const authorization = await resolvePracticeAuthorization(
+    context.supabase,
+    requestedPracticeId,
+    context.developmentPersona,
+  );
 
   if (authorization.state === "bootstrap") {
     return {

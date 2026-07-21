@@ -6,6 +6,11 @@ import {
   PracticeAuthorizationError,
   requirePracticeAuthorization,
 } from "./practice-authorization";
+import {
+  DEVELOPMENT_PERSONA_HEADER,
+  type DevelopmentPersonaContext,
+  parseDevelopmentPersonaHeader,
+} from "./development-persona";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -15,6 +20,7 @@ export type ServerSupabaseClient = SupabaseClient<Database>;
 
 export type AuthContext = {
   accessToken: string;
+  developmentPersona: DevelopmentPersonaContext | null;
   supabase: ServerSupabaseClient;
   user: User;
 };
@@ -123,6 +129,9 @@ export async function getCurrentUser(request: Request): Promise<AuthContext | nu
 
   return {
     accessToken,
+    developmentPersona: parseDevelopmentPersonaHeader(
+      request.headers.get(DEVELOPMENT_PERSONA_HEADER),
+    ),
     supabase,
     user: data.user,
   };
@@ -156,6 +165,7 @@ export async function requirePracticeMembership(
     context.supabase,
     practiceId,
     allowedRoles,
+    context.developmentPersona,
   );
 
   return {

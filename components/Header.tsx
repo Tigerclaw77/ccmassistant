@@ -7,13 +7,11 @@ import { LogOut, PlayCircle } from "lucide-react";
 import { getSupabaseAuthHeaders, supabase } from "../lib/supabase";
 import type { PracticeRole } from "../lib/ccm/types";
 import {
-  DEVELOPMENT_AUDIT_ROLE_EVENT,
-  DEVELOPMENT_AUDIT_ROLE_KEY,
-  type DevelopmentAuditRole,
-  auditNavigationRole,
-  isDevelopmentAuditEnabled,
-  isDevelopmentAuditRole,
-} from "../lib/development-audit";
+  developmentPersonaById,
+  developmentPersonaPatientHref,
+  type DevelopmentPersonaId,
+} from "../lib/development-persona";
+import { useDevelopmentPersona } from "./dev/useDevelopmentPersona";
 import BrandMark from "./ui/BrandMark";
 
 type ActivePracticeResponse = {
@@ -57,9 +55,66 @@ function navigationForRole(role: PracticeRole | null): NavItem[] {
     { href: "/clinical-knowledge", label: "Knowledge" },
     { href: "/settings/question-banks", label: "Question Banks" },
   ];
-  if (role === "owner" || role === "admin") items.push({ href: "/dashboard/management", label: "Management" });
+  if (role === "owner" || role === "admin") {
+    items.push({ href: "/dashboard/management", label: "Management" });
+    items.push({ href: "/dashboard/compliance", label: "Compliance" });
+  }
   items.push({ href: "/settings", label: "Settings" });
   return items;
+}
+
+function navigationForPersona(personaId: DevelopmentPersonaId, patientId?: string): NavItem[] {
+  const patientHref = developmentPersonaPatientHref(personaId, patientId);
+  if (personaId === "compliance-administrator") {
+    return [
+      { href: "/dashboard/compliance", label: "Compliance" },
+      { href: patientHref, label: "Current patient" },
+      { href: "/dashboard/management", label: "Management" },
+    ];
+  }
+  if (personaId === "billing-administrator") {
+    return [
+      { href: "/dashboard/billing", label: "Billing" },
+      { href: patientHref, label: "Current patient" },
+    ];
+  }
+  if (personaId === "provider-paul") {
+    return [
+      { href: "/dashboard/provider", label: "Attention" },
+      { href: patientHref, label: "Current patient" },
+      { href: "/patients", label: "Patients" },
+      { href: "/clinical-knowledge", label: "Knowledge" },
+    ];
+  }
+  if (personaId === "coordinator-mary" || personaId === "coordinator-polly" || personaId === "clinical-staff") {
+    return [
+      { href: "/dashboard/worklist", label: "Worklist" },
+      { href: patientHref, label: "Current patient" },
+      { href: "/patients", label: "Patients" },
+      { href: "/clinical-knowledge", label: "Knowledge" },
+    ];
+  }
+  if (personaId === "front-desk") {
+    return [
+      { href: "/patients", label: "Patients" },
+      { href: "/patients/new", label: "Add patient" },
+      { href: patientHref, label: "Current patient" },
+    ];
+  }
+  if (personaId === "read-only") {
+    return [
+      { href: "/patients", label: "Patients" },
+      { href: patientHref, label: "Current patient" },
+      { href: "/clinical-knowledge", label: "Knowledge" },
+    ];
+  }
+  if (personaId === "patient") {
+    return [
+      { href: patientHref, label: "My care" },
+      { href: "/dev/personas", label: "Persona hub" },
+    ];
+  }
+  return navigationForRole(personaId === "practice-administrator" ? "admin" : "owner");
 }
 
 function isStaffPath(pathname: string): boolean {
@@ -84,7 +139,7 @@ export default function Header() {
   const [practiceName, setPracticeName] = useState<string>("Practice setup");
   const [userLabel, setUserLabel] = useState<string>("Signed in");
   const [role, setRole] = useState<PracticeRole | null>(null);
-  const [auditRole, setAuditRole] = useState<DevelopmentAuditRole | null>(null);
+  const { context: developmentPersona, reset: resetDevelopmentPersona } = useDevelopmentPersona();
 
   const staffPath = useMemo(() => isStaffPath(pathname), [pathname]);
 
@@ -146,30 +201,25 @@ export default function Header() {
     };
   }, [staffPath]);
 
-  useEffect(() => {
-    if (!isDevelopmentAuditEnabled()) return;
-    const frame = window.requestAnimationFrame(() => {
-      const storedRole = localStorage.getItem(DEVELOPMENT_AUDIT_ROLE_KEY);
-      if (isDevelopmentAuditRole(storedRole)) setAuditRole(storedRole);
-    });
-
-    function updateAuditRole(event: Event) {
-      const nextRole = (event as CustomEvent<unknown>).detail;
-      if (isDevelopmentAuditRole(nextRole)) setAuditRole(nextRole);
-    }
-
-    window.addEventListener(DEVELOPMENT_AUDIT_ROLE_EVENT, updateAuditRole);
-    return () => {
-      window.cancelAnimationFrame(frame);
-      window.removeEventListener(DEVELOPMENT_AUDIT_ROLE_EVENT, updateAuditRole);
-    };
-  }, []);
-
-  const navigationRole = auditNavigationRole(role, auditRole);
-  const navItems = useMemo(() => navigationForRole(navigationRole), [navigationRole]);
-  const homeHref = navigationRole === "provider" ? "/dashboard/provider" : navigationRole === "billing_staff" ? "/dashboard/billing" : "/dashboard/worklist";
+  const personaDefinition = developmentPersona ? developmentPersonaById(developmentPersona.personaId) : null;
+  const navItems = useMemo(
+    () => developmentPersona
+      ? navigationForPersona(developmentPersona.personaId, developmentPersona.patientId)
+      : navigationForRole(role),
+    [developmentPersona, role],
+  );
+  const homeHref = developmentPersona
+    ? developmentPersona.personaId === "patient"
+      ? developmentPersonaPatientHref(developmentPersona.personaId, developmentPersona.patientId)
+      : personaDefinition?.home ?? "/dev/personas"
+    : role === "provider"
+      ? "/dashboard/provider"
+      : role === "billing_staff"
+        ? "/dashboard/billing"
+        : "/dashboard/worklist";
 
   async function signOut() {
+    resetDevelopmentPersona();
     await supabase.auth.signOut();
     localStorage.removeItem("activePracticeId");
     router.replace("/login");
@@ -212,7 +262,7 @@ export default function Header() {
           <span className="hidden h-8 w-px bg-slate-200 sm:block" aria-hidden="true" />
           <div className="hidden min-w-0 sm:block">
             <div className="truncate text-sm font-semibold text-slate-800">{practiceName}</div>
-            <div className="truncate text-xs text-slate-500">{userLabel}</div>
+            <div className="truncate text-xs text-slate-500">{personaDefinition ? `${personaDefinition.name} · ${personaDefinition.roleLabel}` : userLabel}</div>
           </div>
         </div>
 
