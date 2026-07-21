@@ -15,5 +15,5 @@ export function classifyPracticeAccess(args: {
   practiceExists: boolean;
 }): PracticeAccessState {
   if (args.membershipExists) return "member";
-  return args.practiceExists ? "forbidden" : "bootstrap";
+  return "bootstrap";
 }

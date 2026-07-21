@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+.contextual-date-input {
+  appearance: none;
+}
+
+.contextual-date-input::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
 :root {
   --bg: #f4f7f7;
   --card: #ffffff;

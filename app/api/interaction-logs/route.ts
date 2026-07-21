@@ -21,6 +21,7 @@ import {
   billingMonthForOccurrenceDate,
   type TimeEntryCreateRequest,
 } from "../../../lib/ccm/interaction-log-contract";
+import { assertClinicalWorkAccess } from "../../../lib/ccm/work-authorization";
 import { recalculateBillabilityForMutation } from "../billability/recalculate/route";
 
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -104,6 +105,8 @@ export async function POST(request: Request) {
     const notes = optionalString(body, "notes");
     const requestId = requiredString(body, "requestId");
     const patientId = requiredString(body, "patientId");
+    const workItemId = optionalString(body, "workItemId");
+    const actualTimeAffirmed = body.actualTimeAffirmed === true;
     const activityType = optionalEnum(body, "activityType", ACTIVITY_TYPES) ?? "other";
     const billingMonth = billingMonthForOccurrenceDate(occurrenceDate);
 
@@ -142,13 +145,76 @@ export async function POST(request: Request) {
         existingEntry.activity_type === requestContract.activityType &&
         Number(existingEntry.minutes) === requestContract.minutes &&
         existingEntry.notes === requestContract.notes &&
-        existingEntry.occurrence_date === requestContract.occurrenceDate;
+        existingEntry.occurrence_date === requestContract.occurrenceDate &&
+        (existingEntry.work_item_id ?? null) === (workItemId ?? null);
 
       if (!matchesRequest) {
         return Response.json({ error: "requestId was already used for another time entry" }, { status: 409 });
       }
 
       return Response.json({ duplicate: true, interactionLog: existingEntry });
+    }
+
+    let opportunityDispositionId: string | null = null;
+    if (workItemId) {
+      if (!actualTimeAffirmed) {
+        return badRequest(new Error("Work-item time requires affirmative attestation"));
+      }
+      const { data: workItem, error: workItemError } = await supabase
+        .from("ccm_work_items")
+        .select("id, patient_id")
+        .eq("practice_id", practiceId)
+        .eq("id", workItemId)
+        .single();
+      if (workItemError || !workItem || workItem.patient_id !== patientId) {
+        return badRequest(new Error(workItemError?.message ?? "Work item does not belong to this patient"));
+      }
+      const { data: patient, error: patientError } = await supabase
+        .from("patients")
+        .select("care_coordinator_member_id")
+        .eq("practice_id", practiceId)
+        .eq("id", patientId)
+        .single();
+      if (patientError || !patient) return badRequest(new Error(patientError?.message ?? "Patient not found"));
+      try {
+        assertClinicalWorkAccess({
+          assignedCoordinatorId: patient.care_coordinator_member_id,
+          membershipId: membership.id,
+          role: membership.role,
+        });
+      } catch (scopeError) {
+        return Response.json({ error: scopeError instanceof Error ? scopeError.message : "Work item is outside assigned scope" }, { status: 403 });
+      }
+
+      const { data: disposition } = await supabase
+        .from("ccm_opportunity_dispositions")
+        .select("id")
+        .eq("practice_id", practiceId)
+        .eq("resulting_work_item_id", workItemId)
+        .maybeSingle();
+      opportunityDispositionId = disposition?.id ?? null;
+
+      const { data: existingWorkTime, error: existingWorkTimeError } = await supabase
+        .from("interaction_logs")
+        .select("*")
+        .eq("practice_id", practiceId)
+        .eq("work_item_id", workItemId)
+        .is("deleted_at", null)
+        .maybeSingle();
+      if (existingWorkTimeError) return Response.json({ error: existingWorkTimeError.message }, { status: 500 });
+      if (existingWorkTime) {
+        const matchesWork =
+          existingWorkTime.patient_id === patientId &&
+          existingWorkTime.activity_type === activityType &&
+          Number(existingWorkTime.minutes) === minutes &&
+          existingWorkTime.notes === notes &&
+          existingWorkTime.occurrence_date === occurrenceDate &&
+          existingWorkTime.actual_time_affirmed === true;
+        if (!matchesWork) {
+          return Response.json({ error: "This work item already has a different actual-time entry" }, { status: 409 });
+        }
+        return Response.json({ duplicate: true, interactionLog: existingWorkTime });
+      }
     }
 
     const { data, error } = await supabase
@@ -161,13 +227,16 @@ export async function POST(request: Request) {
         enrollment_id: optionalString(body, "enrollmentId"),
         minutes,
         notes: requestContract.notes,
+        actual_time_affirmed: workItemId ? actualTimeAffirmed : false,
         occurrence_date: requestContract.occurrenceDate,
+        opportunity_disposition_id: opportunityDispositionId,
         patient_id: requestContract.patientId,
         practice_id: practiceId,
         provider_id: optionalString(body, "providerId"),
         source: optionalEnum(body, "source", INTERACTION_SOURCES) ?? "manual",
         staff_member_id: optionalString(body, "staffMemberId") ?? membership.id,
         request_id: requestContract.requestId,
+        work_item_id: workItemId,
         updated_by: user.id,
       })
       .select()

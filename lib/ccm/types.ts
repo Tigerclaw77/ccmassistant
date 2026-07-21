@@ -12,6 +12,22 @@ export type PracticeRole =
   | "billing_staff"
   | "admin";
 
+export const ACCESS_ROLES = [
+  "organization_owner",
+  "practice_administrator",
+  "department_administrator",
+  "compliance_administrator",
+  "billing_administrator",
+  "provider",
+  "clinical_staff",
+  "coordinator",
+  "front_desk",
+  "read_only",
+  "patient",
+] as const;
+
+export type AccessRole = (typeof ACCESS_ROLES)[number];
+
 export const BILLING_PRACTITIONER_TYPES = [
   "physician",
   "nurse_practitioner",
@@ -178,6 +194,7 @@ export type PracticeScopedRow = TimestampedRow & {
 };
 
 export type Practice = TimestampedRow & {
+  organization_id: UUID;
   name: string;
   slug: string | null;
   npi: string | null;
@@ -188,6 +205,33 @@ export type Practice = TimestampedRow & {
   account_status: string;
   subscription_provider: string | null;
   subscription_external_id: string | null;
+  primary_address: JsonValue | null;
+  phone: string | null;
+  logo_url: string | null;
+  coordinator_settings: JsonValue;
+  notification_defaults: JsonValue;
+  ccm_month_end_awareness_day: number;
+  allow_coordinator_claiming: boolean;
+  opportunity_expiration_overrides: JsonValue;
+  setup_completed_at: ISODateTimeString | null;
+};
+
+export type Organization = TimestampedRow & {
+  name: string;
+  slug: string;
+  organization_type:
+    | "independent_practice"
+    | "group_practice"
+    | "health_system"
+    | "fqhc"
+    | "other";
+};
+
+export type OrganizationMember = TimestampedRow & {
+  organization_id: UUID;
+  user_id: UUID;
+  role: "organization_owner";
+  status: MembershipStatus;
 };
 
 export type PracticeMember = PracticeScopedRow & {
@@ -198,6 +242,55 @@ export type PracticeMember = PracticeScopedRow & {
   disabled_at: ISODateTimeString | null;
   removed_at: ISODateTimeString | null;
   last_role_changed_at: ISODateTimeString | null;
+};
+
+export type PracticeMemberRoleAssignment = {
+  id: UUID;
+  practice_id: UUID;
+  member_id: UUID;
+  user_id: UUID | null;
+  role: Exclude<AccessRole, "organization_owner" | "patient">;
+  department_id: UUID | null;
+  status: MembershipStatus;
+  valid_from: ISODateTimeString;
+  valid_until: ISODateTimeString | null;
+  assigned_by: UUID | null;
+  created_at: ISODateTimeString;
+};
+
+export type ProviderStaffAssignment = {
+  id: UUID;
+  practice_id: UUID;
+  provider_id: UUID;
+  staff_member_id: UUID;
+  responsibility: string | null;
+  active_from: ISODateTimeString;
+  active_until: ISODateTimeString | null;
+  assigned_by: UUID | null;
+  created_at: ISODateTimeString;
+};
+
+export type PatientAccessMembership = {
+  id: UUID;
+  practice_id: UUID;
+  patient_id: UUID;
+  user_id: UUID;
+  role: "patient";
+  status: MembershipStatus;
+  created_by: UUID | null;
+  created_at: ISODateTimeString;
+};
+
+export type PatientPrimaryProviderHistory = {
+  id: UUID;
+  practice_id: UUID;
+  patient_id: UUID;
+  previous_provider_id: UUID | null;
+  provider_id: UUID;
+  effective_at: ISODateTimeString;
+  changed_by: UUID | null;
+  change_reason: string | null;
+  created_at: ISODateTimeString;
 };
 
 export type StaffInvitationStatus =
@@ -234,6 +327,8 @@ export type Provider = PracticeScopedRow & {
   email: string | null;
   is_billing_provider: boolean;
   is_active: boolean;
+  deactivated_at: ISODateTimeString | null;
+  archived_at: ISODateTimeString | null;
   billing_practitioner_type: BillingPractitionerType;
   manual_review_status: ProviderManualReviewStatus;
   manual_review_reason: string | null;
@@ -643,6 +738,91 @@ export type InteractionLog = PracticeScopedRow & {
   correction_of_id: UUID | null;
   request_id: UUID | null;
   deleted_at: ISODateTimeString | null;
+  work_item_id?: UUID | null;
+  opportunity_disposition_id?: UUID | null;
+  actual_time_affirmed?: boolean;
+};
+
+export type CcmOpportunity = {
+  id: UUID;
+  practice_id: UUID;
+  patient_id: UUID;
+  detector_version: string;
+  rule_version: string;
+  rule_identifier: string;
+  opportunity_type: import("./opportunity-detector").OpportunityType;
+  trigger_code: string;
+  trigger_summary: string;
+  benefit_rationale: string;
+  condition_or_workflow_item: string;
+  suggested_activity: string;
+  eligible_performers: string[];
+  provider_involvement: "not_required" | "review_if_escalated" | "required";
+  input_facts: JsonValue;
+  evidence_fingerprint: string;
+  generated_at: ISODateTimeString;
+  expires_at: ISODateTimeString;
+  generated_by: UUID | null;
+  created_at: ISODateTimeString;
+};
+
+export type CcmOpportunityEvidence = {
+  id: UUID;
+  practice_id: UUID;
+  opportunity_id: UUID;
+  source_type: string;
+  source_id: UUID | null;
+  observed_at: ISODateTimeString;
+  summary: string;
+  facts: JsonValue;
+  created_at: ISODateTimeString;
+};
+
+export type CcmWorkItem = PracticeScopedRow & {
+  patient_id: UUID;
+  opportunity_id: UUID | null;
+  primary_provider_id: UUID;
+  assigned_member_id: UUID | null;
+  related_condition_id: UUID | null;
+  queue_group: "needs_attention" | "ready_to_contact" | "awaiting_patient" | "awaiting_provider" | "documentation_needed" | "completed_today";
+  status: "open" | "in_progress" | "deferred" | "awaiting_patient" | "awaiting_provider" | "completed" | "cancelled";
+  priority: "urgent" | "high" | "normal" | "low" | "none";
+  priority_score: number;
+  title: string;
+  reason: string;
+  due_at: ISODateTimeString | null;
+  outcome: string | null;
+  escalation_status: "none" | "requested" | "acknowledged" | "resolved";
+  manual_priority: "urgent" | "high" | "normal" | "low" | null;
+  manual_priority_reason: string | null;
+  completed_at: ISODateTimeString | null;
+};
+
+export type CcmWorkItemPriorityFactor = {
+  id: UUID; practice_id: UUID; work_item_id: UUID; factor_code: string; weight: number;
+  explanation: string; input_fact: JsonValue; created_at: ISODateTimeString;
+};
+export type CcmOpportunityDisposition = {
+  id: UUID; practice_id: UUID; opportunity_id: UUID;
+  disposition: "accepted" | "different_action" | "provider_review" | "deferred" | "no_intervention";
+  note: string | null; actual_review_minutes: number | null; actual_time_affirmed: boolean;
+  resulting_work_item_id: UUID | null; provider_escalation_required: boolean;
+  created_by: UUID; created_at: ISODateTimeString;
+};
+export type CcmWorkItemDeviation = {
+  id: UUID; practice_id: UUID; work_item_id: UUID; complexity_note: string; actual_impact: string | null;
+  recorded_by: UUID; created_at: ISODateTimeString;
+};
+export type CcmClinicalReport = {
+  id: UUID; practice_id: UUID; patient_id: UUID; work_item_id: UUID | null; primary_provider_id: UUID;
+  recipient_type: string; recipient_provider_id: UUID | null; recipient_member_id: UUID | null;
+  purpose: string; condition_or_workflow_item: string; delivery_method: "secure_workspace" | "secure_link" | "approved_secure_message" | "export";
+  contains_phi: boolean; delivery_status: "draft" | "queued" | "sent" | "acknowledged" | "failed";
+  follow_up_due_at: ISODateTimeString | null; sent_at: ISODateTimeString | null; sent_by: UUID | null; created_at: ISODateTimeString;
+};
+export type CcmWorkItemEvent = {
+  id: UUID; practice_id: UUID; work_item_id: UUID | null; opportunity_id: UUID | null;
+  event_type: string; event_data: JsonValue; actor_user_id: UUID | null; created_at: ISODateTimeString;
 };
 
 export type CarePlanReviewStatus =

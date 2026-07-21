@@ -3,6 +3,7 @@ import { badRequest } from "../../../lib/api/json";
 import { normalizeBillingMonth } from "../../../lib/ccm/month-context";
 import { composeWorklistRows } from "../../../lib/ccm/worklist";
 import type { MonthlyBillability, Patient } from "../../../lib/ccm/types";
+import { careCycleDaysRemaining, isMonthEndAwarenessActive } from "../../../lib/ccm/workflow-settings";
 
 const PAGE_SIZE_MAX = 100;
 const SORT_FIELDS = new Set(["display_name", "dob", "external_id", "status"]);
@@ -34,12 +35,13 @@ export async function GET(request: Request) {
   const pageSize = positiveInteger(searchParams.get("pageSize"), 25, PAGE_SIZE_MAX);
   const search = searchParams.get("search")?.trim() ?? "";
   const assignment = searchParams.get("assignment")?.trim() ?? "";
+  const provider = searchParams.get("provider")?.trim() ?? "";
   const readiness = searchParams.get("readiness")?.trim() ?? "";
   const sort = SORT_FIELDS.has(searchParams.get("sort") ?? "") ? searchParams.get("sort")! : "display_name";
   const direction = searchParams.get("direction") === "desc" ? "desc" : "asc";
 
   try {
-    const { supabase } = await requirePracticeMembership(request, practiceId);
+    const { membership, supabase } = await requirePracticeMembership(request, practiceId);
     let readinessPatientIds: string[] | null = null;
     if (READINESS.has(readiness)) {
       const { data, error } = await supabase
@@ -61,6 +63,7 @@ export async function GET(request: Request) {
       .eq("practice_id", practiceId);
     if (assignment === "unassigned") patientsQuery = patientsQuery.is("care_coordinator_member_id", null);
     else if (assignment) patientsQuery = patientsQuery.eq("care_coordinator_member_id", assignment);
+    if (provider) patientsQuery = patientsQuery.eq("primary_provider_id", provider);
     if (readinessPatientIds) patientsQuery = patientsQuery.in("id", readinessPatientIds);
     if (search) {
       if (/^\d{4}-\d{2}-\d{2}$/.test(search)) patientsQuery = patientsQuery.eq("dob", search);
@@ -80,7 +83,7 @@ export async function GET(request: Request) {
     }
 
     const [practiceResult, membersResult, enrollmentsResult, logsResult, billabilityResult, carePlansResult, conditionsResult, intakeResult, checkInsResult, sessionsResult] = await Promise.all([
-      supabase.from("practices").select("billing_settings, ccm_monthly_min_minutes").eq("id", practiceId).single(),
+      supabase.from("practices").select("allow_coordinator_claiming, billing_settings, ccm_month_end_awareness_day, ccm_monthly_min_minutes, default_timezone").eq("id", practiceId).single(),
       supabase.from("practice_members").select("id, invited_email, user_id").eq("practice_id", practiceId).in("role", ["owner", "admin", "coordinator"]).eq("status", "active"),
       supabase.from("ccm_enrollments").select("*").eq("practice_id", practiceId).in("patient_id", patientIds),
       supabase.from("interaction_logs").select("patient_id, minutes").eq("practice_id", practiceId).eq("billing_month", billingMonth).in("patient_id", patientIds).is("deleted_at", null),
@@ -95,13 +98,7 @@ export async function GET(request: Request) {
       if (result.error) throw new Error(result.error.message);
     }
 
-    const providerIds = Array.from(new Set([
-      ...patientRows.map((row) => row.primary_provider_id),
-      ...(enrollmentsResult.data ?? []).map((row) => row.assigned_provider_id),
-    ].filter((value): value is string => Boolean(value))));
-    const providersResult = providerIds.length
-      ? await supabase.from("providers").select("*").eq("practice_id", practiceId).in("id", providerIds)
-      : { data: [], error: null };
+    const providersResult = await supabase.from("providers").select("*").eq("practice_id", practiceId).eq("is_active", true).order("full_name");
     if (providersResult.error) throw new Error(providersResult.error.message);
 
     const minutesByPatientId: Record<string, number> = {};
@@ -121,6 +118,11 @@ export async function GET(request: Request) {
       enrollments: enrollmentsResult.data ?? [],
       intakeSummaries: intakeResult.data ?? [],
       minutesByPatientId,
+      monthEnd: isMonthEndAwarenessActive(
+        billingMonth,
+        practiceResult.data?.default_timezone ?? "UTC",
+        practiceResult.data?.ccm_month_end_awareness_day ?? 25,
+      ),
       patients: patientRows,
       practiceAttestationComplete: Boolean(
         practiceResult.data?.billing_settings &&
@@ -142,6 +144,10 @@ export async function GET(request: Request) {
       assignments: (membersResult.data ?? []).map((member) => ({ id: member.id, label: coordinatorLabels[member.id] })),
       billingMonth,
       monthlyThreshold,
+      allowCoordinatorClaiming: practiceResult.data?.allow_coordinator_claiming === true,
+      canClaimUnassigned: practiceResult.data?.allow_coordinator_claiming === true && membership.role === "coordinator",
+      daysRemaining: careCycleDaysRemaining(billingMonth, practiceResult.data?.default_timezone ?? "UTC"),
+      providers: (providersResult.data ?? []).map((providerRow) => ({ id: providerRow.id, label: providerRow.full_name })),
       page,
       pageSize,
       rows,

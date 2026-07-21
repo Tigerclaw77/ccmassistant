@@ -14,6 +14,8 @@ import { ReceiptText, ShieldCheck, Stethoscope, UserCog, UsersRound } from "luci
 import LoadingState from "../../components/ui/LoadingState";
 import StaffManagement from "../../components/settings/StaffManagement";
 import type { PracticeRole } from "../../lib/ccm/types";
+import { DEFAULT_OPPORTUNITY_EXPIRATION_DAYS, OPPORTUNITY_TYPES, type OpportunityType } from "../../lib/ccm/opportunity-detector";
+import { expirationOverridesFromJson } from "../../lib/ccm/workflow-settings";
 
 type Practice = {
   id: string;
@@ -21,6 +23,9 @@ type Practice = {
   default_timezone: string;
   ccm_monthly_min_minutes: number;
   billing_settings: unknown;
+  allow_coordinator_claiming: boolean;
+  ccm_month_end_awareness_day: number;
+  opportunity_expiration_overrides: import("../../lib/ccm/types").JsonValue;
 };
 
 type Provider = {
@@ -44,6 +49,20 @@ type PracticeForm = {
   threshold: number;
   cmsEligibilityAttested: boolean;
   medicareEnrollmentAttested: boolean;
+  allowCoordinatorClaiming: boolean;
+  monthEndAwarenessDay: number;
+  expirationDays: Record<OpportunityType, number>;
+};
+
+const SUGGESTION_TYPE_LABELS: Record<OpportunityType, string> = {
+  abnormal_questionnaire: "Abnormal questionnaire",
+  care_plan_revision: "Care-plan revision",
+  educational_reminder: "Educational reminder",
+  home_monitoring: "Home monitoring",
+  hospital_discharge: "Hospital discharge",
+  medication_follow_up: "Medication follow-up",
+  month_end_operational_reminder: "Month-end operational reminder",
+  provider_review: "Provider review",
 };
 
 type NewProviderForm = {
@@ -139,6 +158,9 @@ export default function SettingsPage() {
     address: "",
     cmsEligibilityAttested: false,
     medicareEnrollmentAttested: false,
+    allowCoordinatorClaiming: false,
+    monthEndAwarenessDay: 25,
+    expirationDays: { ...DEFAULT_OPPORTUNITY_EXPIRATION_DAYS },
     name: "",
     phone: "",
     threshold: 20,
@@ -204,6 +226,12 @@ export default function SettingsPage() {
         medicareEnrollmentAttested: billingSettingBoolean(
           settings.medicare_enrollment_attested,
         ),
+        allowCoordinatorClaiming: practice.allow_coordinator_claiming === true,
+        monthEndAwarenessDay: practice.ccm_month_end_awareness_day ?? 25,
+        expirationDays: {
+          ...DEFAULT_OPPORTUNITY_EXPIRATION_DAYS,
+          ...expirationOverridesFromJson(practice.opportunity_expiration_overrides),
+        },
         name: practice.name,
         phone: billingSetting(settings.phone),
         threshold: practice.ccm_monthly_min_minutes ?? 20,
@@ -245,6 +273,9 @@ export default function SettingsPage() {
           cmsEligibilityAttested: practiceForm.cmsEligibilityAttested,
           defaultTimezone: practiceForm.timezone,
           medicareEnrollmentAttested: practiceForm.medicareEnrollmentAttested,
+          allowCoordinatorClaiming: practiceForm.allowCoordinatorClaiming,
+          ccmMonthEndAwarenessDay: Number(practiceForm.monthEndAwarenessDay),
+          opportunityExpirationOverrides: practiceForm.expirationDays,
           name: practiceForm.name,
           phone: practiceForm.phone,
           practiceId,
@@ -561,6 +592,29 @@ export default function SettingsPage() {
               value={practiceForm.threshold}
             />
           </label>
+        </div>
+
+        <div className="mt-4 rounded border bg-slate-50 p-4">
+          <h3 className="text-sm font-semibold text-slate-950">Coordinator workflow policy</h3>
+          <p className="mt-1 text-xs leading-5 text-slate-600">These settings control operational awareness and how long evidence-backed suggested care activities remain current. They do not create work or time.</p>
+          <div className="mt-4 grid gap-4 md:grid-cols-2">
+            <label>
+              <FieldLabel>Month-end awareness begins</FieldLabel>
+              <p className="mb-1 text-xs text-slate-600">Default is the 25th in the practice timezone.</p>
+              <input className="w-full rounded border px-3 py-2" max={28} min={1} onChange={(event) => setPracticeForm((current) => ({ ...current, monthEndAwarenessDay: Number(event.target.value) }))} type="number" value={practiceForm.monthEndAwarenessDay} />
+            </label>
+            <label className="flex items-start gap-3 rounded border bg-white p-3">
+              <input checked={practiceForm.allowCoordinatorClaiming} className="mt-1" onChange={(event) => setPracticeForm((current) => ({ ...current, allowCoordinatorClaiming: event.target.checked }))} type="checkbox" />
+              <span><span className="block text-sm font-semibold text-slate-900">Allow coordinators to claim unassigned patients</span><span className="mt-1 block text-xs leading-5 text-slate-600">Disabled by default. When enabled, an active coordinator may claim only a patient who has no coordinator assignment.</span></span>
+            </label>
+          </div>
+          <details className="mt-4 rounded border bg-white p-3">
+            <summary className="cursor-pointer text-sm font-semibold text-slate-900">Suggested care activity expiration</summary>
+            <p className="mt-2 text-xs leading-5 text-slate-600">Practice overrides are measured in days. Defaults are restored by entering the default shown for each activity type.</p>
+            <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {OPPORTUNITY_TYPES.map((type) => <label className="text-sm" key={type}><span className="mb-1 block font-medium text-slate-800">{SUGGESTION_TYPE_LABELS[type]}</span><input className="w-full rounded border px-3 py-2" max={90} min={1} onChange={(event) => setPracticeForm((current) => ({ ...current, expirationDays: { ...current.expirationDays, [type]: Number(event.target.value) } }))} type="number" value={practiceForm.expirationDays[type]} /><span className="mt-1 block text-[11px] text-slate-500">Default: {DEFAULT_OPPORTUNITY_EXPIRATION_DAYS[type]} day{DEFAULT_OPPORTUNITY_EXPIRATION_DAYS[type] === 1 ? "" : "s"}</span></label>)}
+            </div>
+          </details>
         </div>
 
         <div className="mt-4 grid gap-3 rounded border bg-slate-50 p-4 text-sm text-slate-700 md:grid-cols-2">

@@ -53,10 +53,8 @@ export function classifyStaffQueues(
   const nonMinuteBlockers = row.reasonCodes.filter((code) => code !== "insufficient_minutes");
 
   if (row.priority === "urgent") queues.add("urgent");
-  if (remaining > 0 && remaining <= 5) queues.add("near_threshold");
-  if (remaining > 0 && remaining <= 5 && nonMinuteBlockers.length === 0) {
-    queues.add("one_more_interaction");
-  }
+  // Threshold proximity is secondary context only; it never creates work by itself.
+  if (remaining > 0 && remaining <= 5 && nonMinuteBlockers.length > 0) queues.add("near_threshold");
   if (nonMinuteBlockers.length > 0) queues.add("blocked");
   if (row.reasonCodes.some((code) => CONTACT_REASONS.has(code))) queues.add("overdue");
   if (row.owner === "Provider" || row.reasonCodes.some((code) => PROVIDER_REASONS.has(code))) {
@@ -95,6 +93,7 @@ export function billingReviewCategory(
   billability: MonthlyBillability | null,
   threshold: number,
 ): BillingReviewCategory {
+  void threshold; // Retained for the stable presentation API; thresholds never create work.
   if (billability?.status === "billed") return "billed";
   if (billability?.status === "hold") return "hold";
   if (billability?.status === "ready_to_bill") return "ready_to_bill";
@@ -106,11 +105,6 @@ export function billingReviewCategory(
   }
   if (reasons.some((code) => PROVIDER_REASONS.has(code))) return "provider_review_pending";
 
-  const remaining = remainingMinutes(billability?.total_minutes ?? 0, threshold);
-  const nonMinuteReasons = reasons.filter((code) => code !== "insufficient_minutes");
-  if (remaining > 0 && remaining <= 5 && nonMinuteReasons.length === 0) {
-    return "ready_after_small_action";
-  }
   if (reasons.includes("insufficient_minutes")) return "missing_minutes";
   return "missing_evidence";
 }

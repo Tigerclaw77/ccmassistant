@@ -14,6 +14,7 @@ import { allConsentElementsComplete } from "./consent.ts";
 import { allEligibilityFactsComplete, allProviderAttestationsComplete } from "./eligibility.ts";
 import { sessionStateFromJson } from "./session-integration.ts";
 import { classifyStaffQueues, remainingMinutes, type StaffQueueKey } from "./staff-experience.ts";
+import { prioritizeWork, type WorkQueueGroup } from "./opportunity-detector.ts";
 
 export type WorklistPriority = "urgent" | "high" | "normal" | "low" | "none";
 
@@ -32,6 +33,8 @@ export type WorklistRow = {
   phone: string | null;
   practitioner: string | null;
   priority: WorklistPriority;
+  priorityReason: string;
+  queueGroup: WorkQueueGroup;
   queueKeys: StaffQueueKey[];
   reasonCodes: string[];
   readinessStatus: string;
@@ -46,6 +49,7 @@ export type WorklistSource = {
   enrollments: CcmEnrollment[];
   intakeSummaries: PatientIntakeSummary[];
   minutesByPatientId: Record<string, number>;
+  monthEnd?: boolean;
   patients: Patient[];
   practiceAttestationComplete: boolean;
   providers: Provider[];
@@ -79,7 +83,6 @@ const REASON_ACTIONS: Record<string, { action: string; path: string; priority: W
   incomplete_care_plan: { action: "Complete care plan review", path: "care-plan", priority: "normal" },
   missing_checkin: { action: "Create monthly check-in", path: "checkin", priority: "normal" },
   missing_checkin_response: { action: "Complete monthly check-in", path: "checkin", priority: "normal" },
-  insufficient_minutes: { action: "Document CCM time", path: "log", priority: "normal" },
 };
 
 function patientPath(patientId: string, path: string): string {
@@ -140,7 +143,6 @@ function fallbackReasonCodes(args: {
   ) reasons.push("incomplete_care_plan");
   if (!args.checkIn) reasons.push("missing_checkin");
   else if (!["responded", "closed"].includes(args.checkIn.status)) reasons.push("missing_checkin_response");
-  if (args.minutes < args.threshold) reasons.push("insufficient_minutes");
   return reasons;
 }
 
@@ -184,6 +186,20 @@ export function composeWorklistRows(source: WorklistSource, billingMonth: string
       ? taskAction
       : reasonAction;
     const ready = monthly?.status === "ready_to_bill" || monthly?.status === "billed";
+    const taskCode = task?.type?.toLowerCase() ?? "";
+    const priorityResult = prioritizeWork({
+      abnormalResponse: Boolean(task && task.priority === "URGENT"),
+      awaitingPatient: reasons.includes("missing_checkin_response"),
+      documentationIncomplete: reasons.some((code) => ["missing_reviewed_intake", "missing_care_plan", "incomplete_care_plan"].includes(code)),
+      monthEnd: source.monthEnd === true,
+      openCarePlanTask: Boolean(task && /(care_plan|goal|barrier)/.test(taskCode)),
+      overdueOutreach: reasons.includes("missing_checkin") || reasons.includes("missing_checkin_response"),
+      providerRevision: carePlan?.review_status === "revision_requested",
+      providerReview: task?.reviewTarget === "provider" || reasons.includes("missing_provider_attestation"),
+      thresholdProximity: minutes < threshold && threshold - minutes <= 5,
+      transitionOfCare: /(hospital|emergency|transition|discharge)/.test(taskCode),
+      urgent: task?.priority === "URGENT",
+    });
 
     const baseRow = {
       assignedCoordinatorId: enrollment?.care_coordinator_member_id ?? patient.care_coordinator_member_id,
@@ -201,7 +217,9 @@ export function composeWorklistRows(source: WorklistSource, billingMonth: string
       patientName: patient.display_name,
       phone: patient.phone,
       practitioner: provider?.full_name ?? null,
-      priority: next?.priority ?? "none",
+      priority: priorityResult.priority === "none" ? next?.priority ?? "none" : priorityResult.priority,
+      priorityReason: priorityResult.explanation,
+      queueGroup: priorityResult.group,
       reasonCodes: reasons,
       readinessStatus: monthly?.status ?? "not_calculated",
       remainingMinutes: remainingMinutes(minutes, threshold),

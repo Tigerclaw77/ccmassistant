@@ -10,6 +10,7 @@ const SETUP_PATH = "/setup/practice";
 const MFA_PATH = "/mfa";
 
 type ActivePracticeResponse = {
+  hasActiveProvider?: boolean;
   membership?: {
     role: string;
   } | null;
@@ -75,7 +76,7 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
           },
         });
 
-        if (response.status === 404) {
+        if (response.status === 404 || response.status === 403) {
           if (pathname !== SETUP_PATH) {
             router.replace(SETUP_PATH);
             return;
@@ -86,7 +87,13 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
             localStorage.setItem("activePracticeId", result.practice.id);
           }
 
-          if (pathname === SETUP_PATH) {
+          const canCompleteProviderOnboarding = ["owner", "admin"].includes(result.membership?.role ?? "");
+          if (result.hasActiveProvider === false && canCompleteProviderOnboarding) {
+            if (pathname !== SETUP_PATH) {
+              router.replace(`${SETUP_PATH}?provider=required`);
+              return;
+            }
+          } else if (pathname === SETUP_PATH) {
             router.replace("/patients");
             return;
           }

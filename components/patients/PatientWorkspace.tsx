@@ -40,6 +40,8 @@ import type {
 } from "../../lib/ccm/types";
 import { getSupabaseAuthHeaders } from "../../lib/supabase";
 import { currentMonthValue, normalizeBillingMonth, withCoordinatorContext } from "../../lib/ccm/month-context";
+import OpportunityReviewPanel from "../work/OpportunityReviewPanel";
+import { careCycleDaysRemaining } from "../../lib/ccm/workflow-settings";
 
 type ResponseWithQuestion = CheckinResponse & {
   question?: Question | null;
@@ -325,6 +327,7 @@ export default function PatientWorkspace({
   const threshold = practice?.ccm_monthly_min_minutes ?? 20;
   const totalMinutes = logs.reduce((total, log) => total + Number(log.minutes ?? 0), 0);
   const remainingMinutes = Math.max(threshold - totalMinutes, 0);
+  const daysRemaining = careCycleDaysRemaining(billingMonth, practice?.default_timezone ?? "UTC");
   const qualifyingConditionCount = conditions.filter(
     (condition) => condition.isActive && condition.ccmQualifying,
   ).length;
@@ -414,7 +417,7 @@ export default function PatientWorkspace({
             <div className="mt-2 flex flex-wrap gap-3 text-sm text-slate-700">
               <span>DOB: {formatDate(patient.dob)}</span>
               <span>Medicare: {medicareReviewed ? "Reviewed" : "Needs review"}</span>
-              <span>Billing practitioner: {provider?.full_name ?? "Not assigned"}</span>
+              <span>Primary Responsible Provider: {provider?.full_name ?? "Not assigned"}</span>
             </div>
           </div>
 
@@ -456,6 +459,20 @@ export default function PatientWorkspace({
           {error}
         </div>
       ) : null}
+
+      <section className="grid gap-3 rounded-md border bg-slate-50 p-4 sm:grid-cols-5" aria-label="Focused patient work steps">
+        {[
+          ["1", "Review", "Summary, responses, care plan, instructions"],
+          ["2", "Decide", "Choose the patient-specific next step"],
+          ["3", "Perform", "Complete only the appropriate activity"],
+          ["4", "Document", "Record outcome and actual time"],
+          ["5", "Route", "Complete, defer, or send for review"],
+        ].map(([step, title, description]) => (
+          <div className="text-sm" key={step}><div className="font-semibold text-slate-950">{step}. {title}</div><div className="mt-1 text-xs text-slate-600">{description}</div></div>
+        ))}
+      </section>
+
+      <OpportunityReviewPanel currentCcmMinutes={totalMinutes} daysRemaining={daysRemaining} patientId={patientId} practiceId={practiceId} practiceTimeZone={practice?.default_timezone ?? "UTC"} />
 
       <section className="grid gap-4 lg:grid-cols-3">
         <WorkspaceCard

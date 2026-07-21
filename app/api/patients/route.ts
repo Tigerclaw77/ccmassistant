@@ -176,9 +176,13 @@ export async function POST(request: Request) {
     const lastName = optionalString(body, "lastName");
     const displayName =
       optionalString(body, "displayName") ?? [firstName, lastName].filter(Boolean).join(" ");
+    const primaryProviderId = optionalString(body, "primaryProviderId");
 
     if (!displayName) {
       return badRequest(new Error("displayName or firstName/lastName is required"));
+    }
+    if (!primaryProviderId) {
+      return badRequest(new Error("primaryProviderId is required"));
     }
 
     const dob = optionalString(body, "dob");
@@ -228,7 +232,7 @@ export async function POST(request: Request) {
         phone: optionalString(body, "phone"),
         practice_id: practiceId,
         preferred_contact_method: optionalEnum(body, "preferredContactMethod", CONTACT_METHODS) ?? "phone",
-        primary_provider_id: optionalString(body, "primaryProviderId"),
+        primary_provider_id: primaryProviderId,
         status: optionalString(body, "status") ?? "active",
         updated_by: user.id,
       })
@@ -270,6 +274,13 @@ export async function PATCH(request: Request) {
     return badRequest(new Error("practiceId and patientId are required"));
   }
 
+  const primaryProviderId = typeof body.primaryProviderId === "string"
+    ? body.primaryProviderId.trim()
+    : undefined;
+  if ("primaryProviderId" in body && !primaryProviderId) {
+    return badRequest(new Error("primaryProviderId is required"));
+  }
+
   try {
     const { supabase, user } = await requirePracticeMembership(
       request,
@@ -303,7 +314,7 @@ export async function PATCH(request: Request) {
         last_name: stringUpdate(body, "lastName"),
         phone: stringUpdate(body, "phone"),
         preferred_contact_method: enumUpdate(body, "preferredContactMethod", CONTACT_METHODS),
-        primary_provider_id: stringUpdate(body, "primaryProviderId"),
+        primary_provider_id: primaryProviderId,
         status: requiredStringUpdate(body, "status"),
         updated_by: user.id,
       })

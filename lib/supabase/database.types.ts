@@ -7,7 +7,15 @@ import type {
   CarePlan,
   CarePlanReview,
   CarePlanVersion,
+  CcmClinicalReport,
   CarePlanStatus,
+  CcmOpportunity,
+  CcmOpportunityDisposition,
+  CcmOpportunityEvidence,
+  CcmWorkItem,
+  CcmWorkItemDeviation,
+  CcmWorkItemEvent,
+  CcmWorkItemPriorityFactor,
   CheckinInstance,
   CheckinDelivery,
   CheckinResponse,
@@ -33,8 +41,11 @@ import type {
   ManagementCluster,
   MembershipStatus,
   MonthlyBillability,
+  Organization,
+  OrganizationMember,
   ObjectiveFamilyMap,
   Patient,
+  PatientAccessMembership,
   PatientCondition,
   PatientIntakeSummary,
   PatientQuestionPreference,
@@ -44,9 +55,12 @@ import type {
   QuestionContributionCandidateRecord,
   Practice,
   PracticeMember,
+  PracticeMemberRoleAssignment,
   PracticeStaffInvitation,
   PracticeRole,
   Provider,
+  ProviderStaffAssignment,
+  PatientPrimaryProviderHistory,
   ProviderPreferences,
   ProviderQuestionPreference,
   Question,
@@ -79,13 +93,27 @@ export type Database = {
   public: {
     Tables: {
       practices: TableDefinition<Practice>;
+      organizations: TableDefinition<Organization>;
+      organization_members: TableDefinition<OrganizationMember>;
       practice_members: TableDefinition<PracticeMember>;
+      practice_member_role_assignments: TableDefinition<PracticeMemberRoleAssignment>;
       practice_staff_invitations: TableDefinition<PracticeStaffInvitation>;
       providers: TableDefinition<Provider>;
+      provider_staff_assignments: TableDefinition<ProviderStaffAssignment>;
       provider_preferences: TableDefinition<ProviderPreferences>;
       patients: TableDefinition<Patient>;
+      patient_access_memberships: TableDefinition<PatientAccessMembership>;
+      patient_primary_provider_history: TableDefinition<PatientPrimaryProviderHistory>;
       patient_conditions: TableDefinition<PatientCondition>;
       ccm_enrollments: TableDefinition<CcmEnrollment>;
+      ccm_opportunities: TableDefinition<CcmOpportunity>;
+      ccm_opportunity_evidence: TableDefinition<CcmOpportunityEvidence>;
+      ccm_opportunity_dispositions: TableDefinition<CcmOpportunityDisposition>;
+      ccm_work_items: TableDefinition<CcmWorkItem>;
+      ccm_work_item_priority_factors: TableDefinition<CcmWorkItemPriorityFactor>;
+      ccm_work_item_deviations: TableDefinition<CcmWorkItemDeviation>;
+      ccm_clinical_reports: TableDefinition<CcmClinicalReport>;
+      ccm_work_item_events: TableDefinition<CcmWorkItemEvent>;
       questions: TableDefinition<Question>;
       question_tags: TableDefinition<QuestionTag>;
       provider_question_preferences: TableDefinition<ProviderQuestionPreference>;
@@ -125,12 +153,45 @@ export type Database = {
     };
     Views: Record<string, never>;
     Functions: {
+      dispose_ccm_opportunity: {
+        Args: {
+          target_opportunity_id: string;
+          disposition_value: string;
+          disposition_note?: string | null;
+          review_minutes?: number | null;
+          time_affirmed?: boolean;
+          task_title?: string | null;
+          task_due_at?: string | null;
+        };
+        Returns: Json;
+      };
+      claim_unassigned_ccm_patient: {
+        Args: {
+          target_patient_id: string;
+          target_practice_id: string;
+        };
+        Returns: Json;
+      };
       bootstrap_first_practice: {
         Args: {
           cms_eligibility_attested: boolean;
           medicare_enrollment_attested: boolean;
           practice_name: string;
           practice_slug: string;
+        };
+        Returns: Json;
+      };
+      bootstrap_user_practice: {
+        Args: {
+          coordinator_settings: Json;
+          default_timezone: string;
+          logo_url: string | null;
+          notification_defaults: Json;
+          organization_type: string;
+          phone: string;
+          practice_name: string;
+          practice_slug: string;
+          primary_address: Json | null;
         };
         Returns: Json;
       };
@@ -143,6 +204,13 @@ export type Database = {
       resolve_practice_access: {
         Args: {
           requested_practice_id: string | null;
+        };
+        Returns: Json;
+      };
+      store_ccm_opportunity: {
+        Args: {
+          evidence_records: Json;
+          opportunity_record: Json;
         };
         Returns: Json;
       };
@@ -160,6 +228,7 @@ export type Database = {
     };
     Enums: {
       ccm_member_role: PracticeRole;
+      ccm_access_role: import("../ccm/types").AccessRole;
       ccm_membership_status: MembershipStatus;
       ccm_contact_method: ContactMethod;
       ccm_eligibility_status: EligibilityStatus;

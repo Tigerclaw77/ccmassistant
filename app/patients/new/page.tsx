@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import PatientForm from "../../../components/patients/PatientForm";
 import LoadingState from "../../../components/ui/LoadingState";
 import { getSupabaseAuthHeaders } from "../../../lib/supabase";
@@ -14,6 +15,7 @@ type ActivePracticeResponse = {
 };
 
 export default function NewPatientPage() {
+  const searchParams = useSearchParams();
   const [practiceId, setPracticeId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -63,7 +65,12 @@ export default function NewPatientPage() {
 
   return (
     <main className="p-6">
-      <PatientForm mode="create" practiceId={practiceId} />
+      <PatientForm
+        initialMessage={searchParams.get("first") === "1" ? "Your practice and first provider are ready. Add the first patient to begin CCM." : null}
+        initialPrimaryProviderId={searchParams.get("primaryProviderId")}
+        mode="create"
+        practiceId={practiceId}
+      />
     </main>
   );
 }

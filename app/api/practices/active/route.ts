@@ -14,6 +14,7 @@ import {
 } from "../../../../lib/api/json";
 import { recordAuditEvent } from "../../../../lib/ccm/audit";
 import { validateTimeZone } from "../../../../lib/ccm/validation";
+import { validateExpirationOverrides } from "../../../../lib/ccm/workflow-settings";
 import { ACTIVE_PRACTICE_HEADER, resolveActivePractice } from "../../../../lib/practice-context";
 import type { JsonValue } from "../../../../lib/ccm/types";
 import type { Database } from "../../../../lib/supabase/database.types";
@@ -57,7 +58,17 @@ export async function GET(request: Request) {
       return Response.json({ error: "No active practice found" }, { status: 404 });
     }
 
+    const { count: activeProviderCount, error: providerError } = await context.supabase
+      .from("providers")
+      .select("id", { count: "exact", head: true })
+      .eq("practice_id", active.practice.id)
+      .eq("is_active", true);
+    if (providerError) {
+      return Response.json({ error: providerError.message }, { status: 500 });
+    }
+
     return Response.json({
+      hasActiveProvider: (activeProviderCount ?? 0) > 0,
       membership: active.membership,
       practice: active.practice,
     });
@@ -83,6 +94,9 @@ export async function PATCH(request: Request) {
   let phone: string | null | undefined;
   let cmsEligibilityAttested: boolean | undefined;
   let medicareEnrollmentAttested: boolean | undefined;
+  let allowCoordinatorClaiming: boolean | undefined;
+  let ccmMonthEndAwarenessDay: number | undefined;
+  let opportunityExpirationOverrides: ReturnType<typeof validateExpirationOverrides> | undefined;
 
   try {
     practiceId = requiredString(body, "practiceId");
@@ -95,6 +109,16 @@ export async function PATCH(request: Request) {
     phone = stringUpdate(body, "phone");
     cmsEligibilityAttested = booleanUpdate(body, "cmsEligibilityAttested");
     medicareEnrollmentAttested = booleanUpdate(body, "medicareEnrollmentAttested");
+    allowCoordinatorClaiming = booleanUpdate(body, "allowCoordinatorClaiming");
+
+    if ("ccmMonthEndAwarenessDay" in body) {
+      const day = optionalNumber(body, "ccmMonthEndAwarenessDay");
+      if (day === null || !Number.isInteger(day) || day < 1 || day > 28) throw new Error("ccmMonthEndAwarenessDay must be a whole number from 1 to 28");
+      ccmMonthEndAwarenessDay = day;
+    }
+    if ("opportunityExpirationOverrides" in body) {
+      opportunityExpirationOverrides = validateExpirationOverrides(body.opportunityExpirationOverrides);
+    }
 
     if ("ccmMonthlyMinMinutes" in body) {
       const minutes = optionalNumber(body, "ccmMonthlyMinMinutes");
@@ -170,6 +194,9 @@ export async function PATCH(request: Request) {
     if (ccmMonthlyMinMinutes !== undefined) {
       update.ccm_monthly_min_minutes = ccmMonthlyMinMinutes;
     }
+    if (allowCoordinatorClaiming !== undefined) update.allow_coordinator_claiming = allowCoordinatorClaiming;
+    if (ccmMonthEndAwarenessDay !== undefined) update.ccm_month_end_awareness_day = ccmMonthEndAwarenessDay;
+    if (opportunityExpirationOverrides !== undefined) update.opportunity_expiration_overrides = opportunityExpirationOverrides;
 
     const { data, error } = await supabase
       .from("practices")

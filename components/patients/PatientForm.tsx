@@ -41,11 +41,14 @@ import {
 import { statusLabel } from "../../lib/ccm/labels";
 import { calendarDateInTimeZone } from "../../lib/ccm/validation";
 import { getSupabaseAuthHeaders } from "../../lib/supabase";
+import ContextualDateInput from "../ui/ContextualDateInput";
+import { MEDICARE_AGE_CALENDAR_DEFAULT } from "../../lib/calendar-defaults";
 
 type Props = {
   consentAuditEvents?: AuditEvent[];
   enrollment?: CcmEnrollment | null;
   initialMessage?: string | null;
+  initialPrimaryProviderId?: string | null;
   mode: "create" | "edit";
   patient?: Patient | null;
   practiceId: string;
@@ -116,6 +119,7 @@ export default function PatientForm({
   consentAuditEvents = [],
   enrollment,
   initialMessage,
+  initialPrimaryProviderId,
   mode,
   patient,
   practiceId,
@@ -133,7 +137,7 @@ export default function PatientForm({
   );
   const [patientStatus, setPatientStatus] = useState(patient?.status ?? "active");
   const [primaryProviderId, setPrimaryProviderId] = useState(
-    fieldValue(patient?.primary_provider_id),
+    fieldValue(patient?.primary_provider_id ?? initialPrimaryProviderId),
   );
   const [careCoordinatorMemberId, setCareCoordinatorMemberId] = useState(
     fieldValue(patient?.care_coordinator_member_id ?? enrollment?.care_coordinator_member_id),
@@ -168,7 +172,7 @@ export default function PatientForm({
     fieldValue(enrollment?.initiating_visit_date),
   );
   const [assignedProviderId, setAssignedProviderId] = useState(
-    fieldValue(enrollment?.assigned_provider_id ?? patient?.primary_provider_id),
+    fieldValue(enrollment?.assigned_provider_id ?? patient?.primary_provider_id ?? initialPrimaryProviderId),
   );
 
   const [error, setError] = useState<string | null>(null);
@@ -227,9 +231,15 @@ export default function PatientForm({
       const providerRows = providersResult.providers ?? [];
       setProviders(providerRows);
 
-      if (providerRows.length === 1) {
-        setPrimaryProviderId((current) => current || providerRows[0].id);
-        setAssignedProviderId((current) => current || providerRows[0].id);
+      const onboardingProvider = providerRows.find((provider) => provider.id === initialPrimaryProviderId);
+      const defaultProvider = onboardingProvider ?? (providerRows.length === 1 ? providerRows[0] : null);
+      if (defaultProvider) {
+        setPrimaryProviderId((current) => current || defaultProvider.id);
+        setAssignedProviderId((current) => current || defaultProvider.id);
+      } else if (!providersResponse.ok || providersResult.error) {
+        setError(providersResult.error ?? "Unable to load active providers for this practice.");
+      } else if (providerRows.length === 0) {
+        setError("Provider onboarding is incomplete. Add an active provider before creating a patient.");
       }
     }
 
@@ -238,7 +248,7 @@ export default function PatientForm({
     return () => {
       active = false;
     };
-  }, [practiceId]);
+  }, [initialPrimaryProviderId, practiceId]);
 
   useEffect(() => {
     let active = true;
@@ -302,6 +312,10 @@ export default function PatientForm({
 
     if (!resolvedDisplayName) {
       setError("Display name or first and last name is required");
+      return;
+    }
+    if (!primaryProviderId) {
+      setError("Select a Primary Responsible Provider before saving the patient.");
       return;
     }
 
@@ -483,16 +497,16 @@ export default function PatientForm({
             />
           </label>
 
-          <label className="space-y-1 text-sm">
-            <span className="font-medium">Date of birth</span>
-            <input
-              type="date"
-              max={new Date().toISOString().slice(0, 10)}
+          <div className="space-y-1 text-sm">
+            <label className="font-medium" htmlFor="patient-date-of-birth">Date of birth</label>
+            <ContextualDateInput
+              id="patient-date-of-birth"
+              initialView={MEDICARE_AGE_CALENDAR_DEFAULT}
+              max={maximumCalendarDate}
+              onChange={setDob}
               value={dob}
-              onChange={(event) => setDob(event.target.value)}
-              className="w-full rounded-md border px-3 py-2"
             />
-          </label>
+          </div>
 
           <label className="space-y-1 text-sm">
             <span className="font-medium">Phone</span>
@@ -552,23 +566,24 @@ export default function PatientForm({
           </label>
 
           {showSeparateProviderChoices ? <label className="space-y-1 text-sm">
-            <span className="font-medium">Primary billing practitioner</span>
+            <span className="font-medium">Primary Responsible Provider</span>
             <select
               value={primaryProviderId}
+              required
               onChange={(event) => {
                 setPrimaryProviderId(event.target.value);
                 if (!assignedProviderId) setAssignedProviderId(event.target.value);
               }}
               className="w-full rounded-md border px-3 py-2"
             >
-              <option value="">Select billing practitioner</option>
+              <option value="">Select primary provider</option>
               {providers.map((provider) => (
                 <option key={provider.id} value={provider.id}>
                   {provider.full_name}
                 </option>
               ))}
             </select>
-          </label> : <div className="space-y-1 text-sm"><span className="font-medium">Billing practitioner</span><div className="rounded-md border bg-gray-50 px-3 py-2 text-gray-700">{soleProvider?.full_name}</div></div>}
+          </label> : <div className="space-y-1 text-sm"><span className="font-medium">Primary Responsible Provider</span><div className="rounded-md border bg-gray-50 px-3 py-2 text-gray-700">{soleProvider?.full_name}</div></div>}
 
         </div>
       </section>

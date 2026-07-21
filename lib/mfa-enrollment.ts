@@ -44,6 +44,7 @@ export type MfaStorage = Pick<Storage, "getItem" | "removeItem" | "setItem">;
 
 export type MfaEnrollmentState = {
   factorId: string;
+  interrupted: boolean;
   mode: "challenge" | "enrollment" | "recovery";
   qrCode: string | null;
   secret: string | null;
@@ -151,6 +152,7 @@ async function removeUnverified(api: MfaApi, factors: MfaFactor[]): Promise<void
 function challengeState(factor: MfaFactor): MfaEnrollmentState {
   return {
     factorId: factor.id,
+    interrupted: false,
     mode: "challenge",
     qrCode: null,
     secret: null,
@@ -160,6 +162,7 @@ function challengeState(factor: MfaFactor): MfaEnrollmentState {
 function recoveryState(factor: MfaFactor): MfaEnrollmentState {
   return {
     factorId: factor.id,
+    interrupted: true,
     mode: "recovery",
     qrCode: null,
     secret: null,
@@ -169,6 +172,7 @@ function recoveryState(factor: MfaFactor): MfaEnrollmentState {
 function persistedState(enrollment: PersistedEnrollment): MfaEnrollmentState {
   return {
     factorId: enrollment.factorId,
+    interrupted: true,
     mode: "enrollment",
     qrCode: enrollment.qrCode,
     secret: enrollment.secret,
@@ -218,6 +222,7 @@ async function createEnrollment(
 
   return {
     ...enrollment,
+    interrupted: false,
     mode: "enrollment",
   };
 }

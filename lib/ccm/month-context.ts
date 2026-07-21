@@ -28,6 +28,7 @@ export type CoordinatorContext = {
   readiness?: string;
   search?: string;
   assignment?: string;
+  provider?: string;
   source?: "billing" | "worklist";
 };
 
@@ -37,6 +38,7 @@ export function contextSearchParams(context: CoordinatorContext): URLSearchParam
   if (context.readiness) params.set("readiness", context.readiness);
   if (context.search) params.set("search", context.search);
   if (context.assignment) params.set("assignment", context.assignment);
+  if (context.provider) params.set("provider", context.provider);
   if (context.source) params.set("source", context.source);
   return params;
 }
