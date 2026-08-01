@@ -3,11 +3,15 @@ import { badRequest } from "../../../lib/api/json";
 import { normalizeBillingMonth } from "../../../lib/ccm/month-context";
 import { composeWorklistRows } from "../../../lib/ccm/worklist";
 import type { MonthlyBillability, Patient } from "../../../lib/ccm/types";
+import { WORK_QUEUE_GROUPS, type WorkQueueGroup } from "../../../lib/ccm/opportunity-detector";
+import { STAFF_QUEUE_KEYS, type StaffQueueKey } from "../../../lib/ccm/staff-experience";
+import { resolveWorklistAssignment, summarizeAndPageWorklistRows } from "../../../lib/ccm/worklist-scope";
 import { careCycleDaysRemaining, isMonthEndAwarenessActive } from "../../../lib/ccm/workflow-settings";
 
 const PAGE_SIZE_MAX = 100;
 const SORT_FIELDS = new Set(["display_name", "dob", "external_id", "status"]);
 const READINESS = new Set(["not_ready", "ready_to_bill", "billed", "hold", "ineligible"]);
+const PATIENT_BATCH_SIZE = 250;
 
 function positiveInteger(value: string | null, fallback: number, max = Number.MAX_SAFE_INTEGER): number {
   const parsed = Number(value);
@@ -34,14 +38,21 @@ export async function GET(request: Request) {
   const page = positiveInteger(searchParams.get("page"), 1);
   const pageSize = positiveInteger(searchParams.get("pageSize"), 25, PAGE_SIZE_MAX);
   const search = searchParams.get("search")?.trim() ?? "";
-  const assignment = searchParams.get("assignment")?.trim() ?? "";
+  const requestedAssignment = searchParams.get("assignment")?.trim() ?? "";
   const provider = searchParams.get("provider")?.trim() ?? "";
   const readiness = searchParams.get("readiness")?.trim() ?? "";
+  const group = WORK_QUEUE_GROUPS.includes(searchParams.get("group") as WorkQueueGroup)
+    ? searchParams.get("group") as WorkQueueGroup
+    : null;
+  const queueKey = STAFF_QUEUE_KEYS.includes(searchParams.get("queueKey") as StaffQueueKey)
+    ? searchParams.get("queueKey") as StaffQueueKey
+    : null;
   const sort = SORT_FIELDS.has(searchParams.get("sort") ?? "") ? searchParams.get("sort")! : "display_name";
   const direction = searchParams.get("direction") === "desc" ? "desc" : "asc";
 
   try {
     const { membership, supabase } = await requirePracticeMembership(request, practiceId);
+    const assignment = resolveWorklistAssignment(requestedAssignment, membership);
     let readinessPatientIds: string[] | null = null;
     if (READINESS.has(readiness)) {
       const { data, error } = await supabase
@@ -57,29 +68,39 @@ export async function GET(request: Request) {
       }
     }
 
-    let patientsQuery = supabase
-      .from("patients")
-      .select("*", { count: "exact" })
-      .eq("practice_id", practiceId);
-    if (assignment === "unassigned") patientsQuery = patientsQuery.is("care_coordinator_member_id", null);
-    else if (assignment) patientsQuery = patientsQuery.eq("care_coordinator_member_id", assignment);
-    if (provider) patientsQuery = patientsQuery.eq("primary_provider_id", provider);
-    if (readinessPatientIds) patientsQuery = patientsQuery.in("id", readinessPatientIds);
-    if (search) {
-      if (/^\d{4}-\d{2}-\d{2}$/.test(search)) patientsQuery = patientsQuery.eq("dob", search);
-      else patientsQuery = patientsQuery.or(searchExpression(search));
+    const patientRows: Patient[] = [];
+    for (let start = 0; ; start += PATIENT_BATCH_SIZE) {
+      let patientsQuery = supabase
+        .from("patients")
+        .select("*")
+        .eq("practice_id", practiceId);
+      if (assignment === "unassigned") patientsQuery = patientsQuery.is("care_coordinator_member_id", null);
+      else if (assignment) patientsQuery = patientsQuery.eq("care_coordinator_member_id", assignment);
+      if (provider) patientsQuery = patientsQuery.eq("primary_provider_id", provider);
+      if (readinessPatientIds) patientsQuery = patientsQuery.in("id", readinessPatientIds);
+      if (search) {
+        if (/^\d{4}-\d{2}-\d{2}$/.test(search)) patientsQuery = patientsQuery.eq("dob", search);
+        else patientsQuery = patientsQuery.or(searchExpression(search));
+      }
+      const { data: patients, error: patientsError } = await patientsQuery
+        .order(sort, { ascending: direction === "asc", nullsFirst: false })
+        .order("id", { ascending: true })
+        .range(start, start + PATIENT_BATCH_SIZE - 1);
+      if (patientsError) throw new Error(patientsError.message);
+      patientRows.push(...((patients ?? []) as Patient[]));
+      if ((patients ?? []).length < PATIENT_BATCH_SIZE) break;
     }
-    const start = (page - 1) * pageSize;
-    const { data: patients, count, error: patientsError } = await patientsQuery
-      .order(sort, { ascending: direction === "asc", nullsFirst: false })
-      .order("id", { ascending: true })
-      .range(start, start + pageSize - 1);
-    if (patientsError) throw new Error(patientsError.message);
-
-    const patientRows = (patients ?? []) as Patient[];
     const patientIds = patientRows.map((row) => row.id);
     if (!patientIds.length) {
-      return Response.json({ billingMonth, page, pageSize, rows: [], total: count ?? 0 });
+      return Response.json({
+        billingMonth,
+        effectiveAssignment: assignment || "practice",
+        groupCounts: Object.fromEntries(WORK_QUEUE_GROUPS.map((key) => [key, 0])),
+        page,
+        pageSize,
+        rows: [],
+        total: 0,
+      });
     }
 
     const [practiceResult, membersResult, enrollmentsResult, logsResult, billabilityResult, carePlansResult, conditionsResult, intakeResult, checkInsResult, sessionsResult] = await Promise.all([
@@ -110,7 +131,7 @@ export async function GET(request: Request) {
       member.invited_email ?? `Coordinator ${member.id.slice(0, 8)}`,
     ]));
     const monthlyThreshold = practiceResult.data?.ccm_monthly_min_minutes ?? 20;
-    const rows = composeWorklistRows({
+    const allRows = composeWorklistRows({
       billability: billabilityResult.data ?? [],
       carePlans: carePlansResult.data ?? [],
       checkIns: checkInsResult.data ?? [],
@@ -140,9 +161,18 @@ export async function GET(request: Request) {
         : row.assignedCoordinatorId ? coordinatorLabels[row.assignedCoordinatorId] ?? row.owner : "Unassigned",
     }));
 
+    const { groupCounts, providerAttentionCounts, rows, total } = summarizeAndPageWorklistRows(allRows, {
+      group,
+      page,
+      pageSize,
+      queueKey,
+    });
+
     return Response.json({
       assignments: (membersResult.data ?? []).map((member) => ({ id: member.id, label: coordinatorLabels[member.id] })),
       billingMonth,
+      effectiveAssignment: assignment || "practice",
+      groupCounts,
       monthlyThreshold,
       allowCoordinatorClaiming: practiceResult.data?.allow_coordinator_claiming === true,
       canClaimUnassigned: practiceResult.data?.allow_coordinator_claiming === true && membership.role === "coordinator",
@@ -150,8 +180,9 @@ export async function GET(request: Request) {
       providers: (providersResult.data ?? []).map((providerRow) => ({ id: providerRow.id, label: providerRow.full_name })),
       page,
       pageSize,
+      providerAttentionCounts,
       rows,
-      total: count ?? rows.length,
+      total,
     });
   } catch (error) {
     if (error instanceof Error && error.name !== "AuthError") {

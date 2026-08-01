@@ -324,7 +324,7 @@ export function prioritizeWork(input: PriorityInput): PrioritizedWork {
 }
 
 export function dispositionCreatesTask(disposition: OpportunityDisposition): boolean {
-  return ["accepted", "different_action", "provider_review"].includes(disposition);
+  return ["accepted", "different_action", "provider_review", "deferred"].includes(disposition);
 }
 
 export function validateActualReviewTime(minutes: number | null, affirmed: boolean): void {

@@ -462,6 +462,15 @@ export default function SettingsPage() {
     return <main className="page-shell"><LoadingState label="Loading practice settings" /></main>;
   }
 
+  const activeProviders = providers.filter((provider) => provider.is_active);
+  const readinessItems = [
+    { complete: activeProviders.length > 0, href: "#providers", label: "Active billing practitioner" },
+    { complete: activeProviders.some((provider) => Boolean(provider.npi)), href: "#providers", label: "Practitioner NPI" },
+    { complete: practiceForm.cmsEligibilityAttested, href: "#practice-attestations", label: "CCM eligibility attestation" },
+    { complete: practiceForm.medicareEnrollmentAttested, href: "#practice-attestations", label: "Medicare enrollment attestation" },
+  ];
+  const nextReadinessItem = readinessItems.find((item) => !item.complete);
+
   return (
     <main className="page-shell max-w-6xl">
       <div>
@@ -481,6 +490,24 @@ export default function SettingsPage() {
           {error}
         </div>
       ) : null}
+
+      <section className="surface p-5" aria-labelledby="operational-readiness-title">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <h2 className="text-lg font-semibold text-slate-950" id="operational-readiness-title">Operational readiness</h2>
+            <p className="mt-1 text-sm text-slate-600">Complete these items before the first billing review. Patient onboarding can continue while unfinished items remain visible here.</p>
+          </div>
+          {nextReadinessItem ? <a className="button-primary" href={nextReadinessItem.href}>Complete next item</a> : <span className="rounded-md border border-green-200 bg-green-50 px-3 py-2 text-sm font-semibold text-green-800">Ready for billing review</span>}
+        </div>
+        <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+          {readinessItems.map((item) => (
+            <a className="rounded-md border bg-white p-3 text-sm hover:bg-slate-50" href={item.href} key={item.label}>
+              <span className={`block text-xs font-semibold uppercase tracking-wide ${item.complete ? "text-green-700" : "text-amber-700"}`}>{item.complete ? "Complete" : "Required"}</span>
+              <span className="mt-1 block font-medium text-slate-900">{item.label}</span>
+            </a>
+          ))}
+        </div>
+      </section>
 
       <nav aria-label="Settings sections" className="grid gap-3 md:grid-cols-5">
         <a className="surface p-4 hover:bg-slate-50" href="#practice">
@@ -617,7 +644,7 @@ export default function SettingsPage() {
           </details>
         </div>
 
-        <div className="mt-4 grid gap-3 rounded border bg-slate-50 p-4 text-sm text-slate-700 md:grid-cols-2">
+        <div className="mt-4 grid gap-3 rounded border bg-slate-50 p-4 text-sm text-slate-700 md:grid-cols-2" id="practice-attestations">
           <label className="flex gap-3">
             <input
               checked={practiceForm.cmsEligibilityAttested}

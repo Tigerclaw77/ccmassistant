@@ -1,15 +1,22 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import Link from "next/link";
+import { useEffect, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../lib/supabase";
 import AuthShell from "../../components/auth/AuthShell";
+import { authCallbackError } from "../../lib/auth-redirect";
 
 export default function ResetPasswordPage() {
   const router = useRouter();
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setError(authCallbackError(window.location)), 0);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -27,7 +34,8 @@ export default function ResetPasswordPage() {
       setError(result.error.message);
       return;
     }
-    router.replace("/patients");
+    await supabase.auth.signOut();
+    router.replace("/login?passwordReset=1");
     router.refresh();
   }
 
@@ -52,6 +60,7 @@ export default function ResetPasswordPage() {
           {loading ? "Updating..." : "Update password"}
         </button>
       </form>
+      <Link className="mt-6 inline-block text-sm font-semibold text-teal-700" href="/forgot-password">Request a new reset link</Link>
     </AuthShell>
   );
 }

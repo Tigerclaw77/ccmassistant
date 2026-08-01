@@ -18,7 +18,17 @@ type ActivePracticeResponse = {
 
 type WorklistResponse = {
   error?: string;
+  pageSize?: number;
+  providerAttentionCounts?: ProviderAttentionCounts;
   rows?: WorklistRow[];
+  total?: number;
+};
+
+type ProviderAttentionCounts = {
+  alerts: number;
+  approvals: number;
+  carePlans: number;
+  other: number;
 };
 
 type PendingCarePlan = CarePlan & { patient_name: string };
@@ -38,8 +48,11 @@ function attentionType(row: WorklistRow): string {
 
 export default function ProviderDashboardPage() {
   const [billingMonth, setBillingMonth] = useState(currentMonthValue());
+  const [page, setPage] = useState(1);
   const [practiceName, setPracticeName] = useState("");
   const [rows, setRows] = useState<WorklistRow[]>([]);
+  const [total, setTotal] = useState(0);
+  const [attentionCounts, setAttentionCounts] = useState<ProviderAttentionCounts>({ alerts: 0, approvals: 0, carePlans: 0, other: 0 });
   const [pendingCarePlans, setPendingCarePlans] = useState<PendingCarePlan[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -68,9 +81,10 @@ export default function ProviderDashboardPage() {
       setPracticeName(activeResult.practice.name);
       const query = new URLSearchParams({
         month: normalizeBillingMonth(billingMonth),
-        page: "1",
-        pageSize: "100",
+        page: String(page),
+        pageSize: "25",
         practiceId: activeResult.practice.id,
+        queueKey: "provider_review",
       });
       const headers = await getSupabaseAuthHeaders();
       const [response, carePlanResponse] = await Promise.all([
@@ -84,20 +98,15 @@ export default function ProviderDashboardPage() {
       if (!active) return;
       if (!response.ok) setError(result.error ?? "Unable to load provider attention queue");
       else if (!carePlanResponse.ok) setError(carePlanResult.error ?? "Unable to load pending provider reviews");
-      setRows((result.rows ?? []).filter((row) => row.queueKeys.includes("provider_review")));
+      setRows(result.rows ?? []);
+      setTotal(result.total ?? 0);
+      setAttentionCounts(result.providerAttentionCounts ?? { alerts: 0, approvals: 0, carePlans: 0, other: 0 });
       setPendingCarePlans(carePlanResult.carePlans ?? []);
       setLoading(false);
     }
     void load();
     return () => { active = false; };
-  }, [billingMonth]);
-
-  const grouped = useMemo(() => ({
-    alerts: rows.filter((row) => row.priority === "urgent"),
-    approvals: rows.filter((row) => row.priority !== "urgent" && row.reasonCodes.includes("missing_provider_attestation")),
-    carePlans: rows.filter((row) => row.priority !== "urgent" && row.reasonCodes.includes("incomplete_care_plan")),
-    other: rows.filter((row) => row.priority !== "urgent" && !row.reasonCodes.includes("missing_provider_attestation") && !row.reasonCodes.includes("incomplete_care_plan")),
-  }), [rows]);
+  }, [billingMonth, page]);
 
   const context = useMemo(() => ({ month: normalizeBillingMonth(billingMonth), source: "worklist" as const }), [billingMonth]);
 
@@ -111,15 +120,15 @@ export default function ProviderDashboardPage() {
         </div>
         <label className="space-y-1 text-sm">
           <span className="font-medium">Billing month</span>
-          <input className="block border px-3 py-2" onChange={(event) => setBillingMonth(event.target.value)} type="month" value={billingMonth.slice(0, 7)} />
+          <input className="block border px-3 py-2" onChange={(event) => { setBillingMonth(event.target.value); setPage(1); }} type="month" value={billingMonth.slice(0, 7)} />
         </label>
       </div>
 
       <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        <ProviderStat label="Clinical alerts" tone="alert" value={grouped.alerts.length} />
-        <ProviderStat label="Eligibility approvals" value={grouped.approvals.length} />
+        <ProviderStat label="Clinical alerts" tone="alert" value={attentionCounts.alerts} />
+        <ProviderStat label="Eligibility approvals" value={attentionCounts.approvals} />
         <ProviderStat label="Pending provider reviews" value={pendingCarePlans.length} />
-        <ProviderStat label="Other reviews" value={grouped.other.length} />
+        <ProviderStat label="Other reviews" value={attentionCounts.other} />
       </section>
 
       {error ? <div className="border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div> : null}
@@ -157,6 +166,15 @@ export default function ProviderDashboardPage() {
           </table>
         </div>
       )}
+      {!loading && total > 0 ? (
+        <div className="flex items-center justify-between text-sm">
+          <span>{total} patient{total === 1 ? "" : "s"} requiring attention · Page {page} of {Math.max(1, Math.ceil(total / 25))}</span>
+          <div className="flex gap-2">
+            <button className="rounded-md border px-3 py-2 disabled:opacity-50" disabled={page <= 1} onClick={() => setPage((current) => current - 1)} type="button">Previous</button>
+            <button className="rounded-md border px-3 py-2 disabled:opacity-50" disabled={page >= Math.ceil(total / 25)} onClick={() => setPage((current) => current + 1)} type="button">Next</button>
+          </div>
+        </div>
+      ) : null}
     </main>
   );
 }

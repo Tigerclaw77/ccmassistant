@@ -10,6 +10,7 @@ const SETUP_PATH = "/setup/practice";
 const MFA_PATH = "/mfa";
 
 type ActivePracticeResponse = {
+  accessRoles?: string[];
   hasActiveProvider?: boolean;
   membership?: {
     role: string;
@@ -52,7 +53,8 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
         return;
       }
 
-      if (pathname !== MFA_PATH) {
+      const allowsPreMfaRecovery = pathname === "/reset-password";
+      if (pathname !== MFA_PATH && !allowsPreMfaRecovery) {
         const [{ data: factors, error: factorsError }, { data: assurance, error: assuranceError }] =
           await Promise.all([
             supabase.auth.mfa.listFactors(),
@@ -87,7 +89,7 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
             localStorage.setItem("activePracticeId", result.practice.id);
           }
 
-          const canCompleteProviderOnboarding = ["owner", "admin"].includes(result.membership?.role ?? "");
+          const canCompleteProviderOnboarding = result.accessRoles?.some((role) => role === "organization_owner" || role === "practice_administrator") ?? ["owner", "admin"].includes(result.membership?.role ?? "");
           if (result.hasActiveProvider === false && canCompleteProviderOnboarding) {
             if (pathname !== SETUP_PATH) {
               router.replace(`${SETUP_PATH}?provider=required`);

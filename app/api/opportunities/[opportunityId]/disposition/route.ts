@@ -19,13 +19,17 @@ export async function POST(request: Request, context: { params: Promise<{ opport
     if (disposition === "no_intervention" && (typeof body.note !== "string" || body.note.trim().length < 3)) {
       throw new Error("No intervention requires a concise note");
     }
+    const taskDueAt = typeof body.taskDueAt === "string" ? body.taskDueAt : null;
+    if (disposition === "deferred" && (!taskDueAt || Number.isNaN(Date.parse(taskDueAt)))) {
+      throw new Error("Deferral requires a valid follow-up date");
+    }
     const { supabase } = await requirePracticeMembership(request, practiceId, PATIENT_WRITE_ROLES);
     const { data, error } = await supabase.rpc("dispose_ccm_opportunity", {
       disposition_note: typeof body.note === "string" ? body.note.trim() || null : null,
       disposition_value: disposition,
       review_minutes: minutes,
       target_opportunity_id: opportunityId,
-      task_due_at: typeof body.taskDueAt === "string" ? body.taskDueAt : null,
+      task_due_at: taskDueAt,
       task_title: typeof body.taskTitle === "string" ? body.taskTitle.trim() || null : null,
       time_affirmed: affirmed,
     });

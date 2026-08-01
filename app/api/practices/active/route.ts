@@ -68,6 +68,7 @@ export async function GET(request: Request) {
     }
 
     return Response.json({
+      accessRoles: active.accessRoles,
       hasActiveProvider: (activeProviderCount ?? 0) > 0,
       membership: active.membership,
       practice: active.practice,

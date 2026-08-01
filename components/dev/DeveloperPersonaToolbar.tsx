@@ -139,7 +139,7 @@ export default function DeveloperPersonaToolbar() {
   }
 
   return (
-    <aside className="fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-6xl rounded-xl border border-amber-400 bg-amber-50 p-4 text-amber-950 shadow-2xl" aria-label="Development persona controls">
+    <aside className="fixed bottom-4 left-4 right-4 z-50 mx-auto max-h-[calc(100dvh-2rem)] max-w-6xl overflow-y-auto rounded-xl border border-amber-400 bg-amber-50 p-4 text-amber-950 shadow-2xl" aria-label="Development persona controls">
       <div className="flex flex-wrap items-start gap-3">
         <div className="min-w-52 flex-1">
           <div className="flex items-center gap-2 font-semibold"><UserRoundCog aria-hidden="true" size={18} /> Development Persona Mode</div>

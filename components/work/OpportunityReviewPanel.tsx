@@ -3,6 +3,7 @@
 import { FormEvent, useCallback, useEffect, useState } from "react";
 import { getSupabaseAuthHeaders } from "../../lib/supabase";
 import type { CcmOpportunity, CcmOpportunityDisposition, CcmWorkItem } from "../../lib/ccm/types";
+import { calendarDateInTimeZone } from "../../lib/ccm/validation";
 import WorkItemWorkspace from "./WorkItemWorkspace";
 
 type OpportunityRow = CcmOpportunity & { stale: boolean };
@@ -39,6 +40,7 @@ export default function OpportunityReviewPanel({
   const [assignedMemberId, setAssignedMemberId] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [disposition, setDisposition] = useState("accepted");
+  const [followUpDate, setFollowUpDate] = useState("");
   const [note, setNote] = useState("");
   const [timeChoice, setTimeChoice] = useState("none");
   const [customMinutes, setCustomMinutes] = useState("");
@@ -93,13 +95,24 @@ export default function OpportunityReviewPanel({
   async function submit(event: FormEvent) {
     event.preventDefault();
     if (!selectedId) return;
+    if (disposition === "deferred" && !followUpDate) {
+      setError("Choose the follow-up date for deferred work.");
+      return;
+    }
     const reviewMinutes = timeChoice === "none" ? null : timeChoice === "custom" ? Number(customMinutes) : Number(timeChoice);
     setBusy(true);
     setError(null);
     setMessage(null);
     try {
       const response = await fetch(`/api/opportunities/${selectedId}/disposition`, {
-        body: JSON.stringify({ disposition, note, practiceId, reviewMinutes, timeAffirmed: affirmed }),
+        body: JSON.stringify({
+          disposition,
+          note,
+          practiceId,
+          reviewMinutes,
+          taskDueAt: disposition === "deferred" ? `${followUpDate}T12:00:00.000Z` : null,
+          timeAffirmed: affirmed,
+        }),
         headers: { "Content-Type": "application/json", ...(await getSupabaseAuthHeaders()) },
         method: "POST",
       });
@@ -107,14 +120,17 @@ export default function OpportunityReviewPanel({
       if (!response.ok) throw new Error(result.error ?? "Unable to record the decision");
       setSelectedId(null);
       setNote("");
+      setFollowUpDate("");
       setTimeChoice("none");
       setCustomMinutes("");
       setAffirmed(false);
       await load();
-      if (result.result?.work_item_id) setWorkingWorkId(result.result.work_item_id);
-      setMessage(["accepted", "different_action", "provider_review"].includes(disposition)
-        ? "Decision saved. Continue in the task workspace below."
-        : "Decision saved. No work was represented as completed.");
+      if (result.result?.work_item_id && disposition !== "deferred") setWorkingWorkId(result.result.work_item_id);
+      setMessage(disposition === "deferred"
+        ? "Decision saved. Follow-up work remains scheduled for the selected date."
+        : ["accepted", "different_action", "provider_review"].includes(disposition)
+          ? "Decision saved. Continue in the task workspace below."
+          : "Decision saved. No work was represented as completed.");
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "Unable to record the decision");
     } finally {
@@ -225,6 +241,19 @@ export default function OpportunityReviewPanel({
               <option value="no_intervention">No intervention appropriate</option>
             </select>
           </label>
+          {disposition === "deferred" ? (
+            <label className="block max-w-xs space-y-1 text-sm">
+              <span className="font-medium">Follow-up date (required)</span>
+              <input
+                className="w-full rounded-md border px-3 py-2"
+                min={calendarDateInTimeZone(new Date(), practiceTimeZone)}
+                onChange={(event) => setFollowUpDate(event.target.value)}
+                required
+                type="date"
+                value={followUpDate}
+              />
+            </label>
+          ) : null}
           <label className="block space-y-1 text-sm">
             <span className="font-medium">Decision note {disposition === "no_intervention" ? "(required)" : "(optional)"}</span>
             <textarea className="min-h-20 w-full rounded-md border px-3 py-2" onChange={(event) => setNote(event.target.value)} value={note} />
@@ -242,7 +271,7 @@ export default function OpportunityReviewPanel({
             <label className="flex items-start gap-2 text-sm"><input checked={affirmed} onChange={(event) => setAffirmed(event.target.checked)} type="checkbox" /><span>I affirm this is the actual time I personally spent reviewing this item.</span></label>
           ) : null}
           <div className="flex gap-2">
-            <button className="button-primary" disabled={busy || (timeChoice !== "none" && !affirmed)} type="submit">Save decision</button>
+            <button className="button-primary" disabled={busy || (disposition === "deferred" && !followUpDate) || (timeChoice !== "none" && !affirmed)} type="submit">Save decision</button>
             <button className="rounded-md border px-3 py-2 text-sm font-semibold" onClick={() => setSelectedId(null)} type="button">Cancel</button>
           </div>
         </form>

@@ -1,8 +1,10 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type { Practice, PracticeMember, PracticeRole, UUID } from "./ccm/types";
+import type { AccessRole, Practice, PracticeMember, PracticeRole, UUID } from "./ccm/types";
+import { LEGACY_ROLE_TO_ACCESS_ROLE, hasAnyAccessRole } from "./access-roles.ts";
 import type { Database } from "./supabase/database.types";
 import {
   applyDevelopmentPersonaMembership,
+  developmentPersonaById,
   type DevelopmentPersonaContext,
 } from "./development-persona.ts";
 
@@ -22,12 +24,14 @@ export type PracticeAuthorization =
       practice: null;
       practiceId: null;
       developmentPersona: null;
+      accessRoles: [];
       state: "bootstrap";
     }
   | {
       membership: PracticeMember & { status: "active"; user_id: UUID };
       actualMembership: PracticeMember & { status: "active"; user_id: UUID };
       developmentPersona: DevelopmentPersonaContext | null;
+      accessRoles: AccessRole[];
       practice: Practice;
       practiceId: UUID;
       state: "member";
@@ -44,6 +48,13 @@ export function hasAuthorizedPracticeRole(
   allowedRoles: readonly PracticeRole[],
 ): boolean {
   return allowedRoles.includes(membership.role);
+}
+
+function personaAccessRoles(context: DevelopmentPersonaContext | null): AccessRole[] | null {
+  if (!context) return null;
+  const persona = developmentPersonaById(context.personaId);
+  if (persona.role === "developer") return ["organization_owner", "practice_administrator"];
+  return [persona.role];
 }
 
 export async function resolvePracticeAuthorization(
@@ -69,6 +80,7 @@ export async function resolvePracticeAuthorization(
       practice: null,
       practiceId: null,
       developmentPersona: null,
+      accessRoles: [],
       state: "bootstrap",
     };
   }
@@ -91,8 +103,35 @@ export async function resolvePracticeAuthorization(
       ? developmentPersona
       : null;
 
+  const { data: assignments, error: assignmentError } = await supabase
+    .from("practice_member_role_assignments")
+    .select("role")
+    .eq("practice_id", actualMembership.practice_id)
+    .eq("member_id", actualMembership.id)
+    .eq("status", "active")
+    .or(`valid_until.is.null,valid_until.gt.${new Date().toISOString()}`);
+  if (assignmentError) {
+    throw new PracticeAuthorizationError(500, "Unable to resolve operational roles");
+  }
+  let accessRoles = (assignments ?? []).map((assignment) => assignment.role as AccessRole);
+  if (!accessRoles.length) accessRoles = [LEGACY_ROLE_TO_ACCESS_ROLE[actualMembership.role]];
+  if (actualMembership.role === "owner") {
+    const { data: organizationOwner, error: ownerError } = await supabase
+      .from("organization_members")
+      .select("id")
+      .eq("organization_id", payload.practice.organization_id)
+      .eq("user_id", actualMembership.user_id)
+      .eq("role", "organization_owner")
+      .eq("status", "active")
+      .maybeSingle();
+    if (ownerError) throw new PracticeAuthorizationError(500, "Unable to resolve organization ownership");
+    if (organizationOwner) accessRoles.unshift("organization_owner");
+  }
+  accessRoles = personaAccessRoles(effectivePersona) ?? [...new Set(accessRoles)];
+
   return {
     actualMembership,
+    accessRoles,
     developmentPersona: effectivePersona,
     membership: applyDevelopmentPersonaMembership(actualMembership, effectivePersona),
     practice: payload.practice,
@@ -113,9 +152,24 @@ export async function requirePracticeAuthorization(
     throw new PracticeAuthorizationError(404, "No active practice found");
   }
 
-  if (allowedRoles && !hasAuthorizedPracticeRole(authorization.membership, allowedRoles)) {
-    throw new PracticeAuthorizationError(403, "Practice role is not permitted for this action");
+  if (allowedRoles) {
+    const translated = allowedRoles.flatMap((role): AccessRole[] => {
+      if (role === "owner" || role === "admin") return ["organization_owner", "practice_administrator"];
+      if (role === "provider") return ["provider"];
+      if (role === "coordinator") return ["coordinator", "clinical_staff"];
+      return ["billing_administrator"];
+    });
+    if (!hasAnyAccessRole(authorization.accessRoles, translated)) {
+      throw new PracticeAuthorizationError(403, "Practice role is not permitted for this action");
+    }
   }
 
   return authorization;
+}
+
+export function hasAuthorizedAccessRole(
+  authorization: Extract<PracticeAuthorization, { state: "member" }>,
+  allowedRoles: readonly AccessRole[],
+): boolean {
+  return hasAnyAccessRole(authorization.accessRoles, allowedRoles);
 }

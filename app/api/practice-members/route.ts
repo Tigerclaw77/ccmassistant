@@ -16,19 +16,24 @@ import {
 } from "../../../lib/ccm/staff-management";
 import type { PracticeMember } from "../../../lib/ccm/types";
 import { ensureProviderProfileForMember } from "../../../lib/ccm/provider-membership";
+import {
+  ACCESS_ROLE_TO_LEGACY_ROLE,
+  LEGACY_ROLE_TO_ACCESS_ROLE,
+  type AssignableOperationalRole,
+} from "../../../lib/access-roles";
 
 const INVITATION_TTL_MINUTES = Number(process.env.STAFF_INVITATION_TTL_MINUTES ?? "60");
 
 function parseRole(value: unknown): AssignableStaffRole {
   if (!isAssignableStaffRole(value)) {
-    throw new Error("role must be admin, coordinator, or provider");
+    throw new Error("role must be a supported operational role");
   }
   return value;
 }
 
 async function memberDirectoryEntry(
   service: ReturnType<typeof createServiceRoleSupabaseClient>,
-  member: PracticeMember,
+  member: PracticeMember & { access_role: AssignableOperationalRole | "organization_owner" },
 ) {
   if (!member.user_id) {
     return { ...member, last_login_at: null, mfa_status: "not_enrolled" as const, user_email: member.invited_email };
@@ -47,6 +52,20 @@ async function memberDirectoryEntry(
   };
 }
 
+async function operationalRolesByMember(
+  service: ReturnType<typeof createServiceRoleSupabaseClient>,
+  practiceId: string,
+) {
+  const { data, error } = await service
+    .from("practice_member_role_assignments")
+    .select("member_id,role")
+    .eq("practice_id", practiceId)
+    .eq("status", "active")
+    .or(`valid_until.is.null,valid_until.gt.${new Date().toISOString()}`);
+  if (error) throw error;
+  return new Map((data ?? []).map((assignment) => [assignment.member_id, assignment.role as AssignableOperationalRole]));
+}
+
 export async function GET(request: Request) {
   const practiceId = new URL(request.url).searchParams.get("practiceId");
   if (!practiceId) return badRequest(new Error("practiceId is required"));
@@ -61,10 +80,15 @@ export async function GET(request: Request) {
       .order("created_at", { ascending: true });
     if (error) return Response.json({ error: error.message }, { status: 500 });
 
-    const canManage = PRACTICE_ADMIN_ROLES.includes(context.membership.role as "owner" | "admin");
+    const canManage = context.accessRoles.some((role) => role === "organization_owner" || role === "practice_administrator");
+    const roleByMember = await operationalRolesByMember(service, practiceId);
+    const resolvedMembers = (members ?? []).map((member) => ({
+      ...member,
+      access_role: member.role === "owner" ? "organization_owner" as const : roleByMember.get(member.id) ?? LEGACY_ROLE_TO_ACCESS_ROLE[member.role],
+    }));
     const directory = canManage
-      ? await Promise.all((members ?? []).map((member) => memberDirectoryEntry(service, member)))
-      : members ?? [];
+      ? await Promise.all(resolvedMembers.map((member) => memberDirectoryEntry(service, member)))
+      : resolvedMembers;
     const { data: invitations } = canManage
       ? await service
           .from("practice_staff_invitations")
@@ -133,7 +157,7 @@ export async function POST(request: Request) {
         created_by: user.id,
         invited_email: email,
         practice_id: practiceId,
-        role,
+        role: ACCESS_ROLE_TO_LEGACY_ROLE[role],
         status: "invited",
         updated_by: user.id,
         user_id: null,
@@ -144,16 +168,30 @@ export async function POST(request: Request) {
       return Response.json({ error: memberError?.message ?? "Unable to create invitation" }, { status: 500 });
     }
 
+    const { error: assignmentError } = await service.from("practice_member_role_assignments").insert({
+      assigned_by: user.id,
+      member_id: member.id,
+      practice_id: practiceId,
+      role,
+      status: "invited",
+      user_id: null,
+    });
+    if (assignmentError) {
+      await service.from("practice_members").delete().eq("id", member.id).eq("practice_id", practiceId);
+      return Response.json({ error: assignmentError.message }, { status: 500 });
+    }
+
     const expiresAt = invitationExpiration(new Date(), INVITATION_TTL_MINUTES);
     const { data: invitation, error: invitationError } = await service
       .from("practice_staff_invitations")
       .insert({
         email,
+        access_role: role,
         expires_at: expiresAt,
         invited_by: user.id,
         member_id: member.id,
         practice_id: practiceId,
-        role,
+        role: ACCESS_ROLE_TO_LEGACY_ROLE[role],
         status: "pending",
       })
       .select()
@@ -257,6 +295,7 @@ export async function PATCH(request: Request) {
           .select()
           .single();
         await service.from("practice_members").update({ removed_at: now, status: "inactive", updated_by: user.id }).eq("id", memberId).eq("practice_id", practiceId);
+        await service.from("practice_member_role_assignments").update({ status: "inactive", valid_until: now }).eq("practice_id", practiceId).eq("member_id", memberId);
         await recordAuditEvent(service, { action: "practice_member.invitation_cancelled", actorUserId: user.id, afterData: { invitationId, status: "cancelled" }, entityId: memberId, entityType: "practice_member", practiceId });
         return Response.json({ invitation: cancelled });
       }
@@ -290,32 +329,29 @@ export async function PATCH(request: Request) {
     }
 
     const { data: allMembers } = await service.from("practice_members").select("*").eq("practice_id", practiceId);
-    let update: Partial<Omit<PracticeMember, "id" | "created_at">> & { updated_by: string } = { updated_by: user.id };
     let auditAction = "practice_member.updated";
 
     if (action === "change_role") {
       const role = parseRole(body.role);
-      if (wouldRemoveFinalAdministrator(allMembers ?? [], member.id, role)) {
+      const legacyRole = ACCESS_ROLE_TO_LEGACY_ROLE[role];
+      if (wouldRemoveFinalAdministrator(allMembers ?? [], member.id, legacyRole)) {
         return Response.json({ error: "The final active administrator cannot be reassigned" }, { status: 409 });
       }
-      update = { ...update, last_role_changed_at: new Date().toISOString(), role };
       auditAction = "practice_member.role_changed";
     } else if (action === "disable" || action === "remove") {
       if (wouldRemoveFinalAdministrator(allMembers ?? [], member.id, undefined, "inactive")) {
         return Response.json({ error: "The final active administrator cannot be disabled or removed" }, { status: 409 });
       }
-      const now = new Date().toISOString();
-      update = { ...update, disabled_at: now, status: "inactive", ...(action === "remove" ? { removed_at: now } : {}) };
       auditAction = action === "remove" ? "practice_member.removed" : "practice_member.disabled";
     } else if (action === "enable") {
       if (member.removed_at) return Response.json({ error: "A removed member cannot be re-enabled; send a new invitation" }, { status: 409 });
-      update = { ...update, disabled_at: null, status: "active" };
       auditAction = "practice_member.enabled";
     } else {
       return badRequest(new Error("Unsupported staff action"));
     }
 
-    if (action === "change_role" && update.role === "provider" && member.user_id) {
+    const requestedRole = action === "change_role" ? parseRole(body.role) : null;
+    if (requestedRole === "provider" && member.user_id) {
       const account = await service.auth.admin.getUserById(member.user_id);
       const providerEmail = account.data.user?.email ?? member.invited_email;
       if (!providerEmail) return Response.json({ error: "The provider account does not have an email address" }, { status: 409 });
@@ -328,13 +364,14 @@ export async function PATCH(request: Request) {
       });
     }
 
-    const { data: saved, error: saveError } = await service
-      .from("practice_members")
-      .update(update)
-      .eq("practice_id", practiceId)
-      .eq("id", memberId)
-      .select()
-      .single();
+    const { data: savedData, error: saveError } = await service.rpc("update_practice_member_access", {
+      access_role_value: requestedRole,
+      action_value: action,
+      actor_user_id: user.id,
+      target_member_id: memberId,
+      target_practice_id: practiceId,
+    });
+    const saved = savedData as unknown as PracticeMember | null;
     if (saveError || !saved) return Response.json({ error: saveError?.message ?? "Unable to update member" }, { status: 500 });
     await recordAuditEvent(service, { action: auditAction, actorUserId: user.id, afterData: saved, beforeData: member, entityId: memberId, entityType: "practice_member", practiceId });
     return Response.json({ member: saved });

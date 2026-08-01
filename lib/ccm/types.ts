@@ -306,6 +306,7 @@ export type PracticeStaffInvitation = {
   member_id: UUID;
   email: string;
   role: PracticeRole;
+  access_role: Exclude<AccessRole, "organization_owner" | "patient" | "department_administrator">;
   status: StaffInvitationStatus;
   expires_at: ISODateTimeString;
   sent_at: ISODateTimeString | null;

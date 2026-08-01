@@ -3,18 +3,20 @@ import {
   type AuthContext,
   type PracticeMembership,
 } from "./auth";
-import type { Practice, UUID } from "./ccm/types";
+import type { AccessRole, Practice, UUID } from "./ccm/types";
 import { resolvePracticeAuthorization } from "./practice-authorization";
 
 export const ACTIVE_PRACTICE_HEADER = "x-active-practice-id";
 
 export type ActivePracticeContext = AuthContext & {
+  accessRoles: AccessRole[];
   membership: PracticeMembership;
   practice: Practice;
   practiceId: UUID;
 };
 
 export type OptionalPracticeContext = AuthContext & {
+  accessRoles: AccessRole[];
   membership: PracticeMembership | null;
   practice: Practice | null;
   practiceId: UUID | null;
@@ -34,6 +36,7 @@ export async function resolveActivePractice(
     return {
       ...context,
       membership: null,
+      accessRoles: [],
       practice: null,
       practiceId: null,
     };
@@ -42,6 +45,7 @@ export async function resolveActivePractice(
   return {
     ...context,
     membership: authorization.membership,
+    accessRoles: authorization.accessRoles,
     practice: authorization.practice,
     practiceId: authorization.practiceId,
   };
@@ -59,6 +63,7 @@ export async function requireActivePractice(
 
   return {
     ...context,
+    accessRoles: active.accessRoles,
     membership: active.membership,
     practice: active.practice,
     practiceId: active.practiceId,

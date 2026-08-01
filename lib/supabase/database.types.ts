@@ -172,6 +172,16 @@ export type Database = {
         };
         Returns: Json;
       };
+      update_practice_member_access: {
+        Args: {
+          target_practice_id: string;
+          target_member_id: string;
+          action_value: string;
+          access_role_value: import("../ccm/types").AccessRole | null;
+          actor_user_id: string;
+        };
+        Returns: Json;
+      };
       bootstrap_first_practice: {
         Args: {
           cms_eligibility_attested: boolean;

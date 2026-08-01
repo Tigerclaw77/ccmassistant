@@ -1,11 +1,9 @@
 import type { PracticeMember, PracticeRole } from "./types";
-
-export const ASSIGNABLE_STAFF_ROLES = ["admin", "coordinator", "provider"] as const;
-export type AssignableStaffRole = (typeof ASSIGNABLE_STAFF_ROLES)[number];
-
-export function isAssignableStaffRole(value: unknown): value is AssignableStaffRole {
-  return typeof value === "string" && ASSIGNABLE_STAFF_ROLES.includes(value as AssignableStaffRole);
-}
+export {
+  ASSIGNABLE_OPERATIONAL_ROLES as ASSIGNABLE_STAFF_ROLES,
+  isAssignableOperationalRole as isAssignableStaffRole,
+  type AssignableOperationalRole as AssignableStaffRole,
+} from "../access-roles.ts";
 
 export function normalizedStaffEmail(value: unknown): string {
   if (typeof value !== "string") throw new Error("A valid staff email is required");

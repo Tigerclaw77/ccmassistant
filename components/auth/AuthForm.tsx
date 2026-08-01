@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "../../lib/supabase";
-import { authRedirectUrl, safeAppPath } from "../../lib/auth-redirect";
+import { authCallbackError, authRedirectUrl, safeAppPath } from "../../lib/auth-redirect";
 
 type Props = {
   mode: "login" | "signup";
@@ -17,7 +17,31 @@ export default function AuthForm({ mode }: Props) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(() =>
+    mode === "login" && searchParams.get("confirmed") === "1"
+      ? "Email confirmed. Sign in to continue secure setup."
+      : mode === "login" && searchParams.get("passwordReset") === "1"
+        ? "Password updated. Sign in with your new password; multi-factor authentication remains required."
+        : null,
+  );
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setError(authCallbackError(window.location)), 0);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  async function resendConfirmation() {
+    setLoading(true);
+    setError(null);
+    const result = await supabase.auth.resend({
+      email,
+      options: { emailRedirectTo: authRedirectUrl("/login?confirmed=1") },
+      type: "signup",
+    });
+    setLoading(false);
+    if (result.error) setError(result.error.message);
+    else setMessage("A new verification email was requested. Use only the newest link.");
+  }
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -31,7 +55,7 @@ export default function AuthForm({ mode }: Props) {
         : await supabase.auth.signUp({
             email,
             password,
-            options: { emailRedirectTo: authRedirectUrl("/patients") },
+            options: { emailRedirectTo: authRedirectUrl("/login?confirmed=1") },
           });
 
     setLoading(false);
@@ -86,6 +110,7 @@ export default function AuthForm({ mode }: Props) {
 
       {error ? <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-700" role="alert">{error}</div> : null}
       {message ? <div className="rounded-md border border-teal-200 bg-teal-50 px-3 py-3 text-sm leading-6 text-teal-900" role="status">{message}</div> : null}
+      {mode === "signup" && message ? <button className="button-secondary w-full" disabled={loading || !email} onClick={() => void resendConfirmation()} type="button">Resend verification email</button> : null}
 
       <button
         type="submit"

@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { LogOut, PlayCircle } from "lucide-react";
 import { getSupabaseAuthHeaders, supabase } from "../lib/supabase";
-import type { PracticeRole } from "../lib/ccm/types";
+import type { AccessRole } from "../lib/ccm/types";
 import {
   developmentPersonaById,
   developmentPersonaPatientHref,
@@ -15,9 +15,7 @@ import { useDevelopmentPersona } from "./dev/useDevelopmentPersona";
 import BrandMark from "./ui/BrandMark";
 
 type ActivePracticeResponse = {
-  membership?: {
-    role: PracticeRole;
-  } | null;
+  accessRoles?: AccessRole[];
   practice?: {
     id: string;
     name: string;
@@ -31,8 +29,12 @@ type NavItem = {
   match?: string | null;
 };
 
-function navigationForRole(role: PracticeRole | null): NavItem[] {
-  if (role === "provider") {
+function navigationForAccessRoles(accessRoles: readonly AccessRole[]): NavItem[] {
+  if (!accessRoles.length) return [];
+  if (accessRoles.includes("compliance_administrator")) {
+    return [{ href: "/dashboard/compliance", label: "Compliance" }, { href: "/patients", label: "Patients" }];
+  }
+  if (accessRoles.includes("provider")) {
     return [
       { href: "/dashboard/provider", label: "Attention" },
       { href: "/patients", label: "Patients" },
@@ -41,10 +43,19 @@ function navigationForRole(role: PracticeRole | null): NavItem[] {
       { href: "/settings", label: "Settings" },
     ];
   }
-  if (role === "billing_staff") {
+  if (accessRoles.includes("billing_administrator")) {
     return [
       { href: "/dashboard/billing", label: "Billing" },
       { href: "/settings", label: "Settings" },
+    ];
+  }
+  if (accessRoles.includes("front_desk")) return [{ href: "/patients", label: "Patients" }];
+  if (accessRoles.includes("read_only")) return [{ href: "/patients", label: "Patients" }, { href: "/clinical-knowledge", label: "Knowledge" }];
+  if (accessRoles.includes("coordinator") || accessRoles.includes("clinical_staff")) {
+    return [
+      { href: "/dashboard/worklist", label: "Worklist" },
+      { href: "/patients", label: "Patients" },
+      { href: "/clinical-knowledge", label: "Knowledge" },
     ];
   }
   const items: NavItem[] = [
@@ -55,7 +66,7 @@ function navigationForRole(role: PracticeRole | null): NavItem[] {
     { href: "/clinical-knowledge", label: "Knowledge" },
     { href: "/settings/question-banks", label: "Question Banks" },
   ];
-  if (role === "owner" || role === "admin") {
+  if (accessRoles.includes("organization_owner") || accessRoles.includes("practice_administrator")) {
     items.push({ href: "/dashboard/management", label: "Management" });
     items.push({ href: "/dashboard/compliance", label: "Compliance" });
   }
@@ -97,7 +108,6 @@ function navigationForPersona(personaId: DevelopmentPersonaId, patientId?: strin
   if (personaId === "front-desk") {
     return [
       { href: "/patients", label: "Patients" },
-      { href: "/patients/new", label: "Add patient" },
       { href: patientHref, label: "Current patient" },
     ];
   }
@@ -114,7 +124,7 @@ function navigationForPersona(personaId: DevelopmentPersonaId, patientId?: strin
       { href: "/dev/personas", label: "Persona hub" },
     ];
   }
-  return navigationForRole(personaId === "practice-administrator" ? "admin" : "owner");
+  return navigationForAccessRoles(personaId === "practice-administrator" ? ["practice_administrator"] : ["organization_owner"]);
 }
 
 function isStaffPath(pathname: string): boolean {
@@ -138,7 +148,7 @@ export default function Header() {
   const router = useRouter();
   const [practiceName, setPracticeName] = useState<string>("Practice setup");
   const [userLabel, setUserLabel] = useState<string>("Signed in");
-  const [role, setRole] = useState<PracticeRole | null>(null);
+  const [accessRoles, setAccessRoles] = useState<AccessRole[]>([]);
   const { context: developmentPersona, reset: resetDevelopmentPersona } = useDevelopmentPersona();
 
   const staffPath = useMemo(() => isStaffPath(pathname), [pathname]);
@@ -184,7 +194,7 @@ export default function Header() {
       if (result.practice?.name) {
         setPracticeName(result.practice.name);
       }
-      setRole(result.membership?.role ?? null);
+      setAccessRoles(result.accessRoles ?? []);
     }
 
     void loadContext();
@@ -205,17 +215,19 @@ export default function Header() {
   const navItems = useMemo(
     () => developmentPersona
       ? navigationForPersona(developmentPersona.personaId, developmentPersona.patientId)
-      : navigationForRole(role),
-    [developmentPersona, role],
+      : navigationForAccessRoles(accessRoles),
+    [accessRoles, developmentPersona],
   );
   const homeHref = developmentPersona
     ? developmentPersona.personaId === "patient"
       ? developmentPersonaPatientHref(developmentPersona.personaId, developmentPersona.patientId)
       : personaDefinition?.home ?? "/dev/personas"
-    : role === "provider"
+    : accessRoles.includes("provider")
       ? "/dashboard/provider"
-      : role === "billing_staff"
+      : accessRoles.includes("billing_administrator")
         ? "/dashboard/billing"
+        : accessRoles.includes("compliance_administrator")
+          ? "/dashboard/compliance"
         : "/dashboard/worklist";
 
   async function signOut() {

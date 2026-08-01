@@ -43,7 +43,7 @@ export async function POST(request: Request) {
       .maybeSingle();
     if (existingMembership) return Response.json({ error: "This account already belongs to the practice" }, { status: 409 });
 
-    if (invitation.role === "provider") {
+    if (invitation.access_role === "provider") {
       await ensureProviderProfileForMember(service, {
         actorUserId: user.id,
         displayName: typeof user.user_metadata?.display_name === "string" ? user.user_metadata.display_name : null,
@@ -62,6 +62,14 @@ export async function POST(request: Request) {
       .select()
       .single();
     if (memberError || !member) return Response.json({ error: memberError?.message ?? "Unable to activate membership" }, { status: 500 });
+
+    const { error: roleError } = await service
+      .from("practice_member_role_assignments")
+      .update({ status: "active", user_id: user.id })
+      .eq("practice_id", invitation.practice_id)
+      .eq("member_id", invitation.member_id)
+      .eq("role", invitation.access_role);
+    if (roleError) return Response.json({ error: roleError.message }, { status: 500 });
 
     await service
       .from("practice_staff_invitations")

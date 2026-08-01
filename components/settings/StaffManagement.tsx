@@ -3,8 +3,9 @@
 import { Clock3, MailPlus, RefreshCw, ShieldCheck, UserRoundCheck, UserRoundX } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { getSupabaseAuthHeaders } from "../../lib/supabase";
-import type { PracticeRole, StaffInvitationStatus } from "../../lib/ccm/types";
+import type { AccessRole, PracticeRole, StaffInvitationStatus } from "../../lib/ccm/types";
 import type { AssignableStaffRole } from "../../lib/ccm/staff-management";
+import { ASSIGNABLE_OPERATIONAL_ROLES, OPERATIONAL_ROLE_LABELS } from "../../lib/access-roles";
 import LoadingState from "../ui/LoadingState";
 
 type DirectoryMember = {
@@ -13,6 +14,7 @@ type DirectoryMember = {
   user_email?: string | null;
   invited_email: string | null;
   role: PracticeRole;
+  access_role: AssignableStaffRole | "organization_owner";
   status: "invited" | "active" | "inactive";
   removed_at: string | null;
   last_login_at?: string | null;
@@ -24,6 +26,7 @@ type Invitation = {
   member_id: string;
   email: string;
   role: PracticeRole;
+  access_role: AssignableStaffRole;
   status: StaffInvitationStatus;
   expires_at: string;
   sent_at: string | null;
@@ -37,17 +40,11 @@ type DirectoryResponse = {
   members: DirectoryMember[];
 };
 
-const ROLES: Array<{ label: string; value: AssignableStaffRole }> = [
-  { label: "Practice Administrator", value: "admin" },
-  { label: "Coordinator", value: "coordinator" },
-  { label: "Provider", value: "provider" },
-];
+const ROLES = ASSIGNABLE_OPERATIONAL_ROLES.map((value) => ({ label: OPERATIONAL_ROLE_LABELS[value], value }));
 
-function roleLabel(role: PracticeRole): string {
-  if (role === "owner") return "Practice Owner";
-  if (role === "admin") return "Practice Administrator";
-  if (role === "billing_staff") return "Billing Staff";
-  return role.slice(0, 1).toUpperCase() + role.slice(1);
+function roleLabel(role: AccessRole): string {
+  if (role === "department_administrator" || role === "patient") return role.replaceAll("_", " ");
+  return OPERATIONAL_ROLE_LABELS[role];
 }
 
 function invitationLabel(status: StaffInvitationStatus): string {
@@ -102,7 +99,7 @@ export default function StaffManagement({ practiceId }: { practiceId: string }) 
       return;
     }
     setEmail("");
-    setMessage("Invitation sent.");
+    setMessage("Invitation requested. Confirm delivery in the email provider before treating the account as notified.");
     await load();
   }
 
@@ -148,14 +145,14 @@ export default function StaffManagement({ practiceId }: { practiceId: string }) 
                 <div className="min-w-0">
                   <div className="truncate font-semibold text-slate-950">{member.user_email || member.invited_email || "Staff account"}</div>
                   <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-600">
-                    <span>{roleLabel(member.role)}</span><span>Status: {pending ? invitationLabel(pending.status) : member.status}</span>
+                    <span>{roleLabel(member.access_role)}</span><span>Status: {pending ? invitationLabel(pending.status) : member.status}</span>
                     <span className="inline-flex items-center gap-1"><Clock3 aria-hidden="true" size={13} /> Last login: {member.last_login_at ? new Date(member.last_login_at).toLocaleString() : "Never"}</span>
                     <span className="inline-flex items-center gap-1"><ShieldCheck aria-hidden="true" size={13} /> MFA: {member.mfa_status === "verified" ? "Verified" : "Not enrolled"}</span>
                   </div>
                 </div>
-                {member.role !== "owner" && !pending ? (
+                {member.access_role !== "organization_owner" && !pending ? (
                   <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap lg:justify-end">
-                    <select aria-label={`Role for ${member.user_email || member.invited_email}`} className="min-h-10 rounded-md border px-3 text-sm" disabled={busy} onChange={(event) => updateMember(member, "change_role", event.target.value as AssignableStaffRole)} value={member.role}>{member.role === "billing_staff" ? <option disabled value="billing_staff">Billing Staff (legacy)</option> : null}{ROLES.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select>
+                    <select aria-label={`Role for ${member.user_email || member.invited_email}`} className="min-h-10 rounded-md border px-3 text-sm" disabled={busy} onChange={(event) => updateMember(member, "change_role", event.target.value as AssignableStaffRole)} value={member.access_role}>{ROLES.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select>
                     {member.status === "active" ? <button className="button-secondary" disabled={busy} onClick={() => updateMember(member, "disable")} type="button"><UserRoundX aria-hidden="true" size={16} /> Disable</button> : <button className="button-secondary" disabled={busy} onClick={() => updateMember(member, "enable")} type="button"><UserRoundCheck aria-hidden="true" size={16} /> Re-enable</button>}
                     <button className="button-secondary text-red-700" disabled={busy} onClick={() => window.confirm("Remove this staff member from the practice?") && updateMember(member, "remove")} type="button">Remove</button>
                   </div>
@@ -166,13 +163,13 @@ export default function StaffManagement({ practiceId }: { practiceId: string }) 
                   </div>
                 ) : <span className="text-xs font-medium text-slate-500">Owner access is protected</span>}
               </div>
-              {pending ? <div className="mt-3 text-xs text-slate-600">Expires {new Date(pending.expires_at).toLocaleString()} | Resent {pending.resend_count} time{pending.resend_count === 1 ? "" : "s"}</div> : null}
+              {pending ? <div className="mt-3 text-xs text-slate-600">Role: {roleLabel(pending.access_role)} | Expires {new Date(pending.expires_at).toLocaleString()} | Resent {pending.resend_count} time{pending.resend_count === 1 ? "" : "s"}</div> : null}
             </article>
           );
         })}
       </div>
 
-      {invitations.some((invitation) => ["accepted", "cancelled", "expired"].includes(invitation.status)) ? <details className="rounded-md border bg-white p-4"><summary className="cursor-pointer text-sm font-semibold">Invitation history</summary><div className="mt-3 space-y-2 text-sm">{invitations.filter((invitation) => ["accepted", "cancelled", "expired"].includes(invitation.status)).map((invitation) => <div className="flex flex-wrap justify-between gap-2 border-t pt-2" key={invitation.id}><span>{invitation.email} | {roleLabel(invitation.role)}</span><span>{invitationLabel(invitation.status)}</span></div>)}</div></details> : null}
+      {invitations.some((invitation) => ["accepted", "cancelled", "expired"].includes(invitation.status)) ? <details className="rounded-md border bg-white p-4"><summary className="cursor-pointer text-sm font-semibold">Invitation history</summary><div className="mt-3 space-y-2 text-sm">{invitations.filter((invitation) => ["accepted", "cancelled", "expired"].includes(invitation.status)).map((invitation) => <div className="flex flex-wrap justify-between gap-2 border-t pt-2" key={invitation.id}><span>{invitation.email} | {roleLabel(invitation.access_role)}</span><span>{invitationLabel(invitation.status)}</span></div>)}</div></details> : null}
     </div>
   );
 }

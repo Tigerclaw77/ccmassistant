@@ -14,12 +14,18 @@ import LoadingState from "../../../components/ui/LoadingState";
 import { CARE_PLAN_REVIEW_LABELS } from "../../../lib/ccm/care-plan-workflow";
 import { WORK_QUEUE_GROUPS, type WorkQueueGroup } from "../../../lib/ccm/opportunity-detector";
 
-type ActivePracticeResponse = { error?: string; practice?: { id: string; name: string } };
+type ActivePracticeResponse = {
+  error?: string;
+  membership?: { id: string; role: string };
+  practice?: { id: string; name: string };
+};
 type WorklistResponse = {
   canClaimUnassigned?: boolean;
   daysRemaining?: number | null;
   assignments?: Array<{ id: string; label: string }>;
   error?: string;
+  effectiveAssignment?: string;
+  groupCounts?: Record<WorkQueueGroup, number>;
   monthlyThreshold?: number;
   page?: number;
   pageSize?: number;
@@ -53,6 +59,10 @@ export default function WorklistPage() {
   const [assignments, setAssignments] = useState<Array<{ id: string; label: string }>>([]);
   const [providers, setProviders] = useState<Array<{ id: string; label: string }>>([]);
   const [total, setTotal] = useState(0);
+  const [effectiveAssignment, setEffectiveAssignment] = useState("");
+  const [groupCounts, setGroupCounts] = useState<Record<WorkQueueGroup, number>>(
+    () => Object.fromEntries(WORK_QUEUE_GROUPS.map((key) => [key, 0])) as Record<WorkQueueGroup, number>,
+  );
   const [loading, setLoading] = useState(true);
   const [monthlyThreshold, setMonthlyThreshold] = useState(20);
   const [daysRemaining, setDaysRemaining] = useState<number | null>(null);
@@ -65,7 +75,7 @@ export default function WorklistPage() {
   const month = searchParams.get("month") ?? currentMonthValue();
   const page = Math.max(1, Number(searchParams.get("page") ?? "1") || 1);
   const search = searchParams.get("search") ?? "";
-  const assignment = searchParams.get("assignment") ?? "";
+  const assignment = searchParams.get("assignment") ?? effectiveAssignment;
   const readiness = searchParams.get("readiness") ?? "";
   const provider = searchParams.get("provider") ?? "";
   const group = (searchParams.get("group") ?? "") as WorkQueueGroup | "";
@@ -100,6 +110,9 @@ export default function WorklistPage() {
         return;
       }
       localStorage.setItem("activePracticeId", result.practice.id);
+      if (!new URLSearchParams(window.location.search).has("assignment")) {
+        setEffectiveAssignment(result.membership?.role === "coordinator" ? result.membership.id : "practice");
+      }
       setPracticeId(result.practice.id);
       setPracticeName(result.practice.name);
     }
@@ -124,6 +137,7 @@ export default function WorklistPage() {
       if (assignment) query.set("assignment", assignment);
       if (provider) query.set("provider", provider);
       if (readiness) query.set("readiness", readiness);
+      if (group) query.set("group", group);
       const response = await fetch(`/api/worklist?${query}`, { headers: await getSupabaseAuthHeaders() });
       const result = (await response.json()) as WorklistResponse;
       if (!active) return;
@@ -134,6 +148,8 @@ export default function WorklistPage() {
       } else {
         setRows(result.rows ?? []);
         setAssignments(result.assignments ?? []);
+        setEffectiveAssignment(result.effectiveAssignment ?? "practice");
+        setGroupCounts(result.groupCounts ?? Object.fromEntries(WORK_QUEUE_GROUPS.map((key) => [key, 0])) as Record<WorkQueueGroup, number>);
         setProviders(result.providers ?? []);
         setMonthlyThreshold(result.monthlyThreshold ?? 20);
         setDaysRemaining(result.daysRemaining ?? null);
@@ -144,20 +160,16 @@ export default function WorklistPage() {
     }
     void loadRows();
     return () => { active = false; };
-  }, [assignment, month, page, practiceId, provider, readiness, refreshVersion, search]);
+  }, [assignment, group, month, page, practiceId, provider, readiness, refreshVersion, search]);
 
   const context = useMemo(() => ({ assignment, month: normalizeBillingMonth(month), page, provider, readiness, search, source: "worklist" as const }), [assignment, month, page, provider, readiness, search]);
-  const groupCounts = useMemo(() => Object.fromEntries(
-    WORK_QUEUE_GROUPS.map((key) => [key, rows.filter((row) => row.queueGroup === key).length]),
-  ) as Record<WorkQueueGroup, number>, [rows]);
   const visibleRows = useMemo(() => {
-    const filtered = group ? rows.filter((row) => row.queueGroup === group) : rows;
     const priorityOrder = { urgent: 0, high: 1, normal: 2, low: 3, none: 4 };
-    return [...filtered].sort((left, right) =>
+    return [...rows].sort((left, right) =>
       priorityOrder[left.priority] - priorityOrder[right.priority] ||
       left.patientName.localeCompare(right.patientName),
     );
-  }, [group, rows]);
+  }, [rows]);
   const nextPatientRow = visibleRows.find((row) => row.patientId !== completedPatient) ?? visibleRows[0];
 
   function submitSearch(event: FormEvent) {
@@ -213,7 +225,7 @@ export default function WorklistPage() {
         <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
           <div>
             <h2 className="font-semibold text-slate-950">Today&apos;s work</h2>
-            <p className="text-xs text-slate-600">Counts reflect the {rows.length} patients loaded on this page.</p>
+            <p className="text-xs text-slate-600">Counts reflect the complete filtered assignment scope.</p>
           </div>
           {group ? (
             <button className="text-sm font-medium underline" onClick={() => setFilters({ group: null })} type="button">
@@ -252,7 +264,8 @@ export default function WorklistPage() {
         <label className="space-y-1 text-sm">
           <span className="font-medium">Scope</span>
           <select className="w-full rounded-md border px-3 py-2" onChange={(event) => setFilters({ assignment: event.target.value || null, page: null })} value={assignment}>
-            <option value="">Practice scope</option>
+            {assignment === "" ? <option disabled value="">Loading scope…</option> : null}
+            <option value="practice">Practice scope</option>
             <option value="unassigned">Unassigned</option>
             {assignments.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}
           </select>
@@ -272,7 +285,7 @@ export default function WorklistPage() {
 
       {error ? <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div> : null}
       {loading ? <LoadingState label="Loading coordinator worklist" /> : visibleRows.length === 0 ? (
-        search || assignment || provider || readiness || group ? (
+        search || (assignment && assignment !== "practice") || provider || readiness || group ? (
           <EmptyState description="Adjust or clear the current filters to return to the full patient worklist." icon={SearchX} title="No patients match this view" />
         ) : (
           <EmptyState actionHref="/patients/new" actionLabel="Add first patient" description="Add a patient and complete enrollment before monthly CCM work appears here." icon={UsersRound} title="Your worklist is ready for its first patient" />

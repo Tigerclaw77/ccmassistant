@@ -1,11 +1,16 @@
-import { authErrorResponse, PRACTICE_ADMIN_ROLES, requirePracticeMembership } from "../../../../lib/auth";
+import { authErrorResponse, COMPLIANCE_ACCESS_ROLES, requirePracticeMembership } from "../../../../lib/auth";
+import { hasAnyAccessRole } from "../../../../lib/access-roles";
 import { badRequest } from "../../../../lib/api/json";
 
 export async function GET(request: Request) {
   const practiceId = new URL(request.url).searchParams.get("practiceId");
   if (!practiceId) return badRequest(new Error("practiceId is required"));
   try {
-    const { supabase } = await requirePracticeMembership(request, practiceId, PRACTICE_ADMIN_ROLES);
+    const context = await requirePracticeMembership(request, practiceId);
+    if (!hasAnyAccessRole(context.accessRoles, COMPLIANCE_ACCESS_ROLES)) {
+      return Response.json({ error: "Compliance access required" }, { status: 403 });
+    }
+    const { supabase } = context;
     const [events, opportunities, dispositions, reports] = await Promise.all([
       supabase.from("ccm_work_item_events").select("*").eq("practice_id", practiceId).order("created_at", { ascending: false }).limit(100),
       supabase.from("ccm_opportunities").select("id, detector_version, rule_identifier, rule_version, trigger_code, trigger_summary, generated_at, created_at").eq("practice_id", practiceId).order("generated_at", { ascending: false }).limit(100),

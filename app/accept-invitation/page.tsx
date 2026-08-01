@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import AuthShell from "../../components/auth/AuthShell";
 import { getSupabaseAuthHeaders, supabase } from "../../lib/supabase";
+import { authCallbackError } from "../../lib/auth-redirect";
 
 export default function AcceptInvitationPage() {
   const router = useRouter();
@@ -14,8 +15,12 @@ export default function AcceptInvitationPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    const timer = window.setTimeout(() => setError(
+      authCallbackError(window.location) ?? (invitationId ? null : "The invitation link is incomplete. Ask the practice administrator to resend it."),
+    ), 0);
     void supabase.auth.getUser().then(({ data }) => setEmail(data.user?.email ?? ""));
-  }, []);
+    return () => window.clearTimeout(timer);
+  }, [invitationId]);
 
   async function accept(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();

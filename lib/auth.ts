@@ -1,6 +1,6 @@
 import { createClient, type SupabaseClient, type User } from "@supabase/supabase-js";
 import type { Database } from "./supabase/database.types";
-import type { PracticeRole, UUID } from "./ccm/types";
+import type { AccessRole, PracticeRole, UUID } from "./ccm/types";
 import {
   hasAuthorizedPracticeRole,
   PracticeAuthorizationError,
@@ -34,6 +34,7 @@ export type PracticeMembership = {
 };
 
 export type PracticeAuthContext = AuthContext & {
+  accessRoles: AccessRole[];
   membership: PracticeMembership;
   practiceId: UUID;
 };
@@ -50,6 +51,11 @@ export const BILLING_WRITE_ROLES = [
   "admin",
   "billing_staff",
 ] as const satisfies readonly PracticeRole[];
+export const COMPLIANCE_ACCESS_ROLES = [
+  "organization_owner",
+  "practice_administrator",
+  "compliance_administrator",
+] as const satisfies readonly AccessRole[];
 
 export class AuthError extends Error {
   status: number;
@@ -170,6 +176,7 @@ export async function requirePracticeMembership(
 
   return {
     ...context,
+    accessRoles: authorization.accessRoles,
     membership: authorization.membership,
     practiceId,
   };
