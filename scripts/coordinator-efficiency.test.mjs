@@ -105,14 +105,16 @@ test("time entry, check-in actions, assignment defaults, and batch recalculation
 });
 
 test("server routes enforce paging, filtering, targeted refresh, and evidence review authorization", async () => {
-  const [worklistRoute, patientRoute, interactionRoute, billingRoute, nextRoute] = await Promise.all([
+  const [worklistRoute, worklistScope, patientRoute, interactionRoute, billingRoute, nextRoute] = await Promise.all([
     readFile(new URL("app/api/worklist/route.ts", ROOT), "utf8"),
+    readFile(new URL("lib/ccm/worklist-scope.ts", ROOT), "utf8"),
     readFile(new URL("app/api/patients/route.ts", ROOT), "utf8"),
     readFile(new URL("app/api/interaction-logs/route.ts", ROOT), "utf8"),
     readFile(new URL("app/api/billing/month/route.ts", ROOT), "utf8"),
     readFile(new URL("app/api/billing/next-unreviewed/route.ts", ROOT), "utf8"),
   ]);
-  assert.match(worklistRoute, /\.range\(start, start \+ pageSize - 1\)/);
+  assert.match(worklistRoute, /\.range\(start, start \+ PATIENT_BATCH_SIZE - 1\)/);
+  assert.match(worklistScope, /scopedRows\.slice\(start, start \+ options\.pageSize\)/);
   assert.match(worklistRoute, /care_coordinator_member_id/);
   assert.match(worklistRoute, /monthly_billability/);
   assert.match(patientRoute, /select\("\*", \{ count: "exact" \}\)/);

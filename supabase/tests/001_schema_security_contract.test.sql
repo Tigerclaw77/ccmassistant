@@ -6,8 +6,8 @@ select plan(20);
 
 select is(
   (select count(*) from supabase_migrations.schema_migrations),
-  27::bigint,
-  'all 27 migration versions are recorded exactly once'
+  29::bigint,
+  'all 29 migration versions are recorded exactly once'
 );
 
 select is(

@@ -27,6 +27,8 @@ const commands = [
   "test:coordinator-workflow",
   "test:founder-review-1",
   "test:first-patient-onboarding",
+  "test:rc004-pilot-completion",
+  "test:rc005-pilot-gate",
   "test:icd",
   "test:icd-audit",
   "icd:check",

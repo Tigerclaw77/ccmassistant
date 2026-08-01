@@ -2,7 +2,7 @@ begin;
 
 create extension if not exists pgtap with schema extensions;
 
-select plan(25);
+select plan(28);
 
 insert into auth.users (
   id, instance_id, aud, role, email, encrypted_password, email_confirmed_at,
@@ -21,6 +21,12 @@ values ('31000000-0000-0000-0000-000000000001', '21000000-0000-0000-0000-0000000
 insert into public.practice_members (id, practice_id, user_id, role, status, created_by)
 values ('41000000-0000-0000-0000-000000000001', '31000000-0000-0000-0000-000000000001', '11000000-0000-0000-0000-000000000001', 'owner', 'active', '11000000-0000-0000-0000-000000000001');
 
+insert into public.organization_members (organization_id, user_id, role, status, created_by)
+values ('21000000-0000-0000-0000-000000000001', '11000000-0000-0000-0000-000000000001', 'organization_owner', 'active', '11000000-0000-0000-0000-000000000001');
+
+insert into public.practice_member_role_assignments (practice_id, member_id, user_id, role, status, assigned_by)
+values ('31000000-0000-0000-0000-000000000001', '41000000-0000-0000-0000-000000000001', '11000000-0000-0000-0000-000000000001', 'practice_administrator', 'active', '11000000-0000-0000-0000-000000000001');
+
 insert into public.providers (id, practice_id, member_id, full_name, created_by)
 values ('51000000-0000-0000-0000-000000000001', '31000000-0000-0000-0000-000000000001', '41000000-0000-0000-0000-000000000001', 'Gate 3 Workflow Provider', '11000000-0000-0000-0000-000000000001');
 
@@ -32,7 +38,7 @@ set local role service_role;
 
 select is(
   (public.store_ccm_opportunity(
-    '{"practice_id":"31000000-0000-0000-0000-000000000001","patient_id":"61000000-0000-0000-0000-000000000001","detector_version":"detector-v1","rule_version":"rule-v1","rule_identifier":"CCM-GATE3-001","opportunity_type":"provider_review","trigger_code":"gate3-trigger","trigger_summary":"Gate 3 trigger","benefit_rationale":"Gate 3 rationale","condition_or_workflow_item":"Gate 3 item","suggested_activity":"Review patient","eligible_performers":["provider"],"provider_involvement":"required","input_facts":{"gate3":true},"evidence_fingerprint":"fingerprint-v1","generated_at":"2026-07-20T12:00:00Z","expires_at":"2026-07-27T12:00:00Z"}'::jsonb,
+    '{"practice_id":"31000000-0000-0000-0000-000000000001","patient_id":"61000000-0000-0000-0000-000000000001","detector_version":"detector-v1","rule_version":"rule-v1","rule_identifier":"CCM-GATE3-001","opportunity_type":"provider_review","trigger_code":"gate3-trigger","trigger_summary":"Gate 3 trigger","benefit_rationale":"Gate 3 rationale","condition_or_workflow_item":"Gate 3 item","suggested_activity":"Review patient","eligible_performers":["provider"],"provider_involvement":"required","input_facts":{"gate3":true},"evidence_fingerprint":"fingerprint-v1","generated_at":"2026-07-20T12:00:00Z","expires_at":"2099-07-27T12:00:00Z"}'::jsonb,
     '[{"source_type":"patient_record","source_id":null,"observed_at":"2026-07-20T11:00:00Z","summary":"Gate 3 evidence","facts":{"value":"abnormal"}}]'::jsonb
   ) ->> 'created')::boolean,
   true,
@@ -46,7 +52,7 @@ select is((select count(*) from public.ccm_opportunity_evidence), 1::bigint, 'ev
 set local role service_role;
 select is(
   (public.store_ccm_opportunity(
-    '{"practice_id":"31000000-0000-0000-0000-000000000001","patient_id":"61000000-0000-0000-0000-000000000001","detector_version":"detector-v1","rule_version":"rule-v1","rule_identifier":"CCM-GATE3-001","opportunity_type":"provider_review","trigger_code":"gate3-trigger","trigger_summary":"Gate 3 trigger","benefit_rationale":"Gate 3 rationale","condition_or_workflow_item":"Gate 3 item","suggested_activity":"Review patient","eligible_performers":["provider"],"provider_involvement":"required","input_facts":{"gate3":true},"evidence_fingerprint":"fingerprint-v1","generated_at":"2026-07-20T12:00:00Z","expires_at":"2026-07-27T12:00:00Z"}'::jsonb,
+    '{"practice_id":"31000000-0000-0000-0000-000000000001","patient_id":"61000000-0000-0000-0000-000000000001","detector_version":"detector-v1","rule_version":"rule-v1","rule_identifier":"CCM-GATE3-001","opportunity_type":"provider_review","trigger_code":"gate3-trigger","trigger_summary":"Gate 3 trigger","benefit_rationale":"Gate 3 rationale","condition_or_workflow_item":"Gate 3 item","suggested_activity":"Review patient","eligible_performers":["provider"],"provider_involvement":"required","input_facts":{"gate3":true},"evidence_fingerprint":"fingerprint-v1","generated_at":"2026-07-20T12:00:00Z","expires_at":"2099-07-27T12:00:00Z"}'::jsonb,
     '[{"source_type":"patient_record","source_id":null,"observed_at":"2026-07-20T11:00:00Z","summary":"Gate 3 evidence","facts":{"value":"abnormal"}}]'::jsonb
   ) ->> 'created')::boolean,
   false,
@@ -58,7 +64,7 @@ select is((select count(*) from public.ccm_opportunities), 1::bigint, 'exact rep
 set local role service_role;
 select is(
   (public.store_ccm_opportunity(
-    '{"practice_id":"31000000-0000-0000-0000-000000000001","patient_id":"61000000-0000-0000-0000-000000000001","detector_version":"detector-v2","rule_version":"rule-v1","rule_identifier":"CCM-GATE3-001","opportunity_type":"provider_review","trigger_code":"gate3-trigger","trigger_summary":"Gate 3 trigger","benefit_rationale":"Gate 3 rationale","condition_or_workflow_item":"Gate 3 item","suggested_activity":"Review patient","eligible_performers":["provider"],"provider_involvement":"required","input_facts":{"gate3":true},"evidence_fingerprint":"fingerprint-v2","generated_at":"2026-07-20T12:05:00Z","expires_at":"2026-07-27T12:05:00Z"}'::jsonb,
+    '{"practice_id":"31000000-0000-0000-0000-000000000001","patient_id":"61000000-0000-0000-0000-000000000001","detector_version":"detector-v2","rule_version":"rule-v1","rule_identifier":"CCM-GATE3-001","opportunity_type":"provider_review","trigger_code":"gate3-trigger","trigger_summary":"Gate 3 trigger","benefit_rationale":"Gate 3 rationale","condition_or_workflow_item":"Gate 3 item","suggested_activity":"Review patient","eligible_performers":["provider"],"provider_involvement":"required","input_facts":{"gate3":true},"evidence_fingerprint":"fingerprint-v2","generated_at":"2026-07-20T12:05:00Z","expires_at":"2099-07-27T12:05:00Z"}'::jsonb,
     '[{"source_type":"patient_record","source_id":null,"observed_at":"2026-07-20T11:05:00Z","summary":"Gate 3 evidence v2","facts":{"value":"abnormal"}}]'::jsonb
   ) ->> 'created')::boolean,
   true,
@@ -120,8 +126,27 @@ select lives_ok($test$
   )
 $test$, 'an AAL2 in-scope owner can disposition an opportunity');
 
+select lives_ok($test$
+  select public.dispose_ccm_opportunity(
+    (select id from public.ccm_opportunities where detector_version = 'detector-v2'),
+    'deferred', 'Follow up after records arrive', null, false, null, now() + interval '1 day'
+  )
+$test$, 'deferring an opportunity creates durable scheduled work');
+
+select is(
+  (select status from public.ccm_work_items where opportunity_id = (select id from public.ccm_opportunities where detector_version = 'detector-v2')),
+  'deferred',
+  'suggestion-level deferred work remains in the work-item lifecycle'
+);
+
+select isnt(
+  (select resulting_work_item_id from public.ccm_opportunity_dispositions where opportunity_id = (select id from public.ccm_opportunities where detector_version = 'detector-v2')),
+  null::uuid,
+  'the deferred disposition retains its resulting work item'
+);
+
 reset role;
-select is((select count(*) from public.ccm_opportunity_dispositions), 1::bigint, 'one disposition is retained');
+select is((select count(*) from public.ccm_opportunity_dispositions), 2::bigint, 'both dispositions are retained');
 
 set local role authenticated;
 select throws_ok($test$

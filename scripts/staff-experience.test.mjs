@@ -96,11 +96,12 @@ test("patient communications render complete plain-language copy without unresol
 });
 
 test("staff pages reuse canonical authorization and do not add automatic billing", async () => {
-  const [managementRoute, questionRoute, billingPage, providerPage, header] = await Promise.all([
+  const [managementRoute, questionRoute, billingPage, providerPage, worklistRoute, header] = await Promise.all([
     readFile(new URL("app/api/management/summary/route.ts", ROOT), "utf8"),
     readFile(new URL("app/api/question-bank-management/route.ts", ROOT), "utf8"),
     readFile(new URL("app/dashboard/billing/page.tsx", ROOT), "utf8"),
     readFile(new URL("app/dashboard/provider/page.tsx", ROOT), "utf8"),
+    readFile(new URL("app/api/worklist/route.ts", ROOT), "utf8"),
     readFile(new URL("components/Header.tsx", ROOT), "utf8"),
   ]);
   assert.match(managementRoute, /requirePracticeMembership\(request, practiceId, PRACTICE_ADMIN_ROLES\)/);
@@ -109,8 +110,11 @@ test("staff pages reuse canonical authorization and do not add automatic billing
   assert.match(questionRoute, /containsPotentialPhi/);
   assert.match(billingPage, /Review only; never billed automatically/);
   assert.match(billingPage, /window\.confirm\(confirmation\)/);
-  assert.match(providerPage, /queueKeys\.includes\("provider_review"\)/);
-  assert.match(header, /navigationForRole/);
+  assert.match(providerPage, /queueKey: "provider_review"/);
+  assert.match(worklistRoute, /summarizeAndPageWorklistRows/);
+  assert.match(header, /navigationForAccessRoles/);
+  assert.match(header, /compliance_administrator/);
+  assert.match(header, /billing_administrator/);
 });
 
 test("question-library writes remain append-only version records", async () => {

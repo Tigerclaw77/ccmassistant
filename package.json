@@ -39,6 +39,8 @@
     "test:coordinator-workflow": "node --no-warnings --experimental-strip-types --test scripts/coordinator-workflow-opportunity-detector.test.mjs",
     "test:founder-review-1": "node --no-warnings --experimental-strip-types --test scripts/founder-review-sprint-1.test.mjs",
     "test:first-patient-onboarding": "node --no-warnings --experimental-strip-types --test scripts/first-patient-onboarding.test.mjs",
+    "test:rc004-pilot-completion": "node --no-warnings --experimental-strip-types --test scripts/rc004-pilot-completion.test.mjs",
+    "test:rc005-pilot-gate": "node --no-warnings --experimental-strip-types --test scripts/rc005-pilot-gate.test.mjs",
     "test:icd": "node --no-warnings --experimental-strip-types --test scripts/icd-classification.test.mjs",
     "test:icd-audit": "node --test scripts/icd-audit.test.mjs",
     "icd:import": "node scripts/icd/import-cms-icd.mjs",

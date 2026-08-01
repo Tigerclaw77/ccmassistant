@@ -26,9 +26,15 @@ test("staff invitations normalize identity, expire deterministically, and accept
   assert.throws(() => normalizedStaffEmail("not-an-email"));
   assert.equal(invitationExpiration(new Date("2026-07-17T12:00:00.000Z"), 60), "2026-07-17T13:00:00.000Z");
   assert.throws(() => invitationExpiration(new Date(), 2));
-  assert.equal(isAssignableStaffRole("admin"), true);
+  assert.equal(isAssignableStaffRole("practice_administrator"), true);
+  assert.equal(isAssignableStaffRole("compliance_administrator"), true);
+  assert.equal(isAssignableStaffRole("billing_administrator"), true);
+  assert.equal(isAssignableStaffRole("clinical_staff"), true);
   assert.equal(isAssignableStaffRole("coordinator"), true);
   assert.equal(isAssignableStaffRole("provider"), true);
+  assert.equal(isAssignableStaffRole("front_desk"), true);
+  assert.equal(isAssignableStaffRole("read_only"), true);
+  assert.equal(isAssignableStaffRole("admin"), false);
   assert.equal(isAssignableStaffRole("owner"), false);
 });
 

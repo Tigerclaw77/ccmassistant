@@ -64,9 +64,10 @@ test("suggestion expiration uses type defaults and validated practice overrides"
   assert.equal(opportunityExpirationDays("provider_review", { provider_review: 0 }), DEFAULT_OPPORTUNITY_EXPIRATION_DAYS.provider_review);
 });
 
-test("accepted opportunity creates a task while no-intervention does not", async () => {
+test("actionable opportunity decisions create tasks while no-intervention does not", async () => {
   assert.equal(dispositionCreatesTask("accepted"), true);
   assert.equal(dispositionCreatesTask("provider_review"), true);
+  assert.equal(dispositionCreatesTask("deferred"), true);
   assert.equal(dispositionCreatesTask("no_intervention"), false);
   const migration = await readFile(new URL("supabase/migrations/027_task_driven_coordinator_workflow.sql", ROOT), "utf8");
   assert.match(migration, /disposition_value in \('accepted','different_action','provider_review'\)[\s\S]*insert into public\.ccm_work_items/);
