@@ -4,12 +4,12 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useCallback, useEffect, useState } from "react";
 import PatientTable from "../../components/patients/PatientTable";
-import type { CcmEnrollment, Patient } from "../../lib/ccm/types";
+import type { AccessRole, CcmEnrollment, Patient } from "../../lib/ccm/types";
 import { getSupabaseAuthHeaders } from "../../lib/supabase";
 import { Plus, Search } from "lucide-react";
 import LoadingState from "../../components/ui/LoadingState";
 
-type ActivePracticeResponse = { error?: string; practice?: { id: string; name: string } };
+type ActivePracticeResponse = { accessRoles?: AccessRole[]; error?: string; practice?: { id: string; name: string } };
 type PatientsResponse = {
   enrollmentsByPatientId?: Record<string, CcmEnrollment>;
   error?: string;
@@ -18,12 +18,20 @@ type PatientsResponse = {
 };
 
 const PAGE_SIZE = 25;
+const PATIENT_CREATE_ROLES = new Set<AccessRole>([
+  "organization_owner",
+  "practice_administrator",
+  "provider",
+  "clinical_staff",
+  "coordinator",
+]);
 
 export default function PatientsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [practiceId, setPracticeId] = useState<string | null>(null);
   const [practiceName, setPracticeName] = useState<string | null>(null);
+  const [canAddPatient, setCanAddPatient] = useState(false);
   const [patients, setPatients] = useState<Patient[]>([]);
   const [enrollments, setEnrollments] = useState<Record<string, CcmEnrollment>>({});
   const [total, setTotal] = useState(0);
@@ -58,6 +66,7 @@ export default function PatientsPage() {
         return;
       }
       localStorage.setItem("activePracticeId", result.practice.id);
+      setCanAddPatient((result.accessRoles ?? []).some((role) => PATIENT_CREATE_ROLES.has(role)));
       setPracticeId(result.practice.id);
       setPracticeName(result.practice.name);
     }
@@ -99,7 +108,7 @@ export default function PatientsPage() {
     <main className="page-shell">
       <div className="flex items-center justify-between gap-4">
         <div><p className="eyebrow">Patient registry</p><h1 className="page-title mt-1">Patients</h1><div className="page-description">{practiceName ?? "Practice"} - {total} patient records</div></div>
-        <Link href="/patients/new" className="button-primary"><Plus aria-hidden="true" size={17} /> Add patient</Link>
+        {canAddPatient ? <Link href="/patients/new" className="button-primary"><Plus aria-hidden="true" size={17} /> Add patient</Link> : null}
       </div>
       <form className="surface grid gap-3 p-4 md:grid-cols-[minmax(16rem,1fr)_10rem_12rem_auto]" onSubmit={submitSearch}>
         <label className="space-y-1 text-sm"><span className="font-medium">Find patient</span><input className="w-full rounded-md border px-3 py-2" onChange={(event) => setSearchDraft(event.target.value)} placeholder="Name, DOB, external ID, or phone" value={searchDraft} /></label>

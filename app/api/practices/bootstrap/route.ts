@@ -16,6 +16,11 @@ import {
   type FirstProviderMode,
 } from "../../../../lib/ccm/first-provider-bootstrap";
 import { recordAuditEvent } from "../../../../lib/ccm/audit";
+import {
+  DEFAULT_CLINICAL_STARTER_KIT_IDS,
+  type ClinicalStarterKitId,
+  validateClinicalStarterKitIds,
+} from "../../../../lib/ccm/clinical-starter-kits";
 
 type BootstrapResult = {
   membership: PracticeMember;
@@ -69,6 +74,7 @@ export async function POST(request: Request) {
   let providerFullName: string;
   let providerCredentials: string | null;
   let providerType: BillingPractitionerType;
+  let clinicalStarterKitIds: ClinicalStarterKitId[];
 
   try {
     name = requiredString(body, "name");
@@ -84,6 +90,9 @@ export async function POST(request: Request) {
     providerFullName = requiredString(body, "providerFullName");
     providerCredentials = optionalString(body, "providerCredentials");
     providerType = requiredString(body, "providerType") as BillingPractitionerType;
+    clinicalStarterKitIds = "clinicalStarterKitIds" in body
+      ? validateClinicalStarterKitIds(body.clinicalStarterKitIds)
+      : [...DEFAULT_CLINICAL_STARTER_KIT_IDS];
 
     if (![
       "independent_practice",
@@ -127,7 +136,10 @@ export async function POST(request: Request) {
     const { supabase, user } = await requireAuthenticatedUser(request);
 
     const { data, error } = await supabase.rpc("bootstrap_user_practice", {
-      coordinator_settings: { assignment_mode: coordinatorAssignmentMode },
+      coordinator_settings: {
+        assignment_mode: coordinatorAssignmentMode,
+        clinical_starter_kit_ids: clinicalStarterKitIds,
+      },
       default_timezone: defaultTimezone,
       logo_url: logoUrl,
       notification_defaults: {

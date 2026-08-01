@@ -388,6 +388,7 @@ export const QUESTION_BANK = [
     clinicalRationale: "Captures a simple asthma-control measure.",
     billingRelevance: "Supports symptom and medication review.",
     contexts: [...MONTHLY],
+    conditionIds: ["asthma"],
     tags: ["asthma_control"],
     followUpTriggers: [{ id: "asthma-control-review", when: { operator: "greater_than", value: 2 }, actions: [{ type: "flag_for_review", code: "asthma_not_well_controlled", urgency: "soon", providerNotification: true }] }],
   }),

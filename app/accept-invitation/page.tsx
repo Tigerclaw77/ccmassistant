@@ -8,19 +8,23 @@ import { authCallbackError } from "../../lib/auth-redirect";
 
 export default function AcceptInvitationPage() {
   const router = useRouter();
-  const [invitationId] = useState(() => typeof window === "undefined" ? "" : new URLSearchParams(window.location.search).get("invitation") ?? "");
+  const [invitationId, setInvitationId] = useState<string | null>(null);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [working, setWorking] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => setError(
-      authCallbackError(window.location) ?? (invitationId ? null : "The invitation link is incomplete. Ask the practice administrator to resend it."),
-    ), 0);
+    const resolvedInvitationId = new URLSearchParams(window.location.search).get("invitation") ?? "";
+    const timer = window.setTimeout(() => {
+      setInvitationId(resolvedInvitationId);
+      setError(
+        authCallbackError(window.location) ?? (resolvedInvitationId ? null : "The invitation link is incomplete. Ask the practice administrator to resend it."),
+      );
+    }, 0);
     void supabase.auth.getUser().then(({ data }) => setEmail(data.user?.email ?? ""));
     return () => window.clearTimeout(timer);
-  }, [invitationId]);
+  }, []);
 
   async function accept(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();

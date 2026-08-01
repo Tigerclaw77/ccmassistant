@@ -36,6 +36,7 @@ export type ConditionModuleId =
   | "diabetes"
   | "chf"
   | "copd"
+  | "asthma"
   | "hypertension"
   | "ckd"
   | "depression"

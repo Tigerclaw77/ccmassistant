@@ -462,7 +462,7 @@ export default function EvidencePacketPage() {
       </section>
 
       <section className="rounded-md border bg-white p-4 text-black">
-        <h2 className="mb-3 text-base font-semibold">Reviewed AI intake</h2>
+        <h2 className="mb-3 text-base font-semibold">Reviewed clinical intake</h2>
         {packet.intakeSummary ? (
           <div className="space-y-3 text-sm">
             <div className="grid gap-3 md:grid-cols-3">
@@ -503,7 +503,7 @@ export default function EvidencePacketPage() {
           </div>
         ) : (
           <div className="rounded-md border border-dashed bg-slate-50 p-4 text-sm text-gray-600">
-            No accepted AI intake summary. Review and accept the draft before using it as evidence.
+            No accepted clinical intake. Complete and review the intake before using it as evidence.
           </div>
         )}
       </section>

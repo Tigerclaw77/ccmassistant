@@ -28,6 +28,7 @@ export default function PatientDetailPage() {
   const searchParams = useSearchParams();
   const patientId = params.patientId;
   const editing = searchParams.get("edit") === "1";
+  const setupRecovery = searchParams.get("setupRecovery");
   const [practiceId, setPracticeId] = useState<string | null>(null);
   const [patient, setPatient] = useState<Patient | null>(null);
   const [enrollment, setEnrollment] = useState<CcmEnrollment | null>(null);
@@ -107,7 +108,9 @@ export default function PatientDetailPage() {
         <PatientForm
           consentAuditEvents={consentAuditEvents}
           enrollment={enrollment}
-          initialMessage="Editing patient demographics, enrollment, consent, and assignment."
+          initialMessage={setupRecovery
+            ? "The patient record was saved, but setup did not finish. Review the details below and save again; CCM Assistant will update the existing patient instead of creating a duplicate."
+            : "Editing patient demographics, enrollment, consent, and assignment."}
           mode="edit"
           patient={patient}
           practiceId={practiceId}
@@ -120,8 +123,10 @@ export default function PatientDetailPage() {
     <PatientWorkspace
       initialEnrollment={enrollment}
       initialMessage={
-        searchParams.get("created")
-          ? "Patient saved. Use the workspace to complete this month's CCM requirements."
+        searchParams.get("onboarding") === "complete"
+          ? "Onboarding complete. Your practice, first provider, clinical starter kits, and first patient are ready. Begin with the guided next action below."
+          : searchParams.get("created")
+            ? "Patient saved. Use the workspace to complete this month's CCM requirements."
           : null
       }
       initialPatient={patient}

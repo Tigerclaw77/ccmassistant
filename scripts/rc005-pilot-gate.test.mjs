@@ -52,3 +52,29 @@ test("the RC-005 migration uses canonical roles and explicit grants", async () =
   assert.match(migration, /grant execute on function public\.update_practice_member_access[\s\S]*to service_role/);
   assert.doesNotMatch(migration, /disable row level security|grant all/i);
 });
+
+test("the server-side invitation lifecycle has explicit practice membership privileges", async () => {
+  const names = await readdir(new URL("supabase/migrations/", ROOT));
+  const name = names.find((value) => value.endsWith("_version_1_0_practice_member_service_grant.sql"));
+  assert.ok(name);
+  const migration = await readFile(new URL(`supabase/migrations/${name}`, ROOT), "utf8");
+  assert.match(
+    migration,
+    /grant select, insert, update, delete on table public\.practice_members to service_role;/,
+  );
+  assert.match(
+    migration,
+    /grant select, insert, update on table public\.practice_member_role_assignments to service_role;/,
+  );
+  assert.match(migration, /alter function public\.snapshot_care_plan_version\(\) security definer;/);
+  assert.match(migration, /revoke all on function public\.snapshot_care_plan_version\(\) from public, anon, authenticated, service_role;/);
+  assert.doesNotMatch(migration, /grant all|to authenticated|to anon/i);
+});
+
+test("the invitation acceptance page preserves its invitation id through server rendering", async () => {
+  const page = await readFile(new URL("app/accept-invitation/page.tsx", ROOT), "utf8");
+  assert.match(page, /setInvitationId\(resolvedInvitationId\)/);
+  assert.match(page, /new URLSearchParams\(window\.location\.search\)\.get\("invitation"\)/);
+  assert.doesNotMatch(page, /useState\(\(\) => typeof window/);
+  assert.doesNotMatch(page, /useSearchParams/);
+});

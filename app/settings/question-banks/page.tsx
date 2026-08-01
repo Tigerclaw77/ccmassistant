@@ -1,8 +1,14 @@
 "use client";
 
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
-import type { PracticeRole } from "../../../lib/ccm/types";
+import type { Practice, PracticeRole } from "../../../lib/ccm/types";
 import { getSupabaseAuthHeaders } from "../../../lib/supabase";
+import ClinicalStarterKitPicker from "../../../components/onboarding/ClinicalStarterKitPicker";
+import {
+  clinicalStarterKitIdsFromSettings,
+  DEFAULT_CLINICAL_STARTER_KIT_IDS,
+  type ClinicalStarterKitId,
+} from "../../../lib/ccm/clinical-starter-kits";
 
 type Scope = "clinic" | "provider" | "coordinator";
 type LibraryView = "global" | "clinic" | "provider" | "personal" | "candidates" | "history";
@@ -60,6 +66,9 @@ export default function QuestionBankManagementPage() {
   const [noPhiAttested, setNoPhiAttested] = useState(false);
   const [optIn, setOptIn] = useState(false);
   const [anonymous, setAnonymous] = useState(true);
+  const [clinicalStarterKitIds, setClinicalStarterKitIds] = useState<ClinicalStarterKitId[]>(
+    () => [...DEFAULT_CLINICAL_STARTER_KIT_IDS],
+  );
   const [loading, setLoading] = useState(true);
   const [working, setWorking] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -87,11 +96,12 @@ export default function QuestionBankManagementPage() {
       try {
         const storedPracticeId = localStorage.getItem("activePracticeId");
         const response = await fetch("/api/practices/active", { headers: { ...(await getSupabaseAuthHeaders()), ...(storedPracticeId ? { "x-active-practice-id": storedPracticeId } : {}) } });
-        const result = await response.json() as { error?: string; practice?: { id: string } };
+        const result = await response.json() as { error?: string; practice?: Pick<Practice, "coordinator_settings" | "id"> };
         if (!response.ok || !result.practice) throw new Error(result.error ?? "No active practice found");
         if (!active) return;
         localStorage.setItem("activePracticeId", result.practice.id);
         setPracticeId(result.practice.id);
+        setClinicalStarterKitIds(clinicalStarterKitIdsFromSettings(result.practice.coordinator_settings));
         await load(result.practice.id);
       } catch (caught) {
         if (active) setError(caught instanceof Error ? caught.message : "Unable to load question libraries");
@@ -156,6 +166,24 @@ export default function QuestionBankManagementPage() {
     setQuestionText(""); setNoPhiAttested(false); setOptIn(false);
   }
 
+  async function saveClinicalStarterKits() {
+    if (!practiceId) return;
+    setWorking(true); setError(null); setMessage(null);
+    try {
+      const response = await fetch("/api/practices/active", {
+        body: JSON.stringify({ clinicalStarterKitIds, practiceId }),
+        headers: { "Content-Type": "application/json", ...(await getSupabaseAuthHeaders()) },
+        method: "PATCH",
+      });
+      const result = await response.json() as { error?: string; practice?: Pick<Practice, "coordinator_settings"> };
+      if (!response.ok || !result.practice) throw new Error(result.error ?? "Unable to save clinical starter kits");
+      setClinicalStarterKitIds(clinicalStarterKitIdsFromSettings(result.practice.coordinator_settings));
+      setMessage("Clinical starter kits updated. Patient-specific workflows will use the selected guidance where conditions match.");
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : "Unable to save clinical starter kits");
+    } finally { setWorking(false); }
+  }
+
   if (loading) return <main className="p-6 text-sm text-slate-600">Loading question libraries...</main>;
 
   return (
@@ -166,6 +194,10 @@ export default function QuestionBankManagementPage() {
       {message ? <div className="border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-800">{message}</div> : null}
 
       {view === "global" ? <>
+        <section className="rounded-md border bg-white p-4">
+          <ClinicalStarterKitPicker disabled={working || !canAdministerClinic} onChange={setClinicalStarterKitIds} selectedIds={clinicalStarterKitIds} />
+          {canAdministerClinic ? <button className="button-primary mt-4" disabled={working || clinicalStarterKitIds.length === 0} onClick={() => void saveClinicalStarterKits()} type="button">{working ? "Saving…" : "Save starter kits"}</button> : <p className="mt-4 text-xs text-slate-500">Practice administrators manage these defaults. Your patient workflow remains condition-specific.</p>}
+        </section>
         <section className="border-y bg-white py-4"><h2 className="font-semibold">Favorites</h2><div className="mt-3 flex flex-wrap gap-2">{favoriteBanks.length ? favoriteBanks.map((bank) => <button className="border bg-amber-50 px-3 py-2 text-sm font-medium" key={bank.canonicalConditionId} onClick={() => setSearch(bank.displayName)} type="button">{bank.displayName}</button>) : <span className="text-sm text-slate-600">No favorites in the active libraries.</span>}</div></section>
         <section className="space-y-3">
           <div className="flex flex-wrap items-end justify-between gap-3"><label className="w-full max-w-md text-sm font-medium">Search library<input className="mt-1 block w-full border px-3 py-2" onChange={(event) => setSearch(event.target.value)} placeholder="Condition, context, or review status" value={search} /></label><ScopeControls coordinatorId={coordinatorId} coordinators={data.coordinators ?? []} onCoordinator={setCoordinatorId} onProvider={setProviderId} onScope={setScope} providerId={providerId} providers={data.providers ?? []} scope={scope} /></div>

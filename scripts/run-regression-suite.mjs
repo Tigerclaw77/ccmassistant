@@ -29,6 +29,8 @@ const commands = [
   "test:first-patient-onboarding",
   "test:rc004-pilot-completion",
   "test:rc005-pilot-gate",
+  "test:rc006-universal-coordinator",
+  "test:rc007-mvp-lock",
   "test:icd",
   "test:icd-audit",
   "icd:check",

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import PatientForm from "../../../components/patients/PatientForm";
 import LoadingState from "../../../components/ui/LoadingState";
+import OnboardingProgress from "../../../components/onboarding/OnboardingProgress";
 import { getSupabaseAuthHeaders } from "../../../lib/supabase";
 
 type ActivePracticeResponse = {
@@ -16,6 +17,7 @@ type ActivePracticeResponse = {
 
 export default function NewPatientPage() {
   const searchParams = useSearchParams();
+  const firstPatientOnboarding = searchParams.get("first") === "1";
   const [practiceId, setPracticeId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -64,9 +66,18 @@ export default function NewPatientPage() {
   }
 
   return (
-    <main className="p-6">
+    <main className="space-y-5 p-6">
+      {firstPatientOnboarding ? (
+        <section className="surface p-4" aria-label="First-run onboarding progress">
+          <p className="eyebrow">Final onboarding step</p>
+          <h1 className="mt-1 text-xl font-semibold text-slate-950">Enroll your first patient</h1>
+          <p className="mt-1 text-sm text-slate-600">Save the core patient and CCM enrollment below. The guided workspace will show the next clinical prerequisite.</p>
+          <div className="mt-4"><OnboardingProgress currentStep={4} steps={["Practice", "Provider", "Starter kits", "First patient"]} /></div>
+        </section>
+      ) : null}
       <PatientForm
-        initialMessage={searchParams.get("first") === "1" ? "Your practice and first provider are ready. Add the first patient to begin CCM." : null}
+        firstPatientOnboarding={firstPatientOnboarding}
+        initialMessage={firstPatientOnboarding ? "Your practice, provider, and starter kits are ready. Add the first patient to begin CCM." : null}
         initialPrimaryProviderId={searchParams.get("primaryProviderId")}
         mode="create"
         practiceId={practiceId}

@@ -15,6 +15,10 @@ import {
 import { recordAuditEvent } from "../../../../lib/ccm/audit";
 import { validateTimeZone } from "../../../../lib/ccm/validation";
 import { validateExpirationOverrides } from "../../../../lib/ccm/workflow-settings";
+import {
+  type ClinicalStarterKitId,
+  validateClinicalStarterKitIds,
+} from "../../../../lib/ccm/clinical-starter-kits";
 import { ACTIVE_PRACTICE_HEADER, resolveActivePractice } from "../../../../lib/practice-context";
 import type { JsonValue } from "../../../../lib/ccm/types";
 import type { Database } from "../../../../lib/supabase/database.types";
@@ -98,6 +102,7 @@ export async function PATCH(request: Request) {
   let allowCoordinatorClaiming: boolean | undefined;
   let ccmMonthEndAwarenessDay: number | undefined;
   let opportunityExpirationOverrides: ReturnType<typeof validateExpirationOverrides> | undefined;
+  let clinicalStarterKitIds: ClinicalStarterKitId[] | undefined;
 
   try {
     practiceId = requiredString(body, "practiceId");
@@ -119,6 +124,9 @@ export async function PATCH(request: Request) {
     }
     if ("opportunityExpirationOverrides" in body) {
       opportunityExpirationOverrides = validateExpirationOverrides(body.opportunityExpirationOverrides);
+    }
+    if ("clinicalStarterKitIds" in body) {
+      clinicalStarterKitIds = validateClinicalStarterKitIds(body.clinicalStarterKitIds);
     }
 
     if ("ccmMonthlyMinMinutes" in body) {
@@ -152,6 +160,7 @@ export async function PATCH(request: Request) {
     }
 
     const billingSettings = jsonObject(beforeData.billing_settings);
+    const coordinatorSettings = jsonObject(beforeData.coordinator_settings);
 
     if (address !== undefined) {
       billingSettings.address = address;
@@ -198,6 +207,10 @@ export async function PATCH(request: Request) {
     if (allowCoordinatorClaiming !== undefined) update.allow_coordinator_claiming = allowCoordinatorClaiming;
     if (ccmMonthEndAwarenessDay !== undefined) update.ccm_month_end_awareness_day = ccmMonthEndAwarenessDay;
     if (opportunityExpirationOverrides !== undefined) update.opportunity_expiration_overrides = opportunityExpirationOverrides;
+    if (clinicalStarterKitIds !== undefined) {
+      coordinatorSettings.clinical_starter_kit_ids = clinicalStarterKitIds;
+      update.coordinator_settings = coordinatorSettings;
+    }
 
     const { data, error } = await supabase
       .from("practices")

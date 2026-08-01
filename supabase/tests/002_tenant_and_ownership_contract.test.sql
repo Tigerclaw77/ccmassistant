@@ -39,7 +39,15 @@ insert into public.patients (id, practice_id, display_name, primary_provider_id,
   ('60000000-0000-0000-0000-000000000002', '30000000-0000-0000-0000-000000000002', 'Gate 3 Patient B', '50000000-0000-0000-0000-000000000002', '10000000-0000-0000-0000-000000000002');
 
 select is(
-  (select count(*) from public.practice_member_role_assignments where role = 'practice_administrator'),
+  (
+    select count(*)
+    from public.practice_member_role_assignments
+    where role = 'practice_administrator'
+      and practice_id in (
+        '30000000-0000-0000-0000-000000000001',
+        '30000000-0000-0000-0000-000000000002'
+      )
+  ),
   2::bigint,
   'legacy owner memberships are accompanied by long-term practice administrator assignments'
 );

@@ -81,7 +81,8 @@ test("search and condition modules compose shared questions", () => {
     contexts: ["monthly_checkin"],
   });
   assert.ok(sharedMedicationQuestions.some((question) => question.id === "ccm.medication.has_issue"));
-  assert.equal(CONDITION_MODULES.length, 9);
+  assert.equal(CONDITION_MODULES.length, 10);
   assert.equal(findConditionModule("HTN")?.id, "hypertension");
   assert.ok(findConditionModule("CHF")?.monthlyQuestionIds.includes("ccm.symptom.shortness_of_breath"));
+  assert.ok(findConditionModule("Asthma")?.monthlyQuestionIds.includes("ccm.asthma.rescue_frequency"));
 });

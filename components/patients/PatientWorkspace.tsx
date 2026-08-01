@@ -23,6 +23,7 @@ import { reasonLabel, statusLabel } from "../../lib/ccm/labels";
 import { occurrenceDateForDisplay } from "../../lib/ccm/interaction-log-contract";
 import type {
   AuditEvent,
+  AccessRole,
   BillingEvidenceSnapshot,
   CarePlan,
   CcmEnrollment,
@@ -42,6 +43,11 @@ import { getSupabaseAuthHeaders } from "../../lib/supabase";
 import { currentMonthValue, normalizeBillingMonth, withCoordinatorContext } from "../../lib/ccm/month-context";
 import OpportunityReviewPanel from "../work/OpportunityReviewPanel";
 import { careCycleDaysRemaining } from "../../lib/ccm/workflow-settings";
+import {
+  clinicalStarterKitIdsFromSettings,
+  starterKitsForConditions,
+} from "../../lib/ccm/clinical-starter-kits";
+import { createUniversalCareGuidance } from "../../lib/ccm/universal-care-guidance";
 
 type ResponseWithQuestion = CheckinResponse & {
   question?: Question | null;
@@ -75,6 +81,12 @@ type IntakeResponse = {
   intakes?: PatientIntakeSummary[];
   latest?: PatientIntakeSummary | null;
   latestAccepted?: PatientIntakeSummary | null;
+};
+
+type ActivePracticeResponse = {
+  accessRoles?: AccessRole[];
+  error?: string;
+  practice?: { id: string };
 };
 
 type Props = {
@@ -216,6 +228,7 @@ export default function PatientWorkspace({
   const [latestIntake, setLatestIntake] = useState<PatientIntakeSummary | null>(null);
   const [latestAcceptedIntake, setLatestAcceptedIntake] =
     useState<PatientIntakeSummary | null>(null);
+  const [accessRoles, setAccessRoles] = useState<AccessRole[]>([]);
   const [loading, setLoading] = useState(true);
   const [savingConditions, setSavingConditions] = useState(false);
   const [message, setMessage] = useState<string | null>(initialMessage ?? null);
@@ -227,7 +240,7 @@ export default function PatientWorkspace({
 
     try {
       const headers = await getSupabaseAuthHeaders();
-      const [packetResponse, conditionsResponse, intakeResponse] = await Promise.all([
+      const [packetResponse, conditionsResponse, intakeResponse, activePracticeResponse] = await Promise.all([
         fetch(
           `/api/audit-packet?practiceId=${encodeURIComponent(
             practiceId,
@@ -248,11 +261,13 @@ export default function PatientWorkspace({
           )}&patientId=${encodeURIComponent(patientId)}`,
           { headers },
         ),
+        fetch(`/api/practices/active?practiceId=${encodeURIComponent(practiceId)}`, { headers }),
       ]);
 
       const packetResult = (await packetResponse.json()) as AuditPacketResponse;
       const conditionsResult = (await conditionsResponse.json()) as ConditionsResponse;
       const intakeResult = (await intakeResponse.json()) as IntakeResponse;
+      const activePracticeResult = (await activePracticeResponse.json()) as ActivePracticeResponse;
 
       if (!packetResponse.ok || !packetResult.patient) {
         throw new Error(packetResult.error ?? "Unable to load patient workspace.");
@@ -265,6 +280,9 @@ export default function PatientWorkspace({
       if (!intakeResponse.ok) {
         throw new Error(intakeResult.error ?? "Unable to load intake status.");
       }
+      if (!activePracticeResponse.ok) {
+        throw new Error(activePracticeResult.error ?? "Unable to load the active role context.");
+      }
 
       setPacket(packetResult);
       setPatient(packetResult.patient);
@@ -272,6 +290,7 @@ export default function PatientWorkspace({
       setConditions((conditionsResult.conditions ?? []).map(managerConditionFromPatient));
       setLatestIntake(intakeResult.latest ?? null);
       setLatestAcceptedIntake(intakeResult.latestAccepted ?? null);
+      setAccessRoles(activePracticeResult.accessRoles ?? []);
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "Unable to load workspace.");
     } finally {
@@ -379,7 +398,7 @@ export default function PatientWorkspace({
   const billingMissing = [
     ...eligibilityMissing,
     ...consentMissing,
-    ...(latestAcceptedIntake ? [] : ["Reviewed AI intake summary is missing"]),
+    ...(latestAcceptedIntake ? [] : ["Reviewed clinical intake is missing"]),
     ...carePlanMissing,
     ...monthlyMissing,
   ];
@@ -388,6 +407,36 @@ export default function PatientWorkspace({
       .medicare_information_reviewed === true;
   const currentStatus =
     billability?.status ?? enrollment?.status ?? patient.status ?? "not_ready";
+  const patientEditHref = withCoordinatorContext(`/patients/${patientId}?edit=1`, context);
+  const eligibilityHref = withCoordinatorContext(`/patients/${patientId}/eligibility`, context);
+  const intakeHref = withCoordinatorContext(`/patients/${patientId}/intake`, context);
+  const carePlanHref = withCoordinatorContext(`/patients/${patientId}/care-plan`, context);
+  const checkInHref = withCoordinatorContext(`/patients/${patientId}/checkin`, context);
+  const logTimeHref = withCoordinatorContext(`/dashboard/log/${patientId}`, context);
+  const billingHref = withCoordinatorContext(`/dashboard/billing/${patientId}/${billingMonth}`, { ...context, source: "billing" });
+  const guidance = createUniversalCareGuidance({
+    accessRoles,
+    billingHref,
+    carePlanHref,
+    carePlanReviewStatus: activeCarePlan?.review_status ?? null,
+    checkInComplete: hasCompleteCheckIn,
+    checkInExists: Boolean(checkIn),
+    checkInHref,
+    consentComplete: consentMissing.length === 0,
+    documentedMinutes: totalMinutes,
+    eligibilityComplete: eligibilityMissing.length === 0,
+    eligibilityHref,
+    intakeComplete: Boolean(latestAcceptedIntake),
+    intakeHref,
+    logTimeHref,
+    patientEditHref,
+    qualifyingConditionCount,
+    thresholdMinutes: threshold,
+  });
+  const activeStarterKits = starterKitsForConditions({
+    conditionNames: conditions.filter((condition) => condition.isActive).flatMap((condition) => [condition.canonicalName, condition.displayName]),
+    selectedIds: clinicalStarterKitIdsFromSettings(practice?.coordinator_settings),
+  });
 
   const timeline = [
     checkIn
@@ -437,15 +486,18 @@ export default function PatientWorkspace({
           </div>
         </div>
 
-        <div className="mt-5 flex flex-wrap gap-2">
-          <QuickLink href={withCoordinatorContext(`/patients/${patientId}?edit=1`, context)} label="Edit patient" />
-          <QuickLink href={withCoordinatorContext(`/patients/${patientId}/eligibility`, context)} label="Eligibility" />
-          <QuickLink href={withCoordinatorContext(`/patients/${patientId}/intake`, context)} label="Patient intake" />
-          <QuickLink href={withCoordinatorContext(`/patients/${patientId}/care-plan`, context)} label="Care plan" />
-          <QuickLink href={withCoordinatorContext(`/patients/${patientId}/checkin`, context)} label="Check-in" />
-          <QuickLink href={withCoordinatorContext(`/dashboard/log/${patientId}`, context)} label="Log time" />
-          <QuickLink href={withCoordinatorContext(`/dashboard/billing/${patientId}/${billingMonth}`, { ...context, source: "billing" })} label="Billing evidence" />
-        </div>
+        <details className="mt-5 rounded-md border bg-slate-50 px-4 py-3">
+          <summary className="cursor-pointer text-sm font-semibold text-slate-800">More patient tools</summary>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <QuickLink href={patientEditHref} label="Edit patient" />
+            <QuickLink href={eligibilityHref} label="Eligibility" />
+            <QuickLink href={intakeHref} label="Patient intake" />
+            <QuickLink href={carePlanHref} label="Care plan" />
+            <QuickLink href={checkInHref} label="Check-in" />
+            <QuickLink href={logTimeHref} label="Log time" />
+            <QuickLink href={billingHref} label="Billing evidence" />
+          </div>
+        </details>
       </div>
 
       {message ? (
@@ -460,17 +512,45 @@ export default function PatientWorkspace({
         </div>
       ) : null}
 
-      <section className="grid gap-3 rounded-md border bg-slate-50 p-4 sm:grid-cols-5" aria-label="Focused patient work steps">
-        {[
-          ["1", "Review", "Summary, responses, care plan, instructions"],
-          ["2", "Decide", "Choose the patient-specific next step"],
-          ["3", "Perform", "Complete only the appropriate activity"],
-          ["4", "Document", "Record outcome and actual time"],
-          ["5", "Route", "Complete, defer, or send for review"],
-        ].map(([step, title, description]) => (
-          <div className="text-sm" key={step}><div className="font-semibold text-slate-950">{step}. {title}</div><div className="mt-1 text-xs text-slate-600">{description}</div></div>
-        ))}
+      <section className="rounded-md border border-teal-200 bg-teal-50 p-5" aria-labelledby="guided-next-action">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div className="max-w-3xl">
+            <p className="text-xs font-semibold uppercase tracking-wide text-teal-800">{guidance.audienceLabel} · Guided next action</p>
+            <h2 className="mt-1 text-xl font-semibold text-slate-950" id="guided-next-action">{guidance.needsAttention}</h2>
+            <p className="mt-2 text-sm leading-6 text-slate-700"><span className="font-semibold">Why:</span> {guidance.why}</p>
+          </div>
+          <Link className="button-primary" href={guidance.actionHref}>{guidance.actionLabel}</Link>
+        </div>
+        <div className="mt-5 grid gap-4 border-t border-teal-200 pt-4 md:grid-cols-2">
+          <div>
+            <div className="flex items-center justify-between gap-3 text-xs font-semibold text-slate-700"><span>This month</span><span>{guidance.monthlyProgressLabel}</span></div>
+            <progress aria-label={guidance.monthlyProgressLabel} className="mt-2 h-2 w-full accent-teal-700" max="100" value={guidance.monthlyProgressPercent} />
+          </div>
+          <div className="text-sm leading-6 text-slate-700"><span className="font-semibold">What can wait:</span> {guidance.canWait}</div>
+        </div>
       </section>
+
+      {activeStarterKits.length ? (
+        <details className="rounded-md border bg-white p-4">
+          <summary className="cursor-pointer font-semibold text-slate-950">Clinical starter guidance: {activeStarterKits.map((kit) => kit.label).join(", ")}</summary>
+          <p className="mt-2 text-xs leading-5 text-slate-600">Use these as reviewed conversation and workflow prompts. They do not replace clinical judgment, standing protocols, or provider decisions.</p>
+          <div className="mt-4 grid gap-3 lg:grid-cols-2">
+            {activeStarterKits.map((kit) => (
+              <article className="rounded-md border bg-slate-50 p-4 text-sm" key={kit.id}>
+                <h3 className="font-semibold text-slate-950">{kit.label}</h3>
+                <p className="mt-1 text-xs leading-5 text-slate-600">{kit.summary}</p>
+                <dl className="mt-3 space-y-2 text-xs leading-5 text-slate-700">
+                  <div><dt className="font-semibold">Monthly monitoring</dt><dd>{kit.monthlyQuestionIds.length} curated questions load from the patient&apos;s documented condition.</dd></div>
+                  <div><dt className="font-semibold">Education topic</dt><dd>{kit.educationTopics[0]}</dd></div>
+                  <div><dt className="font-semibold">Coordinator reminder</dt><dd>{kit.coordinatorReminders[0]}</dd></div>
+                  <div><dt className="font-semibold">Provider prompt</dt><dd>{kit.providerReviewPrompts[0]}</dd></div>
+                  <div><dt className="font-semibold">Escalation suggestion</dt><dd>{kit.escalationSuggestions[0]}</dd></div>
+                </dl>
+              </article>
+            ))}
+          </div>
+        </details>
+      ) : null}
 
       <OpportunityReviewPanel currentCcmMinutes={totalMinutes} daysRemaining={daysRemaining} patientId={patientId} practiceId={practiceId} practiceTimeZone={practice?.default_timezone ?? "UTC"} />
 
@@ -563,14 +643,14 @@ export default function PatientWorkspace({
 
       <section className="grid gap-4 lg:grid-cols-2">
         <WorkspaceCard
-          description="AI intake can draft clinical documentation, but staff must review and accept it before use."
+          description="The structured intake establishes the reviewed clinical baseline used by the care plan and monthly workflow."
           status={latestAcceptedIntake ? "Complete" : latestIntake ? "Needs Review" : "Missing"}
-          title="AI Intake"
+          title="Clinical Intake"
           tone={statusTone(Boolean(latestAcceptedIntake), Boolean(latestIntake))}
           action={<QuickLink href={withCoordinatorContext(`/patients/${patientId}/intake`, context)} label="Open" />}
         >
           <div className="grid gap-2 text-sm">
-            <div>AI draft: {latestIntake ? statusLabel(latestIntake.status) : "Not started"}</div>
+            <div>Intake status: {latestIntake ? statusLabel(latestIntake.status) : "Not started"}</div>
             <div>Reviewed summary: {latestAcceptedIntake ? "Complete" : "Missing"}</div>
             <div>
               Last reviewed:{" "}

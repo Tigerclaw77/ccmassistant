@@ -17,7 +17,7 @@ const REASON_LABELS: Record<string, string> = {
   missing_eligibility_facts: "Structured eligibility facts are incomplete",
   missing_provider: "Billing practitioner is not assigned",
   missing_provider_attestation: "Billing practitioner eligibility attestation is incomplete",
-  missing_reviewed_intake: "Reviewed AI intake summary is missing",
+  missing_reviewed_intake: "Reviewed clinical intake is missing",
   provider_manual_review_required: "Billing practitioner type requires manual review",
 };
 

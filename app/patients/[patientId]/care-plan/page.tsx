@@ -313,7 +313,7 @@ export default function PatientCarePlanPage() {
           </div>
         ) : (
           <div className="rounded-md border border-dashed bg-slate-50 p-4 text-sm text-gray-600">
-            No accepted intake summary yet. Complete AI intake before using it as care-plan context.
+            No accepted intake summary yet. Complete the clinical intake before using it as care-plan context.
           </div>
         )}
       </section>

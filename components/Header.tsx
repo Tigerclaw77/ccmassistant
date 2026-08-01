@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import { LogOut, PlayCircle } from "lucide-react";
 import { getSupabaseAuthHeaders, supabase } from "../lib/supabase";
 import type { AccessRole } from "../lib/ccm/types";
+import { navigationForAccessRoles, type MvpNavItem } from "../lib/mvp-navigation";
 import {
   developmentPersonaById,
   developmentPersonaPatientHref,
@@ -22,59 +23,7 @@ type ActivePracticeResponse = {
   } | null;
 };
 
-type NavItem = {
-  exact?: boolean;
-  href: string;
-  label: string;
-  match?: string | null;
-};
-
-function navigationForAccessRoles(accessRoles: readonly AccessRole[]): NavItem[] {
-  if (!accessRoles.length) return [];
-  if (accessRoles.includes("compliance_administrator")) {
-    return [{ href: "/dashboard/compliance", label: "Compliance" }, { href: "/patients", label: "Patients" }];
-  }
-  if (accessRoles.includes("provider")) {
-    return [
-      { href: "/dashboard/provider", label: "Attention" },
-      { href: "/patients", label: "Patients" },
-      { href: "/clinical-knowledge", label: "Knowledge" },
-      { href: "/settings/question-banks", label: "Question Banks" },
-      { href: "/settings", label: "Settings" },
-    ];
-  }
-  if (accessRoles.includes("billing_administrator")) {
-    return [
-      { href: "/dashboard/billing", label: "Billing" },
-      { href: "/settings", label: "Settings" },
-    ];
-  }
-  if (accessRoles.includes("front_desk")) return [{ href: "/patients", label: "Patients" }];
-  if (accessRoles.includes("read_only")) return [{ href: "/patients", label: "Patients" }, { href: "/clinical-knowledge", label: "Knowledge" }];
-  if (accessRoles.includes("coordinator") || accessRoles.includes("clinical_staff")) {
-    return [
-      { href: "/dashboard/worklist", label: "Worklist" },
-      { href: "/patients", label: "Patients" },
-      { href: "/clinical-knowledge", label: "Knowledge" },
-    ];
-  }
-  const items: NavItem[] = [
-    { href: "/dashboard/worklist", label: "Worklist" },
-    { href: "/patients", label: "Patients" },
-    { href: "/dashboard/provider", label: "Provider" },
-    { href: "/dashboard/billing", label: "Billing" },
-    { href: "/clinical-knowledge", label: "Knowledge" },
-    { href: "/settings/question-banks", label: "Question Banks" },
-  ];
-  if (accessRoles.includes("organization_owner") || accessRoles.includes("practice_administrator")) {
-    items.push({ href: "/dashboard/management", label: "Management" });
-    items.push({ href: "/dashboard/compliance", label: "Compliance" });
-  }
-  items.push({ href: "/settings", label: "Settings" });
-  return items;
-}
-
-function navigationForPersona(personaId: DevelopmentPersonaId, patientId?: string): NavItem[] {
+function navigationForPersona(personaId: DevelopmentPersonaId, patientId?: string): MvpNavItem[] {
   const patientHref = developmentPersonaPatientHref(personaId, patientId);
   if (personaId === "compliance-administrator") {
     return [

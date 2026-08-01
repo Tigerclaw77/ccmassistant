@@ -41,6 +41,8 @@
     "test:first-patient-onboarding": "node --no-warnings --experimental-strip-types --test scripts/first-patient-onboarding.test.mjs",
     "test:rc004-pilot-completion": "node --no-warnings --experimental-strip-types --test scripts/rc004-pilot-completion.test.mjs",
     "test:rc005-pilot-gate": "node --no-warnings --experimental-strip-types --test scripts/rc005-pilot-gate.test.mjs",
+    "test:rc006-universal-coordinator": "node --no-warnings --experimental-strip-types --test scripts/rc006-universal-coordinator.test.mjs",
+    "test:rc007-mvp-lock": "node --no-warnings --experimental-strip-types --test scripts/rc007-mvp-lock.test.mjs",
     "test:icd": "node --no-warnings --experimental-strip-types --test scripts/icd-classification.test.mjs",
     "test:icd-audit": "node --test scripts/icd-audit.test.mjs",
     "icd:import": "node scripts/icd/import-cms-icd.mjs",

@@ -67797,6 +67797,9 @@
               "monthly_checkin",
               "care_plan_review"
             ],
+            "conditionIds": [
+              "asthma"
+            ],
             "tags": [
               "asthma_control"
             ],
@@ -67817,7 +67820,6 @@
                 ]
               }
             ],
-            "conditionIds": [],
             "displayWhen": [],
             "helperText": "Answer using the most accurate information available.",
             "previousVersions": [],

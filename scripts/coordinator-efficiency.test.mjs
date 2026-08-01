@@ -78,6 +78,16 @@ test("highest-priority generated session task becomes the worklist next action",
   assert.equal(rows[0].nextAction, "notify provider");
   assert.equal(rows[0].priority, "urgent");
   assert.equal(rows[0].owner, "Provider");
+
+  const billedRows = composeWorklistRows({
+    billability: [{ patient_id: patient.id, billing_month: "2026-07-01", status: "billed", reason_codes: [] }],
+    carePlans: [], checkIns: [], conditions: [], enrollments: [], intakeSummaries: [], minutesByPatientId: { [patient.id]: 20 },
+    patients: [patient], practiceAttestationComplete: true, providers: [],
+    sessions: [{ id: "record-1", patient_id: patient.id, practice_id: "practice-1", session_state: session, status: "completed", workflow: "monthly_checkin", state_version: 2, care_plan_id: null, checkin_instance_id: null, started_at: NOW, paused_at: null, completed_at: NOW, cancelled_at: null, created_at: NOW, updated_at: NOW, created_by: null, updated_by: null }],
+  }, "2026-07-01", 20);
+  assert.equal(billedRows[0].nextAction, "View billing evidence");
+  assert.equal(billedRows[0].owner, "Coordinator");
+  assert.deepEqual(billedRows[0].queueKeys, ["billed"]);
 });
 
 test("worklist uses one browser endpoint with no per-patient fetch fan-out", async () => {

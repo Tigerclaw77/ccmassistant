@@ -68,6 +68,14 @@ test("skip logic reuses only explicitly valid, same-version responses", () => {
   assert.ok(!session.plan.candidateQuestionIds.includes("ccm.diabetes.latest_glucose"));
 });
 
+test("asthma monitoring is limited to patients with an asthma condition", () => {
+  const nonAsthma = monthlySession([{ name: "Hypertension" }, { name: "Type 2 diabetes" }]);
+  const asthma = monthlySession([{ name: "Asthma" }]);
+
+  assert.ok(!nonAsthma.plan.candidateQuestionIds.includes("ccm.asthma.rescue_frequency"));
+  assert.ok(asthma.plan.candidateQuestionIds.includes("ccm.asthma.rescue_frequency"));
+});
+
 test("existing branching engine activates shortness-of-breath follow-ups", () => {
   let session = monthlySession();
   assert.ok(!session.activeQuestionIds.includes("ccm.symptom.sob_severity"));

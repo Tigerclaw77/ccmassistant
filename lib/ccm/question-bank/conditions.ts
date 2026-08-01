@@ -43,6 +43,15 @@ export const CONDITION_MODULES = [
     carePlanQuestionIds: ["ccm.goal.progress", "ccm.function.daily_activity_difficulty", "ccm.coordination.open_need"],
   },
   {
+    id: "asthma",
+    label: "Asthma",
+    aliases: ["reactive airway disease"],
+    intakeQuestionIds: [...sharedIntake, "ccm.symptom.shortness_of_breath", "ccm.asthma.rescue_frequency"],
+    monthlyQuestionIds: ["ccm.general.health_change", "ccm.symptom.shortness_of_breath", "ccm.asthma.rescue_frequency", "ccm.medication.has_issue"],
+    annualQuestionIds: [...sharedAnnual, "ccm.symptom.shortness_of_breath", "ccm.asthma.rescue_frequency"],
+    carePlanQuestionIds: ["ccm.goal.progress", "ccm.medication.has_issue", "ccm.coordination.open_need"],
+  },
+  {
     id: "hypertension",
     label: "Hypertension",
     aliases: ["high blood pressure", "htn"],

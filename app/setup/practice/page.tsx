@@ -4,11 +4,17 @@ import { useEffect, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Building2, CheckCircle2, Settings2, UserRoundCheck } from "lucide-react";
 import OnboardingProgress from "../../../components/onboarding/OnboardingProgress";
+import ClinicalStarterKitPicker from "../../../components/onboarding/ClinicalStarterKitPicker";
 import { getSupabaseAuthHeaders, supabase } from "../../../lib/supabase";
 import { SUPPORTED_BILLING_PRACTITIONER_TYPES } from "../../../lib/ccm/types";
 import type { FirstProviderMode } from "../../../lib/ccm/first-provider-bootstrap";
+import {
+  DEFAULT_CLINICAL_STARTER_KIT_IDS,
+  selectedClinicalStarterKits,
+  type ClinicalStarterKitId,
+} from "../../../lib/ccm/clinical-starter-kits";
 
-const STEPS = ["Practice", "Profile", "Provider", "Defaults", "Review"] as const;
+const STEPS = ["Practice", "Profile", "Provider", "Starter kits", "Defaults", "Review"] as const;
 const PROVIDER_ONLY_STEPS = ["Provider"] as const;
 const ORGANIZATION_TYPES = [
   ["independent_practice", "Independent practice"],
@@ -51,6 +57,9 @@ export default function PracticeSetupPage() {
   const [providerFullName, setProviderFullName] = useState("");
   const [providerCredentials, setProviderCredentials] = useState("");
   const [providerType, setProviderType] = useState("");
+  const [clinicalStarterKitIds, setClinicalStarterKitIds] = useState<ClinicalStarterKitId[]>(
+    () => [...DEFAULT_CLINICAL_STARTER_KIT_IDS],
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [providerRecoveryPracticeId, setProviderRecoveryPracticeId] = useState<string | null>(null);
@@ -100,6 +109,10 @@ export default function PracticeSetupPage() {
         setError(validationError);
         return;
       }
+    }
+    if (step === 4 && clinicalStarterKitIds.length === 0) {
+      setError("Select at least one clinical starter kit to continue.");
+      return;
     }
     setStep(nextStep);
   }
@@ -152,6 +165,7 @@ export default function PracticeSetupPage() {
     const response = await fetch("/api/practices/bootstrap", {
       body: JSON.stringify({
         coordinatorAssignmentMode,
+        clinicalStarterKitIds,
         defaultTimezone,
         logoUrl: logoUrl.trim() || null,
         name,
@@ -283,6 +297,12 @@ export default function PracticeSetupPage() {
 
         {step === 4 ? (
           <section className="space-y-5">
+            <ClinicalStarterKitPicker onChange={setClinicalStarterKitIds} selectedIds={clinicalStarterKitIds} />
+          </section>
+        ) : null}
+
+        {step === 5 ? (
+          <section className="space-y-5">
             <div className="flex items-center gap-2"><Settings2 className="text-teal-700" size={20} /><h2 className="font-semibold">Workspace defaults</h2></div>
             <label className="block space-y-1 text-sm">
               <span className="font-semibold">Default coordinator assignment</span>
@@ -300,7 +320,7 @@ export default function PracticeSetupPage() {
           </section>
         ) : null}
 
-        {step === 5 ? (
+        {step === 6 ? (
           <section className="space-y-5">
             <div className="flex items-center gap-2"><CheckCircle2 className="text-teal-700" size={20} /><h2 className="font-semibold">Review and create</h2></div>
             <div className="grid gap-4 rounded-md border bg-slate-50 p-4 text-sm sm:grid-cols-2">
@@ -310,6 +330,7 @@ export default function PracticeSetupPage() {
               <div><div className="text-xs font-semibold uppercase tracking-wide text-slate-500">Coordinator assignment</div><div className="mt-1 font-medium">{coordinatorAssignmentMode === "manual" ? "Manual" : "Balanced"}</div></div>
               <div><div className="text-xs font-semibold uppercase tracking-wide text-slate-500">First provider</div><div className="mt-1 font-medium">{providerFullName}{providerCredentials ? `, ${providerCredentials}` : ""}</div></div>
               <div><div className="text-xs font-semibold uppercase tracking-wide text-slate-500">Provider relationship</div><div className="mt-1 font-medium">{providerMode === "treating_provider" ? "Linked to your account" : "Administrator-managed profile"}</div></div>
+              <div className="sm:col-span-2"><div className="text-xs font-semibold uppercase tracking-wide text-slate-500">Clinical starter kits</div><div className="mt-1 font-medium">{selectedClinicalStarterKits(clinicalStarterKitIds).map((kit) => kit.label).join(", ")}</div></div>
             </div>
             <div className="rounded-md border border-teal-200 bg-teal-50 p-4 text-sm leading-6 text-teal-950">
               Your account will become the <strong>Organization Owner</strong> and an active <strong>Practice Administrator</strong>. An active Primary Responsible Provider will be ready before you create the first patient.

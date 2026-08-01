@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 import {
   answerSessionQuestion,
@@ -22,6 +23,7 @@ import {
 } from "../lib/ccm/session-integration.ts";
 
 const NOW = "2026-07-14T15:00:00.000Z";
+const ROOT = new URL("../", import.meta.url);
 const patient = {
   id: "patient-1",
   display_name: "Test Patient",
@@ -146,4 +148,11 @@ test("client payload preserves state version and canonical next question", () =>
   assert.equal(payload.stateVersion, 3);
   assert.equal(payload.currentQuestion?.questionId, getNextQuestion(session)?.questionId);
   assert.ok(payload.currentQuestion?.currentSection);
+});
+
+test("the question-session UI rejects overlapping answer mutations", async () => {
+  const panel = await readFile(new URL("components/ccm/QuestionSessionPanel.tsx", ROOT), "utf8");
+  assert.match(panel, /updateInFlightRef\.current/);
+  assert.match(panel, /if \(!payload \|\| updateInFlightRef\.current\) return/);
+  assert.match(panel, /finally \{[\s\S]*updateInFlightRef\.current = false/);
 });

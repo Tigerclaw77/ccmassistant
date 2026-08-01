@@ -160,9 +160,14 @@ export function composeWorklistRows(source: WorklistSource, billingMonth: string
     const provider = providerId ? providers.get(providerId) : undefined;
     const minutes = source.minutesByPatientId[patient.id] ?? 0;
     const monthly = billability.get(patient.id);
-    const task = highestSessionTask(source.sessions, patient.id);
+    const ready = monthly?.status === "ready_to_bill" || monthly?.status === "billed";
+    // A billed month is closed. Historical questionnaire tasks remain preserved as
+    // evidence, but must not make the completed month look like active provider work.
+    const task = monthly?.status === "billed"
+      ? undefined
+      : highestSessionTask(source.sessions, patient.id);
     const carePlan = carePlans.get(patient.id);
-    const reasons = monthly?.reason_codes?.length ? monthly.reason_codes : [
+    const reasons = monthly ? monthly.reason_codes ?? [] : [
       ...(source.practiceAttestationComplete ? [] : ["incomplete_practice_attestation"]),
       ...fallbackReasonCodes({
       carePlan,
@@ -185,7 +190,6 @@ export function composeWorklistRows(source: WorklistSource, billingMonth: string
     const next = taskAction && (PRIORITY_ORDER[task?.priority ?? "NONE"] ?? 0) >= 4
       ? taskAction
       : reasonAction;
-    const ready = monthly?.status === "ready_to_bill" || monthly?.status === "billed";
     const taskCode = task?.type?.toLowerCase() ?? "";
     const priorityResult = prioritizeWork({
       abnormalResponse: Boolean(task && task.priority === "URGENT"),
@@ -208,7 +212,7 @@ export function composeWorklistRows(source: WorklistSource, billingMonth: string
       documentedMinutes: minutes,
       dob: patient.dob,
       externalId: patient.external_id,
-      nextAction: next?.action ?? (ready ? "Review billing evidence" : "Recalculate billing readiness"),
+      nextAction: next?.action ?? (monthly?.status === "billed" ? "View billing evidence" : ready ? "Review billing evidence" : "Recalculate billing readiness"),
       nextActionUrl: next
         ? patientPath(patient.id, next.path)
         : `/dashboard/billing/${patient.id}/${billingMonth}`,

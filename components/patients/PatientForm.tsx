@@ -47,6 +47,7 @@ import { MEDICARE_AGE_CALENDAR_DEFAULT } from "../../lib/calendar-defaults";
 type Props = {
   consentAuditEvents?: AuditEvent[];
   enrollment?: CcmEnrollment | null;
+  firstPatientOnboarding?: boolean;
   initialMessage?: string | null;
   initialPrimaryProviderId?: string | null;
   mode: "create" | "edit";
@@ -118,6 +119,7 @@ function ChecklistItem({ complete, label }: { complete: boolean; label: string }
 export default function PatientForm({
   consentAuditEvents = [],
   enrollment,
+  firstPatientOnboarding = false,
   initialMessage,
   initialPrimaryProviderId,
   mode,
@@ -182,6 +184,9 @@ export default function PatientForm({
 
   const resolvedDisplayName =
     displayName.trim() || [firstName, lastName].filter(Boolean).join(" ").trim();
+  const availableEnrollmentStatuses = mode === "create"
+    ? ENROLLMENT_STATUSES.filter((status) => status !== "active")
+    : ENROLLMENT_STATUSES;
   const soleProvider = providers.length === 1 ? providers[0] : null;
   const showSeparateProviderChoices = !soleProvider || Boolean(
     primaryProviderId && assignedProviderId && primaryProviderId !== assignedProviderId,
@@ -318,6 +323,10 @@ export default function PatientForm({
       setError("Select a Primary Responsible Provider before saving the patient.");
       return;
     }
+    if (mode === "create" && enrollmentStatus === "active") {
+      setError("Save the patient as pending, complete structured eligibility, then activate enrollment.");
+      return;
+    }
 
     setSaving(true);
 
@@ -376,6 +385,10 @@ export default function PatientForm({
 
     if (!conditionsResponse.ok) {
       setSaving(false);
+      if (mode === "create") {
+        router.replace(`/patients/${savedPatient.id}?edit=1&setupRecovery=conditions`);
+        return;
+      }
       setError(conditionsResult.error ?? "Patient saved, but conditions were not saved");
       return;
     }
@@ -412,12 +425,16 @@ export default function PatientForm({
     setSaving(false);
 
     if (!enrollmentResponse.ok || !enrollmentResult.enrollment) {
+      if (mode === "create") {
+        router.replace(`/patients/${savedPatient.id}?edit=1&setupRecovery=enrollment`);
+        return;
+      }
       setError(enrollmentResult.error ?? "Patient saved, but enrollment was not saved");
       return;
     }
 
     if (mode === "create") {
-      router.replace(`/patients/${savedPatient.id}?created=1`);
+      router.replace(`/patients/${savedPatient.id}?created=1${firstPatientOnboarding ? "&onboarding=complete" : ""}`);
       return;
     }
 
@@ -611,12 +628,17 @@ export default function PatientForm({
               onChange={(event) => setEnrollmentStatus(event.target.value)}
               className="w-full rounded-md border px-3 py-2"
             >
-              {ENROLLMENT_STATUSES.map((status) => (
+              {availableEnrollmentStatuses.map((status) => (
                 <option key={status} value={status}>
                   {statusLabel(status)}
                 </option>
               ))}
             </select>
+            {mode === "create" ? (
+              <span className="block text-xs text-gray-600">
+                New patients start pending. Complete structured eligibility after saving, then activate enrollment.
+              </span>
+            ) : null}
           </label>
 
           <div className="space-y-1 text-sm">
@@ -801,7 +823,7 @@ export default function PatientForm({
           />
           <ChecklistItem complete={Boolean(assignedProviderId || primaryProviderId)} label="Billing practitioner assigned" />
           <ChecklistItem complete={Boolean(careCoordinatorMemberId)} label="Coordinator assigned" />
-          <ChecklistItem complete={reviewedIntakeAccepted} label="Reviewed AI intake accepted" />
+          <ChecklistItem complete={reviewedIntakeAccepted} label="Reviewed clinical intake complete" />
         </div>
 
         {patient?.id ? (
@@ -813,7 +835,7 @@ export default function PatientForm({
               Eligibility
             </Link>
             <Link className="underline" href={`/patients/${patient.id}/intake`}>
-              AI intake
+              Clinical intake
             </Link>
             <Link className="underline" href={`/patients/${patient.id}/checkin`}>
               Monthly check-in

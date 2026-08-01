@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { AnswerValue } from "../../lib/ccm/question-bank/types";
 import { getSessionQuestionViewById, type QuestionSessionPayload } from "../../lib/ccm/session-integration";
 import type { SessionWorkflow } from "../../lib/ccm/session-engine/types";
@@ -36,6 +36,7 @@ export default function QuestionSessionPanel({
   const [working, setWorking] = useState(false);
   const [correctionQuestionId, setCorrectionQuestionId] = useState("");
   const [correctionReason, setCorrectionReason] = useState("");
+  const updateInFlightRef = useRef(false);
 
   function sessionUrl() {
     const query = new URLSearchParams({ patientId, practiceId, workflow });
@@ -90,34 +91,39 @@ export default function QuestionSessionPanel({
   }
 
   async function update(action: "answer" | "cancel" | "pause" | "resume" | "correct", answerOverride?: AnswerValue) {
-    if (!payload) return;
+    if (!payload || updateInFlightRef.current) return;
+    updateInFlightRef.current = true;
     setWorking(true); setError(null);
-    const response = await fetch("/api/question-sessions", {
-      body: JSON.stringify({
-        action,
-        answer: action === "answer" || action === "correct" ? answerOverride ?? answer : undefined,
-        correctionReason: action === "correct" ? correctionReason : undefined,
-        practiceId,
-        questionId: action === "answer" ? payload.currentQuestion?.questionId : action === "correct" ? correctionQuestionId : undefined,
-        recordId: payload.recordId,
-        stateVersion: payload.stateVersion,
-      }),
-      headers: { "Content-Type": "application/json", ...(await getSupabaseAuthHeaders()) },
-      method: "PATCH",
-    });
-    const result = (await response.json()) as ApiResponse;
-    setWorking(false);
-    if (!response.ok || !result.session) {
-      setError(result.validationErrors?.join(" ") ?? result.error ?? "Unable to update question session");
-      if (response.status === 409) await reloadSession();
-      return;
-    }
-    setPayload(result.session);
-    onSessionChange?.(result.session);
-    setAnswer(null);
-    if (action === "correct") {
-      setCorrectionQuestionId("");
-      setCorrectionReason("");
+    try {
+      const response = await fetch("/api/question-sessions", {
+        body: JSON.stringify({
+          action,
+          answer: action === "answer" || action === "correct" ? answerOverride ?? answer : undefined,
+          correctionReason: action === "correct" ? correctionReason : undefined,
+          practiceId,
+          questionId: action === "answer" ? payload.currentQuestion?.questionId : action === "correct" ? correctionQuestionId : undefined,
+          recordId: payload.recordId,
+          stateVersion: payload.stateVersion,
+        }),
+        headers: { "Content-Type": "application/json", ...(await getSupabaseAuthHeaders()) },
+        method: "PATCH",
+      });
+      const result = (await response.json()) as ApiResponse;
+      if (!response.ok || !result.session) {
+        setError(result.validationErrors?.join(" ") ?? result.error ?? "Unable to update question session");
+        if (response.status === 409) await reloadSession();
+        return;
+      }
+      setPayload(result.session);
+      onSessionChange?.(result.session);
+      setAnswer(null);
+      if (action === "correct") {
+        setCorrectionQuestionId("");
+        setCorrectionReason("");
+      }
+    } finally {
+      updateInFlightRef.current = false;
+      setWorking(false);
     }
   }
 
